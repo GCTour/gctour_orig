@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project name="GcTour" default="copytofirefox" basedir=".">
+	<property name="App" value="gc_tour.user" />
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />	
+	<property name="tmp.dir" value="tmp" />
+	<property name="GcTour.dir" value="c:\Dokumente und Einstellungen\georgim\Anwendungsdaten\Mozilla\Firefox\Profiles\soifptpr.default\gm_scripts\gc_tour" />
+	
+	
+	
+	
+	<target name="concatenate" description="Concatenate all js files">
+		<echo>Concat all sources to a script.</echo>
+		<concat destfile="${tmp.dir}/${App}.js" fixlastline="yes">
+			<fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js" />
+		</concat>
+
+		
+	</target>
+
+	<target name="compress" depends="concatenate" description="Compress application.js to application-min.js">
+		<echo>Compress script.</echo>
+		<apply executable="java" parallel="false">
+			<filelist dir="${tmp.dir}" files="${App}.js" />
+			<arg line="-jar" />
+			<arg path="compressor/yuicompressor-2.4.2.jar" />
+			<srcfile />
+			<arg line="-o" />
+			<mapper type="glob" from="*.js" to="${tmp.dir}/*-min.js" />
+			<targetfile />
+		</apply>
+	</target>
+	
+	<target name="addheader" depends="compress" description="Add Userscript-Header to the Script.">
+		<echo>Add Userscript-Header to the script.</echo>
+		<concat destfile="${build.dir}/${App}.js" fixlastline="yes">
+		    <fileset file="${src.dir}/00-header.js" />
+			<fileset file="${tmp.dir}/${App}.js" />
+		</concat>
+		<delete file="${tmp.dir}/${App}.js"/>
+		
+		<echo>Add Userscript-Header to the compressed script.</echo>
+		<concat destfile="${build.dir}/${App}-min.js" fixlastline="yes">
+		    <fileset file="${src.dir}/00-header.js" />
+			<fileset file="${tmp.dir}/${App}-min.js" />
+		</concat>
+		<delete file="${tmp.dir}/${App}-min.js"/>		
+	</target>
+	
+	
+	<target name="copytofirefox" depends="addheader" description="Copies the script to the GM_SCRIPTS folder in your firefox.">
+		<copy todir="${GcTour.dir}/">
+			<fileset dir="${build.dir}/" includes="${App}.js" />
+		</copy>
+	</target>
+</project> 

@@ -82,7 +82,6 @@ function printPageFunction(){
 					
 					body.innerHTML = '';
 					addOverlay(newwindow2.document,lang['pleaseWait']);
-					//~ newwindow2.document.getElementsByClassName('dark_msg_overlay')[0].getElementsByTagName('div')[0].innerHTML = "0 / "+currentTour.geocaches.length;
 					
 					
 					var head = newwindow2.document.getElementsByTagName('head')[0];    
@@ -253,25 +252,28 @@ function printPageFunction(){
 							
 						
 							//log
-							var logs_div = createElement('div');							
+							var logs_div = createElement('div');
+							
+							
+							var logs = geocache.logs;															
 							var maxPrintLogs = parseInt(GM_getValue('maxPrintLogs',0));
 							// if maxprintlogs is <= -1, export all logs to the print overview
 							if(maxPrintLogs <= -1)
 								maxPrintLogs = logs.length;
 							maxPrintLogs = maxPrintLogs;
-							var logs = geocache.logs;	
 							for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
-								var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;", className:"removable"});
+								var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
+								log_div.setAttribute("class", "removable");
 								log_div.innerHTML = logs[log_i].from.replace(/href=".*?"/,"")+"<br>";
 								log_div.innerHTML += logs[log_i].text;
 								append(log_div, logs_div);
-								
 							}
 							
 													
 							var dummy_additional_waypoints = createElement('div');
 							if (GM_getValue('printAdditionalWaypoints',true)){								
-								var wpts_table = createElement('table', {className:"removable",style:"width:100%;border-collapse:separate;"} );append(wpts_table,dummy_additional_waypoints);
+								var wpts_table = createElement('table', {style:"width:100%;border-collapse:separate;"} );append(wpts_table,dummy_additional_waypoints);
+								wpts_table.setAttribute("class", "removable");
 								var content = "<tr>";
 								for(var waypoints_i = 0; waypoints_i < geocache.additional_waypoints.length; waypoints_i++){
 									
@@ -455,7 +457,6 @@ function printPageFunction(){
 						}
 						
 						// set the progress
-						//~ newwindow2.document.getElementsByClassName('dark_msg_overlay')[0].getElementsByTagName('div')[0].innerHTML = (i+1)+" / "+currentTour.geocaches.length;
 						setProgress(i,currentTour.geocaches.length,newwindow2.document);
 					
 

@@ -557,9 +557,10 @@ function getGPXfromMarker(marker){
 }
 
 function getWaypointsGPXFromGeocache(waypoint,geocache){
+    var waypointName = waypoint.prefix+geocache.gcid.replace(/GC/,'');
 	var gpx = 	'<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="'+ waypoint.latitude +'" lon="'+ waypoint.longitude +'">';
 	gpx += 		'	<time>'+ xsdDateTime(geocache.dateHidden) +'</time>';
-	gpx += 		'	<name>'+ encodeHtml(waypoint.lookup) +'</name>';
+	gpx += 		'	<name>'+ encodeHtml(waypointName) +'</name>';
 	gpx += 		'	<cmt>'+ encodeHtml(waypoint.note) +'</cmt>';
 	gpx += 		'	<desc>'+ encodeHtml(waypoint.name) +'</desc>';
 	gpx += 		'	<sym>'+ waypoint.symbol +'</sym>';

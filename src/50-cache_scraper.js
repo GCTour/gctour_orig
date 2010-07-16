@@ -142,6 +142,7 @@ function getGeocacheFromElement(element){
 		
 		var waypoint = new Object();
 		waypoint.symbol = row1_tds[2].childNodes[1].src;
+		waypoint.prefix = trim(row1_tds[3].textContent);
 		waypoint.lookup = trim(row1_tds[4].textContent);
 		waypoint.name = row1_tds[5].childNodes[1].textContent;
 		waypoint.coordinates = trim(row1_tds[6].textContent);

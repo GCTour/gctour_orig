@@ -3,6 +3,7 @@
  *
  * version 1.97
  *		- GPX: add <groundspeak:name> to GPX
+ *      - GPX: Additional Waypoints now named - Waypoint.Prefix + (GCID without leading GC)
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
  *		- FIXED: caches can remain in watchlist without getting an error  
  *      - Code Review

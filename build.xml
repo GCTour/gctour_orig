@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="GcTour" default="copytofirefox" basedir=".">
+<project name="GcTour" default="addheader" basedir=".">
 	<property name="App" value="gc_tour.user" />
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />	
@@ -48,7 +48,7 @@
 	</target>
 	
 	
-	<target name="copytofirefox" depends="addheader" description="Copies the script to the GM_SCRIPTS folder in your firefox.">
+	<target name="copytofirefox" depends="addheader" description="Copies the script to the GM_SCRIPTS folder in your firefox. Not enabled by default.">
 		<copy todir="${GcTour.dir}/">
 			<fileset dir="${build.dir}/" includes="${App}.js" />
 		</copy>

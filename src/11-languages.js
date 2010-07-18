@@ -87,7 +87,7 @@ var lang_ger = new Object();
 	lang_ger["dontPrintHint"] = "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!";
 	lang_ger['ERROR_DIALOG'] = "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'><input type='button' value='Fenster schließen'></div>Wenn dieser Fehler jedesmal auftaucht, dann zöger nicht und schicke mir diesen Fehlerreport:";
     lang_ger["ERROR_REPORT_SUBMIT"] = "Fehlerbericht schicken"; 
-    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen nicht zu (z.B. durch Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
+    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
 	lang_ger['mapTypes'] = [{"caption":"Google Karte","value":"Map"}, {"caption":"Google Satellit","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Gelände","value":"Terrain"},{"caption":"Topo Deutschland","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
 
 var lang_eng = new Object();

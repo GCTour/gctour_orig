@@ -309,6 +309,51 @@ function init(){
 					}, false);
 		}	
 	}
+	
+	// add buttons to Bookmark site
+	if(document.URL.search("\/bookmarks\/view\.aspx")>=0) {
+		var bookmarkLines = dojo.query('tr[id*="row"]');
+		
+		for(var k = 0; k<bookmarkLines.length ; k++){
+		    var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+            var entry = getEntryFromBookmarkTd(bookmarkLine);
+            
+			var addToTourButton = document.createElement('img');
+			addToTourButton.alt = lang['addToTour'];
+			addToTourButton.title = lang['addToTour'];
+			addToTourButton.src = addToTourImageString;
+			addToTourButton.style.cursor = 'pointer';
+			addToTourButton.style.marginRight = '5px';
+
+			addToTourButton.addEventListener('click', addElementFunction(entry.id,entry.guid,entry.name,entry.image), false);
+			addHoverEffects(addToTourButton);
+			bookmarkLine[4].appendChild(addToTourButton);   
+		}
+		
+		var newButton = document.createElement("input");
+		newButton.name = 'addAll';
+		newButton.type = 'submit';
+		newButton.value = lang['addMarkedToTour'];
+		newButton.id = 'addAll';	
+		newButton.setAttribute('onclick','return false;');	
+		newButton.style.cssFloat = 'right';
+
+		// on click add checked caches in bookmark table
+		newButton.addEventListener('click',  function(){
+					for(var k = 0; k<bookmarkLines.length ; k++){
+						var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+						var entry = getEntryFromBookmarkTd(bookmarkLine);
+			
+						if(entry){
+							if(entry.checked){
+							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+							}
+						}
+					}	;		
+				}, false)
+		//add the button to the website
+		dojo.query('input[id="ctl00_ContentBody_ListInfo_btnDownload"]')[0].parentNode.appendChild(newButton);
+	}
 
 
 	// add the buttons to the search table

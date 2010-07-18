@@ -31,6 +31,17 @@ function addCacheToTourFromMap(cacheUrl){
 	}
 }
 
+function getEntryFromBookmarkTd(bookmarkLine){
+    var entry = {};
+    entry.id = trim(bookmarkLine[2].textContent);
+    entry.name = trim(bookmarkLine[3].textContent);
+    entry.guid = bookmarkLine[2].getElementsByTagName('a')[0].href.split('guid=')[1];
+    entry.image = bookmarkLine[3].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
+    entry.checked = bookmarkLine[0].childNodes[0].checked;
+            
+    return entry;
+}
+
 function getEntryFromSearchTd(theTd){
 		var entryTds = theTd.getElementsByTagName('td');
 		var entry = new Object();

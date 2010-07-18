@@ -6,6 +6,7 @@
  *      - GPX: Additional Waypoints now named - Waypoint.Prefix + (GCID without leading GC)
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
  *		- FIXED: caches can remain in watchlist without error  
+ *      - Bookmark Lists now have "add to tour" buttons
  *      - Code Review
  * 		- Create repository at http://code.google.com/p/gctour/
  *

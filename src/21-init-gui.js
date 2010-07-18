@@ -147,7 +147,7 @@ function initComponents(){
 
 
 	var div = document.createElement('div');
-	div.style.backgroundColor = '#f4f4f4';
+	div.style.backgroundColor = '#ffffff';
 	div.style.overflow = 'auto';	
 	div.style.height = '100%';
 	div.style.width = '100%';    

@@ -34,7 +34,11 @@ function addCacheToTourFromMap(cacheUrl){
 function getEntryFromBookmarkTd(bookmarkLine){
     var entry = {};
     entry.id = trim(bookmarkLine[2].textContent);
-    entry.name = trim(bookmarkLine[3].textContent);
+	
+	var nameSpan = dojo.query("span",bookmarkLine[3])[0];
+	var name = (nameSpan)?nameSpan.parentNode.innerHTML.replace(/<img.*?>/,""):trim(bookmarkLine[3].textContent);
+	
+    entry.name = name;
     entry.guid = bookmarkLine[2].getElementsByTagName('a')[0].href.split('guid=')[1];
     entry.image = bookmarkLine[3].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
     entry.checked = bookmarkLine[0].childNodes[0].checked;

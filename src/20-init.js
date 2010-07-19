@@ -330,6 +330,53 @@ function init(){
 			bookmarkLine[4].appendChild(addToTourButton);   
 		}
 		
+		
+		
+		
+		
+		// button to add all caches in list tu current tour
+		
+		
+		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].innerHTML = lang['showCaches']
+		
+		var addBookmarkButton = createElement('button',{style:"margin:10px"});
+		addBookmarkButton.setAttribute('onclick','return false;');
+		addBookmarkButton.innerHTML ="<img src='"+addToTourImageString+"'/>&nbsp;"+lang['addShownBookmarks'];
+		addBookmarkButton.addEventListener('click', function () {
+					
+		
+					for(var k = 0; k<bookmarkLines.length ; k++){
+						var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+						var entry = getEntryFromBookmarkTd(bookmarkLine);
+			
+						if(entry){
+							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+							
+						}
+					};		
+				},false);		
+		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].appendChild(addBookmarkButton);
+		
+		// button to add all caches in list to a new tour
+		var newBookmarkButton = createElement('button',{style:"margin:10px"});
+		newBookmarkButton.setAttribute('onclick','return false;');
+		newBookmarkButton.innerHTML ="<img src='"+newImageString+"'/>&nbsp;+&nbsp;<img src='"+addToTourImageString+"'/>&nbsp;"+lang['addShownBookmarksToNewTour'];
+		newBookmarkButton.addEventListener('click', function () {
+					var listName = dojo.query('span[id="ctl00_ContentBody_lbHeading"]')[0].textContent;
+					if(newTourFunction(listName)()){
+						for(var k = 0; k<bookmarkLines.length ; k++){
+							var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+							var entry = getEntryFromBookmarkTd(bookmarkLine);
+				
+							if(entry){
+								addElementFunction(entry.id,entry.guid,entry.name,entry.image)();								
+							}
+						}
+					}
+				},false);		
+		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].appendChild(newBookmarkButton);	
+		
+		
 		var newButton = document.createElement("input");
 		newButton.name = 'addAll';
 		newButton.type = 'submit';
@@ -349,7 +396,7 @@ function init(){
 							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
 							}
 						}
-					}	;		
+					};		
 				}, false)
 		//add the button to the website
 		dojo.query('input[id="ctl00_ContentBody_ListInfo_btnDownload"]')[0].parentNode.appendChild(newButton);

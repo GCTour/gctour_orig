@@ -334,13 +334,15 @@ function saveNewCache(entry){
 }
 
 
-function newTourFunction(){
+function newTourFunction(preset){
 	return function(){
 		var newTour = new Object();
 		newTour.id = getNewTourId();
-		newTour.name = prompt(lang['newTourDialog'], "Tour "+newTour.id);
+		
+		var tourName = (preset)?preset:"Tour "+newTour.id
+		newTour.name = prompt(lang['newTourDialog'], tourName);
 		newTour.geocaches = new Array();
-		if(!newTour.name) return;
+		if(!newTour.name) return false;
 		
 		
 		
@@ -351,6 +353,8 @@ function newTourFunction(){
 		
 		//~ window.location.reload();		
 		updateTour();
+		
+		return true;
 	}
 }
 

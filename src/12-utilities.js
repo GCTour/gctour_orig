@@ -14,34 +14,35 @@ function error(arguments) {
     GM_log("Error: " + arguments);
   }
 }
-/* USAGE: createElement('table',{style:"border-collapse:seperate;"});append(image_table,dummy_images);
-/* */function createElement(type, attributes){
-/* */	var node = document.createElement(type);
-/* */	for (var attr in attributes) if (attributes.hasOwnProperty(attr)){
-/* */		node.setAttribute(attr, attributes[attr]);
-/* */	}
-/* */	return node;
-/* */}
-/* */function createElementIn(type, attributes, toThis){	
-/* */	var node = createElement(type, attributes);
-/* */	if (toThis){
-/* */		append(node, toThis);
-/* */	}
-/* */	return node;
-/* */}
-/* */
-/* */function append(thisElement, toThis){
-/* */	return toThis.appendChild(thisElement);
-/* */}
-/* */
+/* USAGE: createElement('table',{style:"border-collapse:seperate;"});append(image_table,dummy_images); */
+function createElement(type, attributes){
+	var node = document.createElement(type), attr;
+	for (attr in attributes) if (attributes.hasOwnProperty(attr)){
+		node.setAttribute(attr, attributes[attr]);
+	}
+	return node;
+}
+function createElementIn(type, attributes, toThis){	
+	var node = createElement(type, attributes);
+	if (toThis){
+		append(node, toThis);
+	}
+	return node;
+}
+
+function append(thisElement, toThis){
+	return toThis.appendChild(thisElement);
+}
+
 
 
 function fillTemplate(mapping, template){
-	for(var j = 0 ; j<mapping.length ; j++){
+    var j, dummy;
+	for(j = 0 ; j<mapping.length ; j++){
 		template = template.replace(new RegExp("###"+mapping[j][0]+"###","g"),mapping[j][1]);
 	}
 	
-	var dummy = createElement('div');
+	dummy = createElement('div');
 	dummy.innerHTML = template
 	return dummy.firstChild;
 }
@@ -53,7 +54,6 @@ function trim (zeichenkette) {
 }
 
 // rot13.js from gc.com
-var rot13array;
 function createROT13array() {
 	var A = 0, C = [], D = "abcdefghijklmnopqrstuvwxyz", B = D.length;
 	for (A = 0; A < B; A++) {
@@ -112,17 +112,18 @@ function convertROTStringWithBrackets(C) {
 }
 
 function DM2Dec(cor1, cor2){
-	x = parseFloat(cor1) + parseFloat(cor2) / 60;
+	var x = parseFloat(cor1) + parseFloat(cor2) / 60;
 	x = Math.round(x * 100000) / 100000;
 	debug("DM2Dec:"+cor1+ "  " +cor2+" "+x);
 	return x;
 }
 
 function Dec2DM(coord){
-	d = parseFloat(coord);
-	m = Math.floor(((d - Math.floor(d)) * 60)*1000)/1000;
-	d = Math.floor(d);
-	var coords = new Array();
+	var d = parseFloat(coord),
+	m = Math.floor(((d - Math.floor(d)) * 60)*1000)/1000,
+	d = Math.floor(d),
+	coords = new Array();
+	
 	coords[0] = d;
 	coords[1] = m;
 	return coords;
@@ -131,12 +132,13 @@ function Dec2DM(coord){
 
 /* TODO: remove this function */
 function getElementsByAttribute(the_attribute, the_value, the_node) {
+    var node_tags, results, i,j;
         if ( the_node == null )
              the_node = document;
              
              
-    var node_tags = the_node.getElementsByTagName('*');
-	var results = new Array();
+    node_tags = the_node.getElementsByTagName('*');
+	results = new Array();
 	for (i=0, j=0; i<node_tags.length;i++) {
 		if (node_tags[i].hasAttribute(the_attribute)) {
 			if (node_tags[i].getAttribute(the_attribute) == the_value) {			
@@ -167,12 +169,12 @@ function xsdDateTime(date)
 	 return s.length < 2 ? '0'+s : s;
   };
 
-  var yyyy = date.getFullYear();
-  var mm1  = pad(date.getMonth()+1);
-  var dd   = pad(date.getDate());
-  var hh   = pad(date.getHours());
-  var mm2  = pad(date.getMinutes());
-  var ss   = pad(date.getSeconds());
+  var yyyy = date.getFullYear(),
+      mm1  = pad(date.getMonth()+1),
+      dd   = pad(date.getDate()),
+      hh   = pad(date.getHours()),
+      mm2  = pad(date.getMinutes()),
+      ss   = pad(date.getSeconds());
 
   return yyyy +'-' +mm1 +'-' +dd +'T' +hh +':' +mm2 +':' +ss+'Z';
 }
@@ -194,14 +196,13 @@ function post(url, data, cb) {
 }
 
 function dumpProps(obj, parent) {
+    var i, msg;
 	// Go through all the properties of the passed-in object
-	for (var i in obj) {
+	for (i in obj) {
 		// if a parent (2nd parameter) was passed in, then use that to
 		// build the message. Message includes i (the object's property name)
 		// then the object's property value on a new line
-		if (parent) { var msg = parent + "." + i + "\n" + obj[i]; } else { var msg = i + "\n" + obj[i]; }
-		// Display the message. If the user clicks "OK", then continue. If they
-		// click "CANCEL" then quit this level of recursion
+		if (parent) {msg = parent + "." + i + "\n" + obj[i]; } else {msg = i + "\n" + obj[i]; }
 		GM_log(msg);
 		//~ if (!confirm(msg)) { return; }
 		// If this property (i) is an object, then recursively process the object

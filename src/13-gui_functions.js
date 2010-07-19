@@ -37,6 +37,7 @@ function toggleTourListFunction(){
 }
 
 function updateGUI(){
+    var cacheList, i, table;
 
 	// update the cache count	
 	updateCacheCount(currentTour.geocaches.length);
@@ -45,14 +46,14 @@ function updateGUI(){
 	// update the opendialog
 	populateAllTours();
 
-	var cacheList = document.getElementById('cacheList');	
+    cacheList = document.getElementById('cacheList');	
 	cacheList.innerHTML = "";
 	// popultate the current list on load
-	for (var i = 0; i < currentTour.geocaches.length; i++){
+	for (i = 0; i < currentTour.geocaches.length; i++){
 		addNewTableCell(currentTour.geocaches[i],false);
 	}
 
-	var table = dojo.byId('tourTable');	
+	table = dojo.byId('tourTable');	
 	if(currentTour.geocaches.length == 0){
 		table.innerHTML = lang['emptyList'];
 	} else {
@@ -88,8 +89,6 @@ function openSend2GpsFunctionLocal(){
 	return function(){
 		if(!userName){
 			alert(lang['notLogedIn']);
-			// goto the login page
-			//~ window.location.href = 'http://www.geocaching.com/login/default.aspx?RESET=Y&redir='+window.location.href;
 		} else if( currentTour.geocaches.length == 0) {
 			alert(lang['emptyList']);
 		} else {
@@ -104,7 +103,7 @@ function openSend2GpsFunctionLocal(){
 
 function downloadGPXFunction(){
 	return function(){		
-
+        var gpxForm, nameInput, contentArea, tourName, currentDate, currentDateString, dummyString;
 		if(!userName){
 			alert(lang['notLogedIn']);
 		} else if( currentTour.geocaches.length == 0) {
@@ -114,31 +113,33 @@ function downloadGPXFunction(){
 			// add the overlay while loading
 			addOverlay(document,lang['pleaseWait']);
 
-			var gpxForm = document.createElement('form');
+			gpxForm = document.createElement('form');
 			gpxForm.setAttribute('style','display:;');
 			gpxForm.action = 'http://gc.madd.in/gm/download2.php';		
 			gpxForm.id="gpxForm";
 
 			gpxForm.method = 'post';
-			var nameInput = document.createElement('input');nameInput.type = 'hidden';gpxForm.appendChild(nameInput);
+			
+			nameInput = document.createElement('input');nameInput.type = 'hidden';gpxForm.appendChild(nameInput);
 			nameInput.name = 'name';
-			var contentArea = document.createElement('textarea');gpxForm.appendChild(contentArea);
+			
+			contentArea = document.createElement('textarea');gpxForm.appendChild(contentArea);
 			contentArea.name = 'content';
 
 
-			var tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
+			tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
 
-			var currentDate =  new Date();
-			var currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
+			currentDate =  new Date();
+			currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
 
 
 			nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
 			try {
 				if (GM_getValue('gpxschema',1) == 0){
-					var dummyString = getGPX();	
+					dummyString = getGPX();	
 				} else {
-					var dummyString = getGPXNew();
+					dummyString = getGPXNew();
 				} 
 
 				//iff the cancel button is pressed the dummyString just contain canceled
@@ -168,12 +169,12 @@ function downloadGPXFunction(){
 
 // TODO: rename this function to sendToGPSTour
 function initGPXTour(){
-
+    var dataStringElement, tourName, currentDate, currentDateString;
 	// add the overlay while loading
 	addOverlay(document,lang['pleaseWait']);
 	//~ document.getElementsByClassName('dark_msg_overlay')[0].getElementsByTagName('div')[0].innerHTML = "0 / "+currentTour.geocaches.length;
 	try{	
-		var dataStringElement = document.getElementById('dataString');
+		dataStringElement = document.getElementById('dataString');
 		dataStringElement.value = lang['pleaseWait'];
 		if (GM_getValue('gpxschema',1) == 0){
 			dataStringElement.value = getGPX();	
@@ -181,10 +182,10 @@ function initGPXTour(){
 			dataStringElement.value = getGPXNew();
 		}
 
-		var tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
+		tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
 
-		var currentDate =  new Date();
-		var currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
+		currentDate =  new Date();
+		currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
 
 
 		dojo.byId('cacheID').value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
@@ -199,6 +200,7 @@ function initGPXTour(){
 
 function uploadTourFunction(id){
 	return function(){ 
+	    var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString;
 		try{
 			if(!userName){
 				alert(lang['notLogedIn']);
@@ -207,14 +209,14 @@ function uploadTourFunction(id){
 			} else {	
 				
 		
-				for (var i = 0; i < tours.length; i++){
+				for (i = 0; i < tours.length; i++){
 					if(tours[i].id == id){
 						// add the overlay while loading
 						addOverlay(document,lang['pleaseWait']);
 						if (GM_getValue('uploadMap',true)){
 							//create the overview map
-							var geocaches = new Array();
-							for (var cache_i = 0; cache_i < tours[i].geocaches.length; ++cache_i){
+							geocaches = new Array();
+							for (cache_i = 0; cache_i < tours[i].geocaches.length; ++cache_i){
 								
 								if(GM_getValue("stopTask",false) && cache_i != 0){
 									GM_setValue("stopTask",false);
@@ -223,18 +225,18 @@ function uploadTourFunction(id){
 								} else if (GM_getValue("stopTask",false) && cache_i == 0 ) {
 									GM_setValue("stopTask",false);
 								}
-								var costumMarker = (typeof(tours[i].geocaches[cache_i].lat) != "undefined");
+								costumMarker = (typeof(tours[i].geocaches[cache_i].lat) != "undefined");
 								if(!costumMarker){
-									var geocache = getGeocache(tours[i].geocaches[cache_i].id);
+								    geocache = getGeocache(tours[i].geocaches[cache_i].id);
 
-									var mapCache = new Object();
+									mapCache = new Object();
 									mapCache.gcid = geocache.gcid;
 									mapCache.type = geocache.type;
 									mapCache.name = geocache.name;
 									mapCache.latitude = geocache.lat;
 									mapCache.longitude = geocache.lon;
 									mapCache.additional_waypoints = geocache.additional_waypoints;
-									for(var waypoint_i = 0 ; waypoint_i < mapCache.additional_waypoints.length; waypoint_i++){
+									for(waypoint_i = 0 ; waypoint_i < mapCache.additional_waypoints.length; waypoint_i++){
 										mapCache.additional_waypoints[waypoint_i].note = "";
 									}
 									geocaches.push(mapCache);
@@ -245,21 +247,19 @@ function uploadTourFunction(id){
 								setProgress(cache_i,tours[i].geocaches.length,document);
 							}	
 						}
-						// first upload tour
+						// first upload tour 
 						post('http://gctour.madd.in/save.php', 'tour='+uneval(tours[i]).replace(/&/g,"\\u0026"),
-								function(text){			
-									var codeString = lang['tourUploaded1']+text+lang['tourUploaded2'];
-									
+								function(text){				
 									if (GM_getValue('uploadMap',true)){
 										// if this is complete upload map file also!
 										post('http://gctour.madd.in/map/saveUpload.php', 'tour='+JSON.stringify(geocaches).replace(/&/g," und ")+'&crc='+text,
 											function(text){
-												var codeString = lang['tourUploaded1']+text+lang['tourUploaded2'];
+												codeString = lang['tourUploaded1']+text+lang['tourUploaded2'];
 												alert(codeString);
 												removeOverlay(document);
 											});
 									} else {
-										var codeString = lang['tourUploaded1']+text+lang['tourUploaded2'];
+										codeString = lang['tourUploaded1']+text+lang['tourUploaded2'];
 										alert(codeString);
 										removeOverlay(document);
 									}
@@ -273,6 +273,7 @@ function uploadTourFunction(id){
 }
 
 function showAutoTourDialog(center,radius){
+    var overLay, queryFilterDiv;
 
 	if(!userName){
 		alert(lang['notLogedIn']);
@@ -280,11 +281,11 @@ function showAutoTourDialog(center,radius){
 	}
 
 
-	var overLay = getOverlay(lang['autoTour']);
+	overLay = getOverlay(lang['autoTour']);
 	overLay.appendChild(getCoordinatesTab());
 	overLay.appendChild(getMapPreviewTab());
 
-	var queryFilterDiv = document.createElement('div');append(queryFilterDiv,overLay);
+	queryFilterDiv = document.createElement('div');append(queryFilterDiv,overLay);
 	queryFilterDiv.appendChild(getTypeFilter());
 	queryFilterDiv.appendChild(getSizeFilter());
 	queryFilterDiv.appendChild(getDtFiler('Difficulty'));
@@ -302,11 +303,12 @@ function showAutoTourDialog(center,radius){
 }
 
 function downloadTourFunction(webcode){
+    var details;
 
 	// add the overlay while loading
 	addOverlay(document,lang['pleaseWait']);
 
-	var details = new Object();
+	details = new Object();
 	details.method = 'GET';
 	details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
 	details.onload = function(response) {parseTourQuery(response)};
@@ -316,7 +318,9 @@ function downloadTourFunction(webcode){
 
 function showInformationDiv(tour){
 	return function(){
-		var infomationDiv = document.createElement('div');
+	    var infomationDiv, i;
+	
+		infomationDiv = document.createElement('div');
 		document.body.appendChild(infomationDiv);
 
 
@@ -333,7 +337,7 @@ function showInformationDiv(tour){
 
 		infomationDiv.innerHTML = "<b>"+tour.name+" ("+tour.geocaches.length+ " Caches)</b><br/>";
 
-		for( var i = 0; i < tour.geocaches.length ; i++){
+		for(i = 0; i < tour.geocaches.length ; i++){
 			if(i > 20){
 				infomationDiv.innerHTML += "... (" +(tour.geocaches.length - i) +" more) ...";
 				break;
@@ -345,8 +349,10 @@ function showInformationDiv(tour){
 
 
 function parseTourQuery(response){
+    var onlineTour;
+
 	try{
-		var onlineTour = eval(response.responseText);
+		onlineTour = eval(response.responseText);
 
 		// all done - remove the overlay
 		removeOverlay(document);

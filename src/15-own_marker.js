@@ -1,43 +1,47 @@
 function showNewMarkerDialog(marker){
+    var overlayMarker, dangerDanger, anTable, tr, td, nameInput, cordsInputLat, cordsInputLon, cordsInput,
+        exampleCoords, staticGMap, staticGMapControl, zoomPlusButton, zoomMinusButton, contentTextarea,
+        markerTypeTable, typeInput, trElement, i , tdElement, cancel, submit, errors, makerName, markerContent, 
+        markerType, markerTypeSym, latitude, longitude,markerPosition, markerPositionDelta, entry, latArray,
+        lonArray, latOrigin, lonOrigin;
+ 
+	overlayMarker = getOverlay(lang['printviewMarker']);
 
-
-	var overlayMarker = getOverlay(lang['printviewMarker']);
-
-	var dangerDanger = document.createElement('div');dangerDanger.id = "dangerdanger";
+	dangerDanger = document.createElement('div');dangerDanger.id = "dangerdanger";
 	dangerDanger.style.visibility = "hidden";
 	dangerDanger.style.cssFloat = "right";
 	dangerDanger.innerHTML = "<img src='"+dangerImageString+"'>";
 	overlayMarker.appendChild(dangerDanger);
 
-	var anTable = document.createElement('table');overlayMarker.appendChild(anTable);
+	anTable = document.createElement('table');overlayMarker.appendChild(anTable);
 	anTable.style.width = '100%';
 	anTable.align = 'center';
 
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
+    tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
 	td.style.width = '20%';
 	td.textContent = 'Name';
 
-	var td = document.createElement('td');tr.appendChild(td);
-	var nameInput = document.createElement('input');td.appendChild(nameInput);
+	td = document.createElement('td');tr.appendChild(td);
+	vnameInput = document.createElement('input');td.appendChild(nameInput);
 	nameInput.type = 'text';
 	nameInput.id = 'markerName';
 
 
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
+	tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
 	td.textContent = lang["markerCoordinate"];
 
-	var td = document.createElement('td');tr.appendChild(td);
+	td = document.createElement('td');tr.appendChild(td);
 
-	var cordsInputLat = document.createElement('input');td.appendChild(cordsInputLat);
+	cordsInputLat = document.createElement('input');td.appendChild(cordsInputLat);
 	cordsInputLat.type = "hidden";
 	cordsInputLat.id = 'cordsInputLat';
-	var cordsInputLon = document.createElement('input');td.appendChild(cordsInputLon);
+	cordsInputLon = document.createElement('input');td.appendChild(cordsInputLon);
 	cordsInputLon.type = "hidden";
 	cordsInputLon.id = 'cordsInputLon';
 
-	var cordsInput = document.createElement('input');td.appendChild(cordsInput);
+	cordsInput = document.createElement('input');td.appendChild(cordsInput);
 	cordsInput.type = 'text';
 	cordsInput.id = 'markerCoords';
 	cordsInput.style.width = '400px';
@@ -48,21 +52,21 @@ function showNewMarkerDialog(marker){
 	cordsInput.addEventListener('paste',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
 
 
-	var exampleCoords = document.createElement('div');
+	exampleCoords = document.createElement('div');
 	exampleCoords.innerHTML = 	lang["example"] + ' <i>N51° 12.123 E010° 23.123</i> or <i>51.123 10.123</i>'
 
 		td.appendChild(exampleCoords);
 
 
 
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
-	var td = document.createElement('td');tr.appendChild(td);	
+	tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
+	td = document.createElement('td');tr.appendChild(td);	
 	td.align = 'left';
 
 
 
-	var staticGMap = document.createElement('div');
+	staticGMap = document.createElement('div');
 	staticGMap.style.display = "none";
 	staticGMap.id = 'staticGMap';
 	staticGMap.style.border = '2px solid gray';
@@ -71,19 +75,19 @@ function showNewMarkerDialog(marker){
 	staticGMap.style.marginBottom = '10px';
 	staticGMap.style.backgroundRepeat = 'no-repeat';
 
-	var staticGMapControl = document.createElement('div');staticGMap.appendChild(staticGMapControl);
+	staticGMapControl = document.createElement('div');staticGMap.appendChild(staticGMapControl);
 	staticGMapControl.style.padding = '3px 0px 0px 3px';
 	staticGMapControl.style.width = '16px';
 	staticGMapControl.style.cssFloat = 'left';
 
-	var zoomPlusButton = document.createElement('img');td.appendChild(zoomPlusButton);
+	zoomPlusButton = document.createElement('img');td.appendChild(zoomPlusButton);
 	zoomPlusButton.style.opacity = '0.75';	
 	zoomPlusButton.style.cursor = 'pointer';	
 	zoomPlusButton.src = "http://www.geocaching.com/images/zoom_in.png";
 	zoomPlusButton.addEventListener('click', zoomInMarkerOverviewMap(), false);		
 	staticGMapControl.appendChild(zoomPlusButton);
 
-	var zoomMinusButton = document.createElement('img');td.appendChild(zoomMinusButton);
+	zoomMinusButton = document.createElement('img');td.appendChild(zoomMinusButton);
 	zoomMinusButton.style.opacity = '0.75';	
 	zoomMinusButton.style.cursor = 'pointer';	
 	zoomMinusButton.src = "http://www.geocaching.com/images/zoom_out.png";
@@ -92,12 +96,12 @@ function showNewMarkerDialog(marker){
 
 	td.appendChild(staticGMap);
 
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
+	tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
 	td.innerHTML = lang["markerContent"]+'<br><div style="font-size:xx-small">('+lang["markerContentHint"]+')</div>';
 
-	var td = document.createElement('td');tr.appendChild(td);
-	var contentTextarea = document.createElement('textarea');td.appendChild(contentTextarea);
+	td = document.createElement('td');tr.appendChild(td);
+	contentTextarea = document.createElement('textarea');td.appendChild(contentTextarea);
 	contentTextarea.style.width = '400px';
 	contentTextarea.id = 'markerContent';
 	contentTextarea.rows = '5';
@@ -106,16 +110,16 @@ function showNewMarkerDialog(marker){
 
 	// type buttons
 
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
+	tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
 	td.style.width = '20%';
 	td.textContent = lang["markerType"];
 
-	var td = document.createElement('td');tr.appendChild(td);
-	var markerTypeTable = document.createElement('table');td.appendChild(markerTypeTable);
+	td = document.createElement('td');tr.appendChild(td);
+	markerTypeTable = document.createElement('table');td.appendChild(markerTypeTable);
 	markerTypeTable.id = 'markerType';
 
-	var typeArray = new Array(
+	typeArray = new Array(
 			new Array('http://gctour.madd.in/map/icons/neu/RedFlag.png','Red Flag'),
 			new Array('http://gctour.madd.in/map/icons/neu/BlueFlag.png','Blue Flag'),
 			new Array('http://gctour.madd.in/map/icons/neu/GreenFlag.png','Green Flag'),
@@ -127,7 +131,7 @@ function showNewMarkerDialog(marker){
 			new Array('http://gctour.madd.in/map/icons/neu/SkullAndBones.png','Skull And Crossbones')
 			);
 	// iff we are editing a marker - so please set the right type
-	var typeInput = document.createElement('input');
+	typeInput = document.createElement('input');
 	typeInput.id = 'typeInput';
 	typeInput.type = 'hidden';
 	if(!marker){
@@ -147,9 +151,9 @@ function showNewMarkerDialog(marker){
 	}	
 	overlayMarker.appendChild(typeInput);	
 
-	var trElement = document.createElement('tr');	markerTypeTable.appendChild(trElement);
-	for( var i = 0; i< 	typeArray.length ; i++ ){		
-		var tdElement = document.createElement('td');		
+	trElement = document.createElement('tr');	markerTypeTable.appendChild(trElement);
+	for(i = 0; i< 	typeArray.length ; i++ ){		
+		tdElement = document.createElement('td');		
 		if(!marker){
 			if (i == 0) tdElement.style.backgroundColor = '#8C9E65';
 		} else {
@@ -170,12 +174,12 @@ function showNewMarkerDialog(marker){
 
 
 	// in the end please add a save and cancel button	
-	var tr = document.createElement('tr');anTable.appendChild(tr);
-	var td = document.createElement('td');tr.appendChild(td);
+	tr = document.createElement('tr');anTable.appendChild(tr);
+	td = document.createElement('td');tr.appendChild(td);
 	td.colSpan = '2';
 	td.align = 'right';
 
-	var cancel = document.createElement('input');
+	cancel = document.createElement('input');
 	cancel.type = "button";
 	cancel.value = lang["cancel"];
 	cancel.style.marginRight= "10px";
@@ -183,12 +187,12 @@ function showNewMarkerDialog(marker){
 	td.appendChild(cancel);
 
 
-	var submit = document.createElement('input');
+	submit = document.createElement('input');
 	submit.type = "button";
 	submit.value = lang["save"];
 	submit.addEventListener('click', function(){			
-			var errors = 0;
-			var markerName = document.getElementById('markerName');
+			errors = 0;
+			markerName = document.getElementById('markerName');
 			if (markerName.value != "") {
 			markerName.style.backgroundColor = "#FFFFFF";
 			} else {
@@ -196,17 +200,17 @@ function showNewMarkerDialog(marker){
 			errors++;
 			}
 
-			var markerCoords = document.getElementById('markerCoords');
+			markerCoords = document.getElementById('markerCoords');
 
 			if(markerCoords.style.backgroundColor != "rgb(136, 220, 59)"){
 			markerCoords.style.backgroundColor = "#FF8888";
 			errors++;
 			}
 
-			var markerContent = document.getElementById('markerContent');
+			markerContent = document.getElementById('markerContent');
 
-			var markerType = document.getElementById('typeInput');
-			var markerTypeSym = document.getElementById('typeInputSym');
+			markerType = document.getElementById('typeInput');
+			markerTypeSym = document.getElementById('typeInputSym');
 
 			if(errors != 0){
 
@@ -217,18 +221,18 @@ function showNewMarkerDialog(marker){
 
 
 
-			var latitude =  document.getElementById('cordsInputLat').value*1;
-			var longitude =  document.getElementById('cordsInputLon').value*1;
+			latitude =  document.getElementById('cordsInputLat').value*1;
+			longitude =  document.getElementById('cordsInputLon').value*1;
 
 			if(marker){
-				var markerPosition = getPositionsOfId(marker.id);
-				var markerPositionDelta = markerPosition -  currentTour.geocaches.length +1;
+				markerPosition = getPositionsOfId(marker.id);
+				markerPositionDelta = markerPosition -  currentTour.geocaches.length +1;
 				deleteElementFunction(marker.id)();
 			} else {
-				var markerPositionDelta = 0;
+				markerPositionDelta = 0;
 			}
 
-			var entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value);
+			entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value);
 			move(entry.id, markerPositionDelta);
 
 			closeOverlay()
@@ -249,11 +253,11 @@ function showNewMarkerDialog(marker){
 		cordsInputLon.value = marker.lon;	// 123.12333
 
 
-		var latArray = Dec2DM(marker.lat);
-		var lonArray = Dec2DM(marker.lon);
+		latArray = Dec2DM(marker.lat);
+		lonArray = Dec2DM(marker.lon);
 
-		var latOrigin = (latArray[0]<0)?"S":"N";
-		var lonOrigin = (lonArray[0]<0)?"W":"E";
+		latOrigin = (latArray[0]<0)?"S":"N";
+		lonOrigin = (lonArray[0]<0)?"W":"E";
 
 		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];

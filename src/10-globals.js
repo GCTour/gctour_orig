@@ -4,19 +4,18 @@ const scriptId = 'gctour';
 const DEBUG = false;
 
 
-var tours;
-var currentTour;
-var userName;
-var lang; // the language file
+var tours,
+    currentTour,
+    userName,
+    lang,lang_ger,lang_eng,languages, // the language file
+    dojoPath = "http://o.aolcdn.com/dojo/1.4",
+    head = document.getElementsByTagName('head')[0],
+    dojo,
+    wptArray,
+    rot13array;
 
 
-var dojoPath = "http://o.aolcdn.com/dojo/1.4"; 
-var head = document.getElementsByTagName('head')[0];
-var dojo;
-
-
-
-var wptArray = [
+wptArray = [
 	{wptTypeId: "2",     hash: "32bc9333-5e52-4957-b0f6-5a2c8fc7b257", name: "Traditional Cache"   },
 	{wptTypeId: "3",     hash: "a5f6d0ad-d2f2-4011-8c14-940a9ebf3c74", name: "Multi-Cache"         },
 	{wptTypeId: "8",     hash: "40861821-1835-4e11-b666-8d41064d03fe", name: "Unknown Cache"       },

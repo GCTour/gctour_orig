@@ -459,9 +459,8 @@ function deleteTourFunction(id,listElement){
 					// array in js are dumb - where is removeAt ??
 					tours.splice(i,1);
 					saveCurrentTour();
-
-					listElement.parentNode.removeChild(listElement);
-
+					updateTour();
+					
 					break;
 				}
 			}

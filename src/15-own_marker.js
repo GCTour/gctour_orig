@@ -23,7 +23,7 @@ function showNewMarkerDialog(marker){
 	td.textContent = 'Name';
 
 	td = document.createElement('td');tr.appendChild(td);
-	vnameInput = document.createElement('input');td.appendChild(nameInput);
+	nameInput = document.createElement('input');td.appendChild(nameInput);
 	nameInput.type = 'text';
 	nameInput.id = 'markerName';
 
@@ -47,7 +47,6 @@ function showNewMarkerDialog(marker){
 	cordsInput.style.width = '400px';
 	cordsInput.style.marginRight = '5px';
 
-	//~ cordsInput.addEventListener('keyup',window.setTimeout(saveMarkerCoord(cordsInput,cordsInputLon,cordsInputLon),0),false);
 	cordsInput.addEventListener('keyup',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
 	cordsInput.addEventListener('paste',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
 
@@ -55,7 +54,7 @@ function showNewMarkerDialog(marker){
 	exampleCoords = document.createElement('div');
 	exampleCoords.innerHTML = 	lang["example"] + ' <i>N51° 12.123 E010° 23.123</i> or <i>51.123 10.123</i>'
 
-		td.appendChild(exampleCoords);
+	td.appendChild(exampleCoords);
 
 
 
@@ -277,51 +276,56 @@ function showNewMarkerDialog(marker){
 
 function zoomInMarkerOverviewMap(){
 	return function(){
+        var staticGMap, zoom, lat, lon;
 
-		var staticGMap = document.getElementById('staticGMap');
-		var zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
-		var lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
-		var lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
+		staticGMap = document.getElementById('staticGMap');
+	    zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
+		lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
+		lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
 		updateMarkerOverviewMap(lat,lon,zoom-(-1));
 	}
 }
 
 function zoomOutMarkerOverviewMap(){
 	return function(){
+	    var staticGMap, zoom, lat, lon;
 
-		var staticGMap = document.getElementById('staticGMap');
-		var zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
-		var lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
-		var lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
+		staticGMap = document.getElementById('staticGMap');
+	    zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
+		lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
+		lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
 		updateMarkerOverviewMap(lat,lon,zoom-1);
 	}
 }
 
 
 function updateMarkerOverviewMap(lat,lon,zoom){
-	var minZoom = 0;
-	var maxZoom = 19;
-
+	var minZoom = 0,
+	    maxZoom = 19,
+        apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g",
+        staticGMap;
+        
 	// zoom out of range? please stop doing it ;-)
 	if(zoom < minZoom || zoom > maxZoom)
 		return;
 
 	debug("Updating map in marker window: " +lat + " " + lon + " Zoom:"+zoom);
 
-	var apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g";
-	var staticGMap = document.getElementById('staticGMap');
+    staticGMap = document.getElementById('staticGMap');
 	staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=400x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
 }
 
 function changeType(value,table,typeArray){
 	return function(){
+	    var trElement, i, tdElement;
+	
 		document.getElementById('typeInput').value = value[0];
 		document.getElementById('typeInputSym').value = value[1];
 		table.innerHTML = "";
 
-		var trElement = document.createElement('tr');	table.appendChild(trElement);
-		for( var i = 0; i< 	typeArray.length ; i++ ){
-			var tdElement = document.createElement('td');
+		trElement = document.createElement('tr');	table.appendChild(trElement);
+		for( i = 0; i< 	typeArray.length ; i++ ){
+			tdElement = document.createElement('td');
 			if (typeArray[i][0] == value[0]) tdElement.style.backgroundColor = '#8C9E65';
 			tdElement.style.cursor = 'pointer';
 			tdElement.style.padding = '5px';

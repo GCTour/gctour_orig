@@ -92,6 +92,7 @@
     lang_ger["ERROR_REPORT_SUBMIT"] = "Fehlerbericht schicken"; 
     lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
 	lang_ger['mapTypes'] = [{"caption":"Google Karte","value":"Map"}, {"caption":"Google Satellit","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Gelände","value":"Terrain"},{"caption":"Topo Deutschland","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
+ 
 
     lang_eng = new Object();
 	lang_eng['name'] = 'English';
@@ -185,6 +186,7 @@
     lang_eng["ERROR_REPORT_SUBMIT"] = "send report"; 
     lang_eng["SCRIPT_ERROR"] = "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GcTour!" ;
 	lang_eng['mapTypes'] = [{"caption":"Google Map","value":"Map"}, {"caption":"Google Satellite","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Terrain","value":"Terrain"}, {"caption":"Topo Germany","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
+    
 
 languages = new Array();
 languages[0] = lang_ger;

@@ -4,7 +4,7 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />	
 	<property name="tmp.dir" value="tmp" />
-	<property name="GcTour.dir" value="/home/martin/.mozilla/firefox/zxeaqutn.default/gm_scripts/gc_tour" />
+	<property name="GcTour.dir" value="c:\Dokumente und Einstellungen\georgim\Anwendungsdaten\Mozilla\Firefox\Profiles\soifptpr.default\gm_scripts\gc_tour" />
 	
 	
 	
@@ -25,9 +25,11 @@
 			<arg line="-jar" />
 			<arg path="compressor/yuicompressor-2.4.2.jar" />
 			<srcfile />
+			<arg line="--charset utf-8" />			
 			<arg line="-o" />
 			<mapper type="glob" from="${App}.user.js" to="${tmp.dir}/${App}-min.user.js" />
 			<targetfile />
+			<arg line="-v" />
 		</apply>
 	</target>
 	

@@ -35,6 +35,23 @@ function append(thisElement, toThis){
 }
 
 
+/* wrapper functions for persintence */
+function saveValue(name, value){
+	return uneval(GM_setValue(name,value));
+}
+
+function loadValue(name, defaultValue){
+	return eval(GM_getValue(name, defaultValue));
+}
+
+/*
+alert(GM_getValue('language',1));
+alert(eval(GM_getValue('language',1)));
+
+alert((GM_getValue('tours',new Array())));
+alert(eval(GM_getValue('tours',new Array())));
+*/
+
 
 function fillTemplate(mapping, template){
     var j, dummy;
@@ -119,7 +136,8 @@ function DM2Dec(cor1, cor2){
 }
 
 function Dec2DM(coord){
-	var d = parseFloat(coord),
+	var d;
+	d = parseFloat(coord),
 	m = Math.floor(((d - Math.floor(d)) * 60)*1000)/1000,
 	d = Math.floor(d),
 	coords = new Array();

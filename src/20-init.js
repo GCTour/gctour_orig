@@ -5,7 +5,9 @@ function initCore(){
 	lang = languages[GM_getValue('language',1)];
 	
 	// getting all tours
-	tours = eval(GM_getValue('tours',new Array()));
+	tours = loadValue('tours',new Array());
+	
+	//eval(GM_getValue('tours',new Array()));
 	// structur a tour:
 	// id 		<--- int
 	// name 	<--- string
@@ -35,30 +37,33 @@ function initDojo(){
 	// just dont start the script on the gc.com print page!
 	if(document.URL.search("cdpf\.aspx")<=0) {
 
-		unsafeWindow.djConfig = {afterOnLoad: true};  
+		var requiredModules, script;
+
+		requiredModules = [];
+		requiredModules.push("dojo.fx");
 		
-		var script = appendScript(dojoPath + "/dojo/dojo.xd.js");
-		// check after 5sec iff dojo is loaded - otherwhise asume user is blocking Javascript (possible not right)
+		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
+		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
+		
+		
+		// check after 20sec if dojo is loaded - otherwhise asume user is blocking Javascript (possible false positve)
 		window.setTimeout(function(){
 			if(!dojo){
 			   alert(lang["SCRIPT_ERROR"]);
 			}
 		},20000);
 		
+		// only way to check if the dojo script is loaded - addOnLoad fails because of unsafeWindow scope
 		script.addEventListener('load', function(event){
-				dojo = unsafeWindow.dojo;
-				dojo.require("dojo.fx");
-
-				init();
-				}, 'false');
+			dojo = unsafeWindow.dojo;
+			init();			
+		}, 'false');
 	}
 }
 
-function init(){
+function init(){			
 	// init the core components (first tour, current tour)
-	initCore();
-	
-	
+	initCore();	
 	// update the complete gui if the tab gets focus
 	window.addEventListener("focus", updateTour,false);
 
@@ -89,7 +94,6 @@ function init(){
 
 			addOverlay(document,lang['pleaseWait']);
 
-			//~ var pagesSpan = dojo.query("div[class='widget-pagebuilder']> table > tbody > tr > td > span")[0];
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']> span")[0];
 
 			if(!pagesSpan){

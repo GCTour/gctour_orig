@@ -23,7 +23,7 @@
 		<apply executable="java" parallel="false">
 			<filelist dir="${tmp.dir}" files="${App}.user.js" />
 			<arg line="-jar" />
-			<arg path="compressor/yuicompressor-2.4.2.jar" />
+			<arg path="lib/yuicompressor-2.4.2.jar" />
 			<srcfile />
 			<arg line="--charset utf-8" />			
 			<arg line="-o" />

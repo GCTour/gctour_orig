@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<project name="GcTour" default="copytofirefox" basedir=".">
+<project name="GcTour"  basedir=".">
 	<property name="App" value="gc_tour" />
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />	
 	<property name="tmp.dir" value="tmp" />
 	<property name="GcTour.dir" value="c:\Dokumente und Einstellungen\georgim\Anwendungsdaten\Mozilla\Firefox\Profiles\soifptpr.default\gm_scripts\gc_tour" />
-	
+	<property name="Version" value="1.97" />
+	<tstamp/>
 	
 	
 	
@@ -29,11 +30,11 @@
 			<arg line="-o" />
 			<mapper type="glob" from="${App}.user.js" to="${tmp.dir}/${App}-min.user.js" />
 			<targetfile />
-			<arg line="-v" />
+		<!--	<arg line="-v" /> -->
 		</apply>
 	</target>
 	
-	<target name="addheader" depends="compress" description="Add Userscript-Header to the Script.">
+	<target name="make" depends="compress" description="Add Userscript-Header to the Script.">
 		<echo>Add Userscript-Header to the script.</echo>
 		<concat destfile="${build.dir}/${App}.user.js" fixlastline="yes">
 		    <fileset file="${src.dir}/00-header.js" />
@@ -50,9 +51,23 @@
 	</target>
 	
 	
-	<target name="copytofirefox" depends="addheader" description="Copies the script to the GM_SCRIPTS folder in your firefox. Not enabled by default.">
+	<target name="makeff" depends="make" description="Copies the script to the GM_SCRIPTS folder in your firefox. Not enabled by default.">
 		<copy todir="${GcTour.dir}/">
 			<fileset dir="${build.dir}/" includes="${App}.user.js" />
 		</copy>
 	</target>
+	
+	<target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">
+	    <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.2.jar" name="gcupload"/>
+
+        <gcupload 
+            username="gctour.support" 
+            password="" 
+            projectname="gctour" 
+            filename="build/gc_tour.user.js" 
+            targetfilename="gc_tour.${DSTAMP}.user.js"
+            summary="snapshot release for version ${Version}"
+            labels="Type-Installer, OpSys-All" />
+	</target>
+	
 </project> 

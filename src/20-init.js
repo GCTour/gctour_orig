@@ -41,7 +41,9 @@ function initDojo(){
 
 		requiredModules = [];
 		requiredModules.push("dojo.fx");
-		
+	    requiredModules.push("dojo.parser");
+		requiredModules.push("dojo.dnd.Source");
+
 		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
 		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
 		
@@ -56,7 +58,13 @@ function initDojo(){
 		// only way to check if the dojo script is loaded - addOnLoad fails because of unsafeWindow scope
 		script.addEventListener('load', function(event){
 			dojo = unsafeWindow.dojo;
-			init();			
+			
+			// if dojo is ready to go ( include all required modules ), init GCTour
+			dojo.addOnLoad(function(){ 
+			        setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
+                        init();
+                    },0);
+                });		
 		}, 'false');
 	}
 }
@@ -210,6 +218,20 @@ function init(){
 			GM_deleteValue('tq_caches');
 		}
 	}
+    GM_addStyle(
+	    '.dojoDndAvatar {font-size: 75%; color: black;min-width:130px;}'+
+	    '.dojoDndAvatar .controls{display:none;}'+
+	    '.dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}'+
+	    '.dojoDndAvatarHeader	{background: #ccc;}'+ 
+	    '.dojoDndAvatarItem		{background: #eee;}'+
+	    '.dojoDndItemBefore		{border-top:3px solid gray !important; }'+
+	    '.dojoDndItemAfter		{border-bottom:3px solid gray !important;}'+
+	    '.dojoDndItemOver		{background-color:#edf1f8;cursor:move;}'+
+	    '.dojoDndMove .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoMove.png); background-repeat: no-repeat;}'+
+	    '.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoCopy.png); background-repeat: no-repeat;}'+
+	    '.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndMove.png); background-repeat: no-repeat;}'+ 
+	    '.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndCopy.png); background-repeat: no-repeat;}'
+	);
 
 
 
@@ -232,7 +254,7 @@ function init(){
 				'	-moz-background-inline-policy:continuous;'+
 				'	-moz-background-origin:padding;'+
 				'	border:1pt dashed gray;'+
-				'	background:#FFFFFF none repeat scroll 0 0;'+
+			//	'	background:#FFFFFF none repeat scroll 0 0;'+
 				'	color:#000000;'+
 				'}'+
 				''+

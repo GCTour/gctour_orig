@@ -16,4 +16,3 @@ if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x
     alert("Sorry, but you are running 'Firefox "+ffversion+"' which is not supported anymore.\nPlease update to 'Firefox 3.5' or above to use GCTour!");
  }
 }
-

@@ -39,6 +39,8 @@ function addNewTableCell(theEntry,effects){
 	var entryLi = createElement('li', {id: theEntry.id, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"')"});	
 	//set the image
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
+	entryLi.setAttribute("class", "dojoDndItem");
+
 	
 	// make the gcid link
 	var nameCite = createElement('span',{style:"vertical-align:top"});
@@ -57,7 +59,7 @@ function addNewTableCell(theEntry,effects){
 	// the log/edit button and the delete button
 	var functionButtonsDiv = document.createElement('div');
 	functionButtonsDiv.style.cssFloat = 'right';
-	functionButtonsDiv.style.cssFloat = 'right';
+	functionButtonsDiv.setAttribute("class", "controls");
 	
 	if(!costumMarker){
 		var logVisitImage = document.createElement('img');
@@ -149,6 +151,10 @@ function addNewTableCell(theEntry,effects){
 	
 	
 	document.getElementById('cacheList').appendChild(entryLi);
+	
+	if(unsafeWindow.draglist){
+		unsafeWindow.draglist.sync(); // needed to function properly
+	}
 	
 	if(effects){
 		dojo.fadeIn({node: entryLi,duration: 1000}).play()

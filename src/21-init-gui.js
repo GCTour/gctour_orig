@@ -134,7 +134,10 @@ function initComponents(){
 
 
 	var cacheList = document.createElement('ol');
-	cacheList.className = 'cachelist';
+    cacheList.className = 'cachelist container handles';
+	cacheList.setAttribute("dojoType","dojo.dnd.Source");	
+	cacheList.setAttribute("jsId","draglist");	
+
 	cacheList.id = 'cacheList';
 	cacheList.style.width = '100%';
 	cacheList.setAttribute("border","0");
@@ -150,9 +153,21 @@ function initComponents(){
 	div.style.backgroundColor = '#ffffff';
 	div.style.overflow = 'auto';	
 	div.style.height = '100%';
-	div.style.width = '100%';    
-	div.appendChild(table);
+	div.style.width = '100%'; 
 	div.appendChild(cacheList);
+
+    // make it drag n drop 
+    dojo.parser.parse(div);
+    dojo.subscribe("/dnd/drop", function(source, nodes, copy, target){
+	        dojo.fadeOut({
+	        node: nodes[0],duration: 300,
+		        onEnd: function(){
+			        dojo.fadeIn({
+					        node: nodes[0],duration: 300
+			        }).play()
+		        }
+	        }).play();
+    });
 
 
 

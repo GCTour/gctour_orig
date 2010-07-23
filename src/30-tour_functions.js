@@ -146,12 +146,10 @@ function addNewTableCell(theEntry,effects){
 		nameDiv.innerHTML = theEntry.name;
 	}else {
 		nameDiv.innerHTML = theEntry.content;
-	}
+	}	
 	entryLi.appendChild(nameDiv);
 	
-	
 	document.getElementById('cacheList').appendChild(entryLi);
-	
 	if(unsafeWindow.draglist){
 		unsafeWindow.draglist.sync(); // needed to function properly
 	}

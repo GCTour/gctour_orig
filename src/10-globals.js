@@ -1,7 +1,7 @@
 // globals
 const version="1.96" // will be checked once the day
 const scriptId = 'gctour'; 
-const DEBUG = false;
+const DEBUG = true;
 
 
 var tours,

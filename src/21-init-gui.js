@@ -154,11 +154,42 @@ function initComponents(){
 	div.style.overflow = 'auto';	
 	div.style.height = '100%';
 	div.style.width = '100%'; 
+	div.appendChild(table);
 	div.appendChild(cacheList);
-
+	
     // make it drag n drop 
     dojo.parser.parse(div);
+    
+    // persist the new order after some cache is draged
     dojo.subscribe("/dnd/drop", function(source, nodes, copy, target){
+            var cachelist = dojo.query('ol[id="cacheList"]')[0];
+            
+            // iterate over current cachelist in DOM
+            var idList = [];        
+            for(var i = 0; i < cachelist.childNodes.length;i++){
+                idList.push(cachelist.childNodes[i].id); // save every id - in right order
+                GM_log("ids: "+cachelist.childNodes[i].id);
+            }
+            
+            var tempCaches = [];
+            for(var i = 0; i < idList.length;i++){ // for each id
+                var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
+                tempCaches.push(currentTour.geocaches[position]); // after this add the cache in the temporary array
+                
+                GM_log("position: "+position);
+                GM_log("gcid: "+currentTour.geocaches[position].id);
+                
+                
+            }        
+            
+            // ... and make it persistent
+            currentTour.geocaches = tempCaches;	
+            
+            setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
+                saveCurrentTour();
+            },0);
+    
+            // highlight the moved cache
 	        dojo.fadeOut({
 	        node: nodes[0],duration: 300,
 		        onEnd: function(){

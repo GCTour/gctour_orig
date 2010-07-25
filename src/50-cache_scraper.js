@@ -2,7 +2,6 @@ function getGeocache(gcid){
 	var req = new XMLHttpRequest();
 							
 	var myUrl = 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid;
-	//var myUrl = 'http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[i].guid;
 	req.open("GET", myUrl, false);
 	// execute the request synchron
 	req.send(null);
@@ -18,6 +17,7 @@ function getGeocache(gcid){
 	
 }
 
+// source of all evil asking groundspeak
 function getGeocacheFromElement(element){
 
 	//~ geocache.gcid

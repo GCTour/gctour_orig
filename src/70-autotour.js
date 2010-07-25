@@ -1,3 +1,4 @@
+// autoTour gui
 function startAutoTour(){
 	var typeInputs = dojo.query("input[name='type']");
 	var sizeInputs = dojo.query("input[name='size']");
@@ -106,8 +107,6 @@ function getMarkerCoord(latitude,longitude){
 
 function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
 	return function(){
-		//~ var cordsInput = $('#markerCoords');//document.getElementById('markerCoords');
-
 		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
 		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
 		window.setTimeout(
@@ -119,7 +118,6 @@ function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
 				if (!result && !result2) {
 				cordsInput.style.backgroundColor = "#FF8888";
 
-				//~ document.getElementById('staticGMap').style.display = 'none';
 				} else if (result) {
 				cordsInput.style.backgroundColor = "#88DC3B";
 
@@ -156,7 +154,6 @@ function getSpecialFilter(){
 
 
 	var specials = ['I haven\'t found ','is Active', 'is not a PM cache'];
-	//~ var specials = ['I haven\'t found ','is Active', 'i don\'t own'];
 
 	for(var i = 0; i<specials.length; i++ ){
 		var checkboxSpan = createElement('span');
@@ -217,15 +214,6 @@ function getDtFiler(boxName){
 
 
 function getSizeFilter(){
-
-	//~ http://www.geocaching.com/images/icons/container/micro.gif
-	//~ http://www.geocaching.com/images/icons/container/small.gif
-	//~ http://www.geocaching.com/images/icons/container/regular.gif
-	//~ http://www.geocaching.com/images/icons/container/large.gif
-	//~ http://www.geocaching.com/images/icons/container/other.gif
-	//~ http://www.geocaching.com/images/icons/container/virtual.gif
-	//~ http://www.geocaching.com/images/icons/container/not_chosen.gif
-
 	var sizes = ['micro','small','regular','large','other','virtual','not_chosen'];
 
 	var sizesCheckboxesDiv = document.createElement('div');
@@ -258,9 +246,6 @@ function getSizeFilter(){
 	}
 
 	return sizesCheckboxesDiv;
-
-	//~ 
-	//~ http://www.geocaching.com/images/icons/container/micro.gif
 }
 
 function getTypeFilter(){
@@ -359,8 +344,8 @@ function getMapPreviewTab(){
 	var coordsLabel = createElement('div');append(coordsLabel, coordsDiv);
 	coordsLabel.innerHTML = lang["markerCoordinate"]+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+lang["autoTourRadius"]+": <b id='markerRadiusPreview'>???km</b>"
 
-		// previewMap	
-		var staticGMap = createElement('div');
+	// previewMap	
+	var staticGMap = createElement('div');
 	staticGMap.id = 'staticGMap';
 
 	staticGMap.style.border = '2px solid gray';
@@ -370,7 +355,6 @@ function getMapPreviewTab(){
 
 	staticGMap.style.height = '200px';
 	staticGMap.style.width = '400px';
-	//~ staticGMap.style.marginBottom = '10px';
 	staticGMap.style.backgroundRepeat = 'no-repeat';
 
 	coordsDiv.appendChild(staticGMap);
@@ -436,12 +420,9 @@ function getAutoTourSubmit(){
 
 }
 
+// waypoint projecting
 function CalcPrjWP(lat,lon, dist, angle)
 {  
-	//~ B1 = parseFloat(NorthGrad.replace(/,/, ".")) + parseFloat(NorthMin.replace(/,/, ".")) / 60;
-	//~ L1 = parseFloat(EastGrad.replace(/,/, ".")) + parseFloat(EastMin.replace(/,/, ".")) / 60;
-	//~ Dist = parseFloat(Distance.replace(/,/, "."));
-	//~ Angle = parseFloat(DirAngle.replace(/,/, "."));
 	var B1 = parseFloat(lat);
 	var L1 = parseFloat(lon);
 	var Dist = parseFloat(dist);
@@ -500,9 +481,9 @@ function updateAutoTourMap(lat,lon){
 	var apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g";
 
 	var path = "path=fillcolor:0xF6A8287F|color:0xF6A828FF|"
+	
+	    // to draw a circle - add 24 edges und combine them
 		for(var i = 1; i<=361;i = i+15){
-
-
 			var waypoint = CalcPrjWP(lat,lon,radiusMiles,i);
 			debug("WPT PRJ lat:"+lat+" lon:"+lon+" radius:"+radiusMiles+"Miles i:"+i);
 			debug("WPT PRJ "+waypoint[0]+","+waypoint[1]);
@@ -561,9 +542,6 @@ function updateAutoTourMap(lat,lon){
 			var dummyDiv = createElement('div');
 			dummyDiv.innerHTML = responseDetails.responseText;
 
-			//~ var pagesSpan = dojo.query("div[class='widget-pagebuilder']> table > tbody > tr > td > span",dummyDiv)[0];
-			//~ <td class="PageBuilderWidget"><span>Total Records: <b>
-			
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
 			
 			if(pagesSpan){

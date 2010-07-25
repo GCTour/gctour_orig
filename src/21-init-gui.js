@@ -28,7 +28,6 @@ function initButton(){
 		newButton.addEventListener('click', addElementFunction(cacheId,guidId,cacheName,cacheTypeImage), false);
 		
 		// add it to the group
-		//buttonGroup.appendChild(newButton);
 		append(newButton,add_button)
 
 	}	
@@ -157,7 +156,7 @@ function initComponents(){
 	div.appendChild(table);
 	div.appendChild(cacheList);
 	
-    // make it drag n drop 
+    // make it drag n drop - only available after dojo.addOnLoad fired - see init.js
     dojo.parser.parse(div);
     
     // persist the new order after some cache is draged
@@ -586,7 +585,7 @@ PSIZE:
 						//}
 						}
 						}
-						if(!check)
+						if(!check) // highlight if something is wrong
 						{
 						exportText.style.backgroundColor = '#ff7f7f';
 						}
@@ -711,16 +710,6 @@ PSIZE:
 			append(downloadGPXButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
-			//~ 
-			//~ buttonsDiv.appendChild(requestPrintButton);
-			//~ buttonsDiv.appendChild(sendGPSButton);
-			//~ buttonsDiv.appendChild(downloadGPXButton);
-			//~ buttonsDiv.appendChild(uploadTourButton);
-			//~ 
-			//~ tourHeaderDiv.appendChild(renameButton);
-			//~ tourHeaderDiv.appendChild(markerButton);
-
-
 
 			// remove the ads under the menu - to be sure the gctour is visible ;-)
 			var adDiv = getElementsByAttribute('class','BanManWidget')[0];
@@ -729,7 +718,6 @@ PSIZE:
 
 
 			var buttonsDiv = document.createElement('div');
-			//~ buttonsDiv.style.width = "135px";
 			buttonsDiv.style.marginBottom = "5px";
 			buttonsDiv.style.borderBottom = "1px solid white";
 
@@ -795,13 +783,8 @@ PSIZE:
 				addNewTableCell(currentTour.geocaches[i],false);
 			}
 
-
 			if(currentTour.geocaches.length == 0){
 				var table = document.getElementById('tourTable');		
 				table.innerHTML = lang['emptyList'];
 			}
-
-
-
-
 }

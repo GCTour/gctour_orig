@@ -468,7 +468,6 @@ function deleteTourFunction(id,listElement){
 					break;
 				}
 			}
-			//~ window.location.reload();
 		}
 	}
 }

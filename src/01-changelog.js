@@ -8,6 +8,7 @@
  *		- FIXED: caches can remain in watchlist without error  
  *		- FIXED: that a tour remains in list after deleting it
  *      - Bookmark Lists now have "add to tour" buttons
+ *      - Tour can now sorted via Drag n' Drop
  *      - Code Review
  * 		- Create repository at http://code.google.com/p/gctour/
  *

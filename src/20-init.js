@@ -39,6 +39,7 @@ function initDojo(){
 
 		var requiredModules, script;
 
+        // required modules - add dojo stuff here
 		requiredModules = [];
 		requiredModules.push("dojo.fx");
 	    requiredModules.push("dojo.parser");
@@ -75,6 +76,8 @@ function init(){
 	// update the complete gui if the tab gets focus
 	window.addEventListener("focus", updateTour,false);
 
+
+    // process autoTour
 	if(GM_getValue('tq_url')){
 
 		// iff the cancelbutton is presssed 
@@ -112,27 +115,18 @@ function init(){
 				return;
 			}
 
-			//~ alert(pagesSpan.getElementsByTagName('b')[1].innerHTML);
 			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
 
-
-			//~ var resultTable = dojo.query('table[id="ctl00_ContentBody_dlResults"] > tbody > tr');
+            // locate the table
 			var resultTable = dojo.query("tr[class = 'Data BorderTop']");
 			var j = 0;
-			for(var i = 0; i < resultTable.length;i++){
-				//~ if(resultTable[i].innerHTML.indexOf('<img src="../images/silk/building_go.png" alt="Send to GPS" title="Send to GPS" border="0">') >=0){
-
+			for(var i = 0; i < resultTable.length;i++){ // iterate over each cache 
+			
 					var entryTds = resultTable[i].getElementsByTagName('td');
-
-
-
-
-
-					var entry = new Object();
-					entry.id = 'GC'+entryTds[5].textContent.split('(GC')[1].split(')')[0];		
+					var entry = new Object(); // gather informations line-by-line
+        					entry.id = 'GC'+entryTds[5].textContent.split('(GC')[1].split(')')[0];		
 							entry.name = entryTds[5].getElementsByTagName('a')[0].innerHTML;
 							entry.guid = entryTds[5].getElementsByTagName('a')[0].href.split('guid=')[1];
-							//~ entry.image = entryTds[2].getElementsByTagName('img')[0].getAttribute('src').split("/")[3];
 							entry.image = entryTds[2].getElementsByTagName('img')[0].getAttribute('src').replace(/WptTypes\//, "WptTypes/sm/");
 
 							var type = entry.image.split("/")[4].split(".")[0];
@@ -149,8 +143,10 @@ function init(){
 							log("");
 
 
+                            // autoTour magic starts here 
+                            
+                            // check whether the caches match against the given D/T values
 							var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
-
 							if(tq_specialFilter['is Active']){
 								log("Check if "+entry.name+" is active:");
 								log(addBool);
@@ -164,11 +160,13 @@ function init(){
 								addBool = addBool && (entryTds[2].innerHTML.indexOf('small_profile.gif') < 0);
 								log(addBool);
 							}
+							
+							// autoTour parameter "haven't found" is not checked here because of URL parameter
 
+                            // if all parameters match - add the cache
 							if(addBool){ 
 								tq_caches.push(entry);
 							}
-				//~ }
 			}
 			GM_setValue('tq_caches',uneval(tq_caches));
 
@@ -181,8 +179,8 @@ function init(){
 				}
 			}
 
-			// check if there are some caches on this page (next link ist not there)
-
+			// check if there are some caches on this page (next link is not there)
+            // TODO: bug here - in non-english versions of gc.com THIS WILL FAIL! Also "GCDeutsch" messes up here.
 			if(!nextLink){
 				alert("no caches here :-(");
 				GM_deleteValue('tq_url');
@@ -192,7 +190,6 @@ function init(){
 			}
 
 			var action = nextLink.href.split("'")[1];
-			//~ 
 			if(action){
 				var u = 500;
 				var l = 2000;
@@ -267,7 +264,8 @@ function init(){
 
 
 
-
+    
+    // process "add to your GCTour"-link from gctour.madd.in    
 	if(document.URL.search("webcode")>=0) {
 		document.title = "GcTour";
 		document.getElementsByTagName('body')[0].innerHTML = "<div align='center'><a href='http://www.geocaching.com'><img border='0' src='http://madd.in/icon.png'/></a></div>";
@@ -361,8 +359,6 @@ function init(){
 		
 		
 		// button to add all caches in list tu current tour
-		
-		
 		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].innerHTML = lang['showCaches']
 		
 		var addBookmarkButton = createElement('button',{style:"margin:10px"});
@@ -483,8 +479,6 @@ function init(){
 
 		// add it under the search results
 		searchResultTable.parentNode.insertBefore( newButton, searchResultTable.nextSibling);	
-
-		//alert(resultTrs[4].innerHTML);
 	}	
 
 	// dont display the list on the sendtogpx page
@@ -503,7 +497,7 @@ function init(){
 	}
 
 
-	//========GC Tour===============    // thanks to atornedging
+	// map to autotour button 
 	var cacheListBounding = document.getElementById('cacheListBounding');
 	if (cacheListBounding) {
 		var autoTourDiv = createElement('div');
@@ -511,10 +505,13 @@ function init(){
 		autoTourDiv.style.padding = '10px';
 		autoTourDiv.style.cursor = 'pointer';
 		autoTourDiv.addEventListener('click',  function(e){
+		
+		        // get center of current viewport and pass it to autoTour
 				var googleMap = unsafeWindow.map;
 				var bounds = googleMap.getBounds();
 				var center = googleMap.getCenter();
 				var topCenter = unsafeWindow.GLatLng.fromUrlValue(bounds.getNorthEast().lat()+","+(bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng())/2));
+				
 				var radius = Math.floor(topCenter.distanceFrom(center)) / 1000;
 
 				showAutoTourDialog(center,radius);
@@ -529,13 +526,9 @@ function init(){
 		append(autoTourDiv,dojo.query('div[id="uxPremiumFeatures"]')[0]);
 
 	}
-
-	//===================================   
-
+	
 	if(document.URL.search("sendtogps\.aspx")>=0) {
-
-
-		// show the GPX box, if the option is set
+    	// show the GPX box, if the option is set
 		if(GM_getValue('showGpx',false)){
 			document.getElementById('dataString').parentNode.style.visibility = 'visible';
 			document.getElementById('dataString').style.width = '100%';

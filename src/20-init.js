@@ -49,6 +49,11 @@ function initDojo(){
 		requiredModules.push("dijit.form.TimeTextBox");
 		requiredModules.push("dijit.form.Button");
 		requiredModules.push("dijit.form.DateTextBox");
+		
+		 requiredModules.push("dijit.layout.ContentPane");
+         requiredModules.push("dijit.layout.TabContainer");
+         requiredModules.push("dijit.form.Button");
+		
 
 		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
 		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
@@ -243,12 +248,14 @@ function init(){
 //	'<link rel="stylesheet" type="text/css" href="http://o.aolcdn.com/dojo/1.5/dojo/resources/dojo.css"> '+
 	'<link rel="stylesheet" type="text/css" href="http://o.aolcdn.com/dojo/1.5/dijit/themes/claro/claro.css">';
 	
-	var allNew = createElement('div');
+	var allNew = createElement('div',{style:"width:100%;height:150px;border:2px solid pink;"});
 	allNew.innerHTML = "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('dialog1').show()\">Show Dialog</button><div dojoType=\"dijit.Dialog\" id=\"dialog1\" title=\"First Dialog\"    execute=\"alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));\">  <table>    <tr>      <td><label for=\"name\">Name: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"name\" id=\"name\"></td>    </tr>    <tr>      <td><label for=\"loc\">Location: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"loc\" id=\"loc\"></td>    </tr>    <tr>      <td><label for=\"date\">Date: </label></td>      <td><input dojoType=\"dijit.form.DateTextBox\" type=\"text\" name=\"date\" id=\"date\"></td>    </tr>    <tr>      <td><label for=\"date\">Time: </label></td>      <td><input dojoType=\"dijit.form.TimeTextBox\" type=\"text\" name=\"time\" id=\"time\"></td>    </tr>    <tr>      <td><label for=\"desc\">Description: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"desc\" id=\"desc\"></td>    </tr>    <tr>      <td colspan=\"2\" align=\"center\">        <button dojoType=\"dijit.form.Button\" type=\"submit\">OK</button></td>    </tr>  </table></div>";
 	
+	allNew.innerHTML = " <div dojoType=\"dijit.layout.TabContainer\" style=\"width: 100%; height: 100%;\">    <div dojoType=\"dijit.layout.ContentPane\" title=\"tab #1\">        tab pane #1    </div>    <div dojoType=\"dijit.layout.ContentPane\" title=\"tab #2\">        tab pane #2    </div>    <div dojoType=\"dijit.layout.ContentPane\" title=\"tab #3\">        tab pane #3    </div></div>"
 	
-	document.getElementsByTagName('body')[0].appendChild(allNew);
-	document.getElementsByTagName('body')[0].setAttribute("class","claro");
+	document.getElementById('ctl00_ContentBody_trNotLoggedIn').innerHTML = "";
+	document.getElementById('ctl00_ContentBody_trNotLoggedIn').appendChild(allNew);
+	document.getElementsByTagName('body')[0].setAttribute("class","yui-skin-sam claro");
 	
 	dojo.parser.parse(allNew);
 

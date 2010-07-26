@@ -44,6 +44,11 @@ function initDojo(){
 		requiredModules.push("dojo.fx");
 	    requiredModules.push("dojo.parser");
 		requiredModules.push("dojo.dnd.Source");
+		requiredModules.push("dijit.Dialog");
+		requiredModules.push("dijit.form.TextBox");
+		requiredModules.push("dijit.form.TimeTextBox");
+		requiredModules.push("dijit.form.Button");
+		requiredModules.push("dijit.form.DateTextBox");
 
 		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
 		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
@@ -77,6 +82,9 @@ function init(){
 	window.addEventListener("focus", updateTour,false);
 
 
+	
+	
+	
     // process autoTour
 	if(GM_getValue('tq_url')){
 
@@ -230,6 +238,19 @@ function init(){
 	    '.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndCopy.png); background-repeat: no-repeat;}'
 	);
 
+	
+	document.getElementsByTagName('head')[0].innerHTML = document.getElementsByTagName('head')[0].innerHTML +
+//	'<link rel="stylesheet" type="text/css" href="http://o.aolcdn.com/dojo/1.5/dojo/resources/dojo.css"> '+
+	'<link rel="stylesheet" type="text/css" href="http://o.aolcdn.com/dojo/1.5/dijit/themes/claro/claro.css">';
+	
+	var allNew = createElement('div');
+	allNew.innerHTML = "<button dojoType=\"dijit.form.Button\" onclick=\"dijit.byId('dialog1').show()\">Show Dialog</button><div dojoType=\"dijit.Dialog\" id=\"dialog1\" title=\"First Dialog\"    execute=\"alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));\">  <table>    <tr>      <td><label for=\"name\">Name: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"name\" id=\"name\"></td>    </tr>    <tr>      <td><label for=\"loc\">Location: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"loc\" id=\"loc\"></td>    </tr>    <tr>      <td><label for=\"date\">Date: </label></td>      <td><input dojoType=\"dijit.form.DateTextBox\" type=\"text\" name=\"date\" id=\"date\"></td>    </tr>    <tr>      <td><label for=\"date\">Time: </label></td>      <td><input dojoType=\"dijit.form.TimeTextBox\" type=\"text\" name=\"time\" id=\"time\"></td>    </tr>    <tr>      <td><label for=\"desc\">Description: </label></td>      <td><input dojoType=\"dijit.form.TextBox\" type=\"text\" name=\"desc\" id=\"desc\"></td>    </tr>    <tr>      <td colspan=\"2\" align=\"center\">        <button dojoType=\"dijit.form.Button\" type=\"submit\">OK</button></td>    </tr>  </table></div>";
+	
+	
+	document.getElementsByTagName('body')[0].appendChild(allNew);
+	document.getElementsByTagName('body')[0].setAttribute("class","claro");
+	
+	dojo.parser.parse(allNew);
 
 
 	// add global styles

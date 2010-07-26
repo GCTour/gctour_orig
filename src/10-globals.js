@@ -8,7 +8,7 @@ var tours,
     currentTour,
     userName,
     lang,lang_ger,lang_eng,languages, // the language file
-    dojoPath = "http://o.aolcdn.com/dojo/1.4",
+    dojoPath = "http://o.aolcdn.com/dojo/1.5",
     head = document.getElementsByTagName('head')[0],
     dojo,
     wptArray,

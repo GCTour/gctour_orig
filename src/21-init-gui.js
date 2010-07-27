@@ -159,6 +159,14 @@ function initComponents(){
     // make it drag n drop - only available after dojo.addOnLoad fired - see init.js
     dojo.parser.parse(div);
     
+	dojo.subscribe("/dnd/start", function(){
+		dojo.body().style.cursor = 'wait';
+	});
+
+	dojo.subscribe("/dnd/cancel", function(){
+		dojo.body().style.cursor = 'default';
+	});		
+		
     // persist the new order after some cache is draged
     dojo.subscribe("/dnd/drop", function(source, nodes, copy, target){
             var cachelist = dojo.query('ol[id="cacheList"]')[0];

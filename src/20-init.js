@@ -226,7 +226,7 @@ function init(){
 	    '.dojoDndAvatarItem		{background: #eee;}'+
 	    '.dojoDndItemBefore		{border-top:3px solid gray !important; }'+
 	    '.dojoDndItemAfter		{border-bottom:3px solid gray !important;}'+
-	    '.dojoDndItemOver		{background-color:#edf1f8;cursor:move;}'+
+	    '.dojoDndItemOver		{background-color:#edf1f8;cursor:url("https://mail.google.com/mail/images/2/openhand.cur"), default;}'+
 	    '.dojoDndMove .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoMove.png); background-repeat: no-repeat;}'+
 	    '.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoCopy.png); background-repeat: no-repeat;}'+
 	    '.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndMove.png); background-repeat: no-repeat;}'+ 

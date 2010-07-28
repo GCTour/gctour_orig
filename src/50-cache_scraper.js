@@ -52,12 +52,9 @@ function getGeocacheFromElement(element){
 	
 	// first check if really logged in 
 	var logIOLink = dojo.byId('ctl00_LoginUrl');
-	if(logIOLink.textContent != "Log Outd"){
-		throw "Not logged in.";
+	if(logIOLink.textContent != "Log Out"){
+		throw "Not logged in anymore.";
 	}
-	//alert();
-	
-
 	
 	var geocache = new Object();
 	geocache.gcid = trim(dojo.query('span[id="ctl00_uxWaypointName"]',element)[0].textContent);

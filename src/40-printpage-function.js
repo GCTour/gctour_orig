@@ -216,8 +216,8 @@ function printPageFunction(){
 									
 									var latArray = Dec2DM(currentTour.geocaches[i].lat);
 									var lonArray = Dec2DM(currentTour.geocaches[i].lon);
-									td.innerHTML += "&nbsp;-&nbsp;&nbsp;"+latArray[0]+ "° " +latArray[1] ;
-									td.innerHTML += "&nbsp;/&nbsp;"+lonArray[0]+ "° " +lonArray[1];
+									td.innerHTML += "&nbsp;-&nbsp;&nbsp;"+latArray[0]+ "Â° " +latArray[1] ;
+									td.innerHTML += "&nbsp;/&nbsp;"+lonArray[0]+ "Â° " +lonArray[1];
 									
 								} 
 							}
@@ -444,7 +444,7 @@ function printPageFunction(){
 								new Array('CACHECOUNT',(i+1)),
 								new Array('TYPE',currentTour.geocaches[i].image),
 								new Array('NAME',currentTour.geocaches[i].name),
-								new Array('COORDINATES',latArray[0]+ "°&nbsp;"+ latArray[1] + "&nbsp;&nbsp;" + lonArray[0]+ "°&nbsp;"+ lonArray[1]),
+								new Array('COORDINATES',latArray[0]+ "Â°&nbsp;"+ latArray[1] + "&nbsp;&nbsp;" + lonArray[0]+ "Â°&nbsp;"+ lonArray[1]),
 								new Array('CONTENT',currentTour.geocaches[i].content.replace(/\n/g, "<br />"))
 							);
 															

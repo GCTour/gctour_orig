@@ -52,7 +52,7 @@ function showNewMarkerDialog(marker){
 
 
 	exampleCoords = document.createElement('div');
-	exampleCoords.innerHTML = 	lang["example"] + ' <i>N51° 12.123 E010° 23.123</i> or <i>51.123 10.123</i>'
+	exampleCoords.innerHTML = 	lang["example"] + ' <i>N51Â° 12.123 E010Â° 23.123</i> or <i>51.123 10.123</i>'
 
 	td.appendChild(exampleCoords);
 
@@ -261,8 +261,8 @@ function showNewMarkerDialog(marker){
 		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
-		cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-		cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+		cordsInput.value = latOrigin+""+latArray[0]+"Â° "+latArray[1]+" ";
+		cordsInput.value += lonOrigin+""+lonArray[0]+"Â° "+lonArray[1];
 		cordsInput.style.backgroundColor = "#88DC3B";
 		//~ updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13); // update map
 

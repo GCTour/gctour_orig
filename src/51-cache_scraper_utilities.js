@@ -1,5 +1,5 @@
 function parse_coordinates(coords_string){
-		// coordinates regex 'N 51° 18.795 E 012° 24.437'
+		// coordinates regex 'N 51Â° 18.795 E 012Â° 24.437'
 
 	  var re1='(N|S)';	// Any Single Character 1
 	  var re2='.*?';	// Non-greedy match on filler

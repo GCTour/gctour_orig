@@ -63,7 +63,7 @@ function getMarkerCoord(latitude,longitude){
 
 
 		var markerCoords = dojo.query("input[id='markerCoords']")[0].value;
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
+		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)/);
 		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
 		var lat,lon;
 		if(markerCoords.match(regex)){
@@ -107,7 +107,7 @@ function getMarkerCoord(latitude,longitude){
 
 function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
 	return function(){
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
+		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)/);
 		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
 		window.setTimeout(
 				function(){
@@ -301,7 +301,7 @@ function getCoordinatesTab(){
 	append(cordsInput,spanFeld);
 	append(getLocateMeButton(),spanFeld);
 	var coordsExample = createElement('span',{style: "font-size:66%"});append(coordsExample,spanFeld);
-	coordsExample.innerHTML = "<br/><i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i> or <i>Berlin</i> ";
+	coordsExample.innerHTML = "<br/><i>N51Â° 12.123 E010Â° 23.123</i> or <i>40.597 -75.542</i> or <i>Berlin</i> ";
 	append(divEbene, coordsDiv);
 
 	divEbene = createElement('div', {className: 'ebene'});
@@ -508,8 +508,8 @@ function updateAutoTourMap(lat,lon){
 	lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
 
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = latOrigin+""+latArray[0]+"Â° "+latArray[1]+" ";
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML += lonOrigin+""+lonArray[0]+"Â° "+lonArray[1];
 	dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
 
 	dojo.animateProperty(

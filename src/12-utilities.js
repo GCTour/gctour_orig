@@ -65,8 +65,8 @@ function fillTemplate(mapping, template){
 }
 
 function trim (zeichenkette) {
-  // Erst führende, dann Abschließende Whitespaces entfernen
-  // und das Ergebnis dieser Operationen zurückliefern
+  // Erst fÃ¼hrende, dann AbschlieÃŸende Whitespaces entfernen
+  // und das Ergebnis dieser Operationen zurÃ¼ckliefern
   return zeichenkette.replace (/^\s+/, '').replace (/\s+$/, '');
 }
 

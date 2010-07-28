@@ -1,20 +1,20 @@
 // ---------------------- THE LANGUAGES --------------------
-
+ 
     lang_ger = new Object();
 	lang_ger['name'] = 'Deutsch';
-	lang_ger['language'] = 'Sprache';
-	lang_ger['addToTour'] = 'zur Tour hinzufügen';
-	lang_ger['addMarkedToTour'] = 'markierte zur Tour hinzufügen';	
-	lang_ger['addShownBookmarks'] = 'zur <b>aktuellen</b> Tour hinzufügen';	
-	lang_ger['addShownBookmarksToNewTour'] = 'zu <b>neuer</b> Tour hinzufügen';	
+	lang_ger['language'] = 'Sprache'; 
+	lang_ger['addToTour'] = 'zur Tour hinzufÃ¼gen';
+	lang_ger['addMarkedToTour'] = 'markierte zur Tour hinzufÃ¼gen';	
+	lang_ger['addShownBookmarks'] = 'zur <b>aktuellen</b> Tour hinzufÃ¼gen';	
+	lang_ger['addShownBookmarksToNewTour'] = 'zu <b>neuer</b> Tour hinzufÃ¼gen';	
 	lang_ger['showCaches'] = 'Angezeigte Caches:';
 	lang_ger['newVersionDialog'] = 'Es gibt eine neuer Version der GCTour.\nZum update gehen? \n\n';
-	lang_ger['removeTourDialog'] = "Soll die Tour wirklich gelöscht werden?";
+	lang_ger['removeTourDialog'] = "Soll die Tour wirklich gelÃ¶scht werden?";
 	lang_ger['logYourVisit'] = "log your visit";
 	lang_ger['removeFromList'] = "aus Liste entfernen";
 	lang_ger['emptyList'] = 'Die Liste ist leer.';
 	lang_ger['notLogedIn'] = 'Bitte einloggen ...';
-	lang_ger['months'] = new Array("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
+	lang_ger['months'] = new Array("Januar", "Februar", "MÃ¤rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember");
 	lang_ger['prinviewTitle'] = 'GCTour - http://gctour.madd.in';
 	lang_ger['pleaseWait'] = 'Bitte warten - Daten werden geladen...';
 	lang_ger['newList'] = 'neue Tour erstellen';	
@@ -45,8 +45,8 @@
 	lang_ger['settingsTourMap'] = 'Karte beim upload erzeugen';
 	lang_ger['loadTour'] = 'Tour laden:<br/>';
 	lang_ger['openTour'] = 'eine Tour laden';
-	lang_ger['removeTour'] = 'diese Tour löschen';
-	lang_ger['newTourDialog'] = 'Bitte gib einen Namen für die neue Tour ein ...';
+	lang_ger['removeTour'] = 'diese Tour lÃ¶schen';
+	lang_ger['newTourDialog'] = 'Bitte gib einen Namen fÃ¼r die neue Tour ein ...';
 	lang_ger['rename'] = 'umbenennen';
 	lang_ger['upload'] = 'Tour hochladen';
 	lang_ger['onlineTour'] = 'Webcode runterladen';
@@ -55,21 +55,21 @@
 	lang_ger['tourUploaded2'] = '\nDie Onlineabfrage kann unter http://gctour.madd.in geschehen.\nWichtig: Bitte Webcode notieren um die Tour wieder aufzurufen!!';					
 	lang_ger['settingsFontSize'] = 'Schriftgr&ouml;&szlig;e:';
 	lang_ger['settingsPageBreak'] = 'Seitenumbruch nach Cache:';
-	lang_ger['settingsPageBreakAfterMap'] = 'Seitenumbruch nach Übersichtskarte:';
-	lang_ger['webcodePrompt'] = 'Tour download\nBitte gib einen gültigen Webcode ein,\num die dazu passende Tour zu laden:';
+	lang_ger['settingsPageBreakAfterMap'] = 'Seitenumbruch nach Ãœbersichtskarte:';
+	lang_ger['webcodePrompt'] = 'Tour download\nBitte gib einen gÃ¼ltigen Webcode ein,\num die dazu passende Tour zu laden:';
 	lang_ger['webcodesuccess'] = 'wurde erfolgreich geladen!';
 	lang_ger['printviewCache'] = 'Cache';
 	lang_ger['printviewFound'] = 'Fund';
 	lang_ger['printviewNote'] = 'Notiz';
 	lang_ger['printviewMarker'] = "Eigene Wegpunkte";
-	lang_ger['printviewAdditionalWaypoint'] = "Zusätzliche Wegpunkte";
+	lang_ger['printviewAdditionalWaypoint'] = "ZusÃ¤tzliche Wegpunkte";
 	lang_ger['printviewRemoveMap'] = "Karte entfernen";
 	lang_ger['settingsFrontPage'] = 'Titelseite:';
-	lang_ger['settingsOutlineMap'] = 'Übersichtskarte für alle Caches:';
-	lang_ger['settingsOutlineMapSinge'] = 'Übersichtskarte für jeden Cache:';
+	lang_ger['settingsOutlineMap'] = 'Ãœbersichtskarte fÃ¼r alle Caches:';
+	lang_ger['settingsOutlineMapSinge'] = 'Ãœbersichtskarte fÃ¼r jeden Cache:';
 	lang_ger['settingsMapType'] = 'Standard Kartentyp';
-	lang_ger['settingsMapSize'] = 'Standard Kartengröße';
-	lang_ger['addOwnWaypoint'] = 'eigener Wegpunkt hinzufügen';
+	lang_ger['settingsMapSize'] = 'Standard KartengrÃ¶ÃŸe';
+	lang_ger['addOwnWaypoint'] = 'eigener Wegpunkt hinzufÃ¼gen';
 	lang_ger["markerCoordinate"] = "Koordinaten"
 	lang_ger["markerContent"] = "Inhalt"
 	lang_ger["markerType"] = "Typ"		
@@ -79,8 +79,8 @@
 	lang_ger["autoTourRadius"] = "Radius";
 	lang_ger["autoTourCenter"] = "Mittelpunkt<br><span style='font-size:66%'>Koordinaten oder Adresse</span>";
 	lang_ger["autoTourRefresh"] = "autoTour aktualisieren";
-	lang_ger["autoTourCacheCounts"] = "Geschätze gesamt Anzahl Caches in dieser Region:";
-	lang_ger["autoTourDuration"] = "Geschätze Dauer der autoTour:";
+	lang_ger["autoTourCacheCounts"] = "GeschÃ¤tze gesamt Anzahl Caches in dieser Region:";
+	lang_ger["autoTourDuration"] = "GeschÃ¤tze Dauer der autoTour:";
 	lang_ger["kilometer"] = "Kilometer";
 	lang_ger["mile"] = "Meilen";
 	lang_ger["save"] = "speichern";
@@ -88,10 +88,10 @@
 	lang_ger["edit"] = "bearbeiten";
 	lang_ger["example"] = "Beispiel:";
 	lang_ger["dontPrintHint"] = "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!";
-	lang_ger['ERROR_DIALOG'] = "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'><input type='button' value='Fenster schließen'></div>Wenn dieser Fehler jedesmal auftaucht, dann zöger nicht und schicke mir diesen Fehlerreport:";
+	lang_ger['ERROR_DIALOG'] = "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'><input type='button' value='Fenster schlieÃŸen'></div>Wenn dieser Fehler jedesmal auftaucht, dann zÃ¶ger nicht und schicke mir diesen Fehlerreport:";
     lang_ger["ERROR_REPORT_SUBMIT"] = "Fehlerbericht schicken"; 
-    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
-	lang_ger['mapTypes'] = [{"caption":"Google Karte","value":"Map"}, {"caption":"Google Satellit","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Gelände","value":"Terrain"},{"caption":"Topo Deutschland","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
+    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benÃ¶tigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
+	lang_ger['mapTypes'] = [{"caption":"Google Karte","value":"Map"}, {"caption":"Google Satellit","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google GelÃ¤nde","value":"Terrain"},{"caption":"Topo Deutschland","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
  
 
     lang_eng = new Object();

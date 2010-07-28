@@ -1,4 +1,4 @@
-function getGeocache(gcid){
+﻿function getGeocache(gcid){
 	var req = new XMLHttpRequest();
 							
 	var myUrl = 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid;
@@ -48,6 +48,15 @@ function getGeocacheFromElement(element){
 	//~ geocache.additional_waypoints
 	//~ geocache.find_counts
 	//~ geocache.logs
+	
+	
+	// first check if really logged in 
+	var logIOLink = dojo.byId('ctl00_LoginUrl');
+	if(logIOLink.textContent != "Log Outd"){
+		throw "Not logged in.";
+	}
+	//alert();
+	
 
 	
 	var geocache = new Object();

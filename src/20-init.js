@@ -117,7 +117,7 @@ function init(){
 				document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
 				return;
 			}
-
+alert(pagesSpan.innerHTML);
 			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
 
             // locate the table
@@ -176,8 +176,8 @@ function init(){
 			var gcComLinks = document.getElementsByTagName("a");
 			var nextLink;
 			for(var i = 0; i<gcComLinks.length;i++){
-				if(gcComLinks[i].innerHTML == "<b>Next</b>"){
-					nextLink = gcComLinks[i];
+				if(gcComLinks[i].innerHTML == "<b>&gt;&gt;</b>"){
+					nextLink = gcComLinks[i+1];
 					break;
 				}
 			}

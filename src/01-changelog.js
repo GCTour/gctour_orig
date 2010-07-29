@@ -6,7 +6,8 @@
  *      - GPX: Additional Waypoints now named - Waypoint.Prefix + (GCID without leading GC)
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
  *		- FIXED: caches can remain in watchlist without error  
- *		- FIXED: that a tour remains in list after deleting it
+ *		- FIXED: that a tour remains in list after deleting
+ *		- FIXED: autoTour is working after update 7/28/10
  *      - NEW: Bookmark Lists now have "add to tour" buttons
  *      - NEW: Tour can now sorted via Drag n' Drop
  * 		- NEW: Add check on Firefox >= 3.5

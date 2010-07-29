@@ -51,8 +51,9 @@ function getGeocacheFromElement(element){
 
 	// first check if really logged in 
 	var logIOLink = dojo.byId('ctl00_LoginUrl');
-	if(logIOLink.textContent != "Log out"){
-		throw "Not logged in anymore.";
+	logIOLink = dojo.query("a[href*='http://www.geocaching.com/my/']")[0];
+	if(!logIOLink){
+		throw "No longer logged in.";
 	}
 
 	var geocache = new Object();

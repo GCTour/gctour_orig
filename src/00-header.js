@@ -2,7 +2,7 @@
 // @name           GC Tour
 // @namespace      madd.in
 // @version        1.97
-// @description    Cachetour planing made easy. Pick some Caches, order the list and print it out. Free for all users of geocaching.com!
+// @description    Cachetour planing made easy. Pick some Caches, order the list and print it out. Free for all users of geocaching.com! 
 // @include        http://*geocaching.com/*
 // @copyright      2008, 2009, 2010 Martin Georgi
 // @author         madd.in

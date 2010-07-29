@@ -1,8 +1,8 @@
 // ---------------------- THE LANGUAGES --------------------
- 
+
     lang_ger = new Object();
 	lang_ger['name'] = 'Deutsch';
-	lang_ger['language'] = 'Sprache'; 
+	lang_ger['language'] = 'Sprache';
 	lang_ger['addToTour'] = 'zur Tour hinzufügen';
 	lang_ger['addMarkedToTour'] = 'markierte zur Tour hinzufügen';	
 	lang_ger['addShownBookmarks'] = 'zur <b>aktuellen</b> Tour hinzufügen';	

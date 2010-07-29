@@ -160,15 +160,16 @@ function initComponents(){
     dojo.parser.parse(div);
     
 	dojo.subscribe("/dnd/start", function(){
-		dojo.body().style.cursor = 'wait';
+		dojo.body().style.cursor = 'url("https://mail.google.com/mail/images/2/closedhand.cur"), default';
 	});
 
 	dojo.subscribe("/dnd/cancel", function(){
-		dojo.body().style.cursor = 'default';
+		dojo.body().style.cursor = '';
 	});		
 		
     // persist the new order after some cache is draged
     dojo.subscribe("/dnd/drop", function(source, nodes, copy, target){
+		    dojo.body().style.cursor = '';
             var cachelist = dojo.query('ol[id="cacheList"]')[0];
             
             // iterate over current cachelist in DOM
@@ -709,6 +710,17 @@ PSIZE:
 			downloadGPXButton.style.marginRight = '5px';
 			downloadGPXButton.addEventListener('click',downloadGPXFunction(), false);
 			addOpacityEffects(downloadGPXButton);	
+			
+			
+			var downloadSpoilerButton= document.createElement('img');
+			downloadSpoilerButton.alt = lang['downloadGpx'];
+			downloadSpoilerButton.title = lang['downloadGpx'];
+			downloadSpoilerButton.src = downloadGPXImageString;
+			downloadSpoilerButton.style.cursor = 'pointer';
+			downloadSpoilerButton.style.marginRight = '5px';
+			downloadSpoilerButton.addEventListener('click',downloadSpoilerFunction(), false);
+			addOpacityEffects(downloadSpoilerButton);	
+
 
 
 
@@ -718,6 +730,7 @@ PSIZE:
 			append(downloadGPXButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
+			append(downloadSpoilerButton,tourHeaderDiv);
 
 			// remove the ads under the menu - to be sure the gctour is visible ;-)
 			var adDiv = getElementsByAttribute('class','BanManWidget')[0];

@@ -7,10 +7,11 @@
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
  *		- FIXED: caches can remain in watchlist without error  
  *		- FIXED: that a tour remains in list after deleting it
- *      - Bookmark Lists now have "add to tour" buttons
- *      - Tour can now sorted via Drag n' Drop
- *      - Code Review
- * 		- Create repository at http://code.google.com/p/gctour/
+ *      - NEW: Bookmark Lists now have "add to tour" buttons
+ *      - NEW: Tour can now sorted via Drag n' Drop
+ * 		- NEW: Add check on Firefox >= 3.5
+ *      - MISC: Code Review
+ * 		- MISC: Create repository at http://code.google.com/p/gctour/
  *
  * version 1.96
  * 		- gc.com layout update 6/29/10 fixed

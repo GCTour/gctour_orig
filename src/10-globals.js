@@ -17,7 +17,7 @@ var tours,
 
 wptArray = [
 	{wptTypeId: "2",     hash: "32bc9333-5e52-4957-b0f6-5a2c8fc7b257", name: "Traditional Cache"   },
-	{wptTypeId: "3",     hash: "a5f6d0ad-d2f2-4011-8c14-940a9ebf3c74", name: "Multi-Cache"         },
+	{wptTypeId: "3",     hash: "a5f6d0ad-d2f2-4011-8c14-940a9ebf3c74", name: "Multi-cache"         },
 	{wptTypeId: "8",     hash: "40861821-1835-4e11-b666-8d41064d03fe", name: "Unknown Cache"       },
 	{wptTypeId: "5",     hash: "4bdd8fb2-d7bc-453f-a9c5-968563b15d24", name: "Letterbox Hybrid"     },
 	{wptTypeId: "11",    hash: "31d2ae3c-c358-4b5f-8dcd-2185bf472d3d", name: "Webcam Cache"        },

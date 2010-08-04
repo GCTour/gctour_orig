@@ -66,7 +66,7 @@ function getGeocacheFromElement(element){
 	
 
 	var strongs = dojo.query('strong',element);
-	geocache.hidden = trim(strongs[1].parentNode.textContent.split(':')[1]);
+	geocache.hidden = trim(strongs[1].parentNode.textContent.split(':').pop());
 	
 	// unfortnaly event caches has an other format - parse this also
 	if(geocache.hidden.match(",")){

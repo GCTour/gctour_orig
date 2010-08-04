@@ -468,7 +468,8 @@ function getGPX(){
 				// just 11 logs in the gpx
 				for (var j = 0; (j < logs.length && j <= 10); j++){
 					var geocacheLogMapping = new Array(
-						 new Array('LOGID',new Date().getTime()),
+											// just make the LOGID as unique as possible
+						 new Array('LOGID',new Date().getTime()+(Math.floor(Math.random()*101))),
 						 new Array('TIME',xsdDateTime(logs[j].foundDate)),
 						 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 						 new Array('LOGTYPE',logs[j].type),

@@ -117,7 +117,7 @@ function init(){
 				document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
 				return;
 			}
-alert(pagesSpan.innerHTML);
+
 			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
 
             // locate the table

@@ -9,8 +9,9 @@
  *		- FIXED: that a tour remains in list after deleting
  *		- FIXED: autoTour is working after update 7/28/10
  *      - NEW: Bookmark Lists now have "add to tour" buttons
- *      - NEW: Tour can now sorted via Drag n' Drop
+ *      - NEW: Tour can now sorted via drag n' drop
  * 		- NEW: Add check on Firefox >= 3.5
+ *		- NEW: Minimal-printview containing cacheheader, hint and spoiler images
  *      - MISC: Code Review
  * 		- MISC: Create repository at http://code.google.com/p/gctour/
  *

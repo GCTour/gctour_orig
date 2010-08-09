@@ -712,14 +712,14 @@ PSIZE:
 			addOpacityEffects(downloadGPXButton);	
 			
 			
-			var downloadSpoilerButton= document.createElement('img');
-			downloadSpoilerButton.alt = lang['downloadGpx'];
-			downloadSpoilerButton.title = lang['downloadGpx'];
-			downloadSpoilerButton.src = downloadGPXImageString;
-			downloadSpoilerButton.style.cursor = 'pointer';
-			downloadSpoilerButton.style.marginRight = '5px';
-			downloadSpoilerButton.addEventListener('click',downloadSpoilerFunction(), false);
-			addOpacityEffects(downloadSpoilerButton);	
+			var minimalPrintButton= document.createElement('img');
+			minimalPrintButton.alt = lang['downloadGpx'];
+			minimalPrintButton.title = lang['downloadGpx'];
+			minimalPrintButton.src = downloadGPXImageString;
+			minimalPrintButton.style.cursor = 'pointer';
+			minimalPrintButton.style.marginRight = '5px';
+			minimalPrintButton.addEventListener('click',printPageFunction(true), false);
+			addOpacityEffects(minimalPrintButton);	
 
 
 
@@ -730,7 +730,7 @@ PSIZE:
 			append(downloadGPXButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
-			append(downloadSpoilerButton,tourHeaderDiv);
+			append(minimalPrintButton,tourHeaderDiv);
 
 			// remove the ads under the menu - to be sure the gctour is visible ;-)
 			var adDiv = getElementsByAttribute('class','BanManWidget')[0];
@@ -760,30 +760,14 @@ PSIZE:
 			header.style.backgroundRepeat = "no-repeat";
 			header.style.cursor = "pointer";
 			header.style.height = "30px";
-			
+						
 			dojo.query(header).onmouseover(function(e){this.style.backgroundColor = "#cdd8e8"}).onmouseout(function(e){this.style.backgroundColor = "transparent"}).onclick(function(e){window.open('http://gctour.madd.in');});
 			
-
-			var imageLogo = document.createElement('img');
-			imageLogo.src = gctourLogoImage;
-			imageLogo.border = "0";
-			//~ imageLogo.style.width = " 135px";
-			imageLogo.style.marginBottom = " 5px";
-
-			var tourLink = document.createElement('a');
-			tourLink.href = "http://gctour.madd.in";
-			//~ tourLink.innerHTML = "Gc Tour";
-			tourLink.style.fontWeight = 'bold';
-			tourLink.style.verticalAlign = "top";
-			//~ tourLink.style.borderBottom = '1px solid black';
-			//~ tourLink
-			tourLink.style.color = '#003399';
-			//~ tourLink.appendChild(imageLogo);
+			var footerDiv = createElement('div',{style:"font-size: 70%;"});
+			footerDiv.innerHTML = "<p style='text-align:right'>v"+ version + "</p>";
 			
-			//~ addHoverEffects(header);
-			//~ header.appendChild(tourLink);
-
-			//~ thisDiv.parentNode.insertBefore(header, thisDiv.nextSibling);
+			
+			
 
 
 			var list_node = createElement('li');
@@ -791,6 +775,7 @@ PSIZE:
 			append(buttonsDiv, list_node);			
 			append(tourHeaderDiv, list_node);
 			append(div, list_node);
+			append(footerDiv, list_node);
 	
 	
 	

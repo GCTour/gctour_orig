@@ -1,4 +1,4 @@
-function printPageFunction(){
+function printPageFunction(minimal){
 	return function(){
 		if(!userName){
 			alert(lang['notLogedIn']);
@@ -29,14 +29,14 @@ function printPageFunction(){
 				'		<span>###INVENTORY###</span>'+
 				'	</div>'+
 				'	<div class="content">'+
-				'		<div class="short">###SHORT_DESCRIPTION###</div>'+
-				'		<div class="long">###LONG_DESCRIPTION###</div>'+
+				'		<div class="short ###HIDDENSTYLE###">###SHORT_DESCRIPTION###</div>'+
+				'		<div class="long ###HIDDENSTYLE###">###LONG_DESCRIPTION###</div>'+
 				'		<div><b>Hint:</b>###HINT###</div>'+
-				'		<div class="waypoints">###ADDITIONAL_WAYPOINTS###</div>'+
-				'		<div class="images"}">###IMAGES###</div>'+
-				'		<div id = "###MAPID###" class="map">###MAP###</div>'+
-				'		<div class="removable">###LOGCOUNTER###</div>'+
-				'		<div class="logs">###LOGS###</div>'+
+				'		<div class="waypoints ###HIDDENSTYLE###">###ADDITIONAL_WAYPOINTS###</div>'+
+				'		<div class="images">###IMAGES###</div>'+
+				'		<div id = "###MAPID###" class="map ###HIDDENSTYLE###">###MAP###</div>'+
+				'		<div class="removable ###HIDDENSTYLE###">###LOGCOUNTER###</div>'+
+				'		<div class="logs ###HIDDENSTYLE###">###LOGS###</div>'+
 				'		<div style="clear:both">&nbsp;</span>'+
 				'	</div>'+
 				'</div>';
@@ -91,7 +91,7 @@ function printPageFunction(){
 									  //~ 'div {font-size:x-small !important} p {font-size:x-small !important}';
 					//~ style.innerHTML = 'font,td,th,span,div, p {font-size:'+GM_getValue("printFontSize","x-small")+'!important} ';
 					style.innerHTML = '*{ font-size:'+GM_getValue("printFontSize","x-small")+' } .cacheDetail{ border: 1px solid lightgray; width: 100%; text-align: left;} .cacheDetail div{ padding-left:5px; } .wpt_id{ position:relative; padding:5px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_id{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; }  .content{ clear:both; border-top:2px dashed lightgray; margin-top:10px; padding-top:10px; }  img{ vertical-align:middle; }  #details span{ margin-left: 10px } .images{clear:both;height:auto}';
-					style.innerHTML += '.removable{margin:2px;} .map{clear:both} .logs{clear:both} .logs div{margin:2px}';
+					style.innerHTML += '.removable{margin:2px;} .map{clear:both} .logs{clear:both} .logs div{margin:2px} .hidden{display:none} .highlight{background-color:pink}';
 					style.innerHTML += '.geocache_count{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_count span{padding: 5px; font-weight: bold; font-size: 18px; -moz-border-radius: 5px;border:2px dotted black;}';
 					
 					
@@ -117,7 +117,7 @@ function printPageFunction(){
 					body.appendChild(printInfo);
 
 					// front page				
-					if(GM_getValue('printFrontpage',true)){
+					if(GM_getValue('printFrontpage',true) && !minimal){
 						var title = document.createElement('div');
 						title.id = 'printTitle';
 						title.style.width = "100%"; 
@@ -367,7 +367,7 @@ function printPageFunction(){
 							var map_element_dummy = createElement('div');
 							var map_element = createElement('div');append(map_element, map_element_dummy);
 							
-							if (GM_getValue('printOutlineMapSingle',true)){	
+							if (GM_getValue('printOutlineMapSingle',true) && !minimal){	
 								getOverviewMap(geocacheArray,newwindow2, "MAP_"+geocache.gcid);
 							}
 							
@@ -402,6 +402,12 @@ function printPageFunction(){
 							new Array('LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""),
 							new Array('LOGS',logs_div.innerHTML)
 						);
+							
+						if(minimal){
+							geocacheMapping.push(new Array('HIDDENSTYLE',"hidden"));
+						} else {
+							geocacheMapping.push(new Array('HIDDENSTYLE',""));
+						}
 						
 						var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
 												
@@ -465,7 +471,7 @@ function printPageFunction(){
 									
 					}
 					
-					if(GM_getValue('printOutlineMap',true)){
+					if(GM_getValue('printOutlineMap',true) && !minimal){	
 						var anotherelement = document.createElement("div");
 						
 						if(GM_getValue('printFrontpage',true)){

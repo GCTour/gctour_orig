@@ -165,7 +165,7 @@ function getOverviewMap(geocaches, newwindow2, theElement){
 							cacheMap.style.height = (factor * 500) + 'px';
 							cacheMap.style.border = '1px solid lightgray';
 							//~ cacheMap.src = "http://localhost/martin/map/show2.php?crc="+text+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
-							cacheMap.src = "http://gctour.madd.in/map/show2.php?crc="+text+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
+							cacheMap.src = "http://gctour.madd.in/map/show3.php?crc="+text+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
 							
 							
 							var map = document.createElement('div');
@@ -197,7 +197,7 @@ function updateMap(newDocument, mapId){
 		var gcIdInput = newDocument.getElementById('mapGcId'+mapId);
 		var markerInput = newDocument.getElementById('mapMarker'+mapId);
 		var markerNameInput = newDocument.getElementById('mapMarkerName'+mapId);
-		var mapURL = "http://gctour.madd.in/map/show2.php?crc="+mapCrc+"&name="+nameInput.checked+"&gcid="+gcIdInput.checked+"&marker="+markerInput.checked+"&markername="+markerNameInput.checked+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
+		var mapURL = "http://gctour.madd.in/map/show3.php?crc="+mapCrc+"&name="+nameInput.checked+"&gcid="+gcIdInput.checked+"&marker="+markerInput.checked+"&markername="+markerNameInput.checked+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
 		map.src = mapURL;
 	
 		

@@ -334,6 +334,7 @@ function initComponents(){
 			new Array(CHECK_BOX,'settingsShowGPX', 'showGpx',false),
 			new Array(HEADER, 'settingsDownladGPX'),		
 			new Array(CHECK_BOX,'settingsGPXHtml', 'gpxhtml',true),
+			new Array(CHECK_BOX,'settingsGPXWpts', 'gpxwpts',true),
 			new Array(CHECK_BOX,'settingsGPXStripGC', 'gpxstripgc',false),
 			
 			new Array(HEADER, 'settingsUploadTour'),		

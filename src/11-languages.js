@@ -38,6 +38,7 @@
 	lang_ger['settingsDownladGPX'] = 'GPX download<br/>';
 	lang_ger['settingsGPXHtml'] = 'Beschreibung mit HTML';
 	lang_ger['settingsGPXStripGC'] = 'Entferne "GC" in GC-Code';
+	lang_ger['settingsGPXWpts'] = 'Additional-Waypoints mit exportieren';
 	lang_ger['settingsGPXSchema'] = 'GPX-Version';
 	lang_ger['settingsGPXSchemaGS'] = 'groundspeak';
 	lang_ger['settingsGPXSchemaAU'] = 'geocaching.com.au';
@@ -134,6 +135,7 @@
 	lang_eng['settingsUploadTour'] = 'Tour upload';
 	lang_eng['settingsTourMap'] = 'create map on upload';
 	lang_eng['settingsGPXStripGC'] = 'Strip "GC" in GC-Code';
+	lang_eng['settingsGPXWpts'] = 'export additional waypoints';
 	lang_eng['settingsGPXSchema'] = 'GPX-Version';
 	lang_eng['settingsGPXSchemaGS'] = 'groundspeak';
 	lang_eng['settingsGPXSchemaAU'] = 'geocaching.com.au';

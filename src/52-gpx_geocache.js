@@ -358,17 +358,18 @@ function getGPXNew(){
 				gpxElement.appendChild(waypoint);
 				
 				
-				for(var k = 0;k<geocache.additionalWaypoints.length;k++){
-					
-					if(geocache.additionalWaypoints[k].coordinates != "???"){
-						var parser = new DOMParser();
-						var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
-							"text/xml");
-						var waypoint = dom.getElementsByTagName('wpt')[0];
-						gpxElement.appendChild(waypoint);	
+				if(GM_getValue('gpxwpts',true)){
+					for(var k = 0;k<geocache.additionalWaypoints.length;k++){
+						
+						if(geocache.additionalWaypoints[k].coordinates != "???"){
+							var parser = new DOMParser();
+							var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
+								"text/xml");
+							var waypoint = dom.getElementsByTagName('wpt')[0];
+							gpxElement.appendChild(waypoint);	
+						}
 					}
 				}
-				
 				
 			
 			} else {
@@ -516,18 +517,18 @@ function getGPX(){
 				var waypoint = dom.getElementsByTagName('wpt')[0];
 				gpxElement.appendChild(waypoint);
 				
-				
-				for(var k = 0;k<geocache.additionalWaypoints.length;k++){
-					
-					if(geocache.additionalWaypoints[k].coordinates != "???"){
-						var parser = new DOMParser();
-						var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
-							"text/xml");
-						var waypoint = dom.getElementsByTagName('wpt')[0];
-						gpxElement.appendChild(waypoint);	
+				if(GM_getValue('gpxwpts',true)){
+					for(var k = 0;k<geocache.additionalWaypoints.length;k++){
+						
+						if(geocache.additionalWaypoints[k].coordinates != "???"){
+							var parser = new DOMParser();
+							var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
+								"text/xml");
+							var waypoint = dom.getElementsByTagName('wpt')[0];
+							gpxElement.appendChild(waypoint);	
+						}
 					}
 				}
-				
 				
 			
 			} else {

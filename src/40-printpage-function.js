@@ -415,15 +415,15 @@ function printPageFunction(minimal){
 						
 						// remove images in description
 						
-						dojo.query("img",dojo.query("div[class='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
-						dojo.query("a",dojo.query("div[class='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
+						dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
+						dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
 							node.removeAttribute("href");
 						});
 						
 						
 						if(GM_getValue('printEditMode',false)){
-							dojo.query("div[class='long']",cacheDetailTemp)[0].contentEditable = "true";
-							dojo.query("div[class='short']",cacheDetailTemp)[0].contentEditable = "true";
+							dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
+							dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
 							
 						}
 						

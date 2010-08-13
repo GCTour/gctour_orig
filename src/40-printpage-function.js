@@ -9,7 +9,7 @@ function printPageFunction(minimal){
 			
 			var cacheDetailTemplate = 
 				'<div class="cacheDetail" id="###GUID###">'+
-				'	<div class="geocache_count"><span>###CACHECOUNT###</span></div>'+
+				'	<div class="geocache_count ###HIDDENSTYLE###"><span>###CACHECOUNT###</span></div>'+
 				'	<div class="geocache_id">###GCID###</div>'+
 				'	<div>'+
 				'		<img src="http://www.geocaching.com/images/WptTypes/sm/###TYPE###.gif">'+
@@ -42,7 +42,7 @@ function printPageFunction(minimal){
 				'</div>';
 			var ownMarkerTemplate = 
 				'<div class="cacheDetail">'+
-				'	<div class="geocache_count" style="padding:5px !important"><span>###CACHECOUNT###</span></div>'+
+				'	<div class="geocache_count ###HIDDENSTYLE###" style="padding:5px !important"><span>###CACHECOUNT###</span></div>'+
 				'	<div class="wpt_id">###GCID###</div>'+
 				'	<div>'+
 				'		<img src="###TYPE###">'+
@@ -453,7 +453,11 @@ function printPageFunction(minimal){
 								new Array('COORDINATES',latArray[0]+ "°&nbsp;"+ latArray[1] + "&nbsp;&nbsp;" + lonArray[0]+ "°&nbsp;"+ lonArray[1]),
 								new Array('CONTENT',currentTour.geocaches[i].content.replace(/\n/g, "<br />"))
 							);
-															
+							if(minimal){
+								markerMapping.push(new Array('HIDDENSTYLE',"hidden"));
+							} else {
+								markerMapping.push(new Array('HIDDENSTYLE',""));
+							}								
 										
 							var cacheDetailTemp = fillTemplate(markerMapping,ownMarkerTemplate);							
 							body.appendChild(cacheDetailTemp);

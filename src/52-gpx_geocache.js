@@ -83,6 +83,9 @@ function getGPXGeoCache(gcid){
 			case "6": 
 				geocache.cacheType = "Event";
 				break;
+			case "137": 
+				geocache.cacheType = "Earthcache";
+				break;
 			case "453": 
 				geocache.cacheType = "Event";
 				break;

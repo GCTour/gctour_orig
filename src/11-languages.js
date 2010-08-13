@@ -22,7 +22,8 @@
 	lang_ger['printview'] = 'Druckansicht';
 	lang_ger['downloadGpx'] = 'GPX downloaden';
 	lang_ger['showSettings'] = 'Einstellungen anzeigen';
-	lang_ger['settingsLogCount'] = 'Anzahl der Logs in Druckansicht'
+	lang_ger['settingsPrintMinimal'] = 'Minimierte Druckansicht';
+	lang_ger['settingsLogCount'] = 'Anzahl der Logs in Druckansicht';
 	lang_ger['settingsLogCountNone'] = 'keine<br/>';
 	lang_ger['settingsLogCountAll'] = 'alle<br/>';
 	lang_ger['settingsLogCountShow'] = 'anzeigen';
@@ -117,6 +118,7 @@
 	lang_eng['printview'] = 'printview';
 	lang_eng['downloadGpx'] = 'download GPX';
 	lang_eng['showSettings'] = 'show settings';
+	lang_eng['settingsPrintMinimal'] = 'minimal printview'
 	lang_eng['settingsLogCount'] = 'number of logs in printview'
 	lang_eng['settingsLogCountNone'] = 'none<br/>';
 	lang_eng['settingsLogCountAll'] = 'all<br/>';

@@ -311,7 +311,8 @@ function initComponents(){
 
 	var settingsArray = new Array(
 			new Array(LANGUAGE,''),
-			new Array(HEADER, 'printview'),
+			new Array(HEADER, 'printview'),			
+			new Array(CHECK_BOX,'settingsPrintMinimal', 'printMinimal',false),
 			new Array(RADIO_BUTTONS,''),
 			new Array(FONTSIZE,'settingsFontSize', 'printFontSize',"x-small"),
 			new Array(CHECK_BOX,'settingsDecryptHints', 'decryptPrintHints',true),
@@ -711,27 +712,13 @@ PSIZE:
 			downloadGPXButton.style.marginRight = '5px';
 			downloadGPXButton.addEventListener('click',downloadGPXFunction(), false);
 			addOpacityEffects(downloadGPXButton);	
-			
-			
-			var minimalPrintButton= document.createElement('img');
-			minimalPrintButton.alt = lang['downloadGpx'];
-			minimalPrintButton.title = lang['downloadGpx'];
-			minimalPrintButton.src = downloadGPXImageString;
-			minimalPrintButton.style.cursor = 'pointer';
-			minimalPrintButton.style.marginRight = '5px';
-			minimalPrintButton.addEventListener('click',printPageFunction(true), false);
-			addOpacityEffects(minimalPrintButton);	
-
-
-
-
+	
 			append(renameButton,tourHeaderDiv);
 			append(requestPrintButton,tourHeaderDiv);
 			append(sendGPSButton,tourHeaderDiv);
 			append(downloadGPXButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
-			append(minimalPrintButton,tourHeaderDiv);
 
 			// remove the ads under the menu - to be sure the gctour is visible ;-)
 			var adDiv = getElementsByAttribute('class','BanManWidget')[0];

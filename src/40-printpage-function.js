@@ -1,4 +1,4 @@
-function printPageFunction(minimal){
+function printPageFunction(){
 	return function(){
 		if(!userName){
 			alert(lang['notLogedIn']);
@@ -6,6 +6,7 @@ function printPageFunction(minimal){
 			alert(lang['emptyList']);
 		} else {		
 			
+			var minimal = GM_getValue('printMinimal',false);
 			
 			var cacheDetailTemplate = 
 				'<div class="cacheDetail" id="###GUID###">'+

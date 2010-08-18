@@ -36,8 +36,9 @@ function addNewTableCell(theEntry,effects){
 	
 	var costumMarker = (typeof(theEntry.lat) != "undefined");
 
-	var entryLi = createElement('li', {id: theEntry.id, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"')"});	
+	var entryLi = createElement('li', {id: theEntry.id, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');"});	
 	//set the image
+	
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
 	entryLi.setAttribute("class", "dojoDndItem");
 

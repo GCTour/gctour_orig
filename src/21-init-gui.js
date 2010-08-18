@@ -160,7 +160,7 @@ function initComponents(){
     dojo.parser.parse(div);
     
 	dojo.subscribe("/dnd/start", function(){
-		dojo.body().style.cursor = 'url("https://mail.google.com/mail/images/2/closedhand.cur"), default';
+		dojo.body().style.cursor = 'url("'+closedHand+'"), default ';
 	});
 
 	dojo.subscribe("/dnd/cancel", function(){
@@ -176,7 +176,7 @@ function initComponents(){
             var idList = [];        
             for(var i = 0; i < cachelist.childNodes.length;i++){
                 idList.push(cachelist.childNodes[i].id); // save every id - in right order
-                GM_log("ids: "+cachelist.childNodes[i].id);
+                debug("ids: "+cachelist.childNodes[i].id);
             }
             
             var tempCaches = [];
@@ -184,8 +184,8 @@ function initComponents(){
                 var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
                 tempCaches.push(currentTour.geocaches[position]); // after this add the cache in the temporary array
                 
-                GM_log("position: "+position);
-                GM_log("gcid: "+currentTour.geocaches[position].id);
+                debug("position: "+position);
+                debug("gcid: "+currentTour.geocaches[position].id);
                 
                 
             }        
@@ -311,7 +311,8 @@ function initComponents(){
 
 	var settingsArray = new Array(
 			new Array(LANGUAGE,''),
-			new Array(HEADER, 'printview'),
+			new Array(HEADER, 'printview'),			
+			new Array(CHECK_BOX,'settingsPrintMinimal', 'printMinimal',false),
 			new Array(RADIO_BUTTONS,''),
 			new Array(FONTSIZE,'settingsFontSize', 'printFontSize',"x-small"),
 			new Array(CHECK_BOX,'settingsDecryptHints', 'decryptPrintHints',true),
@@ -711,27 +712,13 @@ PSIZE:
 			downloadGPXButton.style.marginRight = '5px';
 			downloadGPXButton.addEventListener('click',downloadGPXFunction(), false);
 			addOpacityEffects(downloadGPXButton);	
-			
-			
-			var minimalPrintButton= document.createElement('img');
-			minimalPrintButton.alt = lang['downloadGpx'];
-			minimalPrintButton.title = lang['downloadGpx'];
-			minimalPrintButton.src = downloadGPXImageString;
-			minimalPrintButton.style.cursor = 'pointer';
-			minimalPrintButton.style.marginRight = '5px';
-			minimalPrintButton.addEventListener('click',printPageFunction(true), false);
-			addOpacityEffects(minimalPrintButton);	
-
-
-
-
+	
 			append(renameButton,tourHeaderDiv);
 			append(requestPrintButton,tourHeaderDiv);
 			append(sendGPSButton,tourHeaderDiv);
 			append(downloadGPXButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
-			append(minimalPrintButton,tourHeaderDiv);
 
 			// remove the ads under the menu - to be sure the gctour is visible ;-)
 			var adDiv = getElementsByAttribute('class','BanManWidget')[0];

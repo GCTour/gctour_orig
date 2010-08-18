@@ -8,6 +8,7 @@
  *		- FIXED: caches can remain in watchlist without error  
  *		- FIXED: that a tour remains in list after deleting
  *		- FIXED: autoTour is working after update 7/28/10
+  *		- FIXED: superscript text is now shown correct in printview
  *      - NEW: Bookmark Lists now have "add to tour" buttons
  *      - NEW: Tour can now sorted via drag n' drop
  * 		- NEW: Add check on Firefox >= 3.5

@@ -123,6 +123,9 @@ function getGeocacheFromElement(element){
 	geocache.inventory = dojo.query('ul > li > a > img', dojo.query('div[class="WidgetBody"]',element)[1]);
 
 	geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget Spacing"] > img',element);
+	// TODO: parse attributes
+	
+	
 	geocache.short_description = dojo.query('span[id="ctl00_ContentBody_ShortDescription"]',element)[0];
 	geocache.long_description = dojo.query('span[id="ctl00_ContentBody_LongDescription"]',element)[0];
 	geocache.images = dojo.query('span[id="ctl00_ContentBody_Images"] > a',element);

@@ -11,7 +11,7 @@ var tours,
     dojoPath = "http://o.aolcdn.com/dojo/1.5",
     head = document.getElementsByTagName('head')[0],
     dojo,
-    wptArray, attributes,
+    wptArray, attributes_array,
     rot13array;
 
 
@@ -31,7 +31,7 @@ wptArray = [
 ];	
 
 
-attributes  = new Array(
+attributes_array = new Array(
 	// Attribute array ID, image, name
 	new Array('1','dogs','Dogs'),
 	new Array('2','fee','Access or parking fee'),

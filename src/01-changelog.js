@@ -7,6 +7,7 @@
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
  *      - GPX: fixed earthcache type
  *      - GPX: changed log id to a usable value - Issue3
+ *      - GPX: added attributes to Groundspeak GPX
  *		- FIXED: caches can remain in watchlist without error  
  *		- FIXED: that a tour remains in list after deleting
  *		- FIXED: autoTour is working after update 7/28/10

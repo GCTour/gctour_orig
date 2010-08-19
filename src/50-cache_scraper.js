@@ -124,7 +124,7 @@ function getGeocacheFromElement(element){
 
 	geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget Spacing"] > img',element);
 	geocache.attributes_array = new Array();
-	// TODO: parse attributes
+
 	for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
 		// get current attribute image
 		var attribute = geocache.attributes[attributes_i];

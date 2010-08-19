@@ -155,9 +155,52 @@ function getGeocacheFromElement(element){
 		waypoint.latitude = coordinates_array[0];
 		waypoint.longitude = coordinates_array[1];		
 		waypoint.note = trim(row2_tds[2].textContent);
+
+
+		// Final Location				http://www.geocaching.com/images/wpttypes/sm/flag.jpg
+		// Parking Area					http://www.geocaching.com/images/wpttypes/sm/pkg.jpg
+		// Question to Answer 			http://www.geocaching.com/images/wpttypes/sm/puzzle.jpg
+		// Stages of a Multicache		http://www.geocaching.com/images/wpttypes/sm/stage.jpg
+		// Trailhead					http://www.geocaching.com/images/wpttypes/sm/trailhead.jpg
+		// Reference Point				http://www.geocaching.com/images/wpttypes/sm/waypoint.jpg
+		switch (waypoint.symbol) {
+			case "http://www.geocaching.com/images/wpttypes/sm/flag.jpg":
+				waypoint.symbol_groundspeak = "Final Location";
+				waypoint.type_groundspeak = "Waypoint|Final Location";
+				break;
+			case "http://www.geocaching.com/images/wpttypes/sm/pkg.jpg":
+				waypoint.symbol_groundspeak = "Parking Area";
+				waypoint.type_groundspeak = "Waypoint|Parking Area";
+				break;
+			case "http://www.geocaching.com/images/wpttypes/sm/puzzle.jpg":
+				waypoint.symbol_groundspeak = "Question to Answer";
+				waypoint.type_groundspeak = "Waypoint|Question to Answer";
+				break;
+			case "http://www.geocaching.com/images/wpttypes/sm/stage.jpg":
+				waypoint.symbol_groundspeak = "Stages of a Multicache";
+				waypoint.type_groundspeak = "Waypoint|Stages of a Multicache";
+				break;
+			case "http://www.geocaching.com/images/wpttypes/sm/trailhead.jpg":
+				waypoint.symbol_groundspeak = "Trailhead";
+				waypoint.type_groundspeak = "Waypoint|Trailhead";
+				break;
+			case "http://www.geocaching.com/images/wpttypes/sm/waypoint.jpg":
+				waypoint.symbol_groundspeak = "Reference Point";
+				waypoint.type_groundspeak = "Waypoint|Reference Point";
+				break;
+			default:
+				waypoint.symbol_groundspeak = "Unknown Type";
+				waypoint.type_groundspeak = "Waypoint|Unknown Type";
+				break;
+			
+		}
 		
-		geocache.additional_waypoints.push(waypoint);		
+		
+		
+		geocache.additional_waypoints.push(waypoint);    
 	}
+	
+
 	
 	var hints_element = dojo.query('div[id="div_hint"]',element)[0];
 	if(hints_element){

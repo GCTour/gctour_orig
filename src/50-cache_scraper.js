@@ -123,7 +123,24 @@ function getGeocacheFromElement(element){
 	geocache.inventory = dojo.query('ul > li > a > img', dojo.query('div[class="WidgetBody"]',element)[1]);
 
 	geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget Spacing"] > img',element);
+	geocache.attributes_array = new Array();
 	// TODO: parse attributes
+	for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
+		// get current attribute image
+		var attribute = geocache.attributes[attributes_i];
+		
+		//  remove garbage from source address und split it at the "-"
+		var attribute_array = attribute.src.replace("http://www.geocaching.com/images/attributes/","").replace(".gif", "").split("-");
+		
+		// iterate over every attributes defined in the global attributes array
+		for (var attributesDef_i = 0; attributesDef_i < attributes_array.length; attributesDef_i++){
+			// ... and check whether the image is equal to the definition
+			if(attribute_array[0] == attributes_array[attributesDef_i][1]){
+				// add this attribute as array with id-0, image-1, name-2 and yes/no-4 
+				geocache.attributes_array.push(new Array(attributes_array[attributesDef_i][0],attributes_array[attributesDef_i][1],attributes_array[attributesDef_i][2], ((attribute_array[1]=="yes")?1:0)));
+			}
+		}
+	}
 	
 	
 	geocache.short_description = dojo.query('span[id="ctl00_ContentBody_ShortDescription"]',element)[0];

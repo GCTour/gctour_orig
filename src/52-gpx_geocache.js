@@ -95,6 +95,8 @@ function getGPXGeoCache(gcid){
 	}
 
 	
+	geocache.attributes_array = geocache_obj.attributes_array;
+	
 	geocache.difficulty = geocache_obj.difficulty;		
 	geocache.terrain = geocache_obj.terrain;
 	
@@ -435,6 +437,7 @@ function getGPX(){
 					'	<groundspeak:owner>##OWNER##</groundspeak:owner>'+
 					'	<groundspeak:type>##TYPE##</groundspeak:type>'+
 					'	<groundspeak:container>##CONTAINER##</groundspeak:container>'+
+					'	<groundspeak:attributes>##ATTRIBUTES##</groundspeak:attributes>'+
 					'	<groundspeak:difficulty>##DIFFICULTY##</groundspeak:difficulty>'+
 					'	<groundspeak:terrain>##TERRAIN##</groundspeak:terrain>'+
 					'	<groundspeak:country>##COUNTRY##</groundspeak:country>'+
@@ -491,6 +494,11 @@ function getGPX(){
 				}
 				
 				
+				var attributesString = "";
+				for (var j = 0; (j < geocache.attributes_array.length); j++){
+					attributesString += getAttributeXML(geocache.attributes_array[j]);
+				}
+				
 				var geocacheMapping = new Array(
 					 new Array('LAT',geocache.latitude),
 					 new Array('LON',geocache.longitude),
@@ -503,6 +511,7 @@ function getGPX(){
 					 new Array('COUNTRY',encodeHtml(geocache.country)),
 					 new Array('TYPE', geocache.cacheType),					
 					 new Array('CONTAINER',geocache.cacheSize),
+					 new Array('ATTRIBUTES',attributesString),
 					 new Array('DIFFICULTY',geocache.difficulty),
 					 new Array('TERRAIN',geocache.terrain),
 					 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
@@ -549,6 +558,10 @@ function getGPX(){
 		
 		var str = new XMLSerializer().serializeToString(gpxDom);
 		return str;
+}
+
+function getAttributeXML(attribute_a){
+	return "<groundspeak:attribute id='"+attribute_a[0]+"' inc='"+attribute_a[3]+"'>"+attribute_a[2]+"</groundspeak:attribute>";
 }
 
 function getGPXfromMarker(marker){

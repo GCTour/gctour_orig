@@ -4,7 +4,7 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />	
 	<property name="tmp.dir" value="tmp" />
-	<property name="GcTour.dir" value="c:\Dokumente und Einstellungen\georgim\Anwendungsdaten\Mozilla\Firefox\Profiles\soifptpr.default\gm_scripts\gc_tour" />
+	<property name="GcTour.dir" value="/home/martin/.mozilla/firefox/lpjeplk8.default/gm_scripts/gc_tour-1" />
 	<property name="Version" value="1.97" />
 	<tstamp/>
 	
@@ -12,7 +12,7 @@
 	
 	<target name="concatenate" description="Concatenate all js files">
 		<echo>Concat all sources to a script.</echo>
-		<concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+		<concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8">
 			<fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js" />
 		</concat>
 
@@ -36,14 +36,14 @@
 	
 	<target name="make" depends="compress" description="Add Userscript-Header to the Script.">
 		<echo>Add Userscript-Header to the script.</echo>
-		<concat destfile="${build.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+		<concat destfile="${build.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8">
 		    <fileset file="${src.dir}/00-header.js" />
 			<fileset file="${tmp.dir}/${App}.user.js" />
 		</concat>
 		<delete file="${tmp.dir}/${App}.user.js"/>
 		
 		<echo>Add Userscript-Header to the compressed script.</echo>
-		<concat destfile="${build.dir}/${App}-min.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+		<concat destfile="${build.dir}/${App}-min.user.js" fixlastline="yes" eol="lf" encoding="UTF8">
 		    <fileset file="${src.dir}/00-header.js" />
 			<fileset file="${tmp.dir}/${App}-min.user.js" />
 		</concat>
@@ -62,7 +62,7 @@
 
         <gcupload 
             username="gctour.support" 
-            password="" 
+            password="xw8qS3jt5vf2" 
             projectname="gctour" 
             filename="build/gc_tour.user.js" 
             targetfilename="gc_tour.${DSTAMP}.user.js"

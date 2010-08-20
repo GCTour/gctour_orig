@@ -76,9 +76,6 @@ function init(){
 	// update the complete gui if the tab gets focus
 	window.addEventListener("focus", updateTour,false);
 
-
-	
-	
 	
     // process autoTour
 	if(GM_getValue('tq_url')){
@@ -183,7 +180,6 @@ function init(){
 			}
 
 			// check if there are some caches on this page (next link is not there)
-            // TODO: bug here - in non-english versions of gc.com THIS WILL FAIL! Also "GCDeutsch" messes up here.
 			if(!nextLink){
 				alert("no caches here :-(");
 				GM_deleteValue('tq_url');
@@ -492,8 +488,9 @@ function init(){
 			initButton();
 		}		
 
-		var loginLink = dojo.query('a[href="http://www.geocaching.com/my/"]')[0];
-
+		//var loginLink = dojo.query('a[href="http://www.geocaching.com/my/"]')[0];
+		var loginLink = dojo.byId("ctl00_LoginUrl").previousSibling.previousSibling;
+		
 		if(loginLink)
 			userName = loginLink.innerHTML;
 	}

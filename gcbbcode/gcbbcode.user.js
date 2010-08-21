@@ -7,7 +7,7 @@
 //
 // (C) Copyright Martin Georgi 2010.
 // Version 1.26
-
+// TODO: Fund counte rauch bei Attended erhöhen!
 var version = '1.26';
 var scriptId = 'gcbbcode';
 

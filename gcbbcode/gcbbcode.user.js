@@ -7,7 +7,7 @@
 //
 // (C) Copyright Martin Georgi 2010.
 // Version 1.26
-// TODO: Fund counte rauch bei Attended erhöhen!
+
 var version = '1.26';
 var scriptId = 'gcbbcode';
 
@@ -18,7 +18,9 @@ if(!textForm){
 
 document.getElementById('aspnetForm').addEventListener("submit",function(){
     var logType = document.getElementById('ctl00_ContentBody_LogBookPanel1_ddLogType');
-    if(getSelectedValue(logType)==2){
+   
+	// "found it" = 2		"attendet" = 10 	"wecam photo taken" = 11
+    if(getSelectedValue(logType)==2 || getSelectedValue(logType)==10 || getSelectedValue(logType)==11){
         setFounds(getFounds()+1);
     } 
     

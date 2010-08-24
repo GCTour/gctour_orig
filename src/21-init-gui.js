@@ -752,7 +752,7 @@ PSIZE:
 			dojo.query(header).onmouseover(function(e){this.style.backgroundColor = "#cdd8e8"}).onmouseout(function(e){this.style.backgroundColor = "transparent"}).onclick(function(e){window.open('http://gctour.madd.in');});
 			
 			var footerDiv = createElement('div',{style:"font-size: 70%;"});
-			footerDiv.innerHTML = "<p style='text-align:right'>v"+ version + "</p>";
+			footerDiv.innerHTML = "<p style='text-align:right'>v"+ version + "." + build + "</p>";
 			
 			
 			

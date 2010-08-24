@@ -1,5 +1,6 @@
 // globals
-const version="1.96" // will be checked once the day
+const version="@version@" // will be checked once the day 
+const build="@build@" // will be checked once the day 
 const scriptId = 'gctour'; 
 const DEBUG = true;
 

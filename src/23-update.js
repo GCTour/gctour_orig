@@ -6,6 +6,32 @@ function update() {
 	}
 	var currentDate = new Date();
 
+	var update_request = {'script':scriptId,'version':version,'build':build};
+
+	post('http://sares.tesis.de:8080/jzos/update', 'update='+JSON.stringify(update_request),
+		function(text){
+			alert(text);
+			var jsObject = JSON.parse(text);
+			
+			var overlayBody = getOverlay("new version available");
+			
+			
+			
+			var confirmString = '<img src="http://gctour.madd.in/images/antenna.gif" style="float:right"><p>There is a new version of <a target="_blank" href="http://userscripts.org/scripts/show/36273">GcTour</a> available for installation.</p>';
+			confirmString += "<p>You currently have version <b>"+version+"."+build+"</b> installed. The latest version is <b>"+jsObject.version+"."+jsObject.build+"</b></p>"
+			confirmString += "<p><b>Version History:</b></p>"
+			
+			
+			overlayBody.innerHTML = confirmString;
+			var updateHTML = ""
+			
+			
+		
+		}
+	);
+	
+	
+	
 	// if the last updateDate is more than 86 400 000 msec (1 day) ago - check for updates
 	if (currentDate.getTime() - updateDate.getTime() > 86400000) {
 		// set the new updateDate

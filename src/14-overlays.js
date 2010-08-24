@@ -7,15 +7,40 @@ function getOverlay(caption){
 	overlayStyle.type = 'text/css';
 	overlayStyle.id = 'overlayStyle';
 	overlayStyle.innerHTML = 'textarea{border:1px solid black;} .overlay_marker{max-height:90%;overflow:hidden;opacity:1;text-align:left; padding:10px;background-color:white;margin-top:40px;border:2px solid #8C9E65; -moz-border-radius-topright:30px;-moz-border-radius-topleft:30px;width:60%;color:black;} .tour_overlay  '+
-		'{background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;color: #ffffff;opacity: 0.6;opacity: 0.6;z-index: 9998;position: fixed;top: 0px;left: 0px;display: block;width: 100%;height: 100%;}'+
+		'{background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;color: #ffffff;opacity: 0.4;z-index: 9000;position: fixed;top: 0px;left: 0px;display: block;width: 100%;height: 100%;}'+
 		'.label {float:left;padding:3px 0 0;width:10em;} .ebene {clear:both;padding-bottom:2px;padding-left:10px;padding-top:2px;} .feldbreite {font-size:1em;overflow:auto;width:30em;} .submit {clear:both;margin:1em 0 5px 11em; padding:2px; border-bottom: 1px solid gray}';
-	head.appendChild(overlayStyle); 
+	//head.appendChild(overlayStyle); 
 
 
 	overLay = document.createElement('div');
 	overLay.align = 'center';
-	overLay.className = 'tour_overlay';
-	overLay.id = "tour_overlay";
+	overLay.className = 'dialogMask';
+	overLay.id = "dialogMask";
+	
+	
+	var dialogWrapper = document.createElement('div');
+	dialogWrapper.className= "dialogBodyWrapper";
+	dialogWrapper.id= "dialogBodyWrapper";
+	
+	var dialogBody = document.createElement('div');append(dialogBody,dialogWrapper);
+	dialogBody.className= "dialogBody";
+	
+	var dialogHead =  document.createElement('h1');append(dialogHead,dialogBody);
+	dialogHead.innerHTML = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>"+caption;
+
+		var closeButton = createElement('img', {style:"cursor:pointer;"});append(closeButton, dialogHead);
+		closeButton.style.cssFloat = "right";
+		closeButton.src = closebuttonImage;
+		closeButton.addEventListener('click', closeOverlay, false);
+		addOpacityEffects(closeButton);
+		
+	var dialogContent = document.createElement('div');append(dialogContent,dialogBody);
+	dialogContent.className= "dialogContent";
+
+	
+
+	
+	
 
 
 	overlayMarker = document.createElement('div');
@@ -62,16 +87,16 @@ function getOverlay(caption){
 
 
 	bodyNew.appendChild(overLay);
-	bodyNew.appendChild(overlayMarker);
+	bodyNew.appendChild(dialogWrapper);
+//	bodyNew.appendChild(overlayMarker);
 
-	return overlayMarker;
+	return dialogContent;
 	//~ overlayMarker.appendChild(content);
 }
 
 function closeOverlay(){
-	dojo.destroy("tour_overlay");
-	dojo.destroy("overlayStyle");
-	dojo.destroy("overlayMarker");
+	dojo.destroy("dialogMask");
+	dojo.destroy("dialogBodyWrapper");
 }
 
 function addErrorDialog(exception, errorString,theDocument){

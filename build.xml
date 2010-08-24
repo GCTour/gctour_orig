@@ -4,9 +4,16 @@
 	<property name="src.dir" value="src" />
 	<property name="build.dir" value="build" />	
 	<property name="tmp.dir" value="tmp" />
-	<property name="GcTour.dir" value="c:\Dokumente und Einstellungen\georgim\Anwendungsdaten\Mozilla\Firefox\Profiles\soifptpr.default\gm_scripts\gc_tour-1" />
+	<property name="GcTour.dir" value="" />
 	<property name="Version" value="1.97" />
+	<tstamp>
+		<format property="Build" pattern="yyDDD" />
+	</tstamp>
+	
 	<tstamp/>
+	
+	
+
 	
 	
 	
@@ -15,8 +22,10 @@
 		<concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
 			<fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js" />
 		</concat>
-
 		
+		<!-- setup current version -->
+		<replace file="${tmp.dir}/${App}.user.js" token="@version@" value="${Version}" />		
+		<replace file="${tmp.dir}/${App}.user.js" token="@build@" value="${Build}" />		
 	</target>
 
 	<target name="compress" depends="concatenate" description="Compress application.js to application-min.js">

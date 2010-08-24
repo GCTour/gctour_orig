@@ -8,7 +8,7 @@ function update() {
 
 	var update_request = {'script':scriptId,'version':version,'build':build};
 
-	post('http://sares.tesis.de:8080/jzos/update', 'update='+JSON.stringify(update_request),
+	post('http://gctour-spot.appspot.com/update', 'update='+JSON.stringify(update_request),
 		function(text){
 			alert(text);
 			var jsObject = JSON.parse(text);

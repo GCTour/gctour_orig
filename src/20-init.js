@@ -234,7 +234,7 @@ function init(){
 	GM_addStyle(
 		'.dialogMask {background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000;}'+
 		'.dialogBodyWrapper{position: absolute; width: 100%; top: 0pt; left: 0pt; z-index: 9010;}'+
-		'.dialogBody{-moz-border-radius:5px 5px 5px 5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:14px;left:35%;margin:auto;padding:0 0 1em;position:fixed;text-align:left;top:50px;width:500px;z-index:9010;max-height:100%;overflow:auto;}'+
+		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:14px;left:20%;margin:auto;padding:0 0 1em;position:fixed;text-align:left;top:50px;width:500px;z-index:9010;max-height:100%;overflow:auto;}'+
 		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
 		'.dialogBody h1{background-color:#E78F08;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;}'+
 		'.dialogContent {padding:0px 10px 0px 10px;}'

@@ -78,7 +78,7 @@ attributes_array = new Array(
 	new Array('43','cow','Watch for livestock'),
 	new Array('44','flashlight','Flashlight required'),
 	new Array('45','landf','Lost and Found Tour'),
-	new Array('47','field_puzzle','Field puzzle'),
+	new Array('47','field_puzzle','Field Puzzle'),
 	new Array('48','UV','UV Light required'),
 	new Array('49','snowshoes','Snowshoes'),
 	new Array('50','skiis','Cross Country Skis'),

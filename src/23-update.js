@@ -10,22 +10,71 @@ function update() {
 
 	post('http://gctour-spot.appspot.com/update', 'update='+JSON.stringify(update_request),
 		function(text){
-			alert(text);
-			var jsObject = JSON.parse(text);
+			//alert(text);
+			var update_obj = JSON.parse(text);
 			
 			var overlayBody = getOverlay("new version available");
+		
+
+			var versions_string = ""
+			for(var ver_i =0 ; ver_i<update_obj.changes.length; ver_i++){
+				var version_obj = update_obj.changes[ver_i]; // TODO: remaind, that in latest gae code  changes is here versions!!
+				versions_string += "<div style='margin-top: 0.75em;'><strong>v"+version_obj.version+"."+version_obj.build+"</strong></div>";
+				versions_string += "<ul>";
+				for(var chg_i =0 ; chg_i<version_obj.changes.length; chg_i++){
+					versions_string += "<li>";
+					versions_string += version_obj.changes[chg_i];
+					versions_string += "</li>";
+				}
+				versions_string += "</ul>";
+			}
+
+			var updateMapping = new Array(
+				new Array('VERSION_OLD',version+"."+build),
+				new Array('VERSION_NEW',update_obj.version+"."+update_obj.build),
+				new Array('VERSION_HISTORY',versions_string)
+			);	
+
+			//{"update":"http:\/\/userscripts.org\/scripts\/source\/36273.user.js","build":12345,"script":"gctour","changes":[{"build":12345,"changes":["1.98 test1","1.98 test4","1.98 test6"],"version":1.98},{"build":12343,"changes":["1.97 test1","1.97test2","1.97 test3"],"version":1.97}],"version":1.98}
+			
+			var confirmString = '<div><img src="http://gctour.madd.in/images/antenna.gif" style="float:right"><p>There is a new version of&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://userscripts.org/scripts/show/36273"><b>GcTour</b></a>&nbsp;&nbsp;&nbsp;available for installation.</p>';
+			confirmString += "<p>You currently have version <b>###VERSION_OLD###</b> installed. The latest version is <b>###VERSION_NEW###</b></p>";
+			confirmString += "<p><b>Version History:</b></p>";
+			confirmString += "<div class='dialogHistory'>";
+			confirmString += "###VERSION_HISTORY###";			
+			confirmString += "</div>";
+			confirmString += "<div class='dialogFooter'></div>";			
+
+			
+			var update_dom = fillTemplate(updateMapping,confirmString);
+			var footer = update_dom.getElementsByTagName('div')[3];
+			
+			// if install is pressed set the document.location to the url given by the update object
+			var install_button = document.createElement('input');
+			install_button.type = "button";
+			install_button.value = lang['install'] ;
+			install_button.style.backgroundImage = "url("+userscript_image+")";
+			install_button.addEventListener('click', function() {
+				setTimeout(closeOverlay, 500);
+				document.location = update_obj.update;
+			}, true);
+			
+			
+			var close_button = document.createElement('input');
+			close_button.type = "button";
+			close_button.value = lang['cancel'] ;
+			close_button.style.backgroundImage = "url("+closebuttonImage+")";
+			close_button.addEventListener('click', closeOverlay, false);
+			
+			footer.appendChild(close_button);
+			footer.appendChild(install_button);
+				
 			
 			
 			
-			var confirmString = '<img src="http://gctour.madd.in/images/antenna.gif" style="float:right"><p>There is a new version of <a target="_blank" href="http://userscripts.org/scripts/show/36273">GcTour</a> available for installation.</p>';
-			confirmString += "<p>You currently have version <b>"+version+"."+build+"</b> installed. The latest version is <b>"+jsObject.version+"."+jsObject.build+"</b></p>"
-			confirmString += "<p><b>Version History:</b></p>"
 			
-			
-			overlayBody.innerHTML = confirmString;
-			var updateHTML = ""
-			
-			
+						
+			overlayBody.appendChild(update_dom);			
 		
 		}
 	);

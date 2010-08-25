@@ -17,6 +17,7 @@
  * 		- NEW: Add check on Firefox >= 3.5
  *		- NEW: Minimal-printview containing cacheheader, hint and spoiler images
  *		- NEW: Recode the complete update routine
+ *		- NEW: Add check whether the script is still logged on when scraping data
  *		- CHANGED: Renew the buttons
  *      - MISC: Code Review
  * 		- MISC: Create repository at http://code.google.com/p/gctour/

@@ -71,8 +71,52 @@ function initDojo(){
 }
 
 function init(){			
-	// init the core components (first tour, current tour)
-	initCore();	
+	// first filter blacklist
+    // process "add to your GCTour"-link from gctour.madd.in    
+	if(document.URL.search("webcode")>=0) {
+		document.title = "GcTour";
+		document.getElementsByTagName('body')[0].innerHTML = "<div align='center'><a href='http://www.geocaching.com'><img border='0' src='http://madd.in/icon.png'/></a></div>";
+		downloadTourFunction(document.URL.split("webcode/")[1]);
+
+		return;
+	}
+	
+	// start sepcial script on send-to-gps page
+	if(document.URL.search("http://www.geocaching.com/seek/sendtogps.aspx")>=0) {
+		    	// show the GPX box, if the option is set
+		if(GM_getValue('showGpx',false)){
+			document.getElementById('dataString').parentNode.style.visibility = 'visible';
+			document.getElementById('dataString').style.width = '100%';
+		}
+
+
+		// see, whether this windows is opened by the tour or by something else
+		var qsParm = new Array();
+		var query = window.location.search.substring(1);
+		var parms = query.split('&');
+		for (var i=0; i<parms.length; i++) {
+			var pos = parms[i].indexOf('=');
+			if (pos > 0) {
+				var key = parms[i].substring(0,pos);
+				var val = parms[i].substring(pos+1);
+				qsParm[key] = val;
+			}
+		}
+
+
+		if(qsParm['tour']){
+			initGPXTour();
+		} 
+		
+		return;
+	}
+	
+	
+
+	
+
+
+
 	// update the complete gui if the tab gets focus
 	window.addEventListener("focus", updateTour,false);
 
@@ -233,10 +277,15 @@ function init(){
 	// dialog styles
 	GM_addStyle(
 		'.dialogMask {background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000;}'+
-		'.dialogBodyWrapper{position: absolute; width: 100%; top: 0pt; left: 0pt; z-index: 9010;}'+
-		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:14px;left:20%;margin:auto;padding:0 0 1em;position:fixed;text-align:left;top:50px;width:500px;z-index:9010;max-height:100%;overflow:auto;}'+
+		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:14px;left:50%;margin-left:-250px;margin-top:50px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9010;max-height:85%;overflow:auto;}'+
 		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
 		'.dialogBody h1{background-color:#E78F08;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;}'+
+	//	'.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#fff;}'+
+		'.dialogHistory {border:1px inset #999999;margin:0 1em 1em;max-height:150px;overflow-y:auto;width:448px;padding-left:1em;}'+
+		'.dialogHistory ul{margin-left:2em;}'+
+		'.dialogHistory li{list-style-type:circle;}'+
+		'.dialogFooter input{-moz-border-radius:3px;background:none no-repeat scroll 4px center #EEEEEE;border:1px outset #666666;cursor:pointer;float:right;margin-left:0.5em;padding:3px 5px 5px 20px;min-width:100px;}'+
+		'.dialogFooter input:hover { background-color:#f9f9f9; }'+
 		'.dialogContent {padding:0px 10px 0px 10px;}'
 	);
 
@@ -256,7 +305,7 @@ function init(){
 				'	margin:0.5em;'+
 				'	padding:3px;'+
 				'	width:120px;'+
-				'	min-height:40px;'+
+				'	min-height:44px;'+
 				'	-moz-background-clip:border;'+
 				'	-moz-background-inline-policy:continuous;'+
 				'	-moz-background-origin:padding;'+
@@ -275,14 +324,6 @@ function init(){
 
 
     
-    // process "add to your GCTour"-link from gctour.madd.in    
-	if(document.URL.search("webcode")>=0) {
-		document.title = "GcTour";
-		document.getElementsByTagName('body')[0].innerHTML = "<div align='center'><a href='http://www.geocaching.com'><img border='0' src='http://madd.in/icon.png'/></a></div>";
-		downloadTourFunction(document.URL.split("webcode/")[1]);
-
-		return;
-	}
 
 
 
@@ -536,32 +577,5 @@ function init(){
 		append(autoTourButton,autoTourDiv);
 		append(autoTourDiv,dojo.query('div[id="uxPremiumFeatures"]')[0]);
 
-	}
-	
-	if(document.URL.search("sendtogps\.aspx")>=0) {
-    	// show the GPX box, if the option is set
-		if(GM_getValue('showGpx',false)){
-			document.getElementById('dataString').parentNode.style.visibility = 'visible';
-			document.getElementById('dataString').style.width = '100%';
-		}
-
-
-		// see, whether this windows is opened by the tour or by something else
-		var qsParm = new Array();
-		var query = window.location.search.substring(1);
-		var parms = query.split('&');
-		for (var i=0; i<parms.length; i++) {
-			var pos = parms[i].indexOf('=');
-			if (pos > 0) {
-				var key = parms[i].substring(0,pos);
-				var val = parms[i].substring(pos+1);
-				qsParm[key] = val;
-			}
-		}
-
-
-		if(qsParm['tour']){
-			initGPXTour();
-		} 	
 	}
 }

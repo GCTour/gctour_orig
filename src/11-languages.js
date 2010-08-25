@@ -85,8 +85,9 @@
 	lang_ger["autoTourDuration"] = "Geschätze Dauer der autoTour:";
 	lang_ger["kilometer"] = "Kilometer";
 	lang_ger["mile"] = "Meilen";
-	lang_ger["save"] = "speichern";
-	lang_ger["cancel"] = "abbrechen";
+	lang_ger["save"] = "Speichern";
+	lang_ger["cancel"] = "Abbrechen";
+	lang_ger['install'] = 'Installieren';
 	lang_ger["edit"] = "bearbeiten";
 	lang_ger["example"] = "Beispiel:";
 	lang_ger["dontPrintHint"] = "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!";
@@ -181,8 +182,9 @@
 	lang_eng["autoTourDuration"] = "Estimated duration of this autoTour:";
 	lang_eng["kilometer"] = "Kilometer";
 	lang_eng["mile"] = "Miles";
-	lang_eng["save"] = "save";
-	lang_eng["cancel"] = "cancel";	
+	lang_eng["save"] = "Save";
+	lang_eng["cancel"] = "Cancel";	
+	lang_eng['install'] = 'Install';
 	lang_eng["edit"] = "edit";	
 	lang_eng["example"] = "e.g. ";
 	lang_eng["dontPrintHint"] = "<b>Information :</b><br/>Elements in such a box will <u>not</u> be printed!";

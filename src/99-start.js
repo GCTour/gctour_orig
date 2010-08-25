@@ -1,6 +1,9 @@
 // init the whole script - started with dojo
 initDojo();
 
+// init the core components (first tour, current tour)
+initCore();	
+
 // check for updates
 update();
 

@@ -11,13 +11,16 @@
  *		- FIXED: caches can remain in watchlist without error  
  *		- FIXED: that a tour remains in list after deleting
  *		- FIXED: autoTour is working after update 7/28/10
-  *		- FIXED: superscript text is now shown correct in printview
+ *		- FIXED: superscript text is now shown correct in printview
  *      - NEW: Bookmark Lists now have "add to tour" buttons
  *      - NEW: Tour can now sorted via drag n' drop
  * 		- NEW: Add check on Firefox >= 3.5
  *		- NEW: Minimal-printview containing cacheheader, hint and spoiler images
+ *		- NEW: Recode the complete update routine
+ *		- CHANGED: Renew the buttons
  *      - MISC: Code Review
  * 		- MISC: Create repository at http://code.google.com/p/gctour/
+ *		- MISC: Start implementing http://gctour-spot.appspot.com/
  *
  * version 1.96
  * 		- gc.com layout update 6/29/10 fixed

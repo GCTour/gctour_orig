@@ -50,7 +50,9 @@ function getGeocacheFromElement(element){
 	//~ geocache.logs
 
 	// first check if really logged in 
-	var logIOLink = dojo.byId("ctl00_LoginUrl").previousSibling.previousSibling;
+	
+	
+	var logIOLink = dojo.query('a[id="ctl00_LoginUrl"]',element)[0].previousSibling.previousSibling;
 	if(!logIOLink){
 		throw "No longer logged in.";
 	}

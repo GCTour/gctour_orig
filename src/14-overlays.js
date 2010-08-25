@@ -17,22 +17,21 @@ function getOverlay(caption){
 	overLay.className = 'dialogMask';
 	overLay.id = "dialogMask";
 	
-	
-	var dialogWrapper = document.createElement('div');
-	dialogWrapper.className= "dialogBodyWrapper";
-	dialogWrapper.id= "dialogBodyWrapper";
-	
-	var dialogBody = document.createElement('div');append(dialogBody,dialogWrapper);
+
+	var dialogBody = document.createElement('div');
+	dialogBody.id= "dialogBody";
 	dialogBody.className= "dialogBody";
 	
 	var dialogHead =  document.createElement('h1');append(dialogHead,dialogBody);
-	dialogHead.innerHTML = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>"+caption;
+	//	var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gcTourIconString+"'>";
+		var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>";
+	dialogHead.innerHTML = icon+caption;
 
 		var closeButton = createElement('img', {style:"cursor:pointer;"});append(closeButton, dialogHead);
 		closeButton.style.cssFloat = "right";
 		closeButton.src = closebuttonImage;
 		closeButton.addEventListener('click', closeOverlay, false);
-		addOpacityEffects(closeButton);
+		//addOpacityEffects(closeButton);
 		
 	var dialogContent = document.createElement('div');append(dialogContent,dialogBody);
 	dialogContent.className= "dialogContent";
@@ -87,7 +86,8 @@ function getOverlay(caption){
 
 
 	bodyNew.appendChild(overLay);
-	bodyNew.appendChild(dialogWrapper);
+	bodyNew.appendChild(dialogBody);
+//	bodyNew.appendChild(dialogWrapper);
 //	bodyNew.appendChild(overlayMarker);
 
 	return dialogContent;
@@ -96,7 +96,7 @@ function getOverlay(caption){
 
 function closeOverlay(){
 	dojo.destroy("dialogMask");
-	dojo.destroy("dialogBodyWrapper");
+	dojo.destroy("dialogBody");
 }
 
 function addErrorDialog(exception, errorString,theDocument){

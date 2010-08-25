@@ -205,55 +205,6 @@ function initGPXTour(){
 
 }
 
-function downloadSpoilerFunction(){
-	return function(){	
-		var newwindow2,i,j,body,header,cache,cacheDiv,imageDiv;
-		
-		newwindow2=window.open("about:blank");
-		newwindow2.window.addEventListener ("DOMContentLoaded", function() {
-			try{
-				body = dojo.query("body",newwindow2.document)[0];
-				header = createElement('div',{style:"border-bottom:2px solid black;font-size:120%"});append(header,body);
-				header.innerHTML = "<b>"+currentTour.name+"</b>";
-				
-				addOverlay(newwindow2.document,lang['pleaseWait']);
-				dojo.query("title",newwindow2.document)[0].innerHTML = "Spoiler - "+currentTour.name;
-
-				
-				header = createElement('div',{style:"border-bottom:2px solid pink;overflow: auto;"});append(header,body);
-				for(var i = 0; i < currentTour.geocaches.length ;i=i+1){
-					if(GM_getValue("stopTask",false) && i != 0){
-						GM_setValue("stopTask",false);
-						newwindow2.close();
-					} else if (GM_getValue("stopTask",false) && i == 0 ) {
-						GM_setValue("stopTask",false);
-					}
-					
-					
-					geocache = getGeocache(currentTour.geocaches[i].id);
-					if(geocache.images.length != 0){
-						cacheDiv = createElement('span',{style:"padding:10px;float: left;"});	
-						cacheDiv.innerHTML = "<b>"+i+"</b>"+ geocache.name +" - "+ geocache.gcid +"<br>";
-						for(j=0 ; j < geocache.images.length; j = j + 1){
-							imageDiv = createElement('span',{style:"border:1px dashed black;padding:2px;float:left;"})
-							imageDiv.innerHTML = "<img src='" + geocache.images[j].href+"' style='max-width:8cm;'>";
-							imageDiv.innerHTML = imageDiv.innerHTML + "<br>" + geocache.images[j].textContent;
-							append(imageDiv, body);
-						}
-						//sappend(cacheDiv,body);
-					}					
-					// set the progress
-					setProgress(i,currentTour.geocaches.length,newwindow2.document);
-				}		
-				
-			removeOverlay(newwindow2.document);	
-			}catch (e){
-				addErrorDialog(e,"SPOILER ERROR",newwindow2.document); 
-			} 	
-		},false);			
-		
-	}
-}
 function uploadTourFunction(id){
 	return function(){ 
 	    var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString;

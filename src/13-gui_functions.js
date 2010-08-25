@@ -148,6 +148,13 @@ function downloadGPXFunction(){
 					return;
 				}
 
+				// pretty print the gpx
+				// remove <?xml version="1.0" encoding="utf-8"?> to prevent error message from E4X
+				dummyString = dummyString.replace(/^<\?xml\s+version\s*=\s*(["'])[^\1]+\1[^?]*\?>/, ""); 
+				dummyString =  XML(dummyString).toXMLString();				
+				// and add it again - to be sure!
+				dummyString = '<?xml version="1.0" encoding="utf-8"?>\n'+dummyString;
+				
 
 				contentArea.innerHTML = encodeURIComponent(dummyString);
 

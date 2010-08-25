@@ -77,7 +77,7 @@ attributes_array = new Array(
 	new Array('42','firstaid','Needs maintenance'),
 	new Array('43','cow','Watch for livestock'),
 	new Array('44','flashlight','Flashlight required'),
-	new Array('48','uv','UV Light required'),
+	new Array('48','UV','UV Light required'),
 	new Array('49','snowshoes','Snowshoes'),
 	new Array('50','skiis','Cross Country Skis'),
 	new Array('51','tools','Special Tool required'),

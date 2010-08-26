@@ -7,8 +7,8 @@ function update() {
 	
 	var currentDate = new Date();
     // if the last updateDate is more than 86 400 000 msec (1 day) ago - check for updates
-	if (currentDate.getTime() - updateDate.getTime() > 86400000) {
-	//if (true) {
+	//if (currentDate.getTime() - updateDate.getTime() > 86400000) {
+	if (true) {
 		// set the new updateDate
 		GM_setValue('updateDate', uneval(currentDate));
 	    var update_request = {'script':scriptId,'version':version,'build':build};
@@ -17,7 +17,7 @@ function update() {
 		    function(text){
 			    //alert(text);
 			    var update_obj = JSON.parse(text);
-				
+				log("update check: returns "+text);
 				if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
 					log("update check: version "+version+" build:"+build);
 					log("update check: result from GAE:"+update_obj.changes[0]);

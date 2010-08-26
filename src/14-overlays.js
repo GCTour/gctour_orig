@@ -144,8 +144,8 @@ function addErrorDialog(exception, errorString,theDocument){
 	errorDiv.style.textAlign = 'left';
 
 	errorReport = "version: "+version+"\n";
-	errorReport = "build: "+build+"\n";
-	errorReport = "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
+	errorReport+= "build: "+build+"\n";
+	errorReport+= "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
 	errorReport+= "error: "+errorString+"\n";
 	errorReport+= "username: "+userName+"\n";
 	errorReport+= "exception: "+exception+"\n";

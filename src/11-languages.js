@@ -93,9 +93,9 @@
 	lang_ger["dontPrintHint"] = "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!";
 	lang_ger['ERROR_DIALOG'] = "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'><input type='button' value='Fenster schließen'></div>Wenn dieser Fehler jedesmal auftaucht, dann zöger nicht und schicke mir diesen Fehlerreport:";
     lang_ger["ERROR_REPORT_SUBMIT"] = "Fehlerbericht schicken"; 
-    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GcTour zu nutzen!" ;
+    lang_ger["SCRIPT_ERROR"] = "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GCTour zu nutzen!" ;
 	lang_ger['mapTypes'] = [{"caption":"Google Karte","value":"Map"}, {"caption":"Google Satellit","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Gelände","value":"Terrain"},{"caption":"Topo Deutschland","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
- 
+	lang_ger['updateDialog'] = "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Es ist eine neue Version von &nbsp;&nbsp;&nbsp;<a target='_blank' href='http://userscripts.org/scripts/show/36273'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;verf&uuml;gbar.</p><p>Du benutzt die Version <b>###VERSION_OLD###</b>. Die aktuellste Version ist <b>###VERSION_NEW###</b></p><p><b>Versions Historie:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>";
 
     lang_eng = new Object();
 	lang_eng['name'] = 'English';
@@ -190,10 +190,10 @@
 	lang_eng["dontPrintHint"] = "<b>Information :</b><br/>Elements in such a box will <u>not</u> be printed!";
 	lang_eng['ERROR_DIALOG'] = "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;I'm sorry but an error occurs:<br/>##ERROR##<br/> Please just try again!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'><input type='button' value='close window'></div><hr>If this error comes every time, please send this error report.";
     lang_eng["ERROR_REPORT_SUBMIT"] = "send report"; 
-    lang_eng["SCRIPT_ERROR"] = "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GcTour!" ;
+    lang_eng["SCRIPT_ERROR"] = "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GCTour!" ;
 	lang_eng['mapTypes'] = [{"caption":"Google Map","value":"Map"}, {"caption":"Google Satellite","value":"Satellite"}, {"caption":"Google Hybrid","value":"Hybrid"}, {"caption":"Google Terrain","value":"Terrain"}, {"caption":"Topo Germany","value":"Topo"}, {"caption":"OSM Mapnik","value":"Mapnik"}, {"caption":"OSM Osma","value":"Osma"}, {"caption":"OSM Cycle","value":"Cycle"}];
-    
-
+    lang_eng['updateDialog'] = "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>There is a new version of&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://userscripts.org/scripts/show/36273'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;available for installation.</p><p>You currently have version <b>###VERSION_OLD###</b> installed. The latest version is <b>###VERSION_NEW###</b></p><p><b>Version History:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>";
+ 
 languages = new Array();
 languages[0] = lang_ger;
 languages[1] = lang_eng;

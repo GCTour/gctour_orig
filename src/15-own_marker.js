@@ -44,7 +44,7 @@ function showNewMarkerDialog(marker){
 	cordsInput = document.createElement('input');td.appendChild(cordsInput);
 	cordsInput.type = 'text';
 	cordsInput.id = 'markerCoords';
-	cordsInput.style.width = '400px';
+	cordsInput.style.width = '350px';
 	cordsInput.style.marginRight = '5px';
 
 	cordsInput.addEventListener('keyup',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
@@ -70,7 +70,7 @@ function showNewMarkerDialog(marker){
 	staticGMap.id = 'staticGMap';
 	staticGMap.style.border = '2px solid gray';
 	staticGMap.style.height = '200px';
-	staticGMap.style.width = '400px';
+	staticGMap.style.width = '350px';
 	staticGMap.style.marginBottom = '10px';
 	staticGMap.style.backgroundRepeat = 'no-repeat';
 
@@ -101,7 +101,7 @@ function showNewMarkerDialog(marker){
 
 	td = document.createElement('td');tr.appendChild(td);
 	contentTextarea = document.createElement('textarea');td.appendChild(contentTextarea);
-	contentTextarea.style.width = '400px';
+	contentTextarea.style.width = '350px';
 	contentTextarea.id = 'markerContent';
 	contentTextarea.rows = '5';
 
@@ -312,7 +312,7 @@ function updateMarkerOverviewMap(lat,lon,zoom){
 	debug("Updating map in marker window: " +lat + " " + lon + " Zoom:"+zoom);
 
     staticGMap = document.getElementById('staticGMap');
-	staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=400x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
+	staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=350x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
 }
 
 function changeType(value,table,typeArray){

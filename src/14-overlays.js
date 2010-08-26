@@ -143,7 +143,8 @@ function addErrorDialog(exception, errorString,theDocument){
 	errorDiv.style.padding = '5px';
 	errorDiv.style.textAlign = 'left';
 
-	
+	errorReport = "version: "+version+"\n";
+	errorReport = "build: "+build+"\n";
 	errorReport = "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
 	errorReport+= "error: "+errorString+"\n";
 	errorReport+= "username: "+userName+"\n";
@@ -165,6 +166,7 @@ function addErrorDialog(exception, errorString,theDocument){
 		'<form action="http://gctour.madd.in/errorreport.php" method="post">'+
 		'	<input type="hidden" name="redir" value="'+window.location+'">'+
 		'	<input type="hidden" name="user" value="'+userName+'">'+
+		'	<input type="hidden" name="exception" value="'+exception+'">'+
 		'	'+lang['printviewNote']+':'+
 		'	<textarea name="comment" cols="2" rows="2" style="width:100%;"></textarea>'+
 		'	Details:'+

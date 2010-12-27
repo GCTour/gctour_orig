@@ -2,10 +2,21 @@ function initButton(){
 	
 	 // if we are on a cache page the buttonGroup != null - so add the 'to tour'-button
 
-	var buttonGroup = document.getElementById('ctl00_ContentBody_LatLon').parentNode;
-	if (buttonGroup != null){
-		var add_button = createElement('span',{style:"float:right;"});
-		buttonGroup.insertBefore(add_button, buttonGroup.firstChild);		
+	var cacheControl = document.getElementById('ctl00_ContentBody_LatLon').parentNode.parentNode.parentNode.parentNode;
+	if (cacheControl != null){
+		
+		
+		var row = createElement('tr',{style:""});append(row,cacheControl);
+		var rowTd = createElement('td',{style:"border-top: 1px solid rgb(192, 206, 227);"});append(rowTd,row);
+		
+		
+		var gcTourFieldset = createElement('fieldset');append(gcTourFieldset,rowTd);
+		gcTourFieldset.className = "CacheNote NoSpacing";
+		gcTourFieldset.innerHTML = "<legend class='note'>GCTour Menu</legend>";
+
+		
+		
+				
 		var newButton = document.createElement("button");
 		newButton.name = 'btnGPXDL';
 		newButton.type = 'submit';
@@ -28,8 +39,37 @@ function initButton(){
 		newButton.addEventListener('click', addElementFunction(cacheId,guidId,cacheName,cacheTypeImage), false);
 		
 		// add it to the group
-		append(newButton,add_button)
+		//~ append(newButton,add_button)
+		append(newButton,gcTourFieldset)
 
+		// make direct print button 
+		newButton = document.createElement("button");
+		newButton.name = 'btnGPXDL';
+		newButton.type = 'submit';
+		newButton.innerHTML = "<img src='"+printerImageString+"'/>&nbsp;"+lang['directPrint'];
+		newButton.id = 'btnGPXDL';	
+		newButton.setAttribute('onclick','return false;');	
+		
+		// on click add an element	
+		newButton.addEventListener('click', function(){
+				var entry = new Object();
+				entry.id = cacheId;		
+				entry.name = cacheName;
+				entry.guid = guidId;
+				entry.image = 'http://www.geocaching.com/images/WptTypes/sm/'+cacheTypeImage;
+
+
+				temp_tour = new Object();
+				temp_tour.name = entry.name;
+				temp_tour.geocaches = new Array(entry);
+				
+				printPageFunction(temp_tour)();
+			
+		}, false);
+		
+		
+		append(newButton,gcTourFieldset)
+	
 	}	
 }
 
@@ -243,8 +283,19 @@ function initComponents(){
 	toggleSettingsButton.src = settingsImageString;
 	toggleSettingsButton.style.cursor = 'pointer';
 	toggleSettingsButton.style.marginRight = '5px';
-	toggleSettingsButton.addEventListener('click', toggleSettingsFunction(), false);
+	toggleSettingsButton.addEventListener('click', openSettingsDialog, false);
 	addHoverEffects(toggleSettingsButton);
+	
+	
+	var toggleSettingsButton2 = document.createElement('img');
+	toggleSettingsButton2.alt = lang['showSettings'];
+	toggleSettingsButton2.title = lang['showSettings'];
+	toggleSettingsButton2.src = settingsImageString;
+	toggleSettingsButton2.style.cursor = 'pointer';
+	toggleSettingsButton2.style.marginRight = '5px';
+	toggleSettingsButton2.addEventListener('click', toggleSettingsFunction(), false);
+	addHoverEffects(toggleSettingsButton2);
+
 
 
 	var toggleTourListButton = document.createElement('img');
@@ -253,8 +304,17 @@ function initComponents(){
 	toggleTourListButton.src = openTourImageString;
 	toggleTourListButton.style.cursor = 'pointer';
 	toggleTourListButton.style.marginRight = '5px';
-	toggleTourListButton.addEventListener('click', toggleTourListFunction(), false);
+	toggleTourListButton.addEventListener('click', openTourDialog, false);
 	addHoverEffects(toggleTourListButton);
+	
+	var toggleTourListButton2 = document.createElement('img');
+	toggleTourListButton2.alt = lang['openTour'];
+	toggleTourListButton2.title = lang['openTour'];
+	toggleTourListButton2.src = openTourImageString;
+	toggleTourListButton2.style.cursor = 'pointer';
+	toggleTourListButton2.style.marginRight = '5px';
+	toggleTourListButton2.addEventListener('click', toggleTourListFunction(), false);
+	addHoverEffects(toggleTourListButton2);
 
 	var autoTourButton = document.createElement('img');
 	autoTourButton.alt = lang["autoTour"];
@@ -340,7 +400,7 @@ function initComponents(){
 			
 			new Array(HEADER, 'settingsUploadTour'),		
 			new Array(CHECK_BOX,'settingsTourMap', 'uploadMap',true)
-				);
+	);
 
 
 
@@ -647,7 +707,13 @@ PSIZE:
 
 
 	var tourHeaderDiv = document.createElement('div');
-	tourHeaderDiv.innerHTML = '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')';
+	tourHeaderDiv.innerHTML = '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')';
+	tourHeaderDiv.innerHTML+="<span id='webcode'><br>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>"
+	// show the webcode if it is available
+	if(!currentTour.webcode){
+		dojo.query("span[id='webcode']",tourHeaderDiv)[0].style.display = 'none';
+	}
+	
 			append(createElement('br'),tourHeaderDiv)
 
 			var renameButton = document.createElement('img');
@@ -701,7 +767,7 @@ PSIZE:
 			requestPrintButton.src = printerImageString;
 			requestPrintButton.style.cursor = 'pointer';
 			requestPrintButton.style.marginRight = '5px';
-			requestPrintButton.addEventListener('click', printPageFunction(), false);
+			requestPrintButton.addEventListener('click', printPageFunction(currentTour), false);
 			addOpacityEffects(requestPrintButton);
 
 			var downloadGPXButton= document.createElement('img');
@@ -732,9 +798,11 @@ PSIZE:
 
 			buttonsDiv.appendChild(newButton);
 			buttonsDiv.appendChild(toggleTourListButton);
+			buttonsDiv.appendChild(toggleTourListButton2);
 			buttonsDiv.appendChild(downloadButton);
 			buttonsDiv.appendChild(autoTourButton);
 			buttonsDiv.appendChild(toggleSettingsButton);
+			buttonsDiv.appendChild(toggleSettingsButton2);
 			buttonsDiv.appendChild(openTourDiv);
 			buttonsDiv.appendChild(settingsDiv);
 

@@ -20,6 +20,7 @@ function initCore(){
 	currentTour = getTourById(currentTourId);
 	
 	
+	checkOnlineConsistent(currentTour);
 
 	// oh - there is no current tour!? create one!
 	if(!currentTour){
@@ -44,6 +45,8 @@ function initDojo(){
 		requiredModules.push("dojo.fx");
 	    requiredModules.push("dojo.parser");
 		requiredModules.push("dojo.dnd.Source");
+
+		
 
 		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
 		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
@@ -162,96 +165,125 @@ function init(){
 			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
 
             // locate the table
-			var resultTable = dojo.query("tr[class = 'Data BorderTop']");
-			var j = 0;
-			for(var i = 0; i < resultTable.length;i++){ // iterate over each cache 
+            
+            var images_array = dojo.query("img[id *= 'uxDTCacheTypeImage']");
+            
+            
+            // find all dtsize images and extract the temporary code
+            var dtImageQuery = "";
+            for(var i = 0; i < images_array.length;i++){
+				dtImageQuery += images_array[i].getAttribute('src').split("=")[1];;
+				dtImageQuery = (i!=images_array.length-1)?dtImageQuery+"-":dtImageQuery;
+			}
 			
-					var entryTds = resultTable[i].getElementsByTagName('td');
-					var entry = new Object(); // gather informations line-by-line
-        					entry.id = 'GC'+entryTds[5].textContent.split('(GC')[1].split(')')[0];		
-							entry.name = entryTds[5].getElementsByTagName('a')[0].innerHTML;
-							entry.guid = entryTds[5].getElementsByTagName('a')[0].href.split('guid=')[1];
-							entry.image = entryTds[2].getElementsByTagName('img')[0].getAttribute('src').replace(/WptTypes\//, "WptTypes/sm/");
-
-							var type = entry.image.split("/")[4].split(".")[0];
-							var size = entryTds[3].getElementsByTagName('img')[0].getAttribute('src').split("/")[4].split(".")[0];
-							var difficulty = trim(entryTds[3].textContent).split("/")[0].split("(")[1];
-							var terrain = trim(entryTds[3].textContent).split("/")[1].split(")")[0];
+			// use the geocaching OCR in the google cloud to find difficulty,terrain and size										
+			GM_xmlhttpRequest({
+				method: 'GET',
+				url: 'http://geocaching-ocr.appspot.com/geocachingocr?il='+dtImageQuery,
+				onload: function(responseDetails) {
+						if(typeof JSON === "undefined"){
+							var dtsize_details = eval("("+responseDetails.responseText+")");
+						} else {
+							var dtsize_details = JSON.parse(responseDetails.responseText);
+						}
+						
+						
+						var resultTable = dojo.query("tr[class = 'Data BorderTop']");
+						var j = 0;
+						for(var i = 0; i < resultTable.length;i++){ // iterate over each cache 
+						
+								var entryTds = resultTable[i].getElementsByTagName('td');
+								var entry = new Object(); // gather informations line-by-line
+								
+								entry.id = 'GC'+entryTds[4].textContent.split('(GC')[1].split(')')[0];		
+								entry.name = entryTds[4].getElementsByTagName('a')[1].innerHTML;
+								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
+								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/WptTypes\//, "WptTypes/sm/");
+								entry.available = entryTds[4].getElementsByTagName('a')[1].getAttribute('class') == 'lnk  ';
+								var type = entry.image.split("/")[6].split(".")[0];
 							
+								
+								var size = dtsize_details[i].size;
+								
+								
+								var difficulty = dtsize_details[i].difficulty;
+								var terrain = dtsize_details[i].terrain;
+										
 
-							log(entry.id+" "+entry.name);
-							log(type + " " + tq_typeFilter[type]);
-							log(size + " " + tq_sizeFilter[size]);
-							log(difficulty + " " + tq_dFilter[difficulty+""]);
-							log(terrain + " " + tq_tFilter[terrain+""]);
-							log("");
+								log(entry.id+" "+entry.name);
+								log(type + " " + tq_typeFilter[type]);
+								log(size + " " + tq_sizeFilter[size]);
+								log(difficulty + " " + tq_dFilter[difficulty+""]);
+								log(terrain + " " + tq_tFilter[terrain+""]);
+								log("");
 
+								// autoTour magic starts here 										
+								// check whether the caches match against the given D/T values
+								var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
+								if(tq_specialFilter['is Active']){
+									log("Check if "+entry.name+" is active:");
+									log(addBool);
+									addBool = addBool && (entry.available);// only add if active!
+									log(addBool);
+								}
+								
+								if(tq_specialFilter['is not a PM cache']){
+									log("Check if "+entry.name+" is PM-Only cache!!")
+									log(addBool);
+									addBool = addBool && (entryTds[5].innerHTML.indexOf('small_profile.gif') < 0);
+									log(addBool);
+								}
+								
+								// autoTour parameter "haven't found" is not checked here because of URL parameter
 
-                            // autoTour magic starts here 
-                            
-                            // check whether the caches match against the given D/T values
-							var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
-							if(tq_specialFilter['is Active']){
-								log("Check if "+entry.name+" is active:");
-								log(addBool);
-								addBool = addBool && (entry.name.indexOf('<span class="Strike">') < 0);// only add if active!
-								log(addBool);
+								// if all parameters match - add the cache
+								if(addBool){ 
+									tq_caches.push(entry);
+								}
+						} // END for each cache
+						
+						GM_setValue('tq_caches',uneval(tq_caches));
+
+						var gcComLinks = document.getElementsByTagName("a");
+						var nextLink;
+						for(var i = 0; i<gcComLinks.length;i++){
+							if(gcComLinks[i].innerHTML == "<b>&gt;&gt;</b>"){
+								nextLink = gcComLinks[i+1];
+								break;
 							}
-							
-							if(tq_specialFilter['is not a PM cache']){
-								log("Check if "+entry.name+" is PM-Only cache!!")
-								log(addBool);
-								addBool = addBool && (entryTds[2].innerHTML.indexOf('small_profile.gif') < 0);
-								log(addBool);
-							}
-							
-							// autoTour parameter "haven't found" is not checked here because of URL parameter
+						}
 
-                            // if all parameters match - add the cache
-							if(addBool){ 
-								tq_caches.push(entry);
-							}
-			}
-			GM_setValue('tq_caches',uneval(tq_caches));
+						// check if there are some caches on this page (next link is not there)
+						if(!nextLink){
+							alert("no caches here :-(");
+							GM_deleteValue('tq_url');
+							GM_deleteValue('tq_caches');
+							document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+							return;
+						}
 
-			var gcComLinks = document.getElementsByTagName("a");
-			var nextLink;
-			for(var i = 0; i<gcComLinks.length;i++){
-				if(gcComLinks[i].innerHTML == "<b>&gt;&gt;</b>"){
-					nextLink = gcComLinks[i+1];
-					break;
-				}
-			}
+						var action = nextLink.href.split("'")[1];
+						if(action){
+							var u = 500;
+							var l = 2000;
+							var waitingTime = Math.floor((Math.random() * (u-l+1))+l);
+							// wait between 0.5 -> 2 seconds to do the next request
+							window.setTimeout(function(){unsafeWindow.__doPostBack(action,'');},waitingTime);
+						} else {
 
-			// check if there are some caches on this page (next link is not there)
-			if(!nextLink){
-				alert("no caches here :-(");
-				GM_deleteValue('tq_url');
-				GM_deleteValue('tq_caches');
-				document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
-				return;
-			}
+							currentTour = new Object();
+							currentTour.id = getNewTourId();		
+							currentTour.name = "autoTour "+currentTour.id;
+							currentTour.geocaches =tq_caches;
+							tours.push(currentTour);
+							log("autoTour done - create new Tour: "+currentTour.id +" ; "+ currentTour.name);
+							saveCurrentTour();
 
-			var action = nextLink.href.split("'")[1];
-			if(action){
-				var u = 500;
-				var l = 2000;
-				var waitingTime = Math.floor((Math.random() * (u-l+1))+l);
-				// wait between 0.5 -> 2 seconds to do the next request
-				window.setTimeout(function(){unsafeWindow.__doPostBack(action,'');},waitingTime);
-			} else {
-
-				currentTour = new Object();
-				currentTour.id = getNewTourId();		
-				currentTour.name = "autoTour "+currentTour.id;
-				currentTour.geocaches =tq_caches;
-				tours.push(currentTour);
-				log("autoTour done - create new Tour: "+currentTour.id +" ; "+ currentTour.name);
-				saveCurrentTour();
-
-				document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
-			}
-
+							document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+						}					
+						
+					} // end ONLOAD
+			});
 			return;
 		} else {
 			GM_deleteValue('tq_url');
@@ -276,10 +308,10 @@ function init(){
 	
 	// dialog styles
 	GM_addStyle(
-		'.dialogMask {background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000;}'+
-		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:14px;left:50%;margin-left:-250px;margin-top:50px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9010;max-height:85%;overflow:auto;}'+
+		'.dialogMask {background:none repeat scroll 0 0 #FFFFFF;height:100%;left:0;opacity:0.5;position:fixed;top:0;width:100%;z-index:9000000;}'+
+		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
 		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
-		'.dialogBody h1{background-color:#E78F08;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;}'+
+		'.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;background-image:url("http://madd.in/loeschen/bgtab.png")}'+
 	//	'.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#fff;}'+
 		'.dialogHistory {border:1px inset #999999;margin:0 1em 1em;max-height:150px;overflow-y:auto;width:448px;padding-left:1em;}'+
 		'.dialogHistory ul{margin-left:2em;}'+
@@ -287,6 +319,17 @@ function init(){
 		'.dialogFooter input{-moz-border-radius:3px;background:none no-repeat scroll 4px center #EEEEEE;border:1px outset #666666;cursor:pointer;float:right;margin-left:0.5em;padding:3px 5px 5px 20px;min-width:100px;}'+
 		'.dialogFooter input:hover { background-color:#f9f9f9; }'+
 		'.dialogContent {padding:0px 10px 0px 10px;}'
+	);
+	
+	
+	// opent tour dilaog styles:
+	
+	GM_addStyle(
+		"#dialogDetails {height:294px;padding:3px;overflow:auto;background-color:#eff4f9;border:1px solid #C0CEE3; -moz-border-radius: 0px 5px 5px 0px;width:324px;position: absolute; right: 10px;}\
+		 .dialogList li{font-size:10px;padding:3px}\
+		 .activeTour {border: 1px solid #C0CEE3;-moz-border-radius: 5px 0px 0px 5px;background-color:#eff4f9;padding:1px;}\
+		 #dialogListContainer {height:300px;overflow:auto;width:150px;position: absolute; left: 10px;} \
+		"
 	);
 
 

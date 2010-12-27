@@ -214,7 +214,7 @@ function getDtFiler(boxName){
 
 
 function getSizeFilter(){
-	var sizes = ['micro','small','regular','large','other','virtual','not_chosen'];
+	var sizes = ['micro','small','regular','large','other'];
 
 	var sizesCheckboxesDiv = document.createElement('div');
 
@@ -517,7 +517,7 @@ function updateAutoTourMap(lat,lon){
 	node: "markerCoordsPreview",duration: 1000,
 	properties: {
 	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }
+	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
 	}
 	}).play();
 	dojo.animateProperty(
@@ -525,7 +525,7 @@ function updateAutoTourMap(lat,lon){
 	node: "markerRadiusPreview",duration: 1000,
 	properties: {
 	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }
+	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
 	}
 	}).play();
 
@@ -549,7 +549,7 @@ function updateAutoTourMap(lat,lon){
 
 				dojo.animateProperty({
 					node: "markerCountPreview",duration: 1000,
-					properties: {backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }}
+					properties: {backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }}
 				}).play();
 
 
@@ -566,7 +566,7 @@ function updateAutoTourMap(lat,lon){
 
 				dojo.animateProperty({
 					node: "markerCountPreview",duration: 2000,
-					properties: {backgroundColor:{ start: "#FF0005", end: "#EEEEEE" }}
+					properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
 				}).play();
 
 

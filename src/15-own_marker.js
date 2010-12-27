@@ -46,6 +46,13 @@ function showNewMarkerDialog(marker){
 	cordsInput.id = 'markerCoords';
 	cordsInput.style.width = '350px';
 	cordsInput.style.marginRight = '5px';
+	
+	
+	markerKeyInput = document.createElement('input');td.appendChild(markerKeyInput);
+	markerKeyInput.type = "hidden";
+	markerKeyInput.id = 'markerKeyInput';
+
+	
 
 	cordsInput.addEventListener('keyup',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
 	cordsInput.addEventListener('paste',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
@@ -230,8 +237,10 @@ function showNewMarkerDialog(marker){
 			} else {
 				markerPositionDelta = 0;
 			}
+		
+			var markerKey =  document.getElementById('markerKeyInput').value;
 
-			entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value);
+			entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value,markerKey);
 			move(entry.id, markerPositionDelta);
 
 			closeOverlay()
@@ -248,12 +257,13 @@ function showNewMarkerDialog(marker){
 
 	if(marker){
 		nameInput.value = marker.name;
-		cordsInputLat.value = marker.lat;	// 51.123123
-		cordsInputLon.value = marker.lon;	// 123.12333
+		cordsInputLat.value = marker.latitude;	// 51.123123
+		cordsInputLon.value = marker.longitude;	// 123.12333
+		markerKeyInput.value = marker.key;	// 123.12333
 
 
-		latArray = Dec2DM(marker.lat);
-		lonArray = Dec2DM(marker.lon);
+		latArray = Dec2DM(marker.latitude);
+		lonArray = Dec2DM(marker.longitude);
 
 		latOrigin = (latArray[0]<0)?"S":"N";
 		lonOrigin = (lonArray[0]<0)?"W":"E";

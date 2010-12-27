@@ -1,4 +1,4 @@
-function updateTour(e){
+function updateTour(){
 	initCore();
 	updateGUI();
 }
@@ -43,8 +43,20 @@ function updateGUI(){
 	updateCacheCount(currentTour.geocaches.length);
 	// update tourName
 	dojo.byId("tourName").innerHTML = currentTour.name;
+	
+	// update webcode
+	var webcodeSpan = dojo.byId("webcode");
+	
+	log(currentTour.webcode);
+	if(currentTour.webcode){
+		webcodeSpan.innerHTML = "<br>Webcode:<b>"+currentTour.webcode+"</b></span>"
+		webcodeSpan.style.display = "inline";
+	} else {
+		webcodeSpan.style.display = "none";
+	}
+	
 	// update the opendialog
-	populateAllTours();
+	//populateAllTours();
 
     cacheList = document.getElementById('cacheList');	
 	cacheList.innerHTML = "";
@@ -110,6 +122,7 @@ function downloadGPXFunction(){
 			alert(lang['emptyList']);
 		} else {	
 
+			
 			// add the overlay while loading
 			addOverlay(document,lang['pleaseWait']);
 
@@ -136,6 +149,7 @@ function downloadGPXFunction(){
 			nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
 			try {
+				document.getKäsekuchen();
 				if (GM_getValue('gpxschema',1) == 0){
 					dummyString = getGPX();	
 				} else {
@@ -207,7 +221,7 @@ function initGPXTour(){
 
 function uploadTourFunction(id){
 	return function(){ 
-	    var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString;
+	    var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString,waypoints, costumMarkers;
 		try{
 			if(!userName){
 				alert(lang['notLogedIn']);
@@ -223,6 +237,9 @@ function uploadTourFunction(id){
 						if (GM_getValue('uploadMap',true)){
 							//create the overview map
 							geocaches = new Array();
+							waypoints = new Array();				
+							costumMarkers = new Array();
+							
 							for (cache_i = 0; cache_i < tours[i].geocaches.length; ++cache_i){
 								
 								if(GM_getValue("stopTask",false) && cache_i != 0){
@@ -232,30 +249,52 @@ function uploadTourFunction(id){
 								} else if (GM_getValue("stopTask",false) && cache_i == 0 ) {
 									GM_setValue("stopTask",false);
 								}
-								costumMarker = (typeof(tours[i].geocaches[cache_i].lat) != "undefined");
+								costumMarker = (typeof(tours[i].geocaches[cache_i].latitude) != "undefined");
 								if(!costumMarker){
 								    geocache = getGeocache(tours[i].geocaches[cache_i].id);
 
 									mapCache = new Object();
 									mapCache.gcid = geocache.gcid;
+									mapCache.guid = geocache.guid;
 									mapCache.type = geocache.type;
 									mapCache.name = geocache.name;
+									mapCache.difficulty = geocache.difficulty;
+									mapCache.terrain = geocache.terrain;
 									mapCache.latitude = geocache.lat;
 									mapCache.longitude = geocache.lon;
-									mapCache.additional_waypoints = geocache.additional_waypoints;
-									for(waypoint_i = 0 ; waypoint_i < mapCache.additional_waypoints.length; waypoint_i++){
-										mapCache.additional_waypoints[waypoint_i].note = "";
+									
+									// save additional waypoints
+									var additional_waypoints = geocache.additional_waypoints;
+									for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
+										additional_waypoints[waypoint_i].note = "";
 									}
+									//waypoints.push(additional_waypoints);								
+									
+									mapCache.additional_waypoints = additional_waypoints;
 									geocaches.push(mapCache);
 								} else {
-									geocaches.push(tours[i].geocaches[cache_i]);
+									var cm = tours[i].geocaches[cache_i];
+									cm.index = cache_i;
+									costumMarkers.push(cm);
 								}
 								
 								setProgress(cache_i,tours[i].geocaches.length,document);
 							}	
 						}
+						
+						
+						// create request
+						var tourObject = currentTour;
+						tourObject.geocaches = geocaches;
+						tourObject.costumMarkers = costumMarkers;
+						
+						upload(tourObject);
+					
+						
+						
+						
 						// first upload tour 
-						post('http://gctour.madd.in/save.php', 'tour='+uneval(tours[i]).replace(/&/g,"\\u0026"),
+						/*post('http://gctour.madd.in/save.php', 'tour='+uneval(tours[i]).replace(/&/g,"\\u0026"),
 								function(text){				
 									if (GM_getValue('uploadMap',true)){
 										// if this is complete upload map file also!
@@ -270,7 +309,7 @@ function uploadTourFunction(id){
 										alert(codeString);
 										removeOverlay(document);
 									}
-								});
+								});*/
 						break;
 					}
 				}
@@ -278,6 +317,258 @@ function uploadTourFunction(id){
 		} catch(e){addErrorDialog(e,"UPLOAD TOUR ERROR",document); }	
 	}
 }
+
+
+function upload(tour){
+		if( !tour.password){ // vllt doch mit !tour.uuid || ????
+			var pw = prompt("passwort");  
+			if(!pw) return;
+			tour.password = pw;
+			
+			upload(tour);
+		} else {
+		
+			// maybe there are more CHARS than only '&'!
+			var jsonTour = JSON.stringify(tour).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication 
+			
+			//var jsonTour = JSON.stringify(tour);
+			
+			
+			post(API_HOST+'/tour/save', "tour="+jsonTour,
+				function(text){
+					var tourServer = JSON.parse(text);
+					// after an error you get this result, eg:
+					// {"message":"wrong password","type":"error"}
+					
+					// only if the result is a message
+					if(tourServer.message){
+							var pw = prompt("falsches Passwort - bitte richtiges eingeben");  
+							
+							//if pw is empty or dialog closed
+							if(!pw){ 
+								closeOverlay();
+								return;
+							}
+							tour.password = pw;		
+							upload(tour);
+					} else { // result is a tour and could be saved  - all done
+					
+					
+						// remaind to local id!!
+						tourServer.id = tour.id;
+						
+						currentTour = tourServer;
+						saveCurrentTour();
+						
+						checkOnlineConsistent(currentTour);
+						
+						
+						updateTour();
+						//~ alert(uneval(tourServer));
+						//~ alert(uneval(currentTour));
+						
+						closeOverlay();
+					}
+						
+				
+					
+				}
+		    );
+	    
+
+		}
+}
+
+function openSettingsDialog(){
+	var settings = new Settings();
+	settings.show();
+
+
+	
+	
+	/*var overLay = getOverlay("settings NO LANG");
+	
+	
+	var settings = new Settings();
+	
+	
+	
+	
+	overLay.appendChild(settings.getLanguage());
+	
+	
+	
+	
+	
+	var RADIO_BUTTONS = 0;
+	var CHECK_BOX = 1;
+	var HEADER = 2;
+	var LANGUAGE = 3;
+	var FONTSIZE = 4;
+	var DEFAULTMAPTYPE = 5;
+	var GPXSCHEMA = 6;
+	var DEFAULTMAPSIZE = 7;
+
+	var settingsArray = new Array(
+			new Array(LANGUAGE,''),
+			new Array(HEADER, 'printview'),			
+			new Array(CHECK_BOX,'settingsPrintMinimal', 'printMinimal',false),
+			new Array(RADIO_BUTTONS,''),
+			new Array(FONTSIZE,'settingsFontSize', 'printFontSize',"x-small"),
+			new Array(CHECK_BOX,'settingsDecryptHints', 'decryptPrintHints',true),
+			new Array(CHECK_BOX,'settingsEditDescription', 'printEditMode',false),
+			//~ new Array(CHECK_BOX,'settingsRemoveImages', 'printRemoveImages',true),
+			new Array(CHECK_BOX,'settingsShowSpoiler', 'printSpoilerImages',true),			
+			new Array(CHECK_BOX,'settingsAdditionalWaypoints', 'printAdditionalWaypoints',true),
+			new Array(CHECK_BOX,'settingsLoggedVisits', 'printLoggedVisits',false),
+			//~ new Array(CHECK_BOX,'settingsAttributes', 'printAttributes',true),
+			new Array(CHECK_BOX,'settingsPageBreak', 'printPageBreak',false),
+			new Array(CHECK_BOX,'settingsPageBreakAfterMap', 'printPageBreakAfterMap',true),
+			new Array(CHECK_BOX,'settingsFrontPage', 'printFrontpage',true),
+			new Array(CHECK_BOX,'settingsOutlineMap', 'printOutlineMap',true),
+			new Array(CHECK_BOX,'settingsOutlineMapSinge', 'printOutlineMapSingle',true),
+			new Array(DEFAULTMAPTYPE,'settingsMapType', 'printOutlineMapType',"Karte"),
+			new Array(DEFAULTMAPSIZE,'settingsMapSize', 'defaultMapSize',"large"),
+			new Array(HEADER, 'settingsGPXSchema'),
+			new Array(GPXSCHEMA,''),
+			new Array(HEADER, 'settingsSendToGPS'),
+			new Array(CHECK_BOX,'settingsShowGPX', 'showGpx',false),
+			new Array(HEADER, 'settingsDownladGPX'),		
+			new Array(CHECK_BOX,'settingsGPXHtml', 'gpxhtml',true),
+			new Array(CHECK_BOX,'settingsGPXWpts', 'gpxwpts',true),
+			new Array(CHECK_BOX,'settingsGPXStripGC', 'gpxstripgc',false),
+			
+			new Array(HEADER, 'settingsUploadTour'),		
+			new Array(CHECK_BOX,'settingsTourMap', 'uploadMap',true)
+	);
+*/
+
+
+	
+}
+
+
+function openTourDialog(){
+	var overLay = getOverlay(lang['openTour']);
+	
+	
+	var tourList = createElement('div',{id:"dialogListContainer"});append(tourList,overLay);
+	var cacheList = createElement('div',{id:"dialogDetails"});append(cacheList,overLay);
+	cacheList.innerHTML = "bitte eine Tour anklicken! (NO LANGUAGE MAPPING)";
+	
+	var tourListUl = createElement('ul');	
+	tourListUl.setAttribute("class", "dialogList");
+	append(tourListUl,tourList);
+	
+	
+	//construct tour list
+	for (var tourIt = 0; tourIt<tours.length; tourIt++){
+		var tour = tours[tourIt];
+		var tourListLi = createElement('li',{id:"tour"+tour.id});append(tourListLi,tourListUl);
+			
+		
+		
+		var tourLink;
+		// make the current Tour not clickable nor deletable!
+		if(tour.id == currentTour.id){	
+			tourLink = createElement('span',{style:"font-size:10px;"});
+			tourLink.innerHTML = tour.name+"&nbsp;<small>("+tour.geocaches.length+")</small>";
+			
+			
+			tourListLi.setAttribute("class", "activeTour");
+			append(tourLink,tourListLi);	
+			
+		} else {			
+			tourLink = createElement('a',{style:"cursor:pointer;font-size:10px;color:#003399"});
+			tourLink.innerHTML = tour.name+"&nbsp;<small>("+tour.geocaches.length+")</small>";
+			tourLink.addEventListener('click', showCacheList(tour),false);
+			
+			var deleteButton = document.createElement('img',{title:lang['removeTour'],src:""+deleteImageString,style:"cursor:pointer;margin-right:5px:float:right;"});
+			
+			var deleteButton = document.createElement('img');
+			deleteButton.title = lang['removeTour'];
+			deleteButton.src = deleteImageString;
+			deleteButton.style.cursor = 'pointer';
+			deleteButton.style.marginRight = '5px';
+			deleteButton.style.cssFloat = 'right';
+			deleteButton.addEventListener('click',deleteTourFunction(tours[tourIt].id,tourListLi), false);
+		
+		
+			append(tourLink,tourListLi);	
+			append(deleteButton,tourListLi);	
+			
+		}	
+			
+		if(tour.webcode){
+			var webImage = createElement('img',{src:globeImage,style:"float:left;margin-right:3px;"});
+			tourLink.appendChild(webImage);
+		}	
+			
+			
+	}	
+	
+	
+	
+	// load,close buttons
+	var buttonsDiv = createElement('div',{align:"right",style:"width:480px;position: absolute; bottom: 10px;border-top: 1px solid lightgray;",});append(buttonsDiv,overLay);
+	var loadButton = createElement('button',{disabled:"",id:"loadButton"});append(loadButton,buttonsDiv);
+		loadButton.innerHTML = lang['load'];
+		loadButton.addEventListener('click', function(){
+			var id = dojo.byId("dialogDetails").getAttribute("tourid");
+			loadTour(id)();
+			closeOverlay();
+		}, false);
+		
+		
+		
+	var closeButton = createElement('button');append(closeButton,buttonsDiv);
+		closeButton.innerHTML = lang["cancel"];
+		closeButton.addEventListener('click', closeOverlay, false);
+	
+	
+	// load currentTour
+	showCacheList(currentTour)();
+
+}
+
+function showCacheList(tour){
+	return function(){
+		var cacheList = document.getElementById('dialogDetails');
+		cacheList.setAttribute("tourid", tour.id);
+		
+
+		cacheList.innerHTML = "<u><b>"+tour.name+"</b></u><br/>";
+		
+		
+		var cacheListUl = createElement('ul');
+		cacheListUl.setAttribute("class", "dialogList");
+		
+		for (var cacheIt = 0; cacheIt<tour.geocaches.length; cacheIt++){
+			var geocache = tour.geocaches[cacheIt];
+			
+			var cacheListLi = createElement('li',{style:"b"});append(cacheListLi,cacheListUl);
+			cacheListLi.innerHTML = "<img src='"+geocache.image+"' style='margin-left=10px'> "+geocache.name+"&nbsp;<small>("+geocache.id+")</small>";
+			
+		
+		}
+		append(cacheListUl,cacheList);
+		
+		// make loadButton available
+		
+		
+		var loadButton = document.getElementById('loadButton');
+		loadButton.innerHTML = "'"+tour.name+"'&nbsp;"+lang['load'];
+		loadButton.removeAttribute('disabled');
+		
+		
+		
+		// first remove all active tour css classes
+		dojo.query("ul[class='dialogList'] > li").removeClass("activeTour");
+		//and then set it to the clicked
+		document.getElementById('tour'+tour.id).setAttribute("class", "activeTour");
+	}
+}
+
 
 function showAutoTourDialog(center,radius){
     var overLay, queryFilterDiv;
@@ -317,7 +608,8 @@ function downloadTourFunction(webcode){
 
 	details = new Object();
 	details.method = 'GET';
-	details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
+	//~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
+	details.url = API_HOST+'/tour/'+trim(webcode)+'/json';
 	details.onload = function(response) {parseTourQuery(response)};
 	GM_xmlhttpRequest(details);	
 }
@@ -359,11 +651,11 @@ function parseTourQuery(response){
     var onlineTour;
 
 	try{
-		onlineTour = eval(response.responseText);
+		onlineTour =  JSON.parse(response.responseText);
 
 		// all done - remove the overlay
-		removeOverlay(document);
-
+		//removeOverlay(document);
+		closeOverlay();
 
 
 		if(onlineTour.geocaches.length == 0){

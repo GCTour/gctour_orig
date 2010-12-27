@@ -34,7 +34,7 @@ function isIdInTable(gcId){
 
 function addNewTableCell(theEntry,effects){
 	
-	var costumMarker = (typeof(theEntry.lat) != "undefined");
+	var costumMarker = (typeof(theEntry.latitude) != "undefined");
 
 	var entryLi = createElement('li', {id: theEntry.id, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');"});	
 	//set the image
@@ -47,15 +47,16 @@ function addNewTableCell(theEntry,effects){
 	var nameCite = createElement('span',{style:"vertical-align:top"});
 	if(!costumMarker){	          
 		var linkElement = document.createElement('a');
-		linkElement.style.fontSize = '9px';
+		//linkElement.style.fontSize = '9px'; to small!
 		linkElement.style.fontFamily = 'arial,sans-serif';
 		linkElement.href = 'http://www.geocaching.com/seek/cache_details.aspx?guid='+theEntry.guid;
 		linkElement.textContent = theEntry.id;
 		nameCite.appendChild(linkElement);
 	} else {
 		nameCite.textContent = theEntry.name;
+		nameCite.style.textDecoration = "underline";
 	}
-	entryLi.appendChild(nameCite);
+	
 	
 	// the log/edit button and the delete button
 	var functionButtonsDiv = document.createElement('div');
@@ -138,7 +139,10 @@ function addNewTableCell(theEntry,effects){
 	upDownDiv.appendChild(downButton);
 	upDownDiv.appendChild(bottomButton);
 	functionButtonsDiv.appendChild(upDownDiv);
+	
+	
 	entryLi.appendChild(functionButtonsDiv);
+	entryLi.appendChild(nameCite);
 	
 	
 	var nameDiv = document.createElement('div');
@@ -249,7 +253,7 @@ function moveBottom(id){
 	}
 }
 
-function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol){
+function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,key){
 	
 	if(currentTour.geocaches.length == 0){
 		var table = document.getElementById('tourTable');		
@@ -265,15 +269,14 @@ function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol){
 	//		symbol	->	GPX symbol name "Red Flag"
 	
 	var entry = new Object();
-	entry.id = name+lat+lon;	
+	entry.id = lat+lon;	
 	entry.name = name;		
 	entry.latitude = lat;
 	entry.longitude = lon;
-	entry.lat = lat;
-	entry.lon = lon;
 	entry.image = typeImage;
 	entry.content = content;
 	entry.symbol = typeSymbol;
+	entry.key = key;
 	
 	log("New custommarker: " + entry.name +" lat:"+entry.lat+" lon:"+entry.lon+" Type:"+entry.symbol +" content:"+entry.content);
 	
@@ -378,6 +381,10 @@ function saveTour(tour){
 	GM_setValue('currentTour', tour.id);
 	GM_setValue('tours', uneval(tours));
 	log("updating "+tour.name);
+	
+	checkOnlineConsistent(tour);
+	
+	
 }
 
 function updateCacheCount(count){
@@ -445,6 +452,9 @@ function removeElementsFunction(descriptionElement, id, tagName){
 function loadTour(id){
 	return function(){
 		GM_setValue('currentTour',id);
+		
+		document.getElementById("inconsistentTour").style.display="none";
+		
 
 		if(document.URL.search("webcode")>=0){
 			window.location = "http://www.geocaching.com";
@@ -455,6 +465,61 @@ function loadTour(id){
 	}
 }
 
+
+function checkOnlineConsistent(t){
+//	var t = getTourById(id);
+	
+	
+	if(t.webcode){
+	//if(false){
+
+		geocaches = new Array();
+		waypoints = new Array();				
+		costumMarkers = new Array();
+							
+		for (cache_i = 0; cache_i < t.geocaches.length; ++cache_i){
+									
+			var costumMarker = (typeof(t.geocaches[cache_i].latitude) != "undefined");
+			if(!costumMarker){
+				geocaches.push(t.geocaches[cache_i]);
+			} else {
+				var cm = eval(uneval(t.geocaches[cache_i]));
+				cm.index = cache_i;
+				costumMarkers.push(cm);
+			}
+		}
+		
+								
+		// create request
+		var tourObject = eval(uneval(t));
+		tourObject.geocaches = geocaches;
+		tourObject.costumMarkers = costumMarkers;
+				
+		var jsonTour = JSON.stringify(tourObject);
+		post(API_HOST+'/tour/check', "tour="+jsonTour,	
+			function(text){
+				log("checkOnlineConsistent:"+text)
+				
+				if(text == "false"){
+					if (document.getElementById("inconsistentTour")){
+						document.getElementById("inconsistentTour").style.display="inline";
+					} else {
+						window.setTimeout(function(){document.getElementById("inconsistentTour").style.display="inline"},3000);	
+					}
+				} else {
+					
+					if (document.getElementById("inconsistentTour")){
+						document.getElementById("inconsistentTour").style.display="none";
+					} else {
+						window.setTimeout(function(){document.getElementById("inconsistentTour").style.display="none"},3000);	
+					}
+				}
+			}
+		);
+	}
+}
+	
+
 function deleteTourFunction(id,listElement){
 	return function(){
 		if (confirm(lang['removeTourDialog'])) {  
@@ -462,9 +527,26 @@ function deleteTourFunction(id,listElement){
 				if(tours[i].id == id){
 					log("removing '"+tours[i].name +"'");
 					// array in js are dumb - where is removeAt ??
+					
+					var cachelist = document.getElementById('dialogDetails');
+					
+	
+					
+					if(cachelist.getAttribute("tourid") == tours[i].id){
+						
+						showCacheList(currentTour)();
+						var loadButton = document.getElementById('loadButton');
+						loadButton.setAttribute("disabled","disabled");
+					}
+					
+					dojo.destroy(listElement);
+
+
+
 					tours.splice(i,1);
-					saveCurrentTour();
-					updateTour();
+					saveCurrentTour();					
+					
+					//updateTour();
 					
 					break;
 				}

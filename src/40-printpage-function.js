@@ -1,4 +1,4 @@
-function printPageFunction(){
+function printPageFunction(currentTour){
 	return function(){
 		if(!userName){
 			alert(lang['notLogedIn']);
@@ -56,7 +56,7 @@ function printPageFunction(){
 				'</div>';
 			
 				
-			var costumMarker = (typeof(currentTour.geocaches[0].lat) != "undefined");
+			var costumMarker = (typeof(currentTour.geocaches[0].latitude) != "undefined");
 			if(!costumMarker){		
 				var newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[0].guid,'printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
 			} else {
@@ -149,13 +149,13 @@ function printPageFunction(){
 							
 						var isCostumMarker = false;	
 						for (var i = 0; i < currentTour.geocaches.length; ++i){
-							var costumMarker = (typeof(currentTour.geocaches[i].lat) != "undefined");
+							var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 						
 							if(!costumMarker){
 								
 								var tr = document.createElement('tr');coverTable.appendChild(tr);
 								var td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = "<b>"+(i+1)+"</b>";
+								td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
 								
 					
 								td = document.createElement('td');tr.appendChild(td);
@@ -194,13 +194,13 @@ function printPageFunction(){
 							'</tr>';
 							
 							for (var i = 0; i < currentTour.geocaches.length; ++i){
-								var costumMarker = (typeof(currentTour.geocaches[i].lat) != "undefined");
+								var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 							
 								if(costumMarker){
 									var tr = document.createElement('tr');coverTable.appendChild(tr);
 									var td = document.createElement('td');tr.appendChild(td);
 									
-									td.innerHTML = "<b>"+(i+1)+"</b>";
+									td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
 									
 									td = document.createElement('td');tr.appendChild(td);
 									td.innerHTML = "<img src='"+currentTour.geocaches[i].image+"'>";
@@ -215,8 +215,8 @@ function printPageFunction(){
 									td.style.borderBottomWidth = '1px';
 									td.innerHTML = currentTour.geocaches[i].name;
 									
-									var latArray = Dec2DM(currentTour.geocaches[i].lat);
-									var lonArray = Dec2DM(currentTour.geocaches[i].lon);
+									var latArray = Dec2DM(currentTour.geocaches[i].latitude);
+									var lonArray = Dec2DM(currentTour.geocaches[i].longitude);
 									td.innerHTML += "&nbsp;-&nbsp;&nbsp;"+latArray[0]+ "° " +latArray[1] ;
 									td.innerHTML += "&nbsp;/&nbsp;"+lonArray[0]+ "° " +lonArray[1];
 									
@@ -246,7 +246,7 @@ function printPageFunction(){
 						} else if (GM_getValue("stopTask",false) && i == 0 ) {
 							GM_setValue("stopTask",false);
 						}
-						var costumMarker = (typeof(currentTour.geocaches[i].lat) != "undefined");
+						var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 						
 						if(!costumMarker){
 							var geocache = getGeocache(currentTour.geocaches[i].id);
@@ -372,10 +372,10 @@ function printPageFunction(){
 								getOverviewMap(geocacheArray,newwindow2, "MAP_"+geocache.gcid);
 							}
 							
-												
-							var latArray = Dec2DM(geocache.latitude);
+						/*						
+							var latArray = Dec2DM(geocache.lat);
 							var lonArray = Dec2DM(currentTour.geocaches[i].lon);					
-							
+							*/
 							
 						var geocacheMapping = new Array(
 							new Array('GCID',geocache.gcid),
@@ -442,8 +442,8 @@ function printPageFunction(){
 						} else {
 									
 									
-							var latArray = Dec2DM(currentTour.geocaches[i].lat);
-							var lonArray = Dec2DM(currentTour.geocaches[i].lon);
+							var latArray = Dec2DM(currentTour.geocaches[i].latitude);
+							var lonArray = Dec2DM(currentTour.geocaches[i].longitude);
 								
 										
 							var markerMapping = new Array(

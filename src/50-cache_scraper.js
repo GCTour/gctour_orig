@@ -59,7 +59,7 @@ function getGeocacheFromElement(element){
 
 	var geocache = new Object();
 	geocache.gcid = trim(dojo.query('span[id="ctl00_uxWaypointName"]',element)[0].textContent);
-	geocache.cacheid = trim(dojo.query('a[href*="http://www.geocaching.com/seek/log.aspx?ID="]',element)[0].href.split("=")[1]);
+	geocache.cacheid = trim(dojo.query('a[href*="/seek/log.aspx?ID="]',element)[0].href.split("=")[1]);
 	geocache.guid = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly']",element)[0].href.split("guid=")[1];
 	geocache.name = trim(dojo.query('span[id="ctl00_ContentBody_CacheName"]',element)[0].textContent);
 	geocache.type =	dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src.split("/")[5].split(".")[0];
@@ -94,9 +94,9 @@ function getGeocacheFromElement(element){
 		geocache.hidden = hiddenMonth+"/"+hiddenDay+"/"+hiddenYear;
 	}
 	
-	geocache.size = dojo.query('small',element)[0].textContent.split("(")[1].split(")")[0];
-	geocache.difficulty = dojo.query('img',strongs[3].parentNode)[0].alt.split(" out of ")[0];
-	geocache.terrain = dojo.query('img',strongs[4].parentNode)[0].alt.split(" out of ")[0];
+	geocache.size = dojo.query('small',element)[2].textContent.split("(")[1].split(")")[0];
+	geocache.difficulty = dojo.query('img',strongs[1].parentNode)[0].alt.split(" out of ")[0];
+	geocache.terrain = dojo.query('img',strongs[2].parentNode)[0].alt.split(" out of ")[0];
 
 
 	geocache.coordinates = dojo.query('span[id="ctl00_ContentBody_LatLon"]',element)[0].innerHTML;

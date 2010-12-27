@@ -17,3 +17,16 @@ function  setPrintFontSize(fontSize){
 		GM_setValue('printFontSize',fontSize);
 	}
 }
+
+function  setPrintMapType(mapType){
+	return function(){
+		GM_setValue('printOutlineMapType',mapType);
+	}
+}
+
+function  setPrintMapSize(mapSize){
+	return function(){
+		GM_setValue('defaultMapSize',mapSize);
+	}
+}
+

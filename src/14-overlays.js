@@ -1,28 +1,41 @@
-function getOverlay(caption){
+function getListOverlay(caption,theDocument){
+	var overlay = getOverlay(caption,theDocument);
+	var list = createElement('div',{id:"dialogListContainer"});append(list,overlay);
+	
+	var listUl = createElement('ul');	
+	listUl.setAttribute("class", "dialogList");
+	append(listUl,list);
+	
+	
+	
+	var details = createElement('div',{id:"dialogDetails"});append(details,overlay);
+	
+	return new Array(listUl,details);
+}
+	
+
+function getOverlay(caption,theDocument){
     var bodyNew, head, verLay, overlayMarker, title, closeDiv, closeButton;
 
-	bodyNew = document.getElementsByTagName('body')[0];	
-	head = document.getElementsByTagName('head')[0];    
-	overlayStyle = document.createElement('style');
-	overlayStyle.type = 'text/css';
-	overlayStyle.id = 'overlayStyle';
-	overlayStyle.innerHTML = 'textarea{border:1px solid black;} .overlay_marker{max-height:90%;overflow:hidden;opacity:1;text-align:left; padding:10px;background-color:white;margin-top:40px;border:2px solid #8C9E65; -moz-border-radius-topright:30px;-moz-border-radius-topleft:30px;width:60%;color:black;} .tour_overlay  '+
-		'{background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;color: #ffffff;opacity: 0.4;z-index: 9000;position: fixed;top: 0px;left: 0px;display: block;width: 100%;height: 100%;}'+
-		'.label {float:left;padding:3px 0 0;width:10em;} .ebene {clear:both;padding-bottom:2px;padding-left:10px;padding-top:2px;} .feldbreite {font-size:1em;overflow:auto;width:30em;} .submit {clear:both;margin:1em 0 5px 11em; padding:2px; border-bottom: 1px solid gray}';
-	//head.appendChild(overlayStyle); 
+	
+	localDocument = (theDocument)?theDocument:document;
 
 
-	overLay = document.createElement('div');
+	bodyNew = localDocument.getElementsByTagName('body')[0];	
+	head = localDocument.getElementsByTagName('head')[0];    
+
+
+	overLay = localDocument.createElement('div');
 	overLay.align = 'center';
 	overLay.className = 'dialogMask';
 	overLay.id = "dialogMask";
 	
 
-	var dialogBody = document.createElement('div');
+	var dialogBody = localDocument.createElement('div');
 	dialogBody.id= "dialogBody";
 	dialogBody.className= "dialogBody";
 	
-	var dialogHead =  document.createElement('h1');append(dialogHead,dialogBody);
+	var dialogHead =  localDocument.createElement('h1');append(dialogHead,dialogBody);
 	//	var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gcTourIconString+"'>";
 		var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>";
 	dialogHead.innerHTML = icon+caption;
@@ -33,16 +46,16 @@ function getOverlay(caption){
 		closeButton.addEventListener('click', closeOverlay, false);
 		//addOpacityEffects(closeButton);
 		
-	var dialogContent = document.createElement('div');append(dialogContent,dialogBody);
+	var dialogContent = localDocument.createElement('div');append(dialogContent,dialogBody);
 	dialogContent.className= "dialogContent";
 
 	
-
+/*
 	
 	
 
 
-	overlayMarker = document.createElement('div');
+	overlayMarker = localDocument.createElement('div');
 	overlayMarker.id = "overlayMarker";
 
 	overlayMarker.style.zIndex='9999';
@@ -65,7 +78,7 @@ function getOverlay(caption){
 
 
 
-	title = document.createElement('h2');
+	title = localDocument.createElement('h2');
 	title.style.background = "#F6A828";
 	title.style.border = "1px solid #E78F08";
 	title.style.padding = "2px";
@@ -83,20 +96,18 @@ function getOverlay(caption){
 
 
 	overlayMarker.appendChild(title);
-
+*/
 
 	bodyNew.appendChild(overLay);
 	bodyNew.appendChild(dialogBody);
-//	bodyNew.appendChild(dialogWrapper);
-//	bodyNew.appendChild(overlayMarker);
 
 	return dialogContent;
-	//~ overlayMarker.appendChild(content);
 }
 
 function closeOverlay(){
 	dojo.destroy("dialogMask");
 	dojo.destroy("dialogBody");
+	dojo.destroy("progressOverlay");
 }
 
 function addErrorDialog(exception, errorString,theDocument){
@@ -192,25 +203,30 @@ function addErrorDialog(exception, errorString,theDocument){
 
 
 function addOverlay(theDocument, caption){
+	
+	// todo - neue dialoge benutzten!
+	
+	
     var bodyNew, head, overLay, overLayContent, overLayTitle, progressBar, progressBarElement, cancelDiv, cancelButton;
 
 	bodyNew = theDocument.getElementsByTagName('body')[0];	
 	head = theDocument.getElementsByTagName('head')[0];    
 	overlayStyle = theDocument.createElement('style');
 	overlayStyle.type = 'text/css';
-	overlayStyle.innerHTML = '.dark_msg_overlay {background:#666666 url('+backgroundStripeImage+') repeat scroll 50% 50%;color: #ffffff;opacity: 0.6;opacity: 0.6;z-index: 9998;position: fixed;top: 0px;left: 0px;display: block;width: 100%;height: 100%;}';
+	overlayStyle.innerHTML = '.dialogMask {background:none repeat scroll 0 0 #FFFFFF;height:100%;left:0;opacity:0.5;position:fixed;top:0;width:100%;z-index:9000000;}';
 	head.appendChild(overlayStyle); 
 
 
 
 	overLay = document.createElement('div');
 	overLay.align = 'center';
-	overLay.className = 'dark_msg_overlay';
+	overLay.className = 'dialogMask';
+	overLay.id = 'dialogMask';
 
 
 	overLayContent = document.createElement('div');
 	overLayContent.id = 'progressOverlay';
-	overLayContent.style.zIndex='9999';
+	overLayContent.style.zIndex='9000010';
 	overLayContent.style.backgroundColor='#EEEEEE';
 	overLayContent.style.left='40%';
 	overLayContent.style.top='50px';
@@ -250,9 +266,10 @@ function addOverlay(theDocument, caption){
 	progressBarElement.style.height = '13px';
 	progressBarElement.style.fontSize = '10px';
 	progressBarElement.style.backgroundColor = '#E78F08';
-	progressBarElement.style.position = 'absolute';
-	progressBar.appendChild(progressBarElement);
+	progressBarElement.style.position = 'absolute';	
 	progressBarElement.style.setProperty("-moz-border-radius", "4px", "");
+	
+	progressBar.appendChild(progressBarElement);
 
 	overLayContent.appendChild(progressBar);
 
@@ -266,6 +283,7 @@ function addOverlay(theDocument, caption){
 
 	bodyNew.appendChild(overLay);
 	bodyNew.appendChild(overLayContent);
+	
 }
 
 function setProgress(i,count,theDocument){
@@ -280,7 +298,7 @@ function setProgress(i,count,theDocument){
 
 function removeOverlay(theDocument) {
     var overLay, progressElement, body, head;
-
+alert("REMOVE");
 	overLay = theDocument.getElementsByClassName('dark_msg_overlay')[0];
 	progressElement = overLay.nextSibling;
 

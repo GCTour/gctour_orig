@@ -4,6 +4,7 @@
 	lang_ger['name'] = 'Deutsch';
 	lang_ger['language'] = 'Sprache';
 	lang_ger['addToTour'] = 'zur Tour hinzufügen';
+	lang_ger['directPrint'] = 'diese Geocache drucken';
 	lang_ger['addMarkedToTour'] = 'markierte zur Tour hinzufügen';	
 	lang_ger['addShownBookmarks'] = 'zur <b>aktuellen</b> Tour hinzufügen';	
 	lang_ger['addShownBookmarksToNewTour'] = 'zu <b>neuer</b> Tour hinzufügen';	
@@ -22,7 +23,10 @@
 	lang_ger['printview'] = 'Druckansicht';
 	lang_ger['downloadGpx'] = 'GPX downloaden';
 	lang_ger['showSettings'] = 'Einstellungen anzeigen';
+	
+	lang_ger['settings_caption'] = 'Einstellungen';
 	lang_ger['settingsPrintMinimal'] = 'Minimierte Druckansicht';
+	lang_ger['settingsPrintMinimalDesc'] = 'Minimierte Druckansicht Beschreibung';
 	lang_ger['settingsLogCount'] = 'Anzahl der Logs in Druckansicht';
 	lang_ger['settingsLogCountNone'] = 'keine<br/>';
 	lang_ger['settingsLogCountAll'] = 'alle<br/>';
@@ -45,8 +49,19 @@
 	lang_ger['settingsGPXSchemaAU'] = 'geocaching.com.au';
 	lang_ger['settingsUploadTour'] = 'Tour upload';
 	lang_ger['settingsTourMap'] = 'Karte beim upload erzeugen';
+	
+	lang_ger['settings_map'] = 'Karten';	
+	lang_ger['settings_map_geocacheid'] = 'Geocache ID anzeigen';
+	lang_ger['settings_map_geocachename'] = 'Geocache Namen anzeigen';
+	lang_ger['settings_map_awpts'] = 'Additional Waypoints anzeigen';
+	lang_ger['settings_map_awpt_name'] = 'Additional Waypoints Namen einblenden';
+	lang_ger['settings_map_awpt_lookup'] = 'Additional Waypoints Lookup einblenden';
+	lang_ger['settings_map_owpts'] = 'Eigene Wegpunkte einblenden';
+	lang_ger['settings_map_owpt_name'] = 'Eigener Wegpunkt Name anezeigen';
+	lang_ger['settings_map_gcde'] = 'Karte von geocaching.de einblenden';
 	lang_ger['loadTour'] = 'Tour laden:<br/>';
 	lang_ger['openTour'] = 'eine Tour laden';
+	lang_ger['load'] = 'laden';
 	lang_ger['removeTour'] = 'diese Tour löschen';
 	lang_ger['newTourDialog'] = 'Bitte gib einen Namen für die neue Tour ein ...';
 	lang_ger['rename'] = 'umbenennen';
@@ -100,7 +115,8 @@
     lang_eng = new Object();
 	lang_eng['name'] = 'English';
 	lang_eng['language'] = 'Language';
-	lang_eng['addToTour'] = 'Add to Tour';
+	lang_eng['addToTour'] = 'Add to Tour';	
+	lang_eng['directPrint'] = 'print this Geocache';
 	lang_eng['addMarkedToTour'] = 'Add checked to Tour';
 	lang_eng['addShownBookmarks'] = "to <b>curent</b> tour";	
 	lang_eng['addShownBookmarksToNewTour'] = 'to <b>new</b> tour';	
@@ -119,6 +135,9 @@
 	lang_eng['printview'] = 'printview';
 	lang_eng['downloadGpx'] = 'download GPX';
 	lang_eng['showSettings'] = 'show settings';
+	
+	
+	lang_eng['settings_caption'] = 'Settings';
 	lang_eng['settingsPrintMinimal'] = 'minimal printview'
 	lang_eng['settingsLogCount'] = 'number of logs in printview'
 	lang_eng['settingsLogCountNone'] = 'none<br/>';
@@ -142,8 +161,21 @@
 	lang_eng['settingsGPXSchema'] = 'GPX-Version';
 	lang_eng['settingsGPXSchemaGS'] = 'groundspeak';
 	lang_eng['settingsGPXSchemaAU'] = 'geocaching.com.au';
+	
+	
+	lang_eng['settings_map'] = 'Map';	
+	lang_eng['settings_map_geocacheid'] = 'Show Geocache id';	
+	lang_eng['settings_map_geocachename'] = 'Show Geocache name';
+	lang_eng['settings_map_awpts'] = 'Display Addtional Waypoints';
+	lang_eng['settings_map_awpt_name'] = 'Show Additional Waypoints name';
+	lang_eng['settings_map_awpt_lookup'] = 'Show Additional Waypoints lookup';	
+	lang_eng['settings_map_owpts'] = 'Display own waypoints';
+	lang_eng['settings_map_owpt_name'] = 'show own waypoints name';
+	lang_eng['settings_map_gcde'] = 'show map from geocaching.de';
+	
 	lang_eng['loadTour'] = 'load tour:<br/>';
 	lang_eng['openTour'] = 'load a tour';
+	lang_eng['load'] = 'load'
 	lang_eng['removeTour'] = 'delete this tour';
 	lang_eng['newTourDialog'] = 'Please enter a name for the new tour ...';
 	lang_eng['rename'] = 'rename';

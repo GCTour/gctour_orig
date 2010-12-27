@@ -8,12 +8,12 @@ function update() {
 	var currentDate = new Date();
     // if the last updateDate is more than 86 400 000 msec (1 day) ago - check for updates
 	//if (currentDate.getTime() - updateDate.getTime() > 86400000) {
-	if (true) {
+	if (true) { // ATTENTION!!
 		// set the new updateDate
 		GM_setValue('updateDate', uneval(currentDate));
 	    var update_request = {'script':scriptId,'version':version,'build':build};
 
-	    post('http://gctour-spot.appspot.com/update', 'update='+JSON.stringify(update_request),
+	    post(API_HOST+'/update', 'update='+JSON.stringify(update_request),
 		    function(text){
 			    //alert(text);
 			    var update_obj = JSON.parse(text);

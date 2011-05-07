@@ -92,19 +92,30 @@ function initComponents(){
 	//~ var thisDiv = getElementsByAttribute('class','widget-navigation')[0];
 	
 	var menuButton = createElement('div',{
-		style:'height: 35px !important;\
+		style:'height: 29px !important;\
 		padding: 0 !important;\
 		position: fixed !important;\
-		top: 100px !important;\
+		top: 30px !important;\
 		width: 35px !important;\
+		background-color:#fff;\
 		z-index: 100001 !important;\
 		border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;'});
 	menuButton.className = "header";
-	menuButton.innerHTML = "<h1><img src='"+gctourLogoSmall+"'></h1>";
 	
-	
+	menuButton.innerHTML = "<h1 style='height: 10px;border-radius: 0 5px 0 0;'><img src='"+gctourLogoSmall+"'></h1>";
+
 	dojo.query("h1",menuButton)[0].id = "gctourButton";
-	dojo.query("h1",menuButton).onmouseover(function(e){dojo.byId('gctourContainer').style.display = "block";});
+	dojo.query("h1",menuButton).onmouseover(function(e){
+		dojo.animateProperty(
+		{
+		node: "gctourContainer",
+		duration: 250,
+		properties: {
+			left:   { start: "-210", end: "0" }
+		 }
+		}).play();
+		
+	});
 	
 	dojo.body().appendChild(menuButton);
 	
@@ -112,8 +123,8 @@ function initComponents(){
 	var thisDiv = createElement('div',{
 		style:'background-color: #fff;\
 		height: 600px !important;\
-		display: none;\
 		overflow: hidden;\
+		left:-210px;\
 		padding: 0 !important;\
 		position: fixed !important;\
 		top: 30px !important;\
@@ -122,17 +133,31 @@ function initComponents(){
 		border: 1px solid #333333;border-radius:0 5px 5px 0;',
 		id:"gctourContainer"});
 		
+	if(sticky){
+		thisDiv.style.left = "0px";
+	}
+		
 			//~ border-color: #C1CAA8 #C1CAA8 #C1CAA8 -moz-use-text-color;border-style: outset outset outset none;border-width: 1px 1px 1px medium;'});
 	dojo.body().appendChild(thisDiv);
 
 
 	dojo.query(thisDiv).onmouseenter(function(e){ clearTimeout(timeout);});
-	dojo.query(thisDiv).onmouseleave(function(e){timeout = setTimeout(function(){dojo.byId('gctourContainer').style.display = "none";}, 1000);});
-	
-	//~ timeOut = 
-	
-	
-	
+	dojo.query(thisDiv).onmouseleave(function(e){
+		
+		if(!sticky){
+			timeout = setTimeout(function(){
+				dojo.animateProperty(
+				{
+				node: "gctourContainer",
+				duration: 1000,
+				properties: {
+					left:   { start: "0", end: "-210" }
+				 }
+				}).play();
+			
+			}, 1000);
+		}
+	});	
 
 
 	var cacheList = document.createElement('ol');
@@ -384,7 +409,12 @@ function initComponents(){
 			header.className= "header";
 			header.style.cursor = "pointer";
 			
-			header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/></h1";
+			header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/><img style='float:right' src='"+pin_image+"'></h1";
+			
+			if(sticky){
+				dojo.query("h1",header)[0].style.backgroundColor = "orange";
+				dojo.query("img",header)[1].src = pinned_image;
+			}
 			
 			//~ header.style.backgroundImage = "url("+gctourLogoImage+")";
 			//~ header.style.backgroundPosition = "center left";
@@ -392,7 +422,7 @@ function initComponents(){
 			//~ header.style.cursor = "pointer";
 			//~ header.style.height = "30px";
 						
-			dojo.query("h1",header).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = "#B2D4F3"}).onclick(function(e){window.open('http://gctour.madd.in');});
+			dojo.query("h1",header).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = (sticky)?"orange":"#B2D4F3"}).onclick(function(e){sticky = !sticky;GM_setValue('sticky',sticky);dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;});
 			
 			var footerDiv = createElement('div',{style:"font-size: 70%;"});
 			footerDiv.innerHTML = "<p style='text-align:right'>v"+ version + "." + build + "</p>";

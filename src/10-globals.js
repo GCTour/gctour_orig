@@ -18,7 +18,8 @@ var tours,
     dojo,
     wptArray, attributes_array,
     rot13array,
-    timeout;
+    timeout,
+    sticky = GM_getValue('sticky',false);
 
 
 wptArray = [

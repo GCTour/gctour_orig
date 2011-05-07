@@ -358,7 +358,7 @@ function getMapPreviewTab(){
 }
 
 function getLocateMeButton(){
-	var button = createElement('button',{style:"margin-left:10px"});
+	var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
 	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+lang['findMe']+"</span>";
 
 	button.addEventListener('click',

@@ -1,6 +1,33 @@
 /* 
  * Changelog:
+ * 
+ * version @version@.@build@
+ * 		- FIXED: Event-Cache bug
+ * 		- FIXED: Printout need some work
+ * 		- FIXED: Update dialog bug
+ * 		- FIXED: autoTour dialog
+ * 		- GPX: Logs does now have an unique id
+ * 		- MAP: Tweak code on the map site. The use of the map will now be much faster.
+ * 		- NEW: Coordinates of geocaches can now be moved.
+ * 		- NEW: Added a dialog to send me a message.
+ * 		- NEW: Geocaches can now printed directly from their detailspage
+ * 		- NEW: Tour upload has been complelty redesigned
  *
+ * version 1.97.11033
+ * 		- FIXED: gccom layout change.
+ * 
+ * version 1.97.10361
+ * 		- FIXED: autotour with new OCR program
+ * 		- FIXED: GPX/Print now contains correct hidden date
+ * 		- FIXED: geocaches lists now are shown correctly again
+ * 		- NEW: Google-Appengine program to decode D/T/Size images
+ * 
+ * version 1.97.10356
+ * 		- FIXED: GCTour is now working after gc.com update #2
+ *
+ * version 1.97.10313
+ * 		- FIXED: GCTour is now working after gc.com update
+ * 
  * version 1.97
  *		- GPX: add <groundspeak:name> to GPX
  *      - GPX: Additional Waypoints now named - Waypoint.Prefix + (GCID without leading GC)

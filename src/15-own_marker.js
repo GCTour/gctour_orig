@@ -5,7 +5,7 @@ function showNewMarkerDialog(marker){
         markerType, markerTypeSym, latitude, longitude,markerPosition, markerPositionDelta, entry, latArray,
         lonArray, latOrigin, lonOrigin;
  
-	overlayMarker = getOverlay(lang['printviewMarker']);
+	overlayMarker = getOverlay({caption:lang['printviewMarker'],minimized:true});
 
 	dangerDanger = document.createElement('div');dangerDanger.id = "dangerdanger";
 	dangerDanger.style.visibility = "hidden";
@@ -48,9 +48,9 @@ function showNewMarkerDialog(marker){
 	cordsInput.style.marginRight = '5px';
 	
 	
-	markerKeyInput = document.createElement('input');td.appendChild(markerKeyInput);
-	markerKeyInput.type = "hidden";
-	markerKeyInput.id = 'markerKeyInput';
+	var wptcodeInput = document.createElement('input');td.appendChild(wptcodeInput);
+	wptcodeInput.type = "hidden";
+	wptcodeInput.id = 'wptcodeInput';
 
 	
 
@@ -161,10 +161,10 @@ function showNewMarkerDialog(marker){
 	for(i = 0; i< 	typeArray.length ; i++ ){		
 		tdElement = document.createElement('td');		
 		if(!marker){
-			if (i == 0) tdElement.style.backgroundColor = '#8C9E65';
+			if (i == 0) tdElement.style.backgroundColor = '#B2D4F3';
 		} else {
 			if(typeArray[i][0] == marker.image){
-				tdElement.style.backgroundColor = '#8C9E65';
+				tdElement.style.backgroundColor = '#B2D4F3';
 			}
 		}
 		tdElement.style.cursor = 'pointer';
@@ -184,19 +184,20 @@ function showNewMarkerDialog(marker){
 	td = document.createElement('td');tr.appendChild(td);
 	td.colSpan = '2';
 	td.align = 'right';
-
-	cancel = document.createElement('input');
-	cancel.type = "button";
-	cancel.value = lang["cancel"];
-	cancel.style.marginRight= "10px";
+	
+	
+	var buttonsDiv = createElement('div');append(buttonsDiv,overlayMarker);
+	buttonsDiv.setAttribute('class','dialogFooter');
+	
+	
+	cancel = createElement('input',{type:"button",value:lang["cancel"],style:"background-image:url("+closebuttonImage+")"});append(cancel,buttonsDiv);
 	cancel.addEventListener('click', closeOverlay, false);
-	td.appendChild(cancel);
 
 
-	submit = document.createElement('input');
-	submit.type = "button";
-	submit.value = lang["save"];
-	submit.addEventListener('click', function(){			
+	submit = createElement('input',{type:"button",value:lang["save"],style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
+	
+
+	submit.addEventListener('click', function(){	
 			errors = 0;
 			markerName = document.getElementById('markerName');
 			if (markerName.value != "") {
@@ -205,42 +206,34 @@ function showNewMarkerDialog(marker){
 			markerName.style.backgroundColor = "#FF8888";
 			errors++;
 			}
-
 			markerCoords = document.getElementById('markerCoords');
 
 			if(markerCoords.style.backgroundColor != "rgb(136, 220, 59)"){
 			markerCoords.style.backgroundColor = "#FF8888";
 			errors++;
 			}
-
 			markerContent = document.getElementById('markerContent');
 
 			markerType = document.getElementById('typeInput');
 			markerTypeSym = document.getElementById('typeInputSym');
-
 			if(errors != 0){
-
 				document.getElementById('dangerdanger').style.visibility = "visible";
-
 				return;
 			} 
 
-
-
 			latitude =  document.getElementById('cordsInputLat').value*1;
 			longitude =  document.getElementById('cordsInputLon').value*1;
-
 			if(marker){
 				markerPosition = getPositionsOfId(marker.id);
 				markerPositionDelta = markerPosition -  currentTour.geocaches.length +1;
-				deleteElementFunction(marker.id)();
+				deleteElementFunction((marker.id)?marker.id:marker.wptcode)();
 			} else {
 				markerPositionDelta = 0;
 			}
 		
-			var markerKey =  document.getElementById('markerKeyInput').value;
+			var wptCode =  document.getElementById('wptcodeInput').value;
 
-			entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value,markerKey);
+			entry = addCustomMarker(markerName.value, latitude, longitude, markerContent.value, markerType.value, markerTypeSym.value,wptCode);
 			move(entry.id, markerPositionDelta);
 
 			closeOverlay()
@@ -248,8 +241,6 @@ function showNewMarkerDialog(marker){
 	}
 
 	, false);
-
-	td.appendChild(submit);
 
 
 
@@ -259,7 +250,7 @@ function showNewMarkerDialog(marker){
 		nameInput.value = marker.name;
 		cordsInputLat.value = marker.latitude;	// 51.123123
 		cordsInputLon.value = marker.longitude;	// 123.12333
-		markerKeyInput.value = marker.key;	// 123.12333
+		wptcodeInput.value = marker.wptcode;	// 123.12333#12312412312
 
 
 		latArray = Dec2DM(marker.latitude);
@@ -314,7 +305,6 @@ function updateMarkerOverviewMap(lat,lon,zoom){
 	    maxZoom = 19,
         apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g",
         staticGMap;
-        
 	// zoom out of range? please stop doing it ;-)
 	if(zoom < minZoom || zoom > maxZoom)
 		return;
@@ -322,6 +312,7 @@ function updateMarkerOverviewMap(lat,lon,zoom){
 	debug("Updating map in marker window: " +lat + " " + lon + " Zoom:"+zoom);
 
     staticGMap = document.getElementById('staticGMap');
+    staticGMap.style.display = 'block'
 	staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=350x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
 }
 
@@ -336,7 +327,7 @@ function changeType(value,table,typeArray){
 		trElement = document.createElement('tr');	table.appendChild(trElement);
 		for( i = 0; i< 	typeArray.length ; i++ ){
 			tdElement = document.createElement('td');
-			if (typeArray[i][0] == value[0]) tdElement.style.backgroundColor = '#8C9E65';
+			if (typeArray[i][0] == value[0]) tdElement.style.backgroundColor = '#B2D4F3';
 			tdElement.style.cursor = 'pointer';
 			tdElement.style.padding = '5px';
 			tdElement.style.border = '1px solid silver';
@@ -346,4 +337,44 @@ function changeType(value,table,typeArray){
 			trElement.appendChild(tdElement);
 		}
 	}	
+}
+
+function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
+	return function(){
+		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
+		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
+		window.setTimeout(
+				function(){
+				var result = regex.exec(cordsInput.value);
+				var result2 = regex2.exec(cordsInput.value);
+
+				log(result +" " +result2);
+				if (!result && !result2) {
+				cordsInput.style.backgroundColor = "#FF8888";
+
+				} else if (result) {
+				cordsInput.style.backgroundColor = "#88DC3B";
+
+				var lat = DM2Dec(result[3],result[6]);
+				if(result[1] == 'S') lat = lat * (-1);
+				cordsInputLat.value = lat;
+
+				var lon = DM2Dec(result[10],result[13]);
+				if(result[8] == 'W') lon = lon * (-1);
+				cordsInputLon.value = lon;
+				document.getElementById('staticGMap').style.display = 'block';
+				updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
+				}else if (result2) {
+					cordsInput.style.backgroundColor = "#88DC3B";
+					var lat = parseFloat(result2[1]+""+result2[2]);
+					var lon = parseFloat(result2[3]+""+result2[4]);
+
+					cordsInputLat.value = lat;
+					cordsInputLon.value = lon;
+					document.getElementById('staticGMap').style.display = 'block';
+					updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
+				}
+
+				},10);
+	}
 }

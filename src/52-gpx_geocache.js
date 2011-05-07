@@ -130,10 +130,10 @@ function getGPXGeoCache(gcid){
 		var logObj = new Object();
 		
 		var from_element = createElement('div');from_element.innerHTML = geocache_obj.logs[i].from;
-		//~ var text_element = dojo.create(geocache_obj.logs[i].text);
+
 		//get cacher name from link
 		logObj.cacherName =  dojo.query("a",from_element)[0].innerHTML;
-		//~ logObj.cacherName = logObj.cacherName;
+
 		//and log type from image
 		var typeImage = dojo.query("img",from_element)[0].src;
 		// specify the logtyo to fit into GPX
@@ -193,6 +193,7 @@ function getGPXGeoCache(gcid){
 		logObj.foundDate = foundDate; // ITS DONE! peew
 		
 		logObj.content = geocache_obj.logs[i].text;
+		logObj.id = geocache_obj.logs[i].id;
 		
 		//~ GM_log("--------["+i+"]-------");
 		//~ GM_log(logObj.cacherName);
@@ -315,7 +316,7 @@ function getGPXNew(){
 				// just 11 logs in the gpx
 				for (var j = 0; (j < logs.length && j <= 10); j++){
 					var geocacheLogMapping = new Array(
-						 new Array('LOGID',new Date().getTime()),
+						 new Array('LOGID',logs[j].id),
 						 new Array('TIME',xsdDateTime(logs[j].foundDate)),
 						 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 						 new Array('LOGTYPE',logs[j].type),
@@ -355,7 +356,7 @@ function getGPXNew(){
 				for(var j = 0 ; j<geocacheMapping.length ; j++){
 					cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
 				}
-							//~ alert(cacheWaypoint);	
+						
 				var parser = new DOMParser();
 				var dom = parser.parseFromString(cacheWaypoint,
 					"text/xml");
@@ -464,10 +465,9 @@ function getGPX(){
 				return "canceled"; // then return!
 			}
 
-			var costumMarker = (typeof(currentTour.geocaches[i].lat) != "undefined");
+			var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 			
-			if(!costumMarker){	
-	
+			if(!costumMarker){		
 				var geocache = getGPXGeoCache(currentTour.geocaches[i].id);
 				
 				var logsStringArray = new Array();
@@ -476,8 +476,8 @@ function getGPX(){
 				// just 11 logs in the gpx
 				for (var j = 0; (j < logs.length && j <= 10); j++){
 					var geocacheLogMapping = new Array(
-											// just make the LOGID as unique as possible
-						 new Array('LOGID',(new Date().getTime()+(Math.floor(Math.random()*101)))%100000000), // Issue3
+											
+						 new Array('LOGID',logs[j].id), // Issue3
 						 new Array('TIME',xsdDateTime(logs[j].foundDate)),
 						 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 						 new Array('LOGTYPE',logs[j].type),
@@ -555,7 +555,6 @@ function getGPX(){
 
 
 		} // itertion end 
-		
 		var str = new XMLSerializer().serializeToString(gpxDom);
 		return str;
 }

@@ -5,6 +5,12 @@ function setLanguage(i){
 	}
 }
 
+function setGPXSchema(value){
+	return function(){
+		GM_setValue('gpxschema',value);
+	}
+}
+
 function toggleBoolValue(valueName, defaultValue){
 	return function(){
 		GM_setValue(valueName, !GM_getValue(valueName, defaultValue));

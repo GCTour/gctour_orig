@@ -1,3 +1,23 @@
+// usefull snippet to escape HTML
+/*  String.prototype.escapeHTML = function() {
+    return this.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }*/
+
+// setting hashcode to all strings
+String.prototype.hashCode = function(){
+	var hash = 0;
+	if (this.length == 0) return code;
+	for (i = 0; i < this.length; i++) {
+		character = this.charCodeAt(i);
+		hash = 31*hash+character;
+		hash = hash & hash; // Convert to 32bit integer
+	}
+	return hash;
+}
+
+String.prototype.endsWith = function(str)
+{return (this.match(str+"$")==str)}
+
 // init the whole script - started with dojo
 initDojo();
 

@@ -5,13 +5,14 @@
 // @build		   @build@
 // @description    Cachetour planing made easy. Pick some Caches, order the list and print it out. Free for all users of geocaching.com! 
 // @include        http://*geocaching.com/*
-// @copyright      2008, 2009, 2010 Martin Georgi
+// @copyright      2008, 2009, 2010, 2011 Martin Georgi
 // @author         madd.in
+// @icon		   http://gctour.madd.in/icon.png
 // @license        GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 
 /*****************************************************************************
- * Copyright (C) 2008, 2009, 2010 Martin Georgi
+ * Copyright (C) 2008, 2009, 2010, 2011 Martin Georgi
  *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software

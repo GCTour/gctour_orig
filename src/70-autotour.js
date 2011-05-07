@@ -1,4 +1,40 @@
 // autoTour gui
+
+function showAutoTourDialog(center,radius){
+    var overLay, queryFilterDiv;
+
+	if(!userName){
+		alert(lang['notLogedIn']);
+		return;
+	}
+
+
+	overLay = getOverlay({caption:lang['autoTour'],minimized:true});
+	overLay.appendChild(getCoordinatesTab());
+	
+	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:30px;'});
+	autoTourContainer.style.display = 'none';
+	
+	autoTourContainer.appendChild(getMapPreviewTab());	
+	queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
+	queryFilterDiv.appendChild(getTypeFilter());
+	queryFilterDiv.appendChild(getSizeFilter());
+	queryFilterDiv.appendChild(getDtFiler('Difficulty'));
+	queryFilterDiv.appendChild(getDtFiler('Terrain'));
+	queryFilterDiv.appendChild(getSpecialFilter());
+	autoTourContainer.appendChild(getAutoTourSubmit());
+	
+	
+	overLay.appendChild(autoTourContainer);
+
+	if(center && radius){
+
+		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
+		dojo.query("input[id='markerRadius']")[0].value = radius;
+		getMarkerCoord()();
+	}
+}
+
 function startAutoTour(){
 	var typeInputs = dojo.query("input[name='type']");
 	var sizeInputs = dojo.query("input[name='size']");
@@ -105,45 +141,6 @@ function getMarkerCoord(latitude,longitude){
 }
 
 
-function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
-	return function(){
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
-		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
-		window.setTimeout(
-				function(){
-				var result = regex.exec(cordsInput.value);
-				var result2 = regex2.exec(cordsInput.value);
-
-				log(result +" " +result2);
-				if (!result && !result2) {
-				cordsInput.style.backgroundColor = "#FF8888";
-
-				} else if (result) {
-				cordsInput.style.backgroundColor = "#88DC3B";
-
-				var lat = DM2Dec(result[3],result[6]);
-				if(result[1] == 'S') lat = lat * (-1);
-				cordsInputLat.value = lat;
-
-				var lon = DM2Dec(result[10],result[13]);
-				if(result[8] == 'W') lon = lon * (-1);
-				cordsInputLon.value = lon;
-				document.getElementById('staticGMap').style.display = 'block';
-				updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}else if (result2) {
-					cordsInput.style.backgroundColor = "#88DC3B";
-					var lat = parseFloat(result2[1]+""+result2[2]);
-					var lon = parseFloat(result2[3]+""+result2[4]);
-
-					cordsInputLat.value = lat;
-					cordsInputLon.value = lon;
-					document.getElementById('staticGMap').style.display = 'block';
-					updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}
-
-				},10);
-	}
-}
 
 function getSpecialFilter(){
 	var specialDiv = document.createElement('div');
@@ -292,36 +289,30 @@ function getCoordinatesTab(){
 	var coordsDiv = createElement('div');
 	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
+	
+	var findMeButton = getLocateMeButton();
+	findMeButton.style.cssFloat = 'right';
+	append(findMeButton,coordsDiv);
+	
 
 	var divEbene = createElement('div', {className: 'ebene'});
-	var spanLabel = createElement('span', {className: 'label'});append(spanLabel, divEbene);
-	var spanFeld = createElement('span', {});append(spanFeld, divEbene);
-	spanLabel.innerHTML = lang["autoTourCenter"];
-	var cordsInput = createElement('input', {type: 'text', id: "markerCoords"});
-	append(cordsInput,spanFeld);
-	append(getLocateMeButton(),spanFeld);
-	var coordsExample = createElement('span',{style: "font-size:66%"});append(coordsExample,spanFeld);
-	coordsExample.innerHTML = "<br/><i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i> or <i>Berlin</i> ";
+
+	divEbene.innerHTML = '<b>'+lang["autoTourCenter"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerCoords"><br/>\
+						<small>'+lang['autoTourHelp']+'</small>';
+						
 	append(divEbene, coordsDiv);
 
 	divEbene = createElement('div', {className: 'ebene'});
-	spanLabel = createElement('span', {className: 'label'});append(spanLabel, divEbene);
-	spanFeld = createElement('span', {});append(spanFeld, divEbene);
-	spanLabel.innerHTML = lang["autoTourRadius"];
-	var cordsRadiusInput = createElement('input', {type: 'text', id: "markerRadius", maxlength: "4", style:"width:50px;margin-right:5px"});append(cordsRadiusInput,spanFeld);
-	var coordsSelect = createElement('select', {id: "markerRadiusUnit"});append(coordsSelect, spanFeld);
-	var coordsSelectElement = createElement("option", {selected:"selected", value: "km"});append(coordsSelectElement, coordsSelect);
-	coordsSelectElement.innerHTML = lang["kilometer"];
-	coordsSelectElement = createElement("option", {value: "sm"});append(coordsSelectElement, coordsSelect);
-	coordsSelectElement.innerHTML = lang["mile"];
+	divEbene.innerHTML = '<b>'+lang["autoTourRadius"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" style="width:50px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+lang["kilometer"]+'</option><option value="sm">'+lang["mile"]+'</option></select>';
 	append(divEbene, coordsDiv);
-
-
-
-	divEbene = createElement('div', {className: 'submit'});
-	var useButton = createElement('button');append(useButton,divEbene);
-	useButton.innerHTML = lang["autoTourRefresh"];
+	
+	divEbene = createElement('div');
+	divEbene.setAttribute('class','dialogFooter');
+	
+	
+	var useButton = createElement('input',{type:"button",value:lang["autoTourRefresh"],style:"background-image:url("+autoTourImage+")"});append(useButton,divEbene);
 	useButton.addEventListener('click',getMarkerCoord() ,false);
+	
 	append(divEbene, coordsDiv);
 
 	return coordsDiv;
@@ -329,7 +320,6 @@ function getCoordinatesTab(){
 
 function getMapPreviewTab(){
 	var coordsDiv = createElement('div');
-	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
 
 	var cordsInputLat = createElement('input', {type: 'hidden', id: "coordsDivLat"});
@@ -369,7 +359,7 @@ function getMapPreviewTab(){
 
 function getLocateMeButton(){
 	var button = createElement('button',{style:"margin-left:10px"});
-	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;color:#F6A828;font-weight:bold'>Locate Me</span>";
+	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+lang['findMe']+"</span>";
 
 	button.addEventListener('click',
 			function(){
@@ -414,8 +404,6 @@ function getAutoTourSubmit(){
 
 	getCachesButton.addEventListener('click',
 			startAutoTour,false);
-
-
 	return queryFilterDiv;
 
 }
@@ -463,8 +451,8 @@ function CalcPrjWP(lat,lon, dist, angle)
 
 function updateAutoTourMap(lat,lon){
 
-	//~ var meterMiles = dojo.query("select[id='markerRadiusUnit'] > option[selected='selected']")[0].value;
-
+	//make the container visible
+	dojo.byId('autoTourContainer').style.display = 'block';
 
 	var radiusOrg = dojo.query("input[id='markerRadius']")[0].value;
 	if(isNaN(radiusOrg) || radiusOrg == "")// please break if radius is no number

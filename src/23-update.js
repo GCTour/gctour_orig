@@ -7,8 +7,8 @@ function update() {
 	
 	var currentDate = new Date();
     // if the last updateDate is more than 86 400 000 msec (1 day) ago - check for updates
-	//if (currentDate.getTime() - updateDate.getTime() > 86400000) {
-	if (true) { // ATTENTION!!
+	if (currentDate.getTime() - updateDate.getTime() > 86400000) {
+	//~ if (true) { // ATTENTION!!
 		// set the new updateDate
 		GM_setValue('updateDate', uneval(currentDate));
 	    var update_request = {'script':scriptId,'version':version,'build':build};
@@ -25,7 +25,7 @@ function update() {
 				}
 			
 			
-			    var overlayBody = getOverlay("new version available");
+			    var overlayBody = getOverlay({caption:"new version available",minimized:true});
 		
 
 			    var versions_string = ""
@@ -53,7 +53,7 @@ function update() {
 
 			
 			    var update_dom = fillTemplate(updateMapping,confirmString);
-			    var footer = update_dom.getElementsByTagName('div')[2];
+			    var footer = update_dom.getElementsByTagName('div')[update_dom.getElementsByTagName('div').length-1];
 			
 			    // if install is pressed set the document.location to the url given by the update object
 			    var install_button = document.createElement('input');

@@ -52,24 +52,37 @@ function getGeocacheFromElement(element){
 	// first check if really logged in 
 	
 	
-	var logIOLink = dojo.query('a[id="ctl00_LoginUrl"]',element)[0].previousSibling.previousSibling;
+	//~ var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
+	var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
 	if(!logIOLink){
 		throw "No longer logged in.";
 	}
+	
 
+	var upper_tables = dojo.query('table[id="cacheDetails"] table',element);
+	
 	var geocache = new Object();
-	geocache.gcid = trim(dojo.query('span[id="ctl00_uxWaypointName"]',element)[0].textContent);
+	geocache.gcid = trim(dojo.query('span[id="ctl00_ContentBody_uxWaypointName"]',element)[0].textContent);
 	geocache.cacheid = trim(dojo.query('a[href*="/seek/log.aspx?ID="]',element)[0].href.split("=")[1]);
 	geocache.guid = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly']",element)[0].href.split("guid=")[1];
 	geocache.name = trim(dojo.query('span[id="ctl00_ContentBody_CacheName"]',element)[0].textContent);
+	geocache.image = dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src;
 	geocache.type =	dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src.split("/")[5].split(".")[0];
 	geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
 	
 
-	var strongs = dojo.query('strong',element);
-	geocache.hidden = trim(strongs[1].parentNode.textContent.split(':').pop());
+	var ownerDateTable = upper_tables[1];
+	var ownerDateSpans = dojo.query('span',ownerDateTable);
 	
-	// unfortnaly event caches has an other format - parse this also
+	
+	var cacheDetails = dojo.query('div[id="cacheDetails"]',element)[0];
+
+	//~ geocache.hidden = trim(ownerDateSpans[1].textContent.split(':').pop());
+	geocache.hidden = trim(dojo.query('span',cacheDetails)[2].textContent.split(':').pop());
+	
+	
+	// unfortnaly event caches has an other format - parse this also -
+	// may unessesary after latest update - TODO
 	if(geocache.hidden.match(",")){
  	 	 	 	 	
 		dateArray = trim(geocache.hidden.split(",")[1]).split(" ");
@@ -94,15 +107,36 @@ function getGeocacheFromElement(element){
 		geocache.hidden = hiddenMonth+"/"+hiddenDay+"/"+hiddenYear;
 	}
 	
-	geocache.size = dojo.query('small',element)[2].textContent.split("(")[1].split(")")[0];
-	geocache.difficulty = dojo.query('img',strongs[1].parentNode)[0].alt.split(" out of ")[0];
-	geocache.terrain = dojo.query('img',strongs[2].parentNode)[0].alt.split(" out of ")[0];
+
+
+/*	try{ // Old code - doesnt know why this try
+		geocache.size = dojo.query('small',element)[2].textContent.split("(")[1].split(")")[0];
+	} catch(e){
+		geocache.size = dojo.query('small',element)[1].textContent.split("(")[1].split(")")[0];
+	}
+*/	
+	geocache.difficulty = dojo.query('span[id="ctl00_ContentBody_uxLegendScale"] > img',element)[0].alt.split(" out of ")[0];
+	geocache.terrain = dojo.query('span[id="ctl00_ContentBody_Localize6"] > img',element)[0].alt.split(" out of ")[0];
+
+
+	geocache.size = trim(dojo.query('img[src*="/images/icons/container/"]',element)[0].alt.split(": ")[1]);
 
 
 	geocache.coordinates = dojo.query('span[id="ctl00_ContentBody_LatLon"]',element)[0].innerHTML;
 	geocache.lat = dojo.query('a[id="ctl00_ContentBody_lnkConversions"]',element)[0].href.split("lat=")[1].split("&")[0];
 	geocache.lon = dojo.query('a[id="ctl00_ContentBody_lnkConversions"]',element)[0].href.split("lon=")[1].split("&")[0];
 	
+
+	// if the user changed the coordinates of an geocache
+	if(GM_getValue('coords_'+geocache.gcid,"null") != "null"){ // use it
+		var coordinates = GM_getValue('coords_'+geocache.gcid,"null");
+		geocache.lat = coordinates.split("#")[0];
+		geocache.lon = coordinates.split("#")[1];	
+		
+		geocache.coordinates = Dec2DM_String(geocache.lat, geocache.lon);
+		
+	}
+
 	geocache.location = dojo.query("span[id='ctl00_ContentBody_Location']",element)[0].textContent;
 	
 	// get the country and (if exists) the state!
@@ -118,12 +152,12 @@ function getGeocacheFromElement(element){
 	
   	try{
 		geocache.bearing =  dojo.query('span[id="ctl00_ContentBody_lblDistFromHome"] > img',element)[0].alt;
-		geocache.distance =  dojo.query('span[id="ctl00_ContentBody_lblDistFromHome"]',element)[0].textContent.replace(" from your home coordinates","");
-	} catch(e) {geocache.bearing = "";geocache.distance = "";}
+		geocache.distance =  dojo.query('span[id="ctl00_ContentBody_lblDistFromHome"]',element)[0].textContent.replace(" from your home location","");
+	} catch(e) {geocache.bearing = "";geocache.distance = "";} // if homecoordinates are not set
 	
-	geocache.inventory = dojo.query('ul > li > a > img', dojo.query('div[class="WidgetBody"]',element)[1]);
-
-	geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget Spacing"] > img',element);
+	geocache.inventory = dojo.query('ul > li > a > img', dojo.query('div[class="WidgetBody"]',element)[2]);
+	
+	geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget BottomSpacing"] >div > img',element);
 	geocache.attributes_array = new Array();
 
 	for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
@@ -176,6 +210,7 @@ function getGeocacheFromElement(element){
 		waypoint.latitude = coordinates_array[0];
 		waypoint.longitude = coordinates_array[1];		
 		waypoint.note = trim(row2_tds[2].textContent);
+
 
 
 		// Final Location				http://www.geocaching.com/images/wpttypes/sm/flag.jpg
@@ -232,15 +267,23 @@ function getGeocacheFromElement(element){
 	
 	geocache.find_counts = dojo.query('span[id="ctl00_ContentBody_lblFindCounts"] > p ',element)[0];
 	geocache.logs = new Array();
-	var logs =  dojo.query('table[class="LogsTable Table"] > tbody > tr > td',element);
- 
-	for(var log_i = 0;log_i < logs.length-1;log_i++){		
-		var log_object = new Object();
-		log_object.from = logs[log_i].firstChild.innerHTML;
-		log_object.text = logs[log_i].textContent.replace(logs[log_i].firstChild.textContent, "").replace("View Log","").replace(/\(\d+ found\)/, "");
 	
-		geocache.logs.push(log_object);
+	var logs_td = dojo.query('table[class="LogsTable"] > tbody > tr > td',element);
+	
+	for(var log_i = 0;log_i < logs_td.length-1;log_i++){
+		var log_object = new Object();
 		
+		var log = logs_td[log_i];
+		log_object.from = log.firstChild.innerHTML;
+		log_object.text = log.textContent.replace(log.firstChild.textContent, "").replace("View Log","").replace(/\(\d+ found\)/, "");
+		
+		
+		var log_uid = dojo.query("a:last-child",log)[0].href.split("=")[1]; // get the log id from the link
+		log_object.id = parseInt(log_uid.replace(/-/g,""),16)%10000000; // and create a semi unique id
+		
+		geocache.logs.push(log_object);
 	}
+
+	
 	return geocache;
 }

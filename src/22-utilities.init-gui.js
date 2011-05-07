@@ -17,14 +17,11 @@ function addCacheToTourFromMap(cacheUrl){
 		cacheDetails.innerHTML = responseDetails.responseText;
 
 		// locate the values and save it
-		var cacheIdCode = dojo.query('span[id="ctl00_uxWaypointName"]',cacheDetails)[0];
-		var cacheId = trim(cacheIdCode.textContent);
-		var guidId = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly5Logs']",cacheDetails)[0].href.split("guid=")[1].split("&")[0];
+		var cacheId = trim(dojo.query('span[id="ctl00_ContentBody_uxWaypointName"]',cacheDetails)[0].textContent);
+		var guidId = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly']",cacheDetails)[0].href.split("guid=")[1];
 	
-		var cacheName = trim(dojo.query('span[id ="ctl00_ContentBody_CacheName"]',cacheDetails)[0].textContent);
-		var cacheTypeImage = dojo.query('a[title="About Cache Types"]',cacheDetails)[0].getElementsByTagName('img')[0].src.split("/")[5];
-		
-
+		var cacheName = trim(dojo.query('span[id="ctl00_ContentBody_CacheName"]',cacheDetails)[0].textContent);
+		var cacheTypeImage = dojo.query('a[href="/about/cache_types.aspx"] > img',cacheDetails)[0].src.split("/")[5];
 
 		addElementFunction(cacheId,guidId,cacheName,cacheTypeImage)();
 
@@ -49,12 +46,14 @@ function getEntryFromBookmarkTd(bookmarkLine){
 function getEntryFromSearchTd(theTd){
 		var entryTds = theTd.getElementsByTagName('td');
 		var entry = new Object();
-		entry.id = 'GC'+entryTds[5].textContent.split('(GC')[1].split(')')[0];		
-		entry.name = entryTds[5].getElementsByTagName('a')[0].textContent;
-		entry.guid = entryTds[5].getElementsByTagName('a')[0].href.split('guid=')[1];
-		entry.image = entryTds[2].getElementsByTagName('img')[0].getAttribute('src').split("/")[3];
-		if(entryTds[7].childNodes[1]){
-			entry.checked = entryTds[7].childNodes[1].checked;
+		
+		entry.id = 'GC'+entryTds[4].textContent.split('(GC')[1].split(')')[0];		
+		entry.name = entryTds[4].getElementsByTagName('a')[1].innerHTML;
+		entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
+		entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
+
+		if(entryTds[0].childNodes[1]){
+			entry.checked = entryTds[0].childNodes[1].checked;
 		}
 		return entry;
 }

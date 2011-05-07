@@ -20,7 +20,7 @@ function initCore(){
 	currentTour = getTourById(currentTourId);
 	
 	
-	checkOnlineConsistent(currentTour);
+	
 
 	// oh - there is no current tour!? create one!
 	if(!currentTour){
@@ -32,6 +32,9 @@ function initCore(){
 		log("found no currentTour! Creating new one: "+currentTour.id +" ; "+ currentTour.name);
 		saveCurrentTour();
 	} 
+	
+	
+	checkOnlineConsistent(currentTour);
 }
 
 function initDojo(){
@@ -108,13 +111,90 @@ function init(){
 
 
 		if(qsParm['tour']){
-			initGPXTour();
+			sendToGPS();
 		} 
 		
 		return;
 	}
 	
 	
+
+	// adding styles:
+	   GM_addStyle(
+	    '.dojoDndAvatar {font-size: 75%; color: black;min-width:130px;z-index: 100003 !important;width:180px}'+
+	    '.dojoDndAvatar .controls{display:none;}'+
+	    '.dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}'+
+	    '.dojoDndAvatarHeader	{background: #ccc;}'+ 
+	    '.dojoDndAvatarItem		{background: #eee;}'+
+	    '.dojoDndItemBefore		{border-top:3px solid gray !important; }'+
+	    '.dojoDndItemAfter		{border-bottom:3px solid gray !important;}'+
+	    '.dojoDndItemOver		{background-color:#edf1f8}'+
+	    '.dojoDndMove .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoMove.png); background-repeat: no-repeat;}'+
+	    '.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoCopy.png); background-repeat: no-repeat;}'+
+	    '.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndMove.png); background-repeat: no-repeat;}'+ 
+	    '.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndCopy.png); background-repeat: no-repeat;}'
+	);
+	
+	
+	// dialog styles
+	GM_addStyle(
+		'.dialogMask {background-image:url('+dialogMaskImage+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000000;}'+
+		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
+		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
+		'.header h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+tabBgImage+'")}'+
+	//	'.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#fff;}'+
+		'.dialogHistory {border:1px inset #999999;margin:0 1em 1em;padding-bottom: 1em;max-height: 200px;overflow-y:auto;width:448px;padding-left:1em;}'+
+		'.dialogHistory ul{margin-left:2em;}'+
+		'.dialogHistory li{list-style-type:circle;}'+
+		'.dialogFooter input{-moz-border-radius:3px;background:none no-repeat scroll 4px center #EEEEEE;border:1px outset #666666;cursor:pointer;float:right;margin-left:0.5em;padding:3px 5px 5px 20px;min-width:100px;}'+
+		'.dialogFooter input:hover { background-color:#f9f9f9; }'+
+		'.dialogContent {padding:0px 10px 0px 10px;}'+
+		'.dialogMin {min-height:0px !important}'
+	);
+	
+	
+	// opent tour dilaog styles:
+	
+	GM_addStyle(
+		"#dialogDetails {height:294px;padding:3px;overflow:auto;background-color:#eff4f9;border:1px solid #C0CEE3; -moz-border-radius: 0px 5px 5px 0px;width:324px;position: absolute; right: 10px;}\
+		 .dialogList li{font-size:10px;padding:3px;clear:both;list-style-type: none;}\
+		 .dialogList {margin:0;padding:0}\
+		 .activeTour {border: 1px solid #C0CEE3;-moz-border-radius: 5px 0px 0px 5px;background-color:#eff4f9;padding:1px;}\
+		 #dialogListContainer {height:300px;overflow:auto;width:150px;position: absolute; left: 10px;} \
+		"
+	);
+
+
+
+	// add global styles
+
+	var head =document.getElementsByTagName('head')[0];    
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML =
+		'.cachelist li {'+
+			'	-moz-border-radius-bottomright:10px;'+
+				'	-moz-border-radius-topleft:10px;'+
+				'	list-style-position:inside;'+
+				'	color:#000000;'+
+				'	margin:0.5em;'+
+				'	padding:3px;'+
+				'	width:120px;'+
+				'	min-height:44px;'+
+				'	-moz-background-clip:border;'+
+				'	-moz-background-inline-policy:continuous;'+
+				'	-moz-background-origin:padding;'+
+				'	border:1pt dashed gray;'+
+			//	'	background:#FFFFFF none repeat scroll 0 0;'+
+				'	color:#000000;'+
+				'}'+
+				''+
+				'.cachelist {'+
+					'	font-size:80%;'+
+						//~ '	list-style-type:disc;'+
+						'	padding:0;'+
+						'}';
+	head.appendChild(style); 	
 
 	
 
@@ -142,6 +222,10 @@ function init(){
 		var tq_url = GM_getValue('tq_url');
 
 		if(tq_url == document.location.href){
+			
+			addProgressbar({caption:lang['autoTourWait']});
+			
+			
 			var tq_caches = eval(GM_getValue('tq_caches', new Array()));
 			var tq_typeFilter = eval(GM_getValue('tq_typeFilter'));
 			var tq_sizeFilter = eval(GM_getValue('tq_sizeFilter'));
@@ -150,7 +234,7 @@ function init(){
 			var tq_specialFilter = eval(GM_getValue('tq_specialFilter'));
 
 
-			addOverlay(document,lang['pleaseWait']);
+					
 
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']> span")[0];
 
@@ -188,18 +272,23 @@ function init(){
 						}
 						
 						
-						var resultTable = dojo.query("tr[class = 'Data BorderTop']");
+						var resultTable = dojo.query("table[class = 'SearchResultsTable Table'] > tbody > tr");
 						var j = 0;
-						for(var i = 0; i < resultTable.length;i++){ // iterate over each cache 
+						alert(resultTable.length);
+						for(var i = 0; i < resultTable.length-1;i++){ // iterate over each cache 
 						
-								var entryTds = resultTable[i].getElementsByTagName('td');
+								var entryTds = resultTable[i+1].getElementsByTagName('td');
 								var entry = new Object(); // gather informations line-by-line
 								
-								entry.id = 'GC'+entryTds[4].textContent.split('(GC')[1].split(')')[0];		
-								entry.name = entryTds[4].getElementsByTagName('a')[1].innerHTML;
+								
+								entry.id = trim(dojo.query('span',entryTds[4])[1].textContent.split('|')[1]);		
+								entry.name = trim(dojo.query('span',entryTds[4])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
-								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/WptTypes\//, "WptTypes/sm/");
+								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src');//.replace(/WptTypes\//, "WptTypes/sm/");
 								entry.available = entryTds[4].getElementsByTagName('a')[1].getAttribute('class') == 'lnk  ';
+								
+								
+								
 								var type = entry.image.split("/")[6].split(".")[0];
 							
 								
@@ -222,16 +311,14 @@ function init(){
 								var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
 								if(tq_specialFilter['is Active']){
 									log("Check if "+entry.name+" is active:");
-									log(addBool);
+									log("available:"+entry.available);
 									addBool = addBool && (entry.available);// only add if active!
-									log(addBool);
 								}
 								
 								if(tq_specialFilter['is not a PM cache']){
 									log("Check if "+entry.name+" is PM-Only cache!!")
-									log(addBool);
+									log("PM:"+entryTds[5].innerHTML.indexOf('small_profile.gif') < 0);
 									addBool = addBool && (entryTds[5].innerHTML.indexOf('small_profile.gif') < 0);
-									log(addBool);
 								}
 								
 								// autoTour parameter "haven't found" is not checked here because of URL parameter
@@ -290,83 +377,7 @@ function init(){
 			GM_deleteValue('tq_caches');
 		}
 	}
-    GM_addStyle(
-	    '.dojoDndAvatar {font-size: 75%; color: black;min-width:130px;}'+
-	    '.dojoDndAvatar .controls{display:none;}'+
-	    '.dojoDndAvatarHeader td	{padding-left: 20px; padding-right: 4px;}'+
-	    '.dojoDndAvatarHeader	{background: #ccc;}'+ 
-	    '.dojoDndAvatarItem		{background: #eee;}'+
-	    '.dojoDndItemBefore		{border-top:3px solid gray !important; }'+
-	    '.dojoDndItemAfter		{border-bottom:3px solid gray !important;}'+
-	    '.dojoDndItemOver		{background-color:#edf1f8;}'+
-	    '.dojoDndMove .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoMove.png); background-repeat: no-repeat;}'+
-	    '.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoCopy.png); background-repeat: no-repeat;}'+
-	    '.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndMove.png); background-repeat: no-repeat;}'+ 
-	    '.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndCopy.png); background-repeat: no-repeat;}'
-	);
-	
-	
-	// dialog styles
-	GM_addStyle(
-		'.dialogMask {background:none repeat scroll 0 0 #FFFFFF;height:100%;left:0;opacity:0.5;position:fixed;top:0;width:100%;z-index:9000000;}'+
-		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
-		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
-		'.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;background-image:url("http://madd.in/loeschen/bgtab.png")}'+
-	//	'.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#fff;}'+
-		'.dialogHistory {border:1px inset #999999;margin:0 1em 1em;max-height:150px;overflow-y:auto;width:448px;padding-left:1em;}'+
-		'.dialogHistory ul{margin-left:2em;}'+
-		'.dialogHistory li{list-style-type:circle;}'+
-		'.dialogFooter input{-moz-border-radius:3px;background:none no-repeat scroll 4px center #EEEEEE;border:1px outset #666666;cursor:pointer;float:right;margin-left:0.5em;padding:3px 5px 5px 20px;min-width:100px;}'+
-		'.dialogFooter input:hover { background-color:#f9f9f9; }'+
-		'.dialogContent {padding:0px 10px 0px 10px;}'
-	);
-	
-	
-	// opent tour dilaog styles:
-	
-	GM_addStyle(
-		"#dialogDetails {height:294px;padding:3px;overflow:auto;background-color:#eff4f9;border:1px solid #C0CEE3; -moz-border-radius: 0px 5px 5px 0px;width:324px;position: absolute; right: 10px;}\
-		 .dialogList li{font-size:10px;padding:3px}\
-		 .activeTour {border: 1px solid #C0CEE3;-moz-border-radius: 5px 0px 0px 5px;background-color:#eff4f9;padding:1px;}\
-		 #dialogListContainer {height:300px;overflow:auto;width:150px;position: absolute; left: 10px;} \
-		"
-	);
-
-
-
-	// add global styles
-
-	var head =document.getElementsByTagName('head')[0];    
-	var style = document.createElement('style');
-	style.type = 'text/css';
-	style.innerHTML =
-		'.cachelist li {'+
-			'	-moz-border-radius-bottomright:10px;'+
-				'	-moz-border-radius-topleft:10px;'+
-				'	list-style-position:inside;'+
-				'	color:#000000;'+
-				'	margin:0.5em;'+
-				'	padding:3px;'+
-				'	width:120px;'+
-				'	min-height:44px;'+
-				'	-moz-background-clip:border;'+
-				'	-moz-background-inline-policy:continuous;'+
-				'	-moz-background-origin:padding;'+
-				'	border:1pt dashed gray;'+
-			//	'	background:#FFFFFF none repeat scroll 0 0;'+
-				'	color:#000000;'+
-				'}'+
-				''+
-				'.cachelist {'+
-					'	font-size:80%;'+
-						//~ '	list-style-type:disc;'+
-						'	padding:0;'+
-						'}';
-	head.appendChild(style); 	
-
-
-
-    
+  
 
 
 
@@ -374,58 +385,20 @@ function init(){
 
 
 	if(cacheListBody){
-		cacheListBody.addEventListener('DOMNodeInserted',
-				function(evt){
-				if(evt.relatedNode.tagName == 'TD' && evt.relatedNode.childNodes.length == 1 && evt.relatedNode.childNodes[0].nodeValue == " " ){
-
-				var addToTourButton = document.createElement('img');
-				addToTourButton.src = addToTourImageString;
-				addToTourButton.style.cursor = 'pointer';
-				addToTourButton.style.cssFloat = 'right';
-				addToTourButton.addEventListener('click',addCacheToTourFromMap('http://www.geocaching.com/seek/cache_details.aspx?wp='+evt.relatedNode.previousSibling.firstChild.nodeValue),false);											
-				addToTourButton.title = lang['addToTour'];
-				addHoverEffects(addToTourButton);	
-				evt.relatedNode.parentNode.childNodes[2].insertBefore(addToTourButton,evt.relatedNode.parentNode.childNodes[2].firstChild);
-
-
-				}
-				}
-				,false);
-
-		// next lines are for the button in the map bubbles
-		var mapElement = document.getElementById('map');
-		if(mapElement){
-			mapElement.addEventListener('DOMNodeInserted',
-					function(evt){
-					var gmCacheInfo = getElementsByAttribute('id','gmCacheInfo',evt.relatedNode)[0];
-					if(gmCacheInfo){
-					if(!getElementsByAttribute('id','addCacheImageButton',evt.relatedNode)[0]){
-					var typeImage = gmCacheInfo.getElementsByTagName('img')[0].src.split("/")[6];
-					var guid = gmCacheInfo.getElementsByTagName('a')[0].href.split("=")[1];
-					var wp = getElementsByAttribute('class','code',gmCacheInfo)[0].innerHTML;
-					var name = gmCacheInfo.getElementsByTagName('a')[0].innerHTML;
-
-
-					var addToTourButton = document.createElement('img');
-					addToTourButton.alt = lang['addToTour'];
-					addToTourButton.title = lang['addToTour'];
-					addToTourButton.src = addToTourImageString;
-					addToTourButton.id = 'addCacheImageButton';
-					addToTourButton.style.cursor = 'pointer';
-					addToTourButton.style.marginRight = '5px';
-
-					addToTourButton.addEventListener('click', addElementFunction(wp,guid,name,typeImage), false);
-					addHoverEffects(addToTourButton);
-
-
-					var linksDiv = getElementsByAttribute('class','links',gmCacheInfo)[0];
-					linksDiv.appendChild(document.createTextNode(' | '));
-					linksDiv.appendChild(addToTourButton);
-
-					}
-					}
-					}, false);
-		}	
+		
+		
+		unsafeWindow.origUpdateSideBarList=unsafeWindow.updateSideBarList;
+		unsafeWindow.updateSideBarList=gctourMapFunction;
+		unsafeWindow.updateSideBarList();
+		
+		// also override the "build discription" function
+		unsafeWindow.buildCDPage = gctourBuildCDPage;
+		
+		// and the parseCacheJSON function  - not used at the moment!
+		//~ unsafeWindow.origParseCacheJSON = unsafeWindow.parseCacheJSON;
+		//~ unsafeWindow.parseCacheJSON = gctourParseCacheJSON;
+		//~ unsafeWindow.origCreateMarker = unsafeWindow.createMarker;
+		//~ unsafeWindow.createMarker = gctourCreateMarker;
 	}
 	
 	// add buttons to Bookmark site
@@ -452,7 +425,7 @@ function init(){
 		
 		
 		
-		// button to add all caches in list tu current tour
+		// button to add all caches in list to current tour
 		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].innerHTML = lang['showCaches']
 		
 		var addBookmarkButton = createElement('button',{style:"margin:10px"});
@@ -545,7 +518,7 @@ function init(){
 
 				addToTourButton.addEventListener('click', addElementFunction(entry.id,entry.guid,entry.name,entry.image), false);
 				addHoverEffects(addToTourButton);
-				resultTrs[k].getElementsByTagName('td')[8].appendChild(addToTourButton);
+				resultTrs[k].getElementsByTagName('td')[9].appendChild(addToTourButton);
 			}
 		}
 
@@ -585,10 +558,21 @@ function init(){
 		}		
 
 		//var loginLink = dojo.query('a[href="http://www.geocaching.com/my/"]')[0];
-		var loginLink = dojo.byId("ctl00_LoginUrl").previousSibling.previousSibling;
 		
-		if(loginLink)
-			userName = loginLink.innerHTML;
+		//~ var loginLink = dojo.byId("ctl00_LoginUrl").previousSibling.previousSibling;
+		//var loginLink = ("ctl00_LoginUrl").parentNode.getElementsByTagName('a')[0];
+		
+		
+	
+		var logInOutLink = dojo.byId('ctl00_hlSignOut');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
+		var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
+
+		// if logged in, Login_Name_Link will be the link to the username
+		// if not logged in, Login_Name_Link will be the same as loginLogoutLink
+		if (logInOutLink != nameLink) {
+			userName = nameLink.textContent.trim();
+		}	
+			
 	}
 
 

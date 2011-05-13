@@ -4,7 +4,7 @@ function getGPXGeoCache(gcid){
 	var geocache_obj = getGeocache(gcid);
 	
 	
-	var isGroundspeak = (GM_getValue("gpxschema",1) == 0);
+	var isGroundspeak = (GM_getValue("gpxschema",0) == 0);
 	//~ geocache.gcid
 	//~ geocache.cacheid
 	//~ geocache.name

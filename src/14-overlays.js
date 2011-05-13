@@ -132,7 +132,7 @@ function addErrorDialog(options){
 	errorReport+= "error: "+options.caption+"\n";
 	errorReport+= "username: "+userName+"\n";
 	errorReport+= "useragent: "+unsafeWindow.navigator.userAgent+"\n";
-	errorReport+= "gpxschema: "+GM_getValue('gpxschema',1)+"\n";
+	errorReport+= "gpxschema: "+GM_getValue('gpxschema',0)+"\n";
 	errorReport+= "gpxhtml: "+GM_getValue('gpxhtml',true)+"\n";
 	errorReport+= "tour:\n";
 	errorReport+= uneval(currentTour)+"\n";

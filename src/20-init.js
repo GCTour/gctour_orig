@@ -202,6 +202,14 @@ function init(){
 
 	// update the complete gui if the tab gets focus
 	window.addEventListener("focus", updateTour,false);
+	
+	window.addEventListener("resize", handleResize,false);
+	
+	
+	//~ window.onresize = function(event) {
+    //~ ...
+//~ }
+
 
 	
     // process autoTour
@@ -274,7 +282,6 @@ function init(){
 						
 						var resultTable = dojo.query("table[class = 'SearchResultsTable Table'] > tbody > tr");
 						var j = 0;
-						alert(resultTable.length);
 						for(var i = 0; i < resultTable.length-1;i++){ // iterate over each cache 
 						
 								var entryTds = resultTable[i+1].getElementsByTagName('td');
@@ -284,13 +291,13 @@ function init(){
 								entry.id = trim(dojo.query('span',entryTds[4])[1].textContent.split('|')[1]);		
 								entry.name = trim(dojo.query('span',entryTds[4])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
-								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src');//.replace(/WptTypes\//, "WptTypes/sm/");
+								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/wpttypes\//, "WptTypes/sm/");
 								entry.available = entryTds[4].getElementsByTagName('a')[1].getAttribute('class') == 'lnk  ';
 								
 								
 								
 								var type = entry.image.split("/")[6].split(".")[0];
-							
+								type = (type == "earthcache")?137:type;
 								
 								var size = dtsize_details[i].size;
 								
@@ -381,9 +388,35 @@ function init(){
 
 
 
+
+	// beta maps - map/beta/default.aspx
+	if(document.URL.search("\/map\/beta\/default\.aspx")>=0) {
+		
+		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');
+		cacheDetailsTemplate.innerHTML = cacheDetailsTemplate.innerHTML.replace(/<\/div>\s*{{\/if}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+lang['addToTour']+'</span></a></div>{{/if}}');	
+		
+		unsafeWindow.add2tour = function(){
+			setTimeout(function() { 
+				var gmCacheInfo = dojo.byId('gmCacheInfo');
+				var links = dojo.query('a',gmCacheInfo);
+				var images = dojo.query('img',gmCacheInfo);
+				
+				
+				var gccode = dojo.query('div[class="code"]',gmCacheInfo)[0].textContent.trim();
+				var name = links[0].textContent.trim();
+				var cacheTypeImage = images[0].src.split('/')[6];
+				var guid = links[1].href.split("guid=")[1];
+				
+				debug("beta maps add2tour: gccode:'"+gccode+"' name:'"+name+"' image:'"+cacheTypeImage+"' guid:'"+guid+"'");
+				addElementFunction(gccode,guid,name,cacheTypeImage)();
+			},0);
+		};
+		
+		
+	}
+
+	// old maps
 	var cacheListBody = document.getElementById('cacheListBody');
-
-
 	if(cacheListBody){
 		
 		
@@ -493,59 +526,58 @@ function init(){
 
 
 	// add the buttons to the search table
-	var searchResultTable = document.getElementById('ctl00_ContentBody_dlResults');
-	if(searchResultTable){				
+	//~ var searchResultTable = document.getElementById('ctl00_ContentBody_dlResults');
+	//~ if(searchResultTable){		
+	if(document.URL.search("\/seek\/nearest\.aspx")>=0) {	
+
+		var entries = getEntriesFromSearchpage();
 		
+		for(var entry_i = 0; entry_i < entries.length; entry_i++){
+			var entry = entries[entry_i];
+			var addToTourButton = document.createElement('img');
+			addToTourButton.alt = lang['addToTour'];
+			addToTourButton.title = lang['addToTour'];
+			addToTourButton.src = addToTourImageString;
+			addToTourButton.style.cursor = 'pointer';
+			addToTourButton.style.marginRight = '5px';
+
+
+			addToTourButton.addEventListener('click', addElementFunction(entry.id,entry.guid,entry.name,entry.image), false);
 		
-	
-		// add after every entry a button 
-		//~ var resultTrs = searchResultTable.getElementsByTagName('tr');
-		var resultTrs = dojo.query("tr[class = 'Data BorderTop']");
-		for(var k = 0; k<resultTrs.length ; k++){
-
-			var entry = getEntryFromSearchTd(resultTrs[k]);
-			
-
-			//~ GM_log(entry.id +" "+entry.name + "  "+ entry.guid  + " " + entry.image +  " " + entry.checked);
-			
-			if(entry){
-				var addToTourButton = document.createElement('img');
-				addToTourButton.alt = lang['addToTour'];
-				addToTourButton.title = lang['addToTour'];
-				addToTourButton.src = addToTourImageString;
-				addToTourButton.style.cursor = 'pointer';
-				addToTourButton.style.marginRight = '5px';
-
-				addToTourButton.addEventListener('click', addElementFunction(entry.id,entry.guid,entry.name,entry.image), false);
-				addHoverEffects(addToTourButton);
-				resultTrs[k].getElementsByTagName('td')[9].appendChild(addToTourButton);
-			}
+			entry.position.appendChild(addToTourButton);
 		}
-
+		
+		
+		// add all checked to tour
+		
 		var newButton = document.createElement("input");
-		newButton.name = 'btnGPXDL';
 		newButton.type = 'submit';
 		newButton.value = lang['addMarkedToTour'];
-		newButton.id = 'btnGPXDL';	
 		newButton.setAttribute('onclick','return false;');	
-		newButton.style.cssFloat = 'right';
+
 
 		// on click add an element	
 		newButton.addEventListener('click',  function(){
-					for(var k = 0; k<resultTrs.length ; k++){
-						var entry = getEntryFromSearchTd(resultTrs[k]);
-						//~ GM_log(entry.id +" "+entry.name + "  "+ entry.guid  + " " + entry.image +  " " + entry.checked);
-			
-						if(entry){
-							if(entry.checked){
-							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-							}
-						}
-					}	;		
-				}, false)
-
-		// add it under the search results
-		searchResultTable.parentNode.insertBefore( newButton, searchResultTable.nextSibling);	
+			var entries = getEntriesFromSearchpage();
+		
+			for(var entry_i = 0; entry_i < entries.length; entry_i++){
+				var entry = entries[entry_i];
+				if(entry.checked){
+					addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+				}
+			}
+		},false);
+		
+		var add_checked_tr = createElement('tr');
+		add_checked_tr.innerHTML = "<td colspan=10></td>";
+		
+		append(newButton,add_checked_tr.firstChild);
+		
+		append(add_checked_tr,dojo.query('table[class = "SearchResultsTable Table"]')[0]);
+		
+		//~ 
+		//~ var table = dojo.query('table[class = "SearchResultsTable Table"]')[0];
+		//~ table.insertBefore(newButton,table.nextSibling);
 	}	
 
 	// dont display the list on the sendtogpx page
@@ -564,14 +596,14 @@ function init(){
 		
 		
 	
-		var logInOutLink = dojo.byId('ctl00_hlSignOut');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
+		var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
 		var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
 
 		// if logged in, Login_Name_Link will be the link to the username
 		// if not logged in, Login_Name_Link will be the same as loginLogoutLink
 		if (logInOutLink != nameLink) {
 			userName = nameLink.textContent.trim();
-		}	
+		} 
 			
 	}
 

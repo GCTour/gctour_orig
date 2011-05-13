@@ -2,7 +2,7 @@
 const version="@version@" // will be checked once the day 
 const build="@build@" // will be checked once the day 
 const scriptId = 'gctour'; 
-const DEBUG = true;
+const DEBUG_MODE = true;
 //~ const API_HOST = 'http://localhost:8888/api';
 //~ const GCTOUR_HOST = 'http://localhost:8888';
 const API_HOST = 'http://gctour-spot.appspot.com/api'; 

@@ -1,16 +1,23 @@
 /* ----- DEBUG OUTPUT FUNCTIONS ------*/
 function log(arguments) {
-  if (DEBUG) {
+  if (DEBUG_MODE) {
   	GM_log("Log: " + arguments);
   }
 }
+function debug(arguments) {
+  if (DEBUG_MODE) {
+    GM_log("DEBUG: " + arguments);
+  }
+}
+
+
 function warn(arguments) {
-  if (DEBUG) {
+  if (DEBUG_MODE) {
     GM_log("Warning: " + arguments);
   }
 }
 function error(arguments) {
-  if (DEBUG) {
+  if (DEBUG_MODE) {
     GM_log("Error: " + arguments);
   }
 }
@@ -162,6 +169,37 @@ function Dec2DM_String(latitude, longitude){
 	value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
 
 	return value;
+}
+
+function parseCoordinates(coordinates){
+	// regex for N51° 12.123 E12° 34.123
+	var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
+	
+	//regex for 51.123 12.123
+	var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
+	
+	
+	var result = regex.exec(coordinates);
+	var result2 = regex2.exec(coordinates);
+	
+	if (!result && !result2) {
+		return false;
+	} else if (result) {
+		
+		var lat = DM2Dec(result[3],result[6]);
+		if(result[1] == 'S') lat = lat * (-1);
+
+		var lon = DM2Dec(result[10],result[13]);
+		if(result[8] == 'W') lon = lon * (-1);
+		
+		return {latitude:lat,longitude:lon};
+		
+	} else {
+		var lat = parseFloat(result2[1]+""+result2[2]);
+		var lon = parseFloat(result2[3]+""+result2[4]);
+		
+		return {latitude:lat,longitude:lon};
+	}
 }
 
 

@@ -338,14 +338,14 @@ function getMapPreviewTab(){
 	var staticGMap = createElement('div');
 	staticGMap.id = 'staticGMap';
 
-	staticGMap.style.border = '2px solid gray';
-	staticGMap.style.backgroundImage = "url("+previewImage+")";
-	staticGMap.style.backgroundPosition = "center";
-	staticGMap.style.backgroundRepeat = "no-repeat";
-
-	staticGMap.style.height = '200px';
-	staticGMap.style.width = '400px';
-	staticGMap.style.backgroundRepeat = 'no-repeat';
+	//~ staticGMap.style.border = '2px solid gray';
+	//~ staticGMap.style.backgroundImage = "url("+previewImage+")";
+	//~ staticGMap.style.backgroundPosition = "center";
+	//~ staticGMap.style.backgroundRepeat = "no-repeat";
+//~ 
+	//~ staticGMap.style.height = '200px';
+	//~ staticGMap.style.width = '400px';
+	//~ staticGMap.style.backgroundRepeat = 'no-repeat';
 
 	coordsDiv.appendChild(staticGMap);
 
@@ -466,25 +466,10 @@ function updateAutoTourMap(lat,lon){
 	if(radiusMiles == "")
 		return;
 
-	var apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g";
-
-	var path = "path=fillcolor:0xF6A8287F|color:0xF6A828FF|"
-	
-	    // to draw a circle - add 24 edges und combine them
-		for(var i = 1; i<=361;i = i+15){
-			var waypoint = CalcPrjWP(lat,lon,radiusMiles,i);
-			debug("WPT PRJ lat:"+lat+" lon:"+lon+" radius:"+radiusMiles+"Miles i:"+i);
-			debug("WPT PRJ "+waypoint[0]+","+waypoint[1]);
-			debug("");
-
-			path += waypoint[0]+","+waypoint[1];
-
-			if(i != 361)
-				path += "|";
-
-		}
 	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
-	staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?'+path+'&size=400x200&sensor=false&key='+apiKey+')';
+	staticGMap.innerHTML = "";
+	var staticMapppppp = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
+	
 
 	var latArray = Dec2DM(lat);
 	var lonArray = Dec2DM(lon);

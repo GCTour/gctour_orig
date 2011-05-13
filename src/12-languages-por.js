@@ -69,6 +69,7 @@ lang_por = {
 	'openTour' : 'carregar uma rota',
 	'load' : 'carregar',
 	'removeTour' : 'apagar esta rota',	
+	'deleteCoordinates' : 'Coordenadas para deletar',
 	'copyTour' : 'copiar rota',
 	'copy' : 'copiar',
 	'newTourDialog' : 'Introduza um nome para a nova rota ...',

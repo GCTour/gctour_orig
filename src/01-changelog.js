@@ -6,12 +6,18 @@
  * 		- FIXED: Printout need some work
  * 		- FIXED: Update dialog bug
  * 		- FIXED: autoTour dialog
+ * 		- FIXED: Layout modifications from gc.com
  * 		- GPX: Logs does now have an unique id
  * 		- MAP: Tweak code on the map site. The use of the map will now be much faster.
  * 		- NEW: Coordinates of geocaches can now be moved.
  * 		- NEW: Added a dialog to send me a message.
  * 		- NEW: Geocaches can now printed directly from their detailspage
- * 		- NEW: Tour upload has been complelty redesigned
+ * 		- NEW: Tour upload has been completöy redesigned
+ * 		- NEW: Support for the new beta Maps
+ * 		- NEW: Dutch translation (thanks to )
+ * 		- NEW: Portuguese translation (thanks to )
+ * 		- ... and much more i already forgot
+ * 
  *
  * version 1.97.11033
  * 		- FIXED: gccom layout change.

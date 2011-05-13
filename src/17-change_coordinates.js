@@ -7,7 +7,7 @@ function openChangeCoordinates(){
  
 	overlayMarker = getOverlay({caption:lang['moveGeocache'],minimized:true});
 
-	anTable = document.createElement('table');overlayMarker.appendChild(anTable);
+	anTable = createElement('table',{style:"clear:both;"});overlayMarker.appendChild(anTable);
 	anTable.style.width = '100%';
 	anTable.align = 'center';
 	
@@ -26,12 +26,22 @@ function openChangeCoordinates(){
 	var coordinates = dojo.byId('ctl00_ContentBody_LatLon').textContent;
 	
 	try{
-		coordinates = coordinates.split("(")[1].split(")")[0];
+		coordinates = coordinates.split("(")[2].split(")")[0];
 	} catch(e){
 		coordinates = coordinates;
 	}
 	
-	var cacheId = trim(document.getElementById('ctl00_uxWaypointName').textContent);
+	var  mapTd = document.createElement('td');	
+	mapTd.align = 'left';
+	var coords = parseCoordinates(coordinates);
+	
+	var gc_type = dojo.query('a[href="/about/cache_types.aspx"] > img')[0].src.split("/")[5].split(".")[0];
+	
+	var staticMap = new StaticMap(mapTd,{lat:coords.latitude,lon:coords.longitude,geocache_type:gc_type});
+
+	
+	
+	var cacheId = trim(document.getElementById('ctl00_ContentBody_uxWaypointName').textContent);
 			
 	
 	td = document.createElement('td');tr.appendChild(td);
@@ -64,53 +74,38 @@ function openChangeCoordinates(){
 	cordsInput.style.marginRight = '5px';
 
 	
+	var checkMarkerCoord = function(input){
+		return function(){
+			var coords = parseCoordinates(input.value);
+			
+			if(coords == false){
+				cordsInput.style.backgroundColor = "#FF8888";
+			} else {
+				cordsInput.style.backgroundColor = "#88DC3B";
+				cordsInputLat.value = coords.latitude;
+				cordsInputLon.value = coords.longitude;
+				
+				staticMap.setNewCoordinates(coords.latitude,coords.longitude);
+				
+			}
+		}
+	};
 
-	cordsInput.addEventListener('keyup',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
-	cordsInput.addEventListener('paste',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
+	
+	
+	cordsInput.addEventListener('keyup',checkMarkerCoord(cordsInput),false);
+	cordsInput.addEventListener('paste',checkMarkerCoord(cordsInput),false);
 
 
 	exampleCoords = document.createElement('div');
 	exampleCoords.innerHTML = 	"<small>"+lang["example"]+" " + lang['exampleCoords'] + "</small>";
 
 	td.appendChild(exampleCoords);
-
-
-
+	
 	tr = document.createElement('tr');anTable.appendChild(tr);
 	td = document.createElement('td');tr.appendChild(td);
-	td = document.createElement('td');tr.appendChild(td);	
-	td.align = 'left';
+	tr.appendChild(mapTd);
 
-
-	staticGMap = document.createElement('div');
-	staticGMap.style.display = "none";
-	staticGMap.id = 'staticGMap';
-	staticGMap.style.border = '2px solid gray';
-	staticGMap.style.height = '200px';
-	staticGMap.style.width = '350px';
-	staticGMap.style.marginBottom = '10px';
-	staticGMap.style.backgroundRepeat = 'no-repeat';
-
-	staticGMapControl = document.createElement('div');staticGMap.appendChild(staticGMapControl);
-	staticGMapControl.style.padding = '3px 0px 0px 3px';
-	staticGMapControl.style.width = '16px';
-	staticGMapControl.style.cssFloat = 'left';
-
-	zoomPlusButton = document.createElement('img');td.appendChild(zoomPlusButton);
-	zoomPlusButton.style.opacity = '0.75';	
-	zoomPlusButton.style.cursor = 'pointer';	
-	zoomPlusButton.src = "http://www.geocaching.com/images/zoom_in.png";
-	zoomPlusButton.addEventListener('click', zoomInMarkerOverviewMap(), false);		
-	staticGMapControl.appendChild(zoomPlusButton);
-
-	zoomMinusButton = document.createElement('img');td.appendChild(zoomMinusButton);
-	zoomMinusButton.style.opacity = '0.75';	
-	zoomMinusButton.style.cursor = 'pointer';	
-	zoomMinusButton.src = "http://www.geocaching.com/images/zoom_out.png";
-	zoomMinusButton.addEventListener('click', zoomOutMarkerOverviewMap(), false);		
-	staticGMapControl.appendChild(zoomMinusButton);
-
-	td.appendChild(staticGMap);
 
 
 	// in the end please add a save and cancel button	
@@ -121,6 +116,17 @@ function openChangeCoordinates(){
 	
 	cancel = createElement('input',{type:"button",value:lang["cancel"],style:"background-image:url("+closebuttonImage+")"});append(cancel,buttonsDiv);
 	cancel.addEventListener('click', closeOverlay, false);
+	
+	
+	var delete_btn = createElement('input',{type:"button",value:lang["deleteCoordinates"],style:"background-image:url("+closebuttonImage+")"});append(delete_btn,buttonsDiv);
+	delete_btn.addEventListener('click', function(){
+			GM_deleteValue('coords_'+cacheId);
+			changeCoordinates();
+			updateGUI();
+			closeOverlay();
+
+
+	}, false);
 
 
 	submit = createElement('input',{type:"button",value:lang["save"],style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
@@ -163,7 +169,7 @@ function openChangeCoordinates(){
 		cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
 		cordsInput.style.backgroundColor = "#88DC3B";
 
-		updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13); // update map
+		staticMap.setNewCoordinates(cordsInputLat.value ,cordsInputLon.value);
 		
 		
 
@@ -175,6 +181,7 @@ function openChangeCoordinates(){
 }
 
 function changeCoordinates(coordinates){
+	
 	var coordinates_ele = dojo.byId('ctl00_ContentBody_LatLon');
 	try{
 		var coordinates_org = coordinates_ele.textContent.split("(")[1].split(")")[0];
@@ -182,6 +189,165 @@ function changeCoordinates(coordinates){
 		var coordinates_org = coordinates_ele.textContent;
 	}
 	
-	coordinates_ele.innerHTML = "<div style='font-size:110%'>"+coordinates+"&nbsp;&nbsp;<small>changed by GCTour</small></div><small>("+coordinates_org+")</small>";
+	if(!coordinates){
+		coordinates_ele.innerHTML = coordinates_org;
+	} else {
+		coordinates_ele.innerHTML = "<div style='font-weight:bold;'>"+coordinates+"&nbsp;&nbsp;-&nbsp;&nbsp;changed by GCTour <small>(<a style='cursor:pointer'>"+lang['makeMap']+"</a>)</small></div><small>("+coordinates_org+")</small>";
+		var showLink = coordinates_ele.getElementsByTagName('a')[0];
+		
+		showLink.addEventListener('click', function(){
+			var overlay = getOverlay({caption:lang['settings_map'],minimized:true});
+			
+			var originalCoordinates = parseCoordinates(coordinates_org);
+			var newCoordinates = parseCoordinates(coordinates);
+			
+			var gc_type = dojo.query('a[href="/about/cache_types.aspx"] > img')[0].src.split("/")[5].split(".")[0];
+			var staticMap = new StaticMap(overlay,{lat:originalCoordinates.latitude,lon:originalCoordinates.longitude,newLat:newCoordinates.latitude,newLon:newCoordinates.longitude,width:475,height:300,geocache_type:gc_type});
+			
+		}, false);			
+	}
+	
 	
 }
+
+// static map object
+
+function StaticMap(container,options){
+	this._options = options;
+	this._container = container;
+	this._zoom = 13;
+	this._minZoom = 0;
+	this._maxZoom = 19;
+	
+	this.build();
+	
+	this.update();
+}
+
+StaticMap.prototype.zoomIn = function(thiz){
+	return function(){
+		thiz._zoom = thiz._zoom+1;
+		thiz.update();
+	}
+}
+StaticMap.prototype.zoomOut = function(thiz){
+	return function(){
+		thiz._zoom = thiz._zoom-1;
+		thiz.update();
+	}
+}
+
+StaticMap.prototype.hide = function(){
+	this._staticGMap.style.display = "none";
+}
+
+StaticMap.prototype.show = function(){
+	this._staticGMap.style.display = "block";
+}
+
+StaticMap.prototype.setNewCoordinates = function(lat,lon){
+	this._options.newLat = lat;
+	this._options.newLon = lon;
+	
+	this.update();
+}
+
+StaticMap.prototype.setCoordinates = function(lat,lon){
+	this._options.lat = lat;
+	this._options.lon = lon;
+	
+	this.update();
+}
+
+StaticMap.prototype.setIcon = function(icon){
+	this._options.icon = icon;	
+	this.update();
+}
+
+StaticMap.prototype.update = function(){
+	if(this._zoom < this._minZoom || this._zoom > this._maxZoom)
+		return;
+	
+	
+	if(this._options.radius){
+		
+		
+		var pathString = "";		
+		// to draw a circle - add 24 edges und combine them
+		for(var i = 1; i<=361;i = i+15){
+			var waypoint = CalcPrjWP(this._options.lat,this._options.lon,this._options.radius,i);
+			pathString += waypoint[0]+","+waypoint[1];
+
+			if(i != 361)
+				pathString += "|";
+
+		}
+		
+				
+		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?path=color:0xB2D4F3FF|weight:5|fillcolor:0xB2D4F366|'+pathString+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&sensor=false';
+			
+		this.show();
+		
+	} else {
+		var markerString = "markers=";		
+		
+		if(this._options.geocache_type){
+			markerString += "icon:http://www.geocaching.com/images/wpttypes/pins/"+this._options.geocache_type+".png";
+		} else if (this._options.icon){
+			markerString += "icon:"+this._options.icon;
+		} else {
+			markerString += "color:blue";
+		}
+		markerString +=  "|"+this._options.lat+","+this._options.lon;
+		
+		
+		if(this._options.newLat && this._options.newLon){
+			markerString += "&markers=color:green|"+(this._options.newLat)+","+(this._options.newLon);
+			markerString += "&center="+(this._options.newLat)+","+(this._options.newLon);
+		}
+		
+		
+		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?zoom='+this._zoom+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&maptype=roadmap&'+markerString+'&sensor=false';
+			
+		this.show();
+	}
+}
+
+
+StaticMap.prototype.build = function(){
+	
+	
+	var staticGMap = document.createElement('div');
+	staticGMap.style.display = "none";
+	//~ staticGMap.id = 'staticGMap2';
+	staticGMap.style.border = '2px solid gray';
+	staticGMap.style.height = (this._options.height)?this._options.height+'px':'200px';
+	staticGMap.style.width = (this._options.width)?this._options.width+'px':'350px';
+	staticGMap.style.backgroundRepeat = 'no-repeat';
+	this._staticGMap = staticGMap;
+	
+	if(!this._options.radius){  // just make marker maps zoomable
+		var staticGMapControl = document.createElement('div');staticGMap.appendChild(staticGMapControl);
+		staticGMapControl.style.padding = '3px 0px 0px 3px';
+		staticGMapControl.style.width = '16px';
+		staticGMapControl.style.cssFloat = 'left';
+
+		var zoomPlusButton = document.createElement('img');
+		zoomPlusButton.style.opacity = '0.75';	
+		zoomPlusButton.style.cursor = 'pointer';	
+		zoomPlusButton.src = "http://www.geocaching.com/images/zoom_in.png";
+		zoomPlusButton.addEventListener('click', this.zoomIn(this), false);		
+		staticGMapControl.appendChild(zoomPlusButton);
+
+		var zoomMinusButton = document.createElement('img');
+		zoomMinusButton.style.opacity = '0.75';	
+		zoomMinusButton.style.cursor = 'pointer';	
+		zoomMinusButton.src = "http://www.geocaching.com/images/zoom_out.png";
+		zoomMinusButton.addEventListener('click', this.zoomOut(this), false);		
+		staticGMapControl.appendChild(zoomMinusButton);
+	}
+
+	this._container.appendChild(staticGMap);
+
+}
+

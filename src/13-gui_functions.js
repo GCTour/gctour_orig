@@ -1,4 +1,29 @@
-
+function handleResize(event) {
+	
+	
+	var win_height = window.innerHeight;
+	
+	var container_height = win_height - 60;
+	
+	// set the max height of the container
+	dojo.byId('gctourContainer').style.height = container_height+"px";
+	
+	// change the height of the tour header
+	
+	var tourheader_height;
+	var list_height;
+	if(currentTour.webcode){
+		tourheader_height = 55;
+		list_height = container_height - 128;
+	} else {
+		tourheader_height = 35;
+		list_height = container_height - 108;		
+	}
+	
+	//now handle the max height of the list and the header	
+	dojo.byId('webcode').parentNode.style.height = tourheader_height+"px";
+	dojo.byId('cacheList').parentNode.style.height = list_height+"px";
+}
 
 function toggleSettingsFunction(){
 	return function(){
@@ -52,10 +77,7 @@ function updateGUI(){
 		webcodeSpan.style.display = "none";
 	}
 	
-	// update the opendialog
-	//populateAllTours();
-
-    cacheList = document.getElementById('cacheList');	
+	cacheList = document.getElementById('cacheList');	
 	cacheList.innerHTML = "";
 	// popultate the current list on load
 	for (i = 0; i < currentTour.geocaches.length; i++){
@@ -66,6 +88,21 @@ function updateGUI(){
 	if(currentTour.geocaches.length == 0){
 		table.innerHTML = lang['emptyList'];
 	} 
+	
+	handleResize();
+	
+	
+	// make the gectour menu sticky if it is set
+/*	sticky = GM_getValue('sticky',false);
+	if(sticky){
+		dojo.byId('gctourContainer').style.left = "0px";
+	} else {
+		dojo.byId('gctourContainer').style.left = "-210px";
+	}
+	* 
+	* 
+	* TODO need more work - maybe in the next version
+	*/
 }
 
 function addOpacityEffects(element){
@@ -145,7 +182,7 @@ function downloadGPXFunction(){
 			nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
 			try {
-				if (GM_getValue('gpxschema',1) == 0){
+				if (GM_getValue('gpxschema',0) == 0){
 					dummyString = getGPX();	
 				} else {
 					dummyString = getGPXNew();
@@ -203,7 +240,7 @@ function sendToGPS(){
 	try{	
 		dataStringElement = document.getElementById('dataString');
 		dataStringElement.value = lang['pleaseWait'];
-		if (GM_getValue('gpxschema',1) == 0){
+		if (GM_getValue('gpxschema',0) == 0){
 			dataStringElement.value = getGPX();	
 		} else {
 			dataStringElement.value = getGPXNew();
@@ -226,57 +263,69 @@ function sendToGPS(){
 }
 
 function makeMapFunction(){
-	// add the overlay while loading
-	addProgressbar({caption:lang['makeMapWait']});  
 	
-	var markerQuery = [];
 	
-	for (cache_i = 0; cache_i < currentTour.geocaches.length; ++cache_i){
-		var marker = currentTour.geocaches[cache_i];
+	if(!userName){
+			alert(lang['notLogedIn']);
+	} else if( currentTour.geocaches.length == 0) {
+		alert(lang['emptyList']);
+	} else {
+			
+		// add the overlay while loading
+		addProgressbar({caption:lang['makeMapWait']});  
 		
-		if(marker.id){
-			markerQuery.push(marker.id);		
-		} else if(marker.wptcode){
-			markerQuery.push(marker.wptcode);
-		} else{
-			markerQuery =  [];
-			break;
+		var markerQuery = [];
+		
+		for (cache_i = 0; cache_i < currentTour.geocaches.length; ++cache_i){
+			var marker = currentTour.geocaches[cache_i];
+			
+			if(marker.id){
+				markerQuery.push(marker.id);		
+			} else if(marker.wptcode){
+				markerQuery.push(marker.wptcode);
+			} else{
+				markerQuery =  [];
+				break;
+			}
 		}
+		
+		get(API_HOST+'/map/check/'+markerQuery.join(","),
+			function(text){
+				
+				var result = JSON.parse(text);
+				if(result.length < 1){ // map is completly available in appengine
+					GM_openInTab(getMapUrl(markerQuery.join(",")));
+					closeOverlay();
+				} else { 
+					
+					try{
+						var geocaches = new Array();			
+						var costumMarkers = new Array();
+						
+						for ( var i= 0; i < result.length; i++){
+							var id = result[i];
+							if(id.indexOf("GC") === 0){
+								geocaches.push(getMapGeocache(id));
+							} else {
+								costumMarkers.push(getMapMarker(id));
+							}
+							
+							setProgress(i,result.length,document);
+							
+						}
+						
+						
+						var cacheObject = {};
+						cacheObject.geocaches = geocaches;
+						cacheObject.costumMarkers = costumMarkers;
+					
+						uploadMap(cacheObject, makeMapFunction);				
+					} catch(e){addErrorDialog({caption:"Make map error", _exception:e});}	
+				}	
+				
+			}
+		);
 	}
-	
-	get(API_HOST+'/map/check/'+markerQuery.join(","),
-		function(text){
-			
-			var result = JSON.parse(text);
-			if(result.length < 1){ // map is completly available in appengine
-				GM_openInTab(getMapUrl(markerQuery.join(",")));
-				closeOverlay();
-			} else { 
-				var geocaches = new Array();			
-				var costumMarkers = new Array();
-				
-				for ( var i= 0; i < result.length; i++){
-					var id = result[i];
-					if(id.indexOf("GC") === 0){
-						geocaches.push(getMapGeocache(id));
-					} else {
-						costumMarkers.push(getMapMarker(id));
-					}
-					
-					setProgress(i,result.length,document);
-					
-				}
-				
-				
-				var cacheObject = {};
-				cacheObject.geocaches = geocaches;
-				cacheObject.costumMarkers = costumMarkers;
-			
-				uploadMap(cacheObject, makeMapFunction);				
-			}	
-			
-		}
-	);
 }
 
 function getMapGeocache(gcid){
@@ -481,7 +530,7 @@ function sendMessageDialog(){
 	var overLay = getOverlay({caption:lang['sendMessageTitle'],minimized:true});
 	
 	
-	overLay.innerHTML = '<form method="POST" action="'+GCTOUR_HOST+'/contact"> \
+	overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact"> \
 	'+lang["sendMessage"]+'<br/> \
 	<input type="hidden" name="redir" value='+window.location+'> \
 	<input type="hidden" name="user" value='+userName+'> \

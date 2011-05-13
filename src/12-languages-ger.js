@@ -102,6 +102,7 @@
 	'openTour' : 'eine Tour laden',
 	'load' : 'laden',
 	'removeTour' : 'diese Tour löschen',
+	'deleteCoordinates' : 'Koordinaten löschen',
 	'copyTour' : 'Tour kopieren',
 	'copy' : 'Kopie',
 	'newTourDialog' : 'Bitte gib einen Namen für die neue Tour ein ...',

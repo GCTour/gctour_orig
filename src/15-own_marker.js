@@ -15,6 +15,7 @@ function showNewMarkerDialog(marker){
 
 	anTable = document.createElement('table');overlayMarker.appendChild(anTable);
 	anTable.style.width = '100%';
+	anTable.style.clear = 'both';
 	anTable.align = 'center';
 
     tr = document.createElement('tr');anTable.appendChild(tr);
@@ -54,8 +55,6 @@ function showNewMarkerDialog(marker){
 
 	
 
-	cordsInput.addEventListener('keyup',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
-	cordsInput.addEventListener('paste',saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon),false);
 
 
 	exampleCoords = document.createElement('div');
@@ -73,32 +72,31 @@ function showNewMarkerDialog(marker){
 
 
 	staticGMap = document.createElement('div');
-	staticGMap.style.display = "none";
-	staticGMap.id = 'staticGMap';
-	staticGMap.style.border = '2px solid gray';
-	staticGMap.style.height = '200px';
-	staticGMap.style.width = '350px';
-	staticGMap.style.marginBottom = '10px';
-	staticGMap.style.backgroundRepeat = 'no-repeat';
+	
+	
+	var staticMap = new StaticMap(staticGMap,{});
 
-	staticGMapControl = document.createElement('div');staticGMap.appendChild(staticGMapControl);
-	staticGMapControl.style.padding = '3px 0px 0px 3px';
-	staticGMapControl.style.width = '16px';
-	staticGMapControl.style.cssFloat = 'left';
-
-	zoomPlusButton = document.createElement('img');td.appendChild(zoomPlusButton);
-	zoomPlusButton.style.opacity = '0.75';	
-	zoomPlusButton.style.cursor = 'pointer';	
-	zoomPlusButton.src = "http://www.geocaching.com/images/zoom_in.png";
-	zoomPlusButton.addEventListener('click', zoomInMarkerOverviewMap(), false);		
-	staticGMapControl.appendChild(zoomPlusButton);
-
-	zoomMinusButton = document.createElement('img');td.appendChild(zoomMinusButton);
-	zoomMinusButton.style.opacity = '0.75';	
-	zoomMinusButton.style.cursor = 'pointer';	
-	zoomMinusButton.src = "http://www.geocaching.com/images/zoom_out.png";
-	zoomMinusButton.addEventListener('click', zoomOutMarkerOverviewMap(), false);		
-	staticGMapControl.appendChild(zoomMinusButton);
+	
+	var checkMarkerCoord = function(input){
+		return function(){
+			var coords = parseCoordinates(input.value);
+			
+			if(coords == false){
+				cordsInput.style.backgroundColor = "#FF8888";
+			} else {
+				cordsInput.style.backgroundColor = "#88DC3B";
+				cordsInputLat.value = coords.latitude;
+				cordsInputLon.value = coords.longitude;
+				
+				staticMap.setCoordinates(coords.latitude,coords.longitude);
+				
+			}
+		}
+	};
+	
+	
+	cordsInput.addEventListener('keyup',checkMarkerCoord(cordsInput),false);
+	cordsInput.addEventListener('paste',checkMarkerCoord(cordsInput),false);
 
 	td.appendChild(staticGMap);
 
@@ -122,7 +120,7 @@ function showNewMarkerDialog(marker){
 	td.textContent = lang["markerType"];
 
 	td = document.createElement('td');tr.appendChild(td);
-	markerTypeTable = document.createElement('table');td.appendChild(markerTypeTable);
+	markerTypeTable = createElement('table',{style:"width:auto;"});td.appendChild(markerTypeTable);
 	markerTypeTable.id = 'markerType';
 
 	typeArray = new Array(
@@ -157,25 +155,31 @@ function showNewMarkerDialog(marker){
 	}	
 	overlayMarker.appendChild(typeInput);	
 
-	trElement = document.createElement('tr');	markerTypeTable.appendChild(trElement);
+	trElement = createElement('tr',{style:"height:27px;"});	markerTypeTable.appendChild(trElement);
 	for(i = 0; i< 	typeArray.length ; i++ ){		
-		tdElement = document.createElement('td');		
+		tdElement = createElement('td',{style:"width:25px;"});		
+		
+		tdElement.style.background ="url("+typeArray[i][0]+") center center no-repeat";
 		if(!marker){
 			if (i == 0) tdElement.style.backgroundColor = '#B2D4F3';
+			staticMap.setIcon(typeArray[0][0]);
 		} else {
 			if(typeArray[i][0] == marker.image){
 				tdElement.style.backgroundColor = '#B2D4F3';
+				staticMap.setIcon(marker.image);
 			}
 		}
 		tdElement.style.cursor = 'pointer';
-		tdElement.style.padding = '5px';
+		tdElement.style.padding = '0px';
 		tdElement.style.border = '1px solid silver';
-		tdElement.innerHTML = "<img src='"+typeArray[i][0]+"'>";
-		tdElement.addEventListener('click', changeType(typeArray[i],markerTypeTable,typeArray), false);
+		//~ tdElement.innerHTML = "<img src='"+typeArray[i][0]+"'>";
+		tdElement.addEventListener('click', changeType(typeArray[i],markerTypeTable,typeArray,staticMap), false);
 
 		trElement.appendChild(tdElement);
 	}
 
+
+	staticMap.hide();
 
 
 
@@ -268,7 +272,7 @@ function showNewMarkerDialog(marker){
 		//~ updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13); // update map
 
 		contentTextarea.innerHTML = marker.content;
-
+		checkMarkerCoord(cordsInput)();
 	}
 
 	// set the focus to the maker name input
@@ -316,23 +320,26 @@ function updateMarkerOverviewMap(lat,lon,zoom){
 	staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=350x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
 }
 
-function changeType(value,table,typeArray){
+function changeType(value,table,typeArray,staticMap){
 	return function(){
 	    var trElement, i, tdElement;
 	
 		document.getElementById('typeInput').value = value[0];
 		document.getElementById('typeInputSym').value = value[1];
+		
+		staticMap.setIcon(value[0]);
+		
 		table.innerHTML = "";
 
-		trElement = document.createElement('tr');	table.appendChild(trElement);
+		trElement = createElement('tr',{style:"height:27px"});	table.appendChild(trElement);
 		for( i = 0; i< 	typeArray.length ; i++ ){
-			tdElement = document.createElement('td');
-			if (typeArray[i][0] == value[0]) tdElement.style.backgroundColor = '#B2D4F3';
+			tdElement = createElement('td',{style:"width:25px;"});
 			tdElement.style.cursor = 'pointer';
-			tdElement.style.padding = '5px';
+			tdElement.style.padding = '0px';
 			tdElement.style.border = '1px solid silver';
-			tdElement.innerHTML = "<img src='"+typeArray[i][0]+"'>";
-			tdElement.addEventListener('click', changeType(typeArray[i],table,typeArray), false);
+			tdElement.style.background ="url("+typeArray[i][0]+") center center no-repeat";
+			if (typeArray[i][0] == value[0]){tdElement.style.backgroundColor = '#B2D4F3';}
+			tdElement.addEventListener('click', changeType(typeArray[i],table,typeArray,staticMap), false);
 
 			trElement.appendChild(tdElement);
 		}

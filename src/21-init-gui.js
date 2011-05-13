@@ -99,7 +99,8 @@ function initComponents(){
 		width: 35px !important;\
 		background-color:#fff;\
 		z-index: 100001 !important;\
-		border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;'});
+		border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;\
+		-moz-user-select:none;'});
 	menuButton.className = "header";
 	
 	menuButton.innerHTML = "<h1 style='height: 10px;border-radius: 0 5px 0 0;'><img src='"+gctourLogoSmall+"'></h1>";
@@ -130,7 +131,7 @@ function initComponents(){
 		top: 30px !important;\
 		width: 200px !important;\
 		z-index: 100002 !important;\
-		border: 1px solid #333333;border-radius:0 5px 5px 0;',
+		border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;',
 		id:"gctourContainer"});
 		
 	if(sticky){
@@ -146,15 +147,13 @@ function initComponents(){
 		
 		if(!sticky){
 			timeout = setTimeout(function(){
-				dojo.animateProperty(
-				{
-				node: "gctourContainer",
-				duration: 1000,
-				properties: {
-					left:   { start: "0", end: "-210" }
-				 }
-				}).play();
-			
+				if(dojo.byId("gctourContainer").style.left == "0px"){
+					dojo.animateProperty({
+						node: "gctourContainer",
+						duration: 1000,
+						properties: { left:   { start: "0", end: "-210" } }
+					}).play();
+				}
 			}, 1000);
 		}
 	});	
@@ -297,7 +296,10 @@ function initComponents(){
 	autoTourButton.addEventListener('click', showAutoTourDialog, false);
 	addHoverEffects(autoTourButton);
 
-	var tourHeaderDiv = document.createElement('div');
+	// if the webcode is visable - the menu must be 20px higher
+	var tourHeaderDiv = createElement('div');
+	tourHeaderDiv.style.height = ((currentTour.webcode)?55:35)+"px";
+
 	tourHeaderDiv.innerHTML = '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')';
 	tourHeaderDiv.innerHTML+="<span id='webcode'><br>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>"
 	// show the webcode if it is available
@@ -389,13 +391,8 @@ function initComponents(){
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
 
-			// remove the ads under the menu - to be sure the gctour is visible ;-)
-			var adDiv = getElementsByAttribute('class','BanManWidget')[0];
-			if(adDiv)
-				dojo.destroy(adDiv);
-
-
-			var buttonsDiv = document.createElement('div');
+	
+			var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
 
 			buttonsDiv.appendChild(newButton);
 			buttonsDiv.appendChild(toggleTourListButton);
@@ -405,9 +402,8 @@ function initComponents(){
 			buttonsDiv.appendChild(sendMessageButton);
 
 
-			var header = document.createElement('div');
+			var header = createElement('div',{style:"height:40px;cursor:pointer;-moz-user-select:none;'"});
 			header.className= "header";
-			header.style.cursor = "pointer";
 			
 			header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/><img style='float:right' src='"+pin_image+"'></h1";
 			
@@ -424,8 +420,8 @@ function initComponents(){
 						
 			dojo.query("h1",header).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = (sticky)?"orange":"#B2D4F3"}).onclick(function(e){sticky = !sticky;GM_setValue('sticky',sticky);dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;});
 			
-			var footerDiv = createElement('div',{style:"font-size: 70%;"});
-			footerDiv.innerHTML = "<p style='text-align:right'>v"+ version + "." + build + "</p>";
+			var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
+			footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ version + "." + build + "</div>";
 			
 			
 			
@@ -452,4 +448,8 @@ function initComponents(){
 				var table = document.getElementById('cacheList');		
 				table.innerHTML = lang['emptyList'];
 			}
+			
+			
+			//finally: set new heights and layout!
+			handleResize();
 }

@@ -7,15 +7,20 @@
  * 		- FIXED: Update dialog bug
  * 		- FIXED: autoTour dialog
  * 		- FIXED: Layout modifications from gc.com
+ * 		- FIXED: autoTour find now earthcaches
+ * 		- FIXED: own waypoints coordinates were sometimes wrong rounded
  * 		- GPX: Logs does now have an unique id
+ * 		- GPX: Archived/Unavailable geocaches are marked so
  * 		- MAP: Tweak code on the map site. The use of the map will now be much faster.
  * 		- NEW: Coordinates of geocaches can now be moved.
  * 		- NEW: Added a dialog to send me a message.
  * 		- NEW: Geocaches can now printed directly from their detailspage
  * 		- NEW: Tour upload has been completöy redesigned
  * 		- NEW: Support for the new beta Maps
- * 		- NEW: Dutch translation (thanks to )
- * 		- NEW: Portuguese translation (thanks to )
+ * 		- NEW: Dutch translation (thanks to searchjaunt)
+ * 		- NEW: Portuguese translation (thanks to Ruben)
+ * 		- NEW: French translation (thanks to flashmoon)
+ * 		- NEW: Added support for all GC.com date formats
  * 		- ... and much more i already forgot
  * 
  *

@@ -46,8 +46,13 @@ function getEntryFromSearchTr(cache_row){
 	var information_cell = dojo.query("td:nth-child(5)",cache_row)[0];
 	var spans = dojo.query('span',information_cell);
 	
-	var entry = {};			
-	entry.id = trim(spans[1].textContent.split('|')[1]);		
+	var entry = {};
+	alert(spans[1].textContent);
+	//~ alert(spans[1].textContent.search(/|\s*GC(\S{3,9}\s*|)/g));	
+
+	spans[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)
+	entry.id = "GC"+RegExp.$1;		
+	//~ entry.id = trim(spans[1].textContent.split('|')[1]);
 	entry.name = trim(spans[0].textContent);
 	entry.guid = information_cell.getElementsByTagName('a')[0].href.split('guid=')[1];
 	entry.image = information_cell.getElementsByTagName('img')[0].getAttribute('src').split("/")[5];//.replace(/WptTypes\//, "WptTypes/sm/");

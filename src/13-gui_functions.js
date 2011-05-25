@@ -69,7 +69,6 @@ function updateGUI(){
 	// update webcode
 	var webcodeSpan = dojo.byId("webcode");
 	
-	log(currentTour.webcode);
 	if(currentTour.webcode){
 		webcodeSpan.innerHTML = "<br>Webcode:<b>"+currentTour.webcode+"</b></span>"
 		webcodeSpan.style.display = "inline";
@@ -226,16 +225,35 @@ function downloadGPXFunction(){
 
 function sendToGPS(){
     var dataStringElement, tourName, currentDate, currentDateString;
+       
+    // add the overlay while loading
+	addProgressbar();  	 
+	// fix width and height of the header
+    dojo.query('div[id="dialogBody"] > h1')[0].style.width = "486px";
+    dojo.query('div[id="dialogBody"] > h1')[0].style.height = "14px";
     
     
-	// add the overlay while loading
-	addProgressbar();  
+    // first time send to GPS is clicked: Accept the License
+    var accept_input = document.getElementById('chkAccept');
+    if(accept_input){
+		accept_input.checked = "checked";    
+		document.getElementById('btnSubmit').click();
+		return;
+	}
+    
+   
+    
+    
     // change ALWAYS to Garmin
 	var garmin_tab = document.getElementById('uxGPSProviderTabsn2');
 	if(garmin_tab.getElementsByTagName('table')[0].className != "Selected"){
 		unsafeWindow.__doPostBack('uxGPSProviderTabs','2');
 		return;
 	}
+
+	
+	dojo.byId('uxGPSProviderTabs').innerHTML = "<tbody><tr><td>GCTOUR: GARMIN ONLY</td></tr></tbody>";
+	dojo.destroy('premiumUpsellMessage');
 
 	try{	
 		dataStringElement = document.getElementById('dataString');
@@ -305,7 +323,10 @@ function makeMapFunction(){
 						for ( var i= 0; i < result.length; i++){
 							var id = result[i];
 							if(id.indexOf("GC") === 0){
-								geocaches.push(getMapGeocache(id));
+								var mapCache = getMapGeocache(id);
+								if(mapCache){
+									geocaches.push(mapCache);
+								}
 							} else {
 								costumMarkers.push(getMapMarker(id));
 							}
@@ -329,27 +350,30 @@ function makeMapFunction(){
 }
 
 function getMapGeocache(gcid){
+	
+	
 	var geocache = getGeocache(gcid);
-
-	var mapCache = new Object();
-	mapCache.gcid = geocache.gcid;
-	mapCache.guid = geocache.guid;
-	mapCache.image = geocache.image;
-	mapCache.name = geocache.name;
-	mapCache.difficulty = geocache.difficulty;
-	mapCache.terrain = geocache.terrain;
-	mapCache.latitude = geocache.lat;
-	mapCache.longitude = geocache.lon;
+	if(geocache !== "pm only"){
+		var mapCache = new Object();
+		mapCache.gcid = geocache.gcid;
+		mapCache.guid = geocache.guid;
+		mapCache.image = geocache.image;
+		mapCache.name = geocache.name;
+		mapCache.difficulty = geocache.difficulty;
+		mapCache.terrain = geocache.terrain;
+		mapCache.latitude = geocache.lat;
+		mapCache.longitude = geocache.lon;
+		
+		// save additional waypoints
+		var additional_waypoints = geocache.additional_waypoints;
+		for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
+			additional_waypoints[waypoint_i].note = "";
+		}				
+		
+		mapCache.additional_waypoints = additional_waypoints;
+		return mapCache;
+	}	
 	
-	// save additional waypoints
-	var additional_waypoints = geocache.additional_waypoints;
-	for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
-		additional_waypoints[waypoint_i].note = "";
-	}				
-	
-	mapCache.additional_waypoints = additional_waypoints;
-	
-	return mapCache;
 }
 
 function getMapMarker(markerId){
@@ -394,7 +418,9 @@ function uploadTourFunction(id){
 								costumMarker = (typeof(tours[i].geocaches[cache_i].latitude) != "undefined");
 								if(!costumMarker){
 								    mapCache = getMapGeocache(tours[i].geocaches[cache_i].id);
-									geocaches.push(mapCache);
+								    if(mapCache){
+										geocaches.push(mapCache);
+									}
 								} else {
 									var cm = tours[i].geocaches[cache_i];
 									cm.index = cache_i;
@@ -434,13 +460,13 @@ function uploadMap(markerObj,callback){
 
 function upload(tour){
 		if( !tour.password){ // vllt doch mit !tour.uuid || ????
-			var pw = prompt("passwort");  
-			if(!pw){ 
-				closeOverlay();
-				return;
-			}
-			tour.password = pw;
-			
+			//~ var pw = prompt("passwort");  
+			//~ if(!pw){ 
+				//~ closeOverlay();
+				//~ return;
+			//~ }
+			//~ tour.password = pw;
+			tour.password = "not yet implemented";
 			upload(tour);
 		} else {
 			

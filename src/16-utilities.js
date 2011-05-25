@@ -51,14 +51,6 @@ function loadValue(name, defaultValue){
 	return eval(GM_getValue(name, defaultValue));
 }
 
-/*
-alert(GM_getValue('language',1));
-alert(eval(GM_getValue('language',1)));
-
-alert((GM_getValue('tours',new Array())));
-alert(eval(GM_getValue('tours',new Array())));
-*/
-
 
 function fillTemplate(mapping, template){
     var j, dummy;
@@ -136,17 +128,27 @@ function convertROTStringWithBrackets(C) {
 }
 
 function DM2Dec(cor1, cor2){
+	debug("---DEBUG DM2Dec---");
+	debug("\tcor1:'"+cor1+"' cor2:'"+cor2+"'");
 	var x = parseFloat(cor1) + parseFloat(cor2) / 60;
-	x = Math.round(x * 100000) / 100000;
-	debug("DM2Dec:"+cor1+ "  " +cor2+" "+x);
+	debug("\tx:'"+x+"'");
+
+	//~ x = Math.round(x * 10000000) / 10000000;
+	//~ debug("\tMath.round(x):'"+x+"'");
 	return x;
 }
 
 function Dec2DM(coord){
-	var d;
-	d = parseFloat(coord),
-	m = Math.floor(((d - Math.floor(d)) * 60)*1000)/1000,
-	d = Math.floor(d),
+	var d,m,coords;
+	debug("---DEBUG Dec2DM---");
+	debug("\tcoord:'"+coord+"'");
+	d = parseFloat(coord);
+	debug("\td:'"+d+"'");	
+	m = Math.floor(((d - Math.floor(d)) * 60)*1000000)/1000000;
+	debug("\tm:'"+m+"'");
+	d = Math.floor(d);
+	debug("\tfloor(d):'"+d+"'")
+	
 	coords = new Array();
 	
 	coords[0] = d;
@@ -165,8 +167,8 @@ function Dec2DM_String(latitude, longitude){
 	latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 	lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
-	var value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-	value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+	var value = latOrigin+""+latArray[0]+"° "+dojo.number.format(latArray[1],{pattern:"##.000"})+" ";
+	value += lonOrigin+""+lonArray[0]+"° "+dojo.number.format(lonArray[1],{pattern:"##.000"})+" ";
 
 	return value;
 }
@@ -201,6 +203,21 @@ function parseCoordinates(coordinates){
 		return {latitude:lat,longitude:lon};
 	}
 }
+
+function distanceBetween(lat1,lon1, lat2,lon2) {
+	//var R = 6371; // km (change this constant to get miles)
+	var R = 6371000; // meters
+	var dLat = (lat2-lat1) * Math.PI / 180;
+	var dLon = (lon2-lon1) * Math.PI / 180;
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+	Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 )
+	*
+	Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+	return d;
+}
+
 
 
 /* TODO: remove this function */
@@ -306,5 +323,99 @@ function appendScript(href, domNode) {
 
    (domNode || head).appendChild(script);
      return script;
+}
+
+
+  /* Test code for all date pattern
+                        
+                        var dates = [
+							{pattern:"yyyy-MM-dd",example:"2011-05-15"},
+							{pattern:"yyyy/MM/dd",example:"2011/05/15"},
+							{pattern:"MM/dd/yyyy",example:"05/15/2011"},
+							{pattern:"dd/MM/yyyy",example:"15/05/2011"},
+							{pattern:"dd/MMM/yyyy",example:"15/May/2011"},
+							{pattern:"MMM/dd/yyyy",example:"May/15/2011"},
+							{pattern:"dd MMM yy",example:"15 May 11"}
+						];				                   
+                        
+                        
+                        for(var monat = 0; monat <= 11 ; monat++){
+							for(var tag = 1; tag <= 31; tag++){
+								var date = new Date(2011,monat,tag);
+								//~ GM_log(date);
+								for (i in dates) {
+									var date_obj = dates[i];
+									
+									var date_string = dojo.date.locale.format(date, {datePattern: date_obj.pattern, selector: "date",locale: "en"});
+									//~ GM_log("\t"+date_string);
+									
+									var paresed_date = dojo.date.locale.parse(date_string, {datePattern: date_obj.pattern, selector: "date",locale: "en"});
+									//~ GM_log("\t"+paresed_date);
+									if(dojo.date.compare(date,paresed_date) != 0){
+											GM_log("Asdasd");
+									}
+									//~ GM_log(date_obj.pattern+": '"+date+"'->'"+dojo.date.locale.parse(date_obj.example, {datePattern: date_obj.pattern, selector: "date",locale: "en"})+"'");
+									
+								}
+							}
+						}
+						
+*/
+
+
+function getDateFormat(force){
+	
+	
+	var date_format_update = eval(GM_getValue('date_format_update'));
+	
+	var current_date = new Date();
+	// get date format every 30 minutes
+	if (force || !date_format_update || dojo.date.difference(date_format_update, current_date, "minute") > 30){
+			//replace updatedate
+			GM_setValue('date_format_update',uneval(current_date));
+
+			// load prefences page
+			var req = new XMLHttpRequest();							
+			var myUrl = 'http://www.geocaching.com/account/ManagePreferences.aspx';
+			req.open("GET", myUrl, false);
+			// execute the request synchron
+			req.send(null);
+			// after execution parse the result
+			var response_div = createElement('div');
+			response_div.innerHTML = req.responseText;
+			// and save the selected option
+			GM_setValue('date_format',dojo.query('select[id="ctl00_ContentBody_uxDateTimeFormat"] > option[selected="selected"]',response_div)[0].value);
+			
+	}
+	
+
+	// allways set! otherwise something went wrong...
+	return GM_getValue('date_format');
+	
+}
+
+function parseDate(date_string){
+	var date_format = getDateFormat();
+	
+	var date = dojo.date.locale.parse(date_string, {datePattern: date_format, selector: "date",locale: "en"});
+	
+	if(!date){
+		getDateFormat(true);
+		return parseDate(date_string);
+	}
+	
+	debug("Parse Datestring: '"+date_string+"' -> Date: '"+date+"'");
+	return date;
+	
+}
+
+function formatDate(date){
+	var date_format = getDateFormat();
+	var date_string = dojo.date.locale.format(date, {datePattern: date_format, selector: "date",locale: "en"});
+	
+	debug("Format Date: '"+date+"' -> Datestring: '"+date_string+"'");
+	
+	return date_string;
+	
 }
 

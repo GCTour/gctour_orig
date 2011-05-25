@@ -48,10 +48,12 @@ function initDojo(){
 		requiredModules.push("dojo.fx");
 	    requiredModules.push("dojo.parser");
 		requiredModules.push("dojo.dnd.Source");
+		requiredModules.push("dojo.date.locale");
+		requiredModules.push("dojo.number");
 
-		
+		 
 
-		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules};  		
+		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules,locale: 'en'};  		
 		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
 		
 		
@@ -77,49 +79,9 @@ function initDojo(){
 }
 
 function init(){			
-	// first filter blacklist
-    // process "add to your GCTour"-link from gctour.madd.in    
-	if(document.URL.search("webcode")>=0) {
-		document.title = "GcTour";
-		document.getElementsByTagName('body')[0].innerHTML = "<div align='center'><a href='http://www.geocaching.com'><img border='0' src='http://madd.in/icon.png'/></a></div>";
-		downloadTourFunction(document.URL.split("webcode/")[1]);
-
-		return;
-	}
-	
-	// start sepcial script on send-to-gps page
-	if(document.URL.search("http://www.geocaching.com/seek/sendtogps.aspx")>=0) {
-		    	// show the GPX box, if the option is set
-		if(GM_getValue('showGpx',false)){
-			document.getElementById('dataString').parentNode.style.visibility = 'visible';
-			document.getElementById('dataString').style.width = '100%';
-		}
-
-
-		// see, whether this windows is opened by the tour or by something else
-		var qsParm = new Array();
-		var query = window.location.search.substring(1);
-		var parms = query.split('&');
-		for (var i=0; i<parms.length; i++) {
-			var pos = parms[i].indexOf('=');
-			if (pos > 0) {
-				var key = parms[i].substring(0,pos);
-				var val = parms[i].substring(pos+1);
-				qsParm[key] = val;
-			}
-		}
-
-
-		if(qsParm['tour']){
-			sendToGPS();
-		} 
-		
-		return;
-	}
 	
 	
-
-	// adding styles:
+		// adding styles:
 	   GM_addStyle(
 	    '.dojoDndAvatar {font-size: 75%; color: black;min-width:130px;z-index: 100003 !important;width:180px}'+
 	    '.dojoDndAvatar .controls{display:none;}'+
@@ -141,7 +103,7 @@ function init(){
 		'.dialogMask {background-image:url('+dialogMaskImage+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000000;}'+
 		'.dialogBody{-moz-border-radius:5px;background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
 		'.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
-		'.header h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;margin-top:0;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+tabBgImage+'")}'+
+		'.header h1{background-color:#B2D4F3;background-repeat:repeat-x;font-size:110% !important;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;margin-top:0;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+tabBgImage+'")}'+
 	//	'.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;color:#fff;}'+
 		'.dialogHistory {border:1px inset #999999;margin:0 1em 1em;padding-bottom: 1em;max-height: 200px;overflow-y:auto;width:448px;padding-left:1em;}'+
 		'.dialogHistory ul{margin-left:2em;}'+
@@ -197,6 +159,54 @@ function init(){
 	head.appendChild(style); 	
 
 	
+	
+	
+	// first filter blacklist
+    // process "add to your GCTour"-link from gctour.madd.in    
+	if(document.URL.search("webcode")>=0) {
+		document.title = "GcTour";
+		document.getElementsByTagName('body')[0].innerHTML = "<div align='center'><a href='http://www.geocaching.com'><img border='0' src='http://madd.in/icon.png'/></a></div>";
+		downloadTourFunction(document.URL.split("webcode/")[1]);
+
+		return;
+	}
+	
+		
+	
+	
+	// start sepcial script on send-to-gps page
+	if(document.URL.search("http://www.geocaching.com/seek/sendtogps.aspx")>=0) {
+		    	// show the GPX box, if the option is set
+		if(GM_getValue('showGpx',false)){
+			document.getElementById('dataString').parentNode.style.visibility = 'visible';
+			document.getElementById('dataString').style.width = '100%';
+		}
+
+
+		// see, whether this windows is opened by the tour or by something else
+		var qsParm = new Array();
+		var query = window.location.search.substring(1);
+		var parms = query.split('&');
+		for (var i=0; i<parms.length; i++) {
+			var pos = parms[i].indexOf('=');
+			if (pos > 0) {
+				var key = parms[i].substring(0,pos);
+				var val = parms[i].substring(pos+1);
+				qsParm[key] = val;
+			}
+		}
+
+
+		if(qsParm['tour']){
+			sendToGPS();
+		} 
+		
+		return;
+	}
+	
+	
+
+
 
 
 
@@ -288,7 +298,9 @@ function init(){
 								var entry = new Object(); // gather informations line-by-line
 								
 								
-								entry.id = trim(dojo.query('span',entryTds[4])[1].textContent.split('|')[1]);		
+								
+								dojo.query('span',entryTds[4])[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)
+								entry.id = "GC"+RegExp.$1;
 								entry.name = trim(dojo.query('span',entryTds[4])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
 								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/wpttypes\//, "WptTypes/sm/");
@@ -392,8 +404,38 @@ function init(){
 	// beta maps - map/beta/default.aspx
 	if(document.URL.search("\/map\/beta\/default\.aspx")>=0) {
 		
+		//~ <div style="width:100px;margin-left:auto;margin-right:auto;background-color:#fff;padding:3px;-moz-border-radius:3px;border:2px solid #666"><img src=""></div>
+		
+		var autoTour_div = createElement('div',{
+			style:'width: 100px; \
+			margin-left: auto; \
+			margin-right: auto; \
+			border-radius: 5px; \
+			background-color: #FFF; \
+			border: 4px solid #999; \
+			cursor: pointer;'
+		});
+		autoTour_div.className = "header";
+		
+		autoTour_div.innerHTML = "<h1><img src='"+mapToAutoTour+"'>";
+		
+		dojo.query("h1",autoTour_div).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = "#B2D4F3"}).onclick(function(e)
+		{
+			var googleMap = unsafeWindow.map;
+			
+			var bounds = googleMap.getBounds();
+			var center = googleMap.getCenter();
+			
+			var radius = Math.floor(distanceBetween(center.lat(),center.lng(),bounds.getNorthEast().lat(),bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng())/2)) / 1000;
+			
+			showAutoTourDialog(center,radius);
+		});
+			
+		dojo.byId('maps-hd').appendChild(autoTour_div);
+
+		
 		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');
-		cacheDetailsTemplate.innerHTML = cacheDetailsTemplate.innerHTML.replace(/<\/div>\s*{{\/if}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+lang['addToTour']+'</span></a></div>{{/if}}');	
+		cacheDetailsTemplate.innerHTML = cacheDetailsTemplate.innerHTML.replace(/<\/div>\s*{{else}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+lang['addToTour']+'</span></a></div>{{else}}');	
 		
 		unsafeWindow.add2tour = function(){
 			setTimeout(function() { 
@@ -405,7 +447,7 @@ function init(){
 				var gccode = dojo.query('div[class="code"]',gmCacheInfo)[0].textContent.trim();
 				var name = links[0].textContent.trim();
 				var cacheTypeImage = images[0].src.split('/')[6];
-				var guid = links[1].href.split("guid=")[1];
+				var guid = links[links.length-2].href.split("guid=")[1];
 				
 				debug("beta maps add2tour: gccode:'"+gccode+"' name:'"+name+"' image:'"+cacheTypeImage+"' guid:'"+guid+"'");
 				addElementFunction(gccode,guid,name,cacheTypeImage)();
@@ -596,7 +638,7 @@ function init(){
 		
 		
 	
-		var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
+		var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL') || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
 		var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
 
 		// if logged in, Login_Name_Link will be the link to the username

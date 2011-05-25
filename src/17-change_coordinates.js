@@ -26,7 +26,7 @@ function openChangeCoordinates(){
 	var coordinates = dojo.byId('ctl00_ContentBody_LatLon').textContent;
 	
 	try{
-		coordinates = coordinates.split("(")[2].split(")")[0];
+		coordinates = coordinates.split("(")[1].split(")")[0];
 	} catch(e){
 		coordinates = coordinates;
 	}
@@ -121,6 +121,7 @@ function openChangeCoordinates(){
 	var delete_btn = createElement('input',{type:"button",value:lang["deleteCoordinates"],style:"background-image:url("+closebuttonImage+")"});append(delete_btn,buttonsDiv);
 	delete_btn.addEventListener('click', function(){
 			GM_deleteValue('coords_'+cacheId);
+			
 			changeCoordinates();
 			updateGUI();
 			closeOverlay();
@@ -132,8 +133,7 @@ function openChangeCoordinates(){
 	submit = createElement('input',{type:"button",value:lang["save"],style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
 	submit.addEventListener('click', function(){	
 			GM_setValue('coords_'+cacheId, cordsInputLat.value+'#'+cordsInputLon.value);
-			changeCoordinates(Dec2DM_String(cordsInputLat.value,cordsInputLon.value));
-			
+			changeCoordinates(Dec2DM_String(cordsInputLat.value,cordsInputLon.value));			
 			closeOverlay();
 
 	}
@@ -164,9 +164,12 @@ function openChangeCoordinates(){
 
 		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
+		
+		
+		cordsInput.value = Dec2DM_String(marker.latitude,marker.longitude);
 
-		cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-		cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+		//~ cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
+		//~ cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
 		cordsInput.style.backgroundColor = "#88DC3B";
 
 		staticMap.setNewCoordinates(cordsInputLat.value ,cordsInputLon.value);
@@ -189,10 +192,11 @@ function changeCoordinates(coordinates){
 		var coordinates_org = coordinates_ele.textContent;
 	}
 	
+	
 	if(!coordinates){
 		coordinates_ele.innerHTML = coordinates_org;
 	} else {
-		coordinates_ele.innerHTML = "<div style='font-weight:bold;'>"+coordinates+"&nbsp;&nbsp;-&nbsp;&nbsp;changed by GCTour <small>(<a style='cursor:pointer'>"+lang['makeMap']+"</a>)</small></div><small>("+coordinates_org+")</small>";
+		coordinates_ele.innerHTML = "<div style='font-weight:bold;'>"+coordinates+"&nbsp;&nbsp;-&nbsp;&nbsp;changed by GCTour <small><a style='cursor:pointer'>"+lang['makeMap']+"</a></small></div><small>("+coordinates_org+")</small>";
 		var showLink = coordinates_ele.getElementsByTagName('a')[0];
 		
 		showLink.addEventListener('click', function(){

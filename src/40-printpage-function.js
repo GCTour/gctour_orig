@@ -263,197 +263,205 @@ function printPageFunction(currentTour){
 				
 						
 						if(!costumMarker){
+							
 							var geocache = getGeocache(currentTour.geocaches[i].id);
 							
-		
-						
-							//log
-							var logs_div = createElement('div');
-							
-							
-							var logs = geocache.logs;															
-							var maxPrintLogs = parseInt(GM_getValue('maxPrintLogs',3));
-							// if maxprintlogs is <= -1, export all logs to the print overview
-							if(maxPrintLogs <= -1)
-								maxPrintLogs = logs.length;
-							maxPrintLogs = maxPrintLogs;
-							for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
-								var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
-								log_div.setAttribute("class", "removable");
-								log_div.innerHTML = logs[log_i].from.replace(/href=".*?"/,"")+"<br>";
-								log_div.innerHTML += logs[log_i].text;
-								append(log_div, logs_div);
-							}
-							
-													
-							var dummy_additional_waypoints = createElement('div');
-							if (GM_getValue('printAdditionalWaypoints',true)){								
-								var wpts_table = createElement('table', {style:"width:100%;border-collapse:separate;"} );append(wpts_table,dummy_additional_waypoints);
-								wpts_table.setAttribute("class", "removable");
-								var content = "<tr>";
-								for(var waypoints_i = 0; waypoints_i < geocache.additional_waypoints.length; waypoints_i++){
-									
-								if(waypoints_i % 2 == 0 || waypoints_i == geocache.additional_waypoints.length-1){
-										if(waypoints_i != 0 && waypoints_i != 1){
-											content += "</tr>";
-										}
-										if(waypoints_i == geocache.additional_waypoints.length-1 && waypoints_i != 1){
-											content += "<tr>";
-										}
-									}
-									
-									
-									content += "<td style='width:50%;'>";
-									content +="<img src='"+geocache.additional_waypoints[waypoints_i].symbol+"'>";
-									content +="<b>"+geocache.additional_waypoints[waypoints_i].name+"</b>";
-									content +=" | "+geocache.additional_waypoints[waypoints_i].coordinates + "<br>";
-									content += "<i>"+geocache.additional_waypoints[waypoints_i].note + "</i><br>";	
-								}
-								content += "</tr>";
-								
-								wpts_table.innerHTML = content;
-							}
-							
-													
-							//images							
-							var dummy_images = createElement('div');
-							if (GM_getValue('printSpoilerImages',true)){
-								var image_table = createElement('table',{style:"border-collapse:seperate;border-spacing:2px;width:100%"});append(image_table,dummy_images);
-								var content = "<tr>";
-								for(var images_i = 0; images_i < geocache.images.length; images_i++){
-									if(images_i % 2 == 0 || images_i == geocache.images.length-1){
-										if(images_i != 0 && images_i != 1){
-											content += "</tr>";
-										}
-										if(images_i == geocache.images.length-1 && images_i != 1){
-											content += "<tr>";
-										}
-									}
-									
-									content += "<td class='removable'>";
-									content += "<img style='max-width:8cm;' src='"+geocache.images[images_i].href+"'><br>";
-									content += "<b>"+geocache.images[images_i].textContent+"</b>";
-									content += "</td>";
-								}
-								content += "</tr>";
-								image_table.innerHTML = content;
-							}
-					
-							
-							// inventory
-							var inventory = createElement('span');
-							for (var inventory_i = 0; inventory_i < geocache.inventory.length; inventory_i++){
-								var image = createElement('img');
-								image.src = geocache.inventory[inventory_i].src;
-								append(image,inventory);
-							}
-							if(geocache.inventory.length == 0){
-								var empty_inventory = createElement('span');
-								empty_inventory.innerHTML = "empty";							
-								append(empty_inventory,inventory);
-							}
-							
-							
-							//attributes
-							var attributes = createElement('span');
-							for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
-								var attribute = geocache.attributes[attributes_i];
-								attribute.style.width = "16px";
-								attribute.style.height = "16px";
-								attribute.style.marginRight = "3px";
-								//~ attribute.style.opacity = "0.5";
-								if(attribute.src != "http://www.geocaching.com/images/attributes/attribute-blank.gif")
-									append(attribute, attributes);
-							}
-								
-							
-		
-							
-							var map_element_dummy = createElement('div');
-							var map_element = createElement('div');append(map_element, map_element_dummy);
-							
-							
-						// map the geocache to uploadable version
-							var mapCache = new Object();
-							mapCache.gcid = geocache.gcid;
-							mapCache.guid = geocache.guid;
-							mapCache.image = geocache.image;
-							mapCache.name = geocache.name;
-							mapCache.difficulty = geocache.difficulty;
-							mapCache.terrain = geocache.terrain;
-							mapCache.latitude = geocache.lat;
-							mapCache.longitude = geocache.lon;
-
-							// save additional waypoints
-							var additional_waypoints = geocache.additional_waypoints;
-							for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
-								additional_waypoints[waypoint_i].note = "";
-							}
-							mapCache.additional_waypoints = additional_waypoints;
-							geocaches.push(mapCache);
-							// map the geocache to uploadable version - END -
-							
-						var geocacheMapping = new Array(
-							new Array('GCID',geocache.gcid),
-							new Array('CACHECOUNT',i+1),
-							new Array('GUID',geocache.guid),
-							new Array('TYPE',geocache.type),
-							new Array('CACHENAME',geocache.name),
-							new Array('OWNER',geocache.owner),
-							new Array('HIDDEN',geocache.hidden),
-							new Array('ATTRIBUTES',attributes.innerHTML),
-							new Array('BEARING',geocache.bearing),
-							new Array('DISTANCE',geocache.distance),
-							new Array('INVENTORY',inventory.innerHTML),
-							new Array('COORDINATES',geocache.coordinates),
-							new Array('DIFFICULTY',geocache.difficulty.replace(/\./,"_")),
-							new Array('TERRAIN',geocache.terrain.replace(/\./,"_")),
-							new Array('SIZE',geocache.size.toLowerCase().replace(/ /,"_")),
-							new Array('SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""),
-							new Array('LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""),
-							new Array('HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)),
-							new Array('ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML),
-							new Array('IMAGES',dummy_images.innerHTML),
-							new Array('MAP', map_element_dummy.innerHTML),
-							new Array('MAPID', "MAP_"+geocache.gcid),
-							new Array('LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""),
-							new Array('LOGS',logs_div.innerHTML)
-						);
-							
-						if(minimal){
-							geocacheMapping.push(new Array('HIDDENSTYLE',"hidden"));
-						} else {
-							geocacheMapping.push(new Array('HIDDENSTYLE',""));
-						}
-						
-						var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
+							if(geocache == "pm only"){
+								var pmOnlyDiv = createElement('div');
+								pmOnlyDiv.setAttribute('class','cacheDetail');
+								pmOnlyDiv.innerHTML = "<b><img src='"+currentTour.geocaches[i].image+"'>"+currentTour.geocaches[i].name+" ("+currentTour.geocaches[i].id+") is PM ONLY!</b>";
+								body.appendChild(pmOnlyDiv);
+								body.appendChild(document.createElement('br'));
+							} else {
 												
-						dojo.query("*[class='removable']",cacheDetailTemp).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
+								//log
+								var logs_div = createElement('div');
+								
+								
+								var logs = geocache.logs;															
+								var maxPrintLogs = parseInt(GM_getValue('maxPrintLogs',3));
+								// if maxprintlogs is <= -1, export all logs to the print overview
+								if(maxPrintLogs <= -1)
+									maxPrintLogs = logs.length;
+								maxPrintLogs = maxPrintLogs;
+								for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
+									var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
+									log_div.setAttribute("class", "removable");
+									log_div.innerHTML = logs[log_i].from.replace(/href=".*?"/,"")+"<br>";
+									log_div.innerHTML += logs[log_i].text;
+									append(log_div, logs_div);
+								}
+								
+														
+								var dummy_additional_waypoints = createElement('div');
+								if (GM_getValue('printAdditionalWaypoints',true)){								
+									var wpts_table = createElement('table', {style:"width:100%;border-collapse:separate;"} );append(wpts_table,dummy_additional_waypoints);
+									wpts_table.setAttribute("class", "removable");
+									var content = "<tr>";
+									for(var waypoints_i = 0; waypoints_i < geocache.additional_waypoints.length; waypoints_i++){
+										
+									if(waypoints_i % 2 == 0 || waypoints_i == geocache.additional_waypoints.length-1){
+											if(waypoints_i != 0 && waypoints_i != 1){
+												content += "</tr>";
+											}
+											if(waypoints_i == geocache.additional_waypoints.length-1 && waypoints_i != 1){
+												content += "<tr>";
+											}
+										}
+										
+										
+										content += "<td style='width:50%;'>";
+										content +="<img src='"+geocache.additional_waypoints[waypoints_i].symbol+"'>";
+										content +="<b>"+geocache.additional_waypoints[waypoints_i].name+"</b>";
+										content +=" | "+geocache.additional_waypoints[waypoints_i].coordinates + "<br>";
+										content += "<i>"+geocache.additional_waypoints[waypoints_i].note + "</i><br>";	
+									}
+									content += "</tr>";
+									
+									wpts_table.innerHTML = content;
+								}
+								
+														
+								//images							
+								var dummy_images = createElement('div');
+								if (GM_getValue('printSpoilerImages',true)){
+									var image_table = createElement('table',{style:"border-collapse:seperate;border-spacing:2px;width:100%"});append(image_table,dummy_images);
+									var content = "<tr>";
+									for(var images_i = 0; images_i < geocache.images.length; images_i++){
+										if(images_i % 2 == 0 || images_i == geocache.images.length-1){
+											if(images_i != 0 && images_i != 1){
+												content += "</tr>";
+											}
+											if(images_i == geocache.images.length-1 && images_i != 1){
+												content += "<tr>";
+											}
+										}
+										
+										content += "<td class='removable'>";
+										content += "<img style='max-width:8cm;' src='"+geocache.images[images_i].href+"'><br>";
+										content += "<b>"+geocache.images[images_i].textContent+"</b>";
+										content += "</td>";
+									}
+									content += "</tr>";
+									image_table.innerHTML = content;
+								}
 						
-						// remove images in description
-						
-						dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
-						dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
-							node.removeAttribute("href");
-						});
-						
-						
-						if(GM_getValue('printEditMode',false)){
-							dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
-							dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
+								
+								// inventory
+								var inventory = createElement('span');
+								for (var inventory_i = 0; inventory_i < geocache.inventory.length; inventory_i++){
+									var image = createElement('img');
+									image.src = geocache.inventory[inventory_i].src;
+									append(image,inventory);
+								}
+								if(geocache.inventory.length == 0){
+									var empty_inventory = createElement('span');
+									empty_inventory.innerHTML = "empty";							
+									append(empty_inventory,inventory);
+								}
+								
+								
+								//attributes
+								var attributes = createElement('span');
+								for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
+									var attribute = geocache.attributes[attributes_i];
+									attribute.style.width = "16px";
+									attribute.style.height = "16px";
+									attribute.style.marginRight = "3px";
+									//~ attribute.style.opacity = "0.5";
+									if(attribute.src != "http://www.geocaching.com/images/attributes/attribute-blank.gif")
+										append(attribute, attributes);
+								}
+									
+								
+			
+								
+								var map_element_dummy = createElement('div');
+								var map_element = createElement('div');append(map_element, map_element_dummy);
+								
+								
+							// map the geocache to uploadable version
+								var mapCache = new Object();
+								mapCache.gcid = geocache.gcid;
+								mapCache.guid = geocache.guid;
+								mapCache.image = geocache.image;
+								mapCache.name = geocache.name;
+								mapCache.difficulty = geocache.difficulty;
+								mapCache.terrain = geocache.terrain;
+								mapCache.latitude = geocache.lat;
+								mapCache.longitude = geocache.lon;
+
+								// save additional waypoints
+								var additional_waypoints = geocache.additional_waypoints;
+								for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
+									additional_waypoints[waypoint_i].note = "";
+								}
+								mapCache.additional_waypoints = additional_waypoints;
+								geocaches.push(mapCache);
+								// map the geocache to uploadable version - END -
+							var geocacheMapping = new Array(
+								new Array('GCID',geocache.gcid),
+								new Array('CACHECOUNT',i+1),
+								new Array('GUID',geocache.guid),
+								new Array('TYPE',geocache.type),
+								new Array('CACHENAME',(geocache.available)?geocache.name:"<span style='text-decoration: line-through !important;'>"+geocache.name+"</span>"),
+								new Array('OWNER',geocache.owner),
+								new Array('HIDDEN',formatDate(geocache.hidden)),
+								new Array('ATTRIBUTES',attributes.innerHTML),
+								new Array('BEARING',geocache.bearing),
+								new Array('DISTANCE',geocache.distance),
+								new Array('INVENTORY',inventory.innerHTML),
+								new Array('COORDINATES',geocache.coordinates),
+								new Array('DIFFICULTY',geocache.difficulty.replace(/\./,"_")),
+								new Array('TERRAIN',geocache.terrain.replace(/\./,"_")),
+								new Array('SIZE',geocache.size.toLowerCase().replace(/ /,"_")),
+								new Array('SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""),
+								new Array('LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""),
+								new Array('HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)),
+								new Array('ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML),
+								new Array('IMAGES',dummy_images.innerHTML),
+								new Array('MAP', map_element_dummy.innerHTML),
+								new Array('MAPID', "MAP_"+geocache.gcid),
+								new Array('LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""),
+								new Array('LOGS',logs_div.innerHTML)
+							);
+								
+							if(minimal){
+								geocacheMapping.push(new Array('HIDDENSTYLE',"hidden"));
+							} else {
+								geocacheMapping.push(new Array('HIDDENSTYLE',""));
+							}
+							
+							var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
+													
+							dojo.query("*[class='removable']",cacheDetailTemp).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
+							
+							// remove images in description
+							
+							dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
+							dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
+								node.removeAttribute("href");
+							});
+							
+							
+							if(GM_getValue('printEditMode',false)){
+								dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
+								dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
+								
+							}
+							
+							if(GM_getValue('printPageBreak',false)){
+								if(i < currentTour.geocaches.length-1)
+									cacheDetailTemp.style.pageBreakAfter = 'always';
+							}
+							
+							body.appendChild(cacheDetailTemp);
+							body.appendChild(document.createElement('br'));
+					
 							
 						}
-						
-						if(GM_getValue('printPageBreak',false)){
-							if(i < currentTour.geocaches.length-1)
-								cacheDetailTemp.style.pageBreakAfter = 'always';
-						}
-						
-						
-						
-						body.appendChild(cacheDetailTemp);
-						body.appendChild(document.createElement('br'));
-					
+							
+				
 							
 						} else {
 								
@@ -486,8 +494,9 @@ function printPageFunction(currentTour){
 							body.appendChild(cacheDetailTemp);
 							body.appendChild(document.createElement('br'));
 							
-							//~ geocaches.push(currentTour.geocaches[i]);
+								//~ geocaches.push(currentTour.geocaches[i]);
 						}
+						
 						
 						// set the progress
 						setProgress(i,currentTour.geocaches.length,newwindow2.document);									
@@ -521,7 +530,7 @@ function printPageFunction(currentTour){
 								
 								// overview map
 								
-								if(GM_getValue('printOutlineMap',true)){
+								if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true)){
 									dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery));
 								}
 								
@@ -530,7 +539,11 @@ function printPageFunction(currentTour){
 								if(GM_getValue('printOutlineMapSingle',true)){
 									for (var i = 0; i < geocacheCodes.length; ++i){
 										var geocacheCode = geocacheCodes[i];
-										dojo.query("div[id='MAP_"+geocacheCode+"']",newwindow2.document)[0].appendChild(getMapElement(geocacheCode));
+										var mapElement = dojo.query("div[id='MAP_"+geocacheCode+"']",newwindow2.document)[0];
+										
+										if(mapElement){
+											mapElement.appendChild(getMapElement(geocacheCode));
+										}
 									}
 								}
 								

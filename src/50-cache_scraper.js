@@ -61,6 +61,12 @@ function getGeocacheFromElement(element){
 
 	var upper_tables = dojo.query('table[id="cacheDetails"] table',element);
 	
+	if(dojo.query('input[id="ctl00_ContentBody_uxPremiumSubmitBottom"]',element)[0]){
+		return "pm only";
+	}
+	
+	
+	
 	var geocache = new Object();
 	geocache.gcid = trim(dojo.query('span[id="ctl00_ContentBody_uxWaypointName"]',element)[0].textContent);
 	geocache.cacheid = trim(dojo.query('a[href*="/seek/log.aspx?ID="]',element)[0].href.split("=")[1]);
@@ -70,6 +76,23 @@ function getGeocacheFromElement(element){
 	geocache.type =	dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src.split("/")[5].split(".")[0];
 	geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
 	
+	// check availability
+	var warning_element = dojo.query('ul[class="OldWarning"]',element)[0]; // contains text like
+	//This cache is temporarily unavailable. Read the logs below to read the status for this cache.
+	//This cache has been archived, but is available for viewing for archival purposes.
+	
+	if(warning_element){	
+		if(warning_element.textContent.indexOf("archived") != -1){
+			geocache.archived = true;
+		} else {
+			geocache.archived = false;
+		}
+		geocache.available = false;
+	} else {
+		geocache.available = true;
+		geocache.archived = false;
+	}
+	
 
 	var ownerDateTable = upper_tables[1];
 	var ownerDateSpans = dojo.query('span',ownerDateTable);
@@ -78,9 +101,9 @@ function getGeocacheFromElement(element){
 	var cacheDetails = dojo.query('div[id="cacheDetails"]',element)[0];
 
 	//~ geocache.hidden = trim(ownerDateSpans[1].textContent.split(':').pop());
-	geocache.hidden = trim(dojo.query('span',cacheDetails)[2].textContent.split(':').pop());
-	
-	
+	geocache.hidden = parseDate(trim(dojo.query('span',cacheDetails)[2].textContent.split(':').pop()));
+
+	/* not in the latest version of gc.com
 	// unfortnaly event caches has an other format - parse this also -
 	// may unessesary after latest update - TODO
 	if(geocache.hidden.match(",")){
@@ -105,7 +128,9 @@ function getGeocacheFromElement(element){
 		var hiddenYear = dateArray[2];
 		
 		geocache.hidden = hiddenMonth+"/"+hiddenDay+"/"+hiddenYear;
-	}
+	}*/
+	
+	
 	
 
 

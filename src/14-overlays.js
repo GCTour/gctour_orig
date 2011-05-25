@@ -168,9 +168,7 @@ function addErrorDialog(options){
 
 function addProgressbar(options){
 	var overlay;
-	if(options){
-		
-		
+	if(options){		
 		var theDocument = (options._document)?options._document:document;
 		var theCaption = (options.caption)?options.caption:lang['pleaseWait'];
 				

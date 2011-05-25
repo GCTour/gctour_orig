@@ -162,7 +162,7 @@ function addNewTableCell(theEntry,effects){
 	if(!costumMarker){
 		nameDiv.innerHTML = theEntry.name;
 	}else {
-		nameDiv.innerHTML = theEntry.content;
+		nameDiv.innerHTML = Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
 	}	
 	entryLi.appendChild(nameDiv);
 	
@@ -505,7 +505,10 @@ function updateTour(){
 
 
 function checkOnlineConsistent(t){
-	
+	 // Creates way to much traffic :( 
+	 // maybe in the next version
+	 
+	 /*
 	
 	if(t.webcode){
 		geocaches = new Array();
@@ -540,7 +543,7 @@ function checkOnlineConsistent(t){
 				}
 			}
 		);
-	}
+	} */
 }
 	
 

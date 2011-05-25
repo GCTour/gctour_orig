@@ -3,6 +3,10 @@ function getGPXGeoCache(gcid){
 	var geocache = new Object();
 	var geocache_obj = getGeocache(gcid);
 	
+	if(geocache_obj === "pm only"){
+		return geocache_obj;
+	}
+	
 	
 	var isGroundspeak = (GM_getValue("gpxschema",0) == 0);
 	//~ geocache.gcid
@@ -37,6 +41,9 @@ function getGPXGeoCache(gcid){
 			geocache.gcid = geocache.gcid.replace(/GC/,'');			
 		}	
 	geocache.cacheid = geocache_obj.cacheid;	
+	
+	geocache.archived = (geocache_obj.archived)?"True":"False";
+	geocache.available = (geocache_obj.available)?"True":"False";
 		
 	geocache.cacheName = geocache_obj.name;
 	geocache.cacheOwner = geocache_obj.owner;
@@ -119,9 +126,7 @@ function getGPXGeoCache(gcid){
 	geocache.country = geocache_obj.country;	
 	
 	// hidden Date
-	var dateHiddenArray = geocache_obj.hidden.split("/");
-
-	geocache.dateHidden =  new Date(dateHiddenArray[2],dateHiddenArray[0]-1,dateHiddenArray[1]);
+	geocache.dateHidden = geocache_obj.hidden;
 	
 	geocache.logs = new Array();
 	
@@ -247,7 +252,7 @@ function getGPXNew(){
 				'     version="1.0"'+
 				'     creator="gctour.madd.in">'+
 				'  <desc>Geocache</desc>'+
-				'  <author>GcTour</author>'+
+				'  <author>GCTour</author>'+
 				'  <url>http://gctour.madd.in</url>'+
 				'  <urlname>gctour.madd.in</urlname>'+
 				'  <time>'+ xsdDateTime(new Date()) +'</time>'+
@@ -309,76 +314,77 @@ function getGPXNew(){
 			if(!costumMarker){	
 	
 				var geocache = getGPXGeoCache(currentTour.geocaches[i].id);
-				
-				var logsStringArray = new Array();
-				
-				var logs =  geocache.logs;			
-				// just 11 logs in the gpx
-				for (var j = 0; (j < logs.length && j <= 10); j++){
-					var geocacheLogMapping = new Array(
-						 new Array('LOGID',logs[j].id),
-						 new Array('TIME',xsdDateTime(logs[j].foundDate)),
-						 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
-						 new Array('LOGTYPE',logs[j].type),
-						 new Array('LOGTEXT',encodeHtml(logs[j].content))
-					);
+				if(geocache !== "pm only"){
+					var logsStringArray = new Array();
 					
-					var cacheWaypointLog = waypointLogTemplate;
-				
-					for(var k = 0 ; k<geocacheLogMapping.length ; k++){
-						cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[k][0]+"##","g"),geocacheLogMapping[k][1]);
+					var logs =  geocache.logs;			
+					// just 11 logs in the gpx
+					for (var j = 0; (j < logs.length && j <= 10); j++){
+						var geocacheLogMapping = new Array(
+							 new Array('LOGID',logs[j].id),
+							 new Array('TIME',xsdDateTime(logs[j].foundDate)),
+							 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
+							 new Array('LOGTYPE',logs[j].type),
+							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+						);
+						
+						var cacheWaypointLog = waypointLogTemplate;
+					
+						for(var k = 0 ; k<geocacheLogMapping.length ; k++){
+							cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[k][0]+"##","g"),geocacheLogMapping[k][1]);
+						}
+						
+						logsStringArray.push(cacheWaypointLog);
 					}
 					
-					logsStringArray.push(cacheWaypointLog);
-				}
-				
-				
-				var geocacheMapping = new Array(
-					 new Array('LAT',geocache.latitude),
-					 new Array('LON',geocache.longitude),
-					 new Array('TIME',xsdDateTime(geocache.dateHidden)),
-					 new Array('GCID',geocache.gcid),
-					 new Array('CACHENAME',encodeHtml(geocache.cacheName)),
-					 new Array('OWNER',encodeHtml(geocache.cacheOwner)),
-					 new Array('STATE',encodeHtml(geocache.state)),
-					 new Array('COUNTRY',encodeHtml(geocache.country)),
-					 new Array('TYPE', geocache.cacheType),					
-					 new Array('CONTAINER',geocache.cacheSize),
-					 new Array('DIFFICULTY',geocache.difficulty),
-					 new Array('TERRAIN',geocache.terrain),
-					 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
-					 new Array('DESCRIPTION',encodeHtml(geocache.longDescription)),
-					 new Array('HINT',encodeHtml(geocache.hint)),
-					 new Array('LOGS',logsStringArray.join(""))
-				);
-				var cacheWaypoint = waypointTemplate;
-				
-				for(var j = 0 ; j<geocacheMapping.length ; j++){
-					cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
-				}
-						
-				var parser = new DOMParser();
-				var dom = parser.parseFromString(cacheWaypoint,
-					"text/xml");
-				var waypoint = dom.getElementsByTagName('wpt')[0];
-				gpxElement.appendChild(waypoint);
-				
-				
-				if(GM_getValue('gpxwpts',true)){
-					for(var k = 0;k<geocache.additionalWaypoints.length;k++){
-						
-						if(geocache.additionalWaypoints[k].coordinates != "???"){
-							var parser = new DOMParser();
-							var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
-								"text/xml");
-							var waypoint = dom.getElementsByTagName('wpt')[0];
-							gpxElement.appendChild(waypoint);	
+					
+					var geocacheMapping = new Array(
+						 new Array('LAT',geocache.latitude),
+						 new Array('LON',geocache.longitude),
+						 new Array('TIME',xsdDateTime(geocache.dateHidden)),
+						 new Array('GCID',geocache.gcid),
+						 new Array('CACHENAME',encodeHtml(geocache.cacheName)),
+						 new Array('OWNER',encodeHtml(geocache.cacheOwner)),
+						 new Array('STATE',encodeHtml(geocache.state)),
+						 new Array('COUNTRY',encodeHtml(geocache.country)),
+						 new Array('TYPE', geocache.cacheType),					
+						 new Array('CONTAINER',geocache.cacheSize),
+						 new Array('DIFFICULTY',geocache.difficulty),
+						 new Array('TERRAIN',geocache.terrain),
+						 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
+						 new Array('DESCRIPTION',encodeHtml(geocache.longDescription)),
+						 new Array('HINT',encodeHtml(geocache.hint)),
+						 new Array('LOGS',logsStringArray.join(""))
+					);
+					var cacheWaypoint = waypointTemplate;
+					
+					for(var j = 0 ; j<geocacheMapping.length ; j++){
+						cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
+					}
+							
+					var parser = new DOMParser();
+					var dom = parser.parseFromString(cacheWaypoint,
+						"text/xml");
+					var waypoint = dom.getElementsByTagName('wpt')[0];
+					gpxElement.appendChild(waypoint);
+					
+					
+					if(GM_getValue('gpxwpts',true)){
+						for(var k = 0;k<geocache.additionalWaypoints.length;k++){
+							
+							if(geocache.additionalWaypoints[k].coordinates != "???"){
+								var parser = new DOMParser();
+								var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
+									"text/xml");
+								var waypoint = dom.getElementsByTagName('wpt')[0];
+								gpxElement.appendChild(waypoint);	
+							}
 						}
 					}
-				}
+				} // pm only check
 				
 			
-			} else {
+			} else { // costum marker check
 				var parser = new DOMParser();
 				var dom = parser.parseFromString(getGPXfromMarker(currentTour.geocaches[i]),
 					"text/xml");
@@ -432,7 +438,7 @@ function getGPX(){
 					'<urlname>##CACHENAME##</urlname>'+
 					'<sym>Geocache</sym>'+
 					'<type>Geocache|##TYPE##</type>'+
-					'<groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0"  id="##CACHEID##" available="True" archived="False">'+
+					'<groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0"  id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##">'+
 					'	<groundspeak:name>##CACHENAME##</groundspeak:name>'+
 					'	<groundspeak:placed_by>##OWNER##</groundspeak:placed_by>'+
 					'	<groundspeak:owner>##OWNER##</groundspeak:owner>'+
@@ -469,82 +475,87 @@ function getGPX(){
 			
 			if(!costumMarker){		
 				var geocache = getGPXGeoCache(currentTour.geocaches[i].id);
-				
-				var logsStringArray = new Array();
-				
-				var logs =  geocache.logs;
-				// just 11 logs in the gpx
-				for (var j = 0; (j < logs.length && j <= 10); j++){
-					var geocacheLogMapping = new Array(
-											
-						 new Array('LOGID',logs[j].id), // Issue3
-						 new Array('TIME',xsdDateTime(logs[j].foundDate)),
-						 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
-						 new Array('LOGTYPE',logs[j].type),
-						 new Array('LOGTEXT',encodeHtml(logs[j].content))
-					);
+				if(geocache !== "pm only"){
+					var logsStringArray = new Array();
 					
-					var cacheWaypointLog = waypointLogTemplate;
-				
-					for(var k = 0 ; k<geocacheLogMapping.length ; k++){
-						cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[k][0]+"##","g"),geocacheLogMapping[k][1]);
+					
+					debug("GS GPX: geocache.dateHidden:'"+geocache.dateHidden+"' -> xsd:'"+xsdDateTime(geocache.dateHidden)+"'");
+					//~ debug("GS GPX: geocache.logs[0].foundDate:'"+geocache.logs[0].foundDate+"' -> xsd:'"+xsdDateTime(geocache.logs[0].foundDate)+"'");
+					var logs =  geocache.logs;
+					// just 11 logs in the gpx
+					for (var j = 0; (j < logs.length && j <= 10); j++){
+						var geocacheLogMapping = new Array(
+												
+							 new Array('LOGID',logs[j].id), // Issue3
+							 new Array('TIME',xsdDateTime(logs[j].foundDate)),
+							 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
+							 new Array('LOGTYPE',logs[j].type),
+							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+						);
+						
+						var cacheWaypointLog = waypointLogTemplate;
+					
+						for(var k = 0 ; k<geocacheLogMapping.length ; k++){
+							cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[k][0]+"##","g"),geocacheLogMapping[k][1]);
+						}
+						
+						logsStringArray.push(cacheWaypointLog);
 					}
 					
-					logsStringArray.push(cacheWaypointLog);
-				}
-				
-				
-				var attributesString = "";
-				for (var j = 0; (j < geocache.attributes_array.length); j++){
-					attributesString += getAttributeXML(geocache.attributes_array[j]);
-				}
-				
-				var geocacheMapping = new Array(
-					 new Array('LAT',geocache.latitude),
-					 new Array('LON',geocache.longitude),
-					 new Array('TIME',xsdDateTime(geocache.dateHidden)),
-					 new Array('GCID',geocache.gcid),
-					 new Array('CACHEID',geocache.cacheid),
-					 new Array('CACHENAME',encodeHtml(geocache.cacheName)),
-					 new Array('OWNER',encodeHtml(geocache.cacheOwner)),
-					 new Array('STATE',encodeHtml(geocache.state)),
-					 new Array('COUNTRY',encodeHtml(geocache.country)),
-					 new Array('TYPE', geocache.cacheType),					
-					 new Array('CONTAINER',geocache.cacheSize),
-					 new Array('ATTRIBUTES',attributesString),
-					 new Array('DIFFICULTY',geocache.difficulty),
-					 new Array('TERRAIN',geocache.terrain),
-					 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
-					 new Array('DESCRIPTION',encodeHtml(geocache.longDescription)),
-					 new Array('HINT',encodeHtml(geocache.hint)),
-					 new Array('LOGS',logsStringArray.join(""))
-				);
-				var cacheWaypoint = waypointTemplate;
-				
-				for(var j = 0 ; j<geocacheMapping.length ; j++){
-					cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
-				}	
-				var parser = new DOMParser();
-				var dom = parser.parseFromString(cacheWaypoint,
-					"text/xml");
-				var waypoint = dom.getElementsByTagName('wpt')[0];
-				gpxElement.appendChild(waypoint);
-				
-				if(GM_getValue('gpxwpts',true)){
-					for(var k = 0;k<geocache.additionalWaypoints.length;k++){
-						
-						if(geocache.additionalWaypoints[k].coordinates != "???"){
-							var parser = new DOMParser();
-							var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
-								"text/xml");
-							var waypoint = dom.getElementsByTagName('wpt')[0];
-							gpxElement.appendChild(waypoint);	
+					
+					var attributesString = "";
+					for (var j = 0; (j < geocache.attributes_array.length); j++){
+						attributesString += getAttributeXML(geocache.attributes_array[j]);
+					}
+					
+					var geocacheMapping = new Array(
+						 new Array('LAT',geocache.latitude),
+						 new Array('LON',geocache.longitude),
+						 new Array('TIME',xsdDateTime(geocache.dateHidden)),
+						 new Array('GCID',geocache.gcid),
+						 new Array('CACHEID',geocache.cacheid),
+						 new Array('AVAILABLE',geocache.available),
+						 new Array('ARCHIVED',geocache.archived),
+						 new Array('CACHENAME',encodeHtml(geocache.cacheName)),
+						 new Array('OWNER',encodeHtml(geocache.cacheOwner)),
+						 new Array('STATE',encodeHtml(geocache.state)),
+						 new Array('COUNTRY',encodeHtml(geocache.country)),
+						 new Array('TYPE', geocache.cacheType),					
+						 new Array('CONTAINER',geocache.cacheSize),
+						 new Array('ATTRIBUTES',attributesString),
+						 new Array('DIFFICULTY',geocache.difficulty),
+						 new Array('TERRAIN',geocache.terrain),
+						 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
+						 new Array('DESCRIPTION',encodeHtml(geocache.longDescription)),
+						 new Array('HINT',encodeHtml(geocache.hint)),
+						 new Array('LOGS',logsStringArray.join(""))
+					);
+					var cacheWaypoint = waypointTemplate;
+					
+					for(var j = 0 ; j<geocacheMapping.length ; j++){
+						cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
+					}	
+					var parser = new DOMParser();
+					var dom = parser.parseFromString(cacheWaypoint,
+						"text/xml");
+					var waypoint = dom.getElementsByTagName('wpt')[0];
+					gpxElement.appendChild(waypoint);
+					
+					if(GM_getValue('gpxwpts',true)){
+						for(var k = 0;k<geocache.additionalWaypoints.length;k++){
+							
+							if(geocache.additionalWaypoints[k].coordinates != "???"){
+								var parser = new DOMParser();
+								var dom = parser.parseFromString(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[k],geocache),
+									"text/xml");
+								var waypoint = dom.getElementsByTagName('wpt')[0];
+								gpxElement.appendChild(waypoint);	
+							}
 						}
 					}
-				}
-				
+				} // pm only check
 			
-			} else {
+			} else { // costum marker check
 				var parser = new DOMParser();
 				var dom = parser.parseFromString(getGPXfromMarker(currentTour.geocaches[i]),
 					"text/xml");
@@ -565,7 +576,7 @@ function getAttributeXML(attribute_a){
 
 function getGPXfromMarker(marker){
 
-	var gpx = 	'<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="'+ marker.lat +'" lon="'+ marker.lon +'">';
+	var gpx = 	'<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="'+ marker.latitude +'" lon="'+ marker.longitude +'">';
 	gpx += 		'	<time>'+ xsdDateTime(new Date()) +'</time>';
 	gpx += 		'	<name>'+ encodeHtml(marker.name) +'</name>';
 	gpx += 		'	<cmt>'+ encodeHtml(marker.content) +'</cmt>';

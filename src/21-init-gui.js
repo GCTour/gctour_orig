@@ -121,6 +121,8 @@ function initComponents(){
 	dojo.body().appendChild(menuButton);
 	
 	
+	
+	
 	var thisDiv = createElement('div',{
 		style:'background-color: #fff;\
 		height: 600px !important;\

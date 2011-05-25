@@ -286,7 +286,7 @@ function getTypeFilter(){
 
 
 function getCoordinatesTab(){
-	var coordsDiv = createElement('div');
+	var coordsDiv = createElement('div',{style:"clear:both"});
 	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
 	
@@ -321,6 +321,7 @@ function getCoordinatesTab(){
 function getMapPreviewTab(){
 	var coordsDiv = createElement('div');
 	coordsDiv.align = "left";
+	coordsDiv.style.clear = "both";
 
 	var cordsInputLat = createElement('input', {type: 'hidden', id: "coordsDivLat"});
 	coordsDiv.appendChild(cordsInputLat);

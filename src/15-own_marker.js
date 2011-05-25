@@ -266,8 +266,10 @@ function showNewMarkerDialog(marker){
 		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
-		cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-		cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+		cordsInput.value = (Dec2DM_String(marker.latitude,marker.longitude));
+
+		//~ cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
+		//~ cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
 		cordsInput.style.backgroundColor = "#88DC3B";
 		//~ updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13); // update map
 

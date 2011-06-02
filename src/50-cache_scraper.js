@@ -76,6 +76,18 @@ function getGeocacheFromElement(element){
 	geocache.type =	dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src.split("/")[5].split(".")[0];
 	geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
 	
+	
+	//~ alert(unsafeWindow.getGCComment);
+	//~ alert("GCComment für '"+geocache.guid+"' -> '"+unsafeWindow.getGCComment(geocache.guid)+"'");
+	//~ 
+	
+	if(unsafeWindow.getGCComment){
+		var comment = unsafeWindow.getGCComment(geocache.guid);
+		if(comment){
+			geocache.comment = comment;
+			geocache.comment.coordinates =  unsafeWindow.getGCCommentFinalCoords(geocache.guid);
+		}
+	}
 	// check availability
 	var warning_element = dojo.query('ul[class="OldWarning"]',element)[0]; // contains text like
 	//This cache is temporarily unavailable. Read the logs below to read the status for this cache.

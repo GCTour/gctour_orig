@@ -32,6 +32,7 @@ function printPageFunction(currentTour){
 				'	<div class="content">'+
 				'		<div class="short ###HIDDENSTYLE###">###SHORT_DESCRIPTION###</div>'+
 				'		<div class="long ###HIDDENSTYLE###">###LONG_DESCRIPTION###</div>'+
+				'		<div>###GCCOMMENT###</div>'+
 				'		<div><b>Hint:</b>###HINT###</div>'+
 				'		<div class="waypoints ###HIDDENSTYLE###">###ADDITIONAL_WAYPOINTS###</div>'+
 				'		<div class="images">###IMAGES###</div>'+
@@ -399,6 +400,20 @@ function printPageFunction(currentTour){
 								mapCache.additional_waypoints = additional_waypoints;
 								geocaches.push(mapCache);
 								// map the geocache to uploadable version - END -
+								
+							var gcComment = "";
+							
+							if(geocache.comment){
+								gcComment = "<b><u>GCComment:</u></b><br/>";
+								if(geocache.comment.coordinates){
+									var parsedCoords = Dec2DM_String(geocache.comment.coordinates.split(',')[0],geocache.comment.coordinates.split(',')[1]);
+									gcComment += "<b>Final Coordinates:</b> "+parsedCoords+"<br/>";
+								}
+								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
+							}
+							
+							
+								
 							var geocacheMapping = new Array(
 								new Array('GCID',geocache.gcid),
 								new Array('CACHECOUNT',i+1),
@@ -417,6 +432,7 @@ function printPageFunction(currentTour){
 								new Array('SIZE',geocache.size.toLowerCase().replace(/ /,"_")),
 								new Array('SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""),
 								new Array('LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""),
+								new Array('GCCOMMENT',gcComment),
 								new Array('HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)),
 								new Array('ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML),
 								new Array('IMAGES',dummy_images.innerHTML),

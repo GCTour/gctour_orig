@@ -47,7 +47,6 @@ function getEntryFromSearchTr(cache_row){
 	var spans = dojo.query('span',information_cell);
 	
 	var entry = {};
-	alert(spans[1].textContent);
 	//~ alert(spans[1].textContent.search(/|\s*GC(\S{3,9}\s*|)/g));	
 
 	spans[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)

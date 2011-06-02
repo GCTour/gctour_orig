@@ -21,6 +21,7 @@
  * 		- NEW: Portuguese translation (thanks to Ruben)
  * 		- NEW: French translation (thanks to flashmoon)
  * 		- NEW: Added support for all GC.com date formats
+ * 		- NEW: GCComment print view implementation
  * 		- ... and much more i already forgot
  * 
  *

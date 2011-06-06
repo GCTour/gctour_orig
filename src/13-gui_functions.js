@@ -512,9 +512,11 @@ function upload(tour){
 						
 						updateTour();
 						
-					
-						
 						closeOverlay();
+						
+						
+						var codeString = lang['tourUploaded1']+tour.webcode+lang['tourUploaded2'];
+						alert(codeString);					
 					}
 						
 				

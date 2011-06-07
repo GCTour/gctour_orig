@@ -50,6 +50,7 @@ function initDojo(){
 		requiredModules.push("dojo.dnd.Source");
 		requiredModules.push("dojo.date.locale");
 		requiredModules.push("dojo.number");
+		requiredModules.push("dojo.window");
 
 		 
 

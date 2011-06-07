@@ -14,14 +14,27 @@ function getMapElement(mapQuery) {
 
 function getMap(mapQuery){
 	
+	
+	var factor = 1;
+	var map_size = GM_getValue('defaultMapSize', 'large');
+	if(map_size == "large"){
+		factor = 1;
+	} else if(map_size == "medium"){
+		factor = 0.75;
+	} else if(map_size == "small"){
+		factor = 0.5;
+	}
+	
+	
+	
 	var mapId = mapQuery.replace(/,/g,"");
 	
 	var map_frame = createElement('iframe');
 	var map_frame = document.createElement('iframe');
 	map_frame.className = 'cacheMap';
 	map_frame.id = mapId;
-	map_frame.style.width = (20) + "cm"; 
-	map_frame.style.height = (500) + 'px';
+	map_frame.style.width = (factor * 20) + "cm"; 
+	map_frame.style.height = (factor * 500) + 'px';
 	map_frame.style.border = '1px solid lightgray';
 	map_frame.src = getMapUrl(mapQuery);
 	return map_frame;	

@@ -1,7 +1,8 @@
 function handleResize(event) {
 	
 	
-	var win_height = window.innerHeight;
+	//~ var win_height = window.innerHeight;
+	var win_height = dojo.window.getBox().h;
 	
 	var container_height = win_height - 60;
 	

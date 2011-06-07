@@ -405,8 +405,8 @@ function printPageFunction(currentTour){
 							
 							if(geocache.comment){
 								gcComment = "<b><u>GCComment:</u></b><br/>";
-								if(geocache.comment.coordinates){
-									var parsedCoords = Dec2DM_String(geocache.comment.coordinates.split(',')[0],geocache.comment.coordinates.split(',')[1]);
+								if(geocache.comment.lat){
+									var parsedCoords = Dec2DM_String(geocache.comment.lat,geocache.comment.lng);
 									gcComment += "<b>Final Coordinates:</b> "+parsedCoords+"<br/>";
 								}
 								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
@@ -546,7 +546,7 @@ function printPageFunction(currentTour){
 								
 								// overview map
 								
-								if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true)){
+								if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false)){
 									dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery));
 								}
 								

@@ -85,7 +85,6 @@ function getGeocacheFromElement(element){
 		var comment = unsafeWindow.getGCComment(geocache.guid);
 		if(comment){
 			geocache.comment = comment;
-			geocache.comment.coordinates =  unsafeWindow.getGCCommentFinalCoords(geocache.guid);
 		}
 	}
 	// check availability

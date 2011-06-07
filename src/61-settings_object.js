@@ -124,7 +124,7 @@ Settings.prototype.getMaps = function(){
 	var mapsi_caption = createElement('span');append(mapsi_caption,mapsi_div);
 	mapsi_caption.innerHTML = "<b>"+lang['settingsMapSize'];+"</b><br>";
 
-	var sizeArray = new Array('large','medium','small','very small');
+	var sizeArray = new Array('large','medium','small');
 	append(this.getSelectbox(sizeArray,'defaultMapSize','large',setPrintMapSize),mapsi_caption);
 
 

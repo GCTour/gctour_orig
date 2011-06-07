@@ -8,7 +8,7 @@
 // @include        https://www.geocaching.com/*
 // @copyright      2008, 2009, 2010, 2011 Martin Georgi
 // @author         madd.in
-// @icon		   http://gctour.madd.in/icon.png
+// @icon		   http://www.madd.in/geocaching/gm/gctourextension/icon.png
 // @license        GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 

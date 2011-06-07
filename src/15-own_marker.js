@@ -124,15 +124,15 @@ function showNewMarkerDialog(marker){
 	markerTypeTable.id = 'markerType';
 
 	typeArray = new Array(
-			new Array('http://gctour.madd.in/map/icons/neu/RedFlag.png','Red Flag'),
-			new Array('http://gctour.madd.in/map/icons/neu/BlueFlag.png','Blue Flag'),
-			new Array('http://gctour.madd.in/map/icons/neu/GreenFlag.png','Green Flag'),
-			new Array('http://gctour.madd.in/map/icons/neu/Geocache.png','Geocache'),
-			new Array('http://gctour.madd.in/map/icons/neu/GeocacheFound.png','Geocache Found'),
-			new Array('http://gctour.madd.in/map/icons/neu/Information.png','Information'),
-			new Array('http://gctour.madd.in/map/icons/neu/Park.png','Park'),
-			new Array('http://gctour.madd.in/map/icons/neu/ParkingArea.png','Parking'),
-			new Array('http://gctour.madd.in/map/icons/neu/SkullAndBones.png','Skull And Crossbones')
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/RedFlag.png','Red Flag'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/BlueFlag.png','Blue Flag'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/GreenFlag.png','Green Flag'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/Geocache.png','Geocache'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/GeocacheFound.png','Geocache Found'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/Information.png','Information'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/Park.png','Park'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/ParkingArea.png','Parking'),
+			new Array('http://www.madd.in/geocaching/gm/gctourextension/map/icons/neu/SkullAndBones.png','Skull And Crossbones')
 			);
 	// iff we are editing a marker - so please set the right type
 	typeInput = document.createElement('input');

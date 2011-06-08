@@ -625,11 +625,11 @@ function init(){
 				}
 			}
 		},false);
-		
 		var add_checked_tr = createElement('tr');
-		add_checked_tr.innerHTML = "<td colspan=10></td>";
+		var add_checked_td = createElement('td',{colspan:10});
 		
-		append(newButton,add_checked_tr.firstChild);
+		append(add_checked_td,add_checked_tr);
+		append(newButton,add_checked_td);
 		
 		append(add_checked_tr,dojo.query('table[class = "SearchResultsTable Table"]')[0]);
 		

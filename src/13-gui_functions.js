@@ -1,6 +1,5 @@
-function handleResize(event) {
-	
-	
+
+function handleResize(event) {	
 	//~ var win_height = window.innerHeight;
 	var win_height = dojo.window.getBox().h;
 	
@@ -516,7 +515,7 @@ function upload(tour){
 						closeOverlay();
 						
 						
-						var codeString = lang['tourUploaded1']+tour.webcode+lang['tourUploaded2'];
+						var codeString = lang['tourUploaded1']+currentTour.webcode+lang['tourUploaded2'];
 						alert(codeString);					
 					}
 						

@@ -125,7 +125,6 @@ function initComponents(){
 	
 	var thisDiv = createElement('div',{
 		style:'background-color: #fff;\
-		height: 600px !important;\
 		overflow: hidden;\
 		left:-210px;\
 		padding: 0 !important;\

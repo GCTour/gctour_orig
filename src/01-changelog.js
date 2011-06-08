@@ -2,6 +2,12 @@
  * Changelog:
  * 
  * version @version@.@build@
+ * 		- FIXED: scrollbar bug Firefox 3.6
+ * 		- FIXED: "Search For Geocaches" page in Firefox 3.6
+ * 		- FIXED: Bug with new GCComment version
+ * 		- FIXED: bug in popup after uploading an tour
+ * 		- UPDATED: french translation
+ * version 2.0.11158
  * 		- FIXED: Event-Cache bug
  * 		- FIXED: Printout need some work
  * 		- FIXED: Update dialog bug

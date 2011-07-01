@@ -438,7 +438,7 @@ function getGPX(){
 					'<urlname>##CACHENAME##</urlname>'+
 					'<sym>Geocache</sym>'+
 					'<type>Geocache|##TYPE##</type>'+
-					'<groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0"  id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##">'+
+					'<groundspeak:cache id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##"  <groundspeak:cache id="2279759" available="True" archived="False" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1" >'+
 					'	<groundspeak:name>##CACHENAME##</groundspeak:name>'+
 					'	<groundspeak:placed_by>##OWNER##</groundspeak:placed_by>'+
 					'	<groundspeak:owner>##OWNER##</groundspeak:owner>'+
@@ -478,6 +478,34 @@ function getGPX(){
 				if(geocache !== "pm only"){
 					var logsStringArray = new Array();
 					
+					
+					
+					// create log with attributes!
+					if(true){				
+						
+						for (var j = 0; (j < geocache.attributes_array.length); j++){
+							attribute_a = geocache.attributes_array[j];
+							GM_log(" id='"+attribute_a[0]+"' inc='"+attribute_a[3]+"' > "+attribute_a[2]);
+						
+						}
+						/*
+						var geocacheLogMapping = new Array(
+							
+							 new Array('LOGID',geocache.id), // Issue3
+							 new Array('TIME',xsdDateTime(new Date())),
+							 new Array('CACHERNAME',"GCTour"),
+							 new Array('LOGTYPE', "Note"),
+							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+						);
+						
+						var cacheWaypointLog = waypointLogTemplate;
+					
+						for(var k = 0 ; k<geocacheLogMapping.length ; k++){
+							cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[k][0]+"##","g"),geocacheLogMapping[k][1]);
+						}
+						
+						logsStringArray.push(cacheWaypointLog);*/
+					}
 					
 					debug("GS GPX: geocache.dateHidden:'"+geocache.dateHidden+"' -> xsd:'"+xsdDateTime(geocache.dateHidden)+"'");
 					//~ debug("GS GPX: geocache.logs[0].foundDate:'"+geocache.logs[0].foundDate+"' -> xsd:'"+xsdDateTime(geocache.logs[0].foundDate)+"'");
@@ -535,6 +563,8 @@ function getGPX(){
 					for(var j = 0 ; j<geocacheMapping.length ; j++){
 						cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
 					}	
+					alert(cacheWaypoint);
+					
 					var parser = new DOMParser();
 					var dom = parser.parseFromString(cacheWaypoint,
 						"text/xml");
@@ -563,7 +593,6 @@ function getGPX(){
 				gpxElement.appendChild(waypoint);	
 			}
 		setProgress(i,currentTour.geocaches.length,document);
-
 
 		} // itertion end 
 		var str = new XMLSerializer().serializeToString(gpxDom);

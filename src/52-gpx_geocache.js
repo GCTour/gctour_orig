@@ -438,7 +438,7 @@ function getGPX(){
 					'<urlname>##CACHENAME##</urlname>'+
 					'<sym>Geocache</sym>'+
 					'<type>Geocache|##TYPE##</type>'+
-					'<groundspeak:cache id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##"  <groundspeak:cache id="2279759" available="True" archived="False" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1" >'+
+					'<groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0"  id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##">'+
 					'	<groundspeak:name>##CACHENAME##</groundspeak:name>'+
 					'	<groundspeak:placed_by>##OWNER##</groundspeak:placed_by>'+
 					'	<groundspeak:owner>##OWNER##</groundspeak:owner>'+
@@ -563,7 +563,6 @@ function getGPX(){
 					for(var j = 0 ; j<geocacheMapping.length ; j++){
 						cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[j][0]+"##","g"),geocacheMapping[j][1]);
 					}	
-					alert(cacheWaypoint);
 					
 					var parser = new DOMParser();
 					var dom = parser.parseFromString(cacheWaypoint,

@@ -43,7 +43,8 @@ function getEntryFromBookmarkTd(bookmarkLine){
     return entry;
 }
 function getEntryFromSearchTr(cache_row){
-	var information_cell = dojo.query("td:nth-child(5)",cache_row)[0];
+	var information_cell = dojo.query("td:nth-child(6)",cache_row)[0];
+	var type_cell = dojo.query("td:nth-child(5)",cache_row)[0];
 	var spans = dojo.query('span',information_cell);
 	
 	var entry = {};
@@ -54,8 +55,8 @@ function getEntryFromSearchTr(cache_row){
 	//~ entry.id = trim(spans[1].textContent.split('|')[1]);
 	entry.name = trim(spans[0].textContent);
 	entry.guid = information_cell.getElementsByTagName('a')[0].href.split('guid=')[1];
-	entry.image = information_cell.getElementsByTagName('img')[0].getAttribute('src').split("/")[5];//.replace(/WptTypes\//, "WptTypes/sm/");
-	entry.position = cache_row.getElementsByTagName('td')[9];
+	entry.image = type_cell.getElementsByTagName('img')[0].getAttribute('src').split("/")[5];//.replace(/WptTypes\//, "WptTypes/sm/");
+	entry.position = cache_row.getElementsByTagName('td')[10];
 	
 	
 	var check = dojo.query("td",cache_row)[0].childNodes[1]
@@ -75,7 +76,7 @@ function getEntriesFromSearchpage(){
 		var cache_row = q[j];		
 
 		var entry = getEntryFromSearchTr(cache_row);					
-		debug("cache row - id:'"+entry.id+"' Name:'"+entry.name+"' Guid:'"+entry.guid+"' image:'"+entry.image+"' checke:'"+entry.checked+"'");		
+		debug("cache row - id:'"+entry.id+"' Name:'"+entry.name+"' Guid:'"+entry.guid+"' image:'"+entry.image+"' checked:'"+entry.checked+"'");		
 		entries.push(entry);
 	}
 	

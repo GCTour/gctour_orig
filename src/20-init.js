@@ -297,16 +297,14 @@ function init(){
 						
 								var entryTds = resultTable[i+1].getElementsByTagName('td');
 								var entry = new Object(); // gather informations line-by-line
-								
-								
-								
-								dojo.query('span',entryTds[4])[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)
+							
+							
+								dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)
 								entry.id = "GC"+RegExp.$1;
-								entry.name = trim(dojo.query('span',entryTds[4])[0].textContent);
+								entry.name = trim(dojo.query('span',entryTds[5])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
 								entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/wpttypes\//, "WptTypes/sm/");
-								entry.available = entryTds[4].getElementsByTagName('a')[1].getAttribute('class') == 'lnk  ';
-								
+								entry.available = entryTds[5].getElementsByTagName('a')[0].getAttribute('class') == 'lnk  ';
 								
 								
 								var type = entry.image.split("/")[6].split(".")[0];
@@ -317,30 +315,26 @@ function init(){
 								
 								var difficulty = dtsize_details[i].difficulty;
 								var terrain = dtsize_details[i].terrain;
+								var pm_only;
 										
 
-								log(entry.id+" "+entry.name);
-								log(type + " " + tq_typeFilter[type]);
-								log(size + " " + tq_sizeFilter[size]);
-								log(difficulty + " " + tq_dFilter[difficulty+""]);
-								log(terrain + " " + tq_tFilter[terrain+""]);
-								log("");
+								
 
 								// autoTour magic starts here 										
 								// check whether the caches match against the given D/T values
 								var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
+								debug("##### 1: "+addBool);
 								if(tq_specialFilter['is Active']){
 									log("Check if "+entry.name+" is active:");
 									log("available:"+entry.available);
 									addBool = addBool && (entry.available);// only add if active!
 								}
-								
+								debug("##### 2: "+addBool);
 								if(tq_specialFilter['is not a PM cache']){
-									log("Check if "+entry.name+" is PM-Only cache!!")
-									log("PM:"+entryTds[5].innerHTML.indexOf('small_profile.gif') < 0);
-									addBool = addBool && (entryTds[5].innerHTML.indexOf('small_profile.gif') < 0);
+									pm_only = entryTds[6].innerHTML.indexOf('small_profile.gif') < 0;
+									addBool = addBool && pm_only;
 								}
-								
+									debug("##### 3: "+addBool);
 								// autoTour parameter "haven't found" is not checked here because of URL parameter
 								
 								
@@ -362,6 +356,19 @@ function init(){
 								if(addBool){ 
 									tq_caches.push(entry);
 								}
+								
+								
+								debug(entry.id+" "+entry.name);
+								debug("\tvalue:"+type + " filter:" + tq_typeFilter[type]);
+								debug("\tvalue:"+size + " filter:" + tq_sizeFilter[size]);
+								debug("\tvalue:"+difficulty + " filter:" + tq_dFilter[difficulty+""]);
+								debug("\tvalue:"+terrain + " filter:" + tq_tFilter[terrain+""]);
+								debug("\tavailable:"+entry.available);
+								debug("\tpm only:"+pm_only);								
+								debug("\t ==> Add to tour: "+addBool);
+								
+								
+								
 						} // END for each cache
 						
 						GM_setValue('tq_caches',uneval(tq_caches));

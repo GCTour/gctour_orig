@@ -2,6 +2,11 @@
  * Changelog:
  * 
  * version @version@.@build@
+ * 		- FIXED: autoTour
+ * 		- FIXED: GCTour on the search page
+ * 		- UPDATED: french translation
+ * 
+ * version 2.0.11158
  * 		- FIXED: scrollbar bug Firefox 3.6
  * 		- FIXED: "Search For Geocaches" page in Firefox 3.6
  * 		- FIXED: Bug with new GCComment version

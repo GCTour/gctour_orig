@@ -87,6 +87,15 @@ function getGeocacheFromElement(element){
 			geocache.comment = comment;
 		}
 	}
+	var usernote = dojo.byId('cache_note');
+	if(usernote){
+		var comment = unsafeWindow.getGCComment(geocache.guid);
+		if(comment){
+			geocache.comment = comment;
+		}
+	}
+	
+	
 	// check availability
 	var warning_element = dojo.query('ul[class="OldWarning"]',element)[0]; // contains text like
 	//This cache is temporarily unavailable. Read the logs below to read the status for this cache.

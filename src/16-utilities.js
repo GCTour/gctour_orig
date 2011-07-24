@@ -167,8 +167,8 @@ function Dec2DM_String(latitude, longitude){
 	latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
 	lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
-	var value = latOrigin+""+latArray[0]+"° "+dojo.number.format(latArray[1],{pattern:"##.000"})+" ";
-	value += lonOrigin+""+lonArray[0]+"° "+dojo.number.format(lonArray[1],{pattern:"##.000"})+" ";
+	var value = latOrigin+" "+latArray[0]+"° "+dojo.number.format(latArray[1],{pattern:"##.000"})+" ";
+	value += lonOrigin+" "+dojo.number.format(lonArray[0],{pattern:"000"})+"° "+dojo.number.format(lonArray[1],{pattern:"##.000"})+" ";
 
 	return value;
 }

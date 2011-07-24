@@ -33,6 +33,7 @@ function printPageFunction(currentTour){
 				'		<div class="short ###HIDDENSTYLE###">###SHORT_DESCRIPTION###</div>'+
 				'		<div class="long ###HIDDENSTYLE###">###LONG_DESCRIPTION###</div>'+
 				'		<div>###GCCOMMENT###</div>'+
+				'		<div>###CACHENOTE###</div>'+
 				'		<div><b>Hint:</b>###HINT###</div>'+
 				'		<div class="waypoints ###HIDDENSTYLE###">###ADDITIONAL_WAYPOINTS###</div>'+
 				'		<div class="images">###IMAGES###</div>'+
@@ -419,6 +420,12 @@ function printPageFunction(currentTour){
 								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
 							}
 							
+							var cache_note = "";
+							if(geocache.cache_note){
+								cache_note = "<b><u>Cache Note:</u></b><br/>";
+								cache_note += geocache.cache_note;
+							}
+							
 							// replace placeholder on titlepage with real coordinates
 							var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
 							title_coords.innerHTML = geocache.coordinates;
@@ -446,6 +453,7 @@ function printPageFunction(currentTour){
 								new Array('SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""),
 								new Array('LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""),
 								new Array('GCCOMMENT',gcComment),
+								new Array('CACHENOTE',cache_note),
 								new Array('HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)),
 								new Array('ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML),
 								new Array('IMAGES',dummy_images.innerHTML),

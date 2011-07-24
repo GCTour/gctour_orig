@@ -157,6 +157,7 @@ function printPageFunction(currentTour){
 							'	<td colspan="3" style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewCache']+'</b></td>		'+
 							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewFound']+'</b></td>		'+
 							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
+							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['markerCoordinate']+'</b></td>		'+
 							'</tr>';
 							
 						var isCostumMarker = false;	
@@ -188,11 +189,21 @@ function printPageFunction(currentTour){
 								
 								td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "middle";
-								td.style.width = "70%";					
+								td.style.width = "50%";					
 								td.innerHTML = "&nbsp;";
 								td.style.borderBottomColor = 'lightgray';
 								td.style.borderBottomStyle = 'dashed';
 								td.style.borderBottomWidth = '1px';
+								
+								
+								td = document.createElement('td');tr.appendChild(td);
+								td.style.verticalAlign = "right";
+								td.style.width = "20%";	
+								td.innerHTML = "<span id='coords_"+currentTour.geocaches[i].id+"'></span>";
+								td.style.borderBottomColor = 'lightgray';
+								td.style.borderBottomStyle = 'dashed';
+								td.style.borderBottomWidth = '1px';
+								
 							} else {
 								isCostumMarker = costumMarker;
 							}
@@ -202,7 +213,7 @@ function printPageFunction(currentTour){
 							coverTable.innerHTML += 
 							'<tr>		 			'+
 							'	<td colspan=3 style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewMarker']+'</b></td>		'+
-							'	<td colspan=3 style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
+							'	<td colspan=4 style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
 							'</tr>';
 							
 							for (var i = 0; i < currentTour.geocaches.length; ++i){
@@ -221,17 +232,13 @@ function printPageFunction(currentTour){
 									td = document.createElement('td');tr.appendChild(td);
 									td.style.verticalAlign = "middle";
 									td.style.width = "30%";				
-									td.colSpan = "3";	
+									td.colSpan = "4";	
 									td.style.borderBottomColor = 'lightgray';
 									td.style.borderBottomStyle = 'dashed';
 									td.style.borderBottomWidth = '1px';
 									td.innerHTML = currentTour.geocaches[i].name;
-									
-									var latArray = Dec2DM(currentTour.geocaches[i].latitude);
-									var lonArray = Dec2DM(currentTour.geocaches[i].longitude);
-									td.innerHTML += "&nbsp;-&nbsp;&nbsp;"+latArray[0]+ "° " +latArray[1] ;
-									td.innerHTML += "&nbsp;/&nbsp;"+lonArray[0]+ "° " +lonArray[1];
-									
+									td.innerHTML += " - "+Dec2DM_String(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude);
+																		
 								} 
 							}
 							
@@ -412,6 +419,12 @@ function printPageFunction(currentTour){
 								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
 							}
 							
+							// replace placeholder on titlepage with real coordinates
+							var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
+							title_coords.innerHTML = geocache.coordinates;
+							
+							
+							
 							
 								
 							var geocacheMapping = new Array(
@@ -519,12 +532,14 @@ function printPageFunction(currentTour){
 					}
 					
 					
-						var cacheObject = {};
-						cacheObject.geocaches = geocaches;
-						cacheObject.costumMarkers = costumMarkers;
-						uploadMap(cacheObject,
-							function(){
-								
+					closeOverlayRemote(newwindow2.document)();// close old ovleray (scraping data)
+					addProgressbar({caption:lang['makeMapWait'],_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}}); // new overlay - getting maps
+					var cacheObject = {};
+					cacheObject.geocaches = geocaches;
+					cacheObject.costumMarkers = costumMarkers;
+					uploadMap(cacheObject,
+						function(){
+							try{
 								var overviewMapQuery = "";
 								var geocacheCodes = [];
 								
@@ -543,11 +558,14 @@ function printPageFunction(currentTour){
 										overviewMapQuery += ",";
 									}
 								}
-								
-								// overview map
+								// overview map								
+								var mapCount = (GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false))?1:0;
+								mapCount += (GM_getValue('printOutlineMapSingle',true))?geocacheCodes.length:0;
+				
 								
 								if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false)){
 									dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery));
+									setProgress(1,mapCount,newwindow2.document);
 								}
 								
 								
@@ -560,12 +578,18 @@ function printPageFunction(currentTour){
 										if(mapElement){
 											mapElement.appendChild(getMapElement(geocacheCode));
 										}
+										setProgress(i+2,mapCount,newwindow2.document);
 									}
 								}
-								
-								closeOverlayRemote(newwindow2.document)();	
-							}					
-						);				
+								closeOverlayRemote(newwindow2.document)();
+							} catch (e) {					
+								addErrorDialog({caption:"Print error maps", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}}); 
+							}
+							
+						}					
+					);	
+						
+										
 				} catch (e) {					
 					addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}}); 
 				}

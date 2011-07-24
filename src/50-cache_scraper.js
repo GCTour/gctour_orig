@@ -89,10 +89,7 @@ function getGeocacheFromElement(element){
 	}
 	var usernote = dojo.byId('cache_note');
 	if(usernote){
-		var comment = unsafeWindow.getGCComment(geocache.guid);
-		if(comment){
-			geocache.comment = comment;
-		}
+		geocache.cache_note = usernote.innerHTML;
 	}
 	
 	

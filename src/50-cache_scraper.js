@@ -87,7 +87,7 @@ function getGeocacheFromElement(element){
 			geocache.comment = comment;
 		}
 	}
-	var usernote = dojo.byId('cache_note');
+	var usernote = dojo.query('[id="cache_note"]',element)[0];
 	if(usernote){
 		geocache.cache_note = usernote.innerHTML;
 	}

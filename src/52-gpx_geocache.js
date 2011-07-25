@@ -428,7 +428,7 @@ function getGPX(){
 				'		<type>Geocache|##TYPE##</type>\n'+
 				'		<groundspeak:cache id="##CACHEID##" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1" available="##AVAILABLE##" archived="##ARCHIVED##">\n'+
 				'			<groundspeak:name>##CACHENAME##</groundspeak:name>\n'+
-				'			<groundspeak:placed_by<![CDATA[>##OWNER##]]></groundspeak:placed_by>\n'+
+				'			<groundspeak:placed_by><![CDATA[>##OWNER##]]></groundspeak:placed_by>\n'+
 				'			<groundspeak:owner><![CDATA[##OWNER##]]></groundspeak:owner>\n'+
 				'			<groundspeak:type>##TYPE##</groundspeak:type>\n'+
 				'			<groundspeak:container>##CONTAINER##</groundspeak:container>\n'+

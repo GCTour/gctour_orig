@@ -155,7 +155,10 @@ function printPageFunction(currentTour){
 						
 						coverTable.innerHTML = 
 							'<tr>		 			'+
-							'	<td colspan="3" style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewCache']+'</b></td>		'+
+							'	<td colspan="2" style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewCache']+'</b></td>		'+
+							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>D</b></td>		'+
+							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>T</b></td>		'+
+							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>S</b></td>		'+
 							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewFound']+'</b></td>		'+
 							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
 							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['markerCoordinate']+'</b></td>		'+
@@ -176,12 +179,24 @@ function printPageFunction(currentTour){
 								td.innerHTML = "<img src='"+currentTour.geocaches[i].image+"'>";
 								
 								td = document.createElement('td');tr.appendChild(td);
+								td.innerHTML = "<span id='d_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = document.createElement('td');tr.appendChild(td);
+								td.innerHTML = "<span id='t_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = document.createElement('td');tr.appendChild(td);
+								td.innerHTML = "<span id='s_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = document.createElement('td');tr.appendChild(td);
+								td.innerHTML = currentTour.geocaches[i].id;
+								
+								td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "middle";
 								td.style.width = "30%";					
 								td.style.borderBottomColor = 'lightgray';
 								td.style.borderBottomStyle = 'dashed';
 								td.style.borderBottomWidth = '1px';
-								td.innerHTML = "<a style='color:#000000;text-decoration: none' href='http://www.geocaching.com/seek/cache_details.aspx?guid="+currentTour.geocaches[i].guid+"'>"+currentTour.geocaches[i].name + "<font style='font-size:xx-small'>(" + currentTour.geocaches[i].id + ")</font></a>";
+								td.innerHTML = "<a style='color:#000000;text-decoration: none' href='http://www.geocaching.com/seek/cache_details.aspx?guid="+currentTour.geocaches[i].guid+"'>"+currentTour.geocaches[i].name + "</a>";
 								
 								td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "middle";				
@@ -431,7 +446,16 @@ function printPageFunction(currentTour){
 							title_coords.innerHTML = geocache.coordinates;
 							
 							
+							// setting D, T and size on titlepage
+							 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
+							 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
+							 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = "M";
 							
+							
+							
+							
+							var title_dt =
+							title_dt
 							
 								
 							var geocacheMapping = new Array(

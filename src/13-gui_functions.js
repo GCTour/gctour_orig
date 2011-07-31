@@ -91,6 +91,15 @@ function updateGUI(){
 	handleResize();
 	
 	
+	
+	var deleteButton = dojo.byId('gctourDeleteButton');
+	if(tours.length == 1 && deleteButton){
+		deleteButton.style.display = "none";
+	} else {
+		deleteButton.style.display = "inline"
+	}
+	
+	
 	// make the gectour menu sticky if it is set
 /*	sticky = GM_getValue('sticky',false);
 	if(sticky){

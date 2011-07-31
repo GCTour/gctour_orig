@@ -327,7 +327,19 @@ function initComponents(){
 				},false);
 			addOpacityEffects(renameButton);
 
-
+			var deleteButton = document.createElement('img');
+			deleteButton.id = "gctourDeleteButton";
+			deleteButton.src = deleteImageString;
+			deleteButton.alt = lang['removeTour'];
+			deleteButton.title = lang['removeTour'];	
+			deleteButton.style.cursor = 'pointer';
+			deleteButton.style.marginRight = '3px';
+			deleteButton.style.display = (tours.length == 1)?'none':'inline';
+			
+			deleteButton.addEventListener('click', deleteCurrentTour, false);
+			addOpacityEffects(deleteButton);
+			
+			
 			var markerButton = document.createElement('img');
 			markerButton.src = plusImageString;
 			markerButton.alt = lang['addOwnWaypoint'];
@@ -391,7 +403,9 @@ function initComponents(){
 			append(makeMapButton,tourHeaderDiv);
 			append(uploadTourButton,tourHeaderDiv);
 			append(markerButton,tourHeaderDiv);
-
+			
+			append(deleteButton,tourHeaderDiv);
+			
 	
 			var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
 

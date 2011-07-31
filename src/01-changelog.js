@@ -8,6 +8,7 @@
  * 		- GPX: New Groundspeak implementation to prevent XML errors
  *		- NEW: Titlepage in the printview now contains the coordinates
  *		- NEW: printview contains now the PM cache note!
+ * 		- NEW: delete button for current tour
  * 
  * version 2.0.11158
  * 		- FIXED: scrollbar bug Firefox 3.6

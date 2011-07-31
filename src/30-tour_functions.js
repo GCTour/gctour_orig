@@ -432,6 +432,23 @@ function updateCacheCount(count){
     
 }
 
+function deleteCurrentTour(){
+	if (confirm(lang['removeTourDialog'])) {  
+		var tableId;
+		for (tableId = 0; tableId<tours.length;tableId++){
+			if(tours[tableId].id == currentTour.id){
+				 break;
+			}
+		}
+		
+		var nextTourId = tours[(tableId + 1) % tours.length].id;
+		var currentTourId = currentTour.id;
+		
+		loadTour(nextTourId)();
+		deleteTourFunction(currentTourId, true)();
+	}
+}
+
 function deleteElementFunction(theId){
    return function () {
    	
@@ -547,9 +564,10 @@ function checkOnlineConsistent(t){
 }
 	
 
-function deleteTourFunction(id){
+function deleteTourFunction(id, force){
 	return function(){
-		if (confirm(lang['removeTourDialog'])) {  
+		if (force || confirm(lang['removeTourDialog'])) {  
+			
 			for (var i = 0; i < tours.length; i++){
 				if(tours[i].id == id){
 					log("removing '"+tours[i].name +"'");
@@ -559,7 +577,7 @@ function deleteTourFunction(id){
 					
 	
 					
-					if(cachelist.getAttribute("tourid") == tours[i].id){
+					if(cachelist && cachelist.getAttribute("tourid") == tours[i].id){
 						
 						showCacheList(currentTour)();
 						var loadButton = document.getElementById('loadButton');

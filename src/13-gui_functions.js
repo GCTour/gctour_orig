@@ -321,7 +321,7 @@ function makeMapFunction(){
 				
 				var result = JSON.parse(text);
 				if(result.length < 1){ // map is completly available in appengine
-					GM_openInTab(getMapUrl(markerQuery.join(",")));
+					GM_openInTab(getMapUrl(markerQuery.join(","))+"#gui");
 					closeOverlay();
 				} else { 
 					

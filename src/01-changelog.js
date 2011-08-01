@@ -6,7 +6,7 @@
  * 		- FIXED: GCTour on the search page
  * 		- UPDATED: french translation
  * 		- GPX: New Groundspeak implementation to prevent XML errors
- *		- NEW: Titlepage in the printview now contains the coordinates
+ *		- NEW: Titlepage in the printview now contains coordinates and basic informations
  *		- NEW: printview contains now the PM cache note!
  * 		- NEW: delete button for current tour
  * 

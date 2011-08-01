@@ -88,7 +88,7 @@ lang_fre= {
 	'webcodePrompt' : 'Téléchargement du Tour\nMerci de sasir un webcode pour le téléchargement du Tour:',
 	'webcodesuccess' : ' a été chargé avec succès!',
 	'webcodeOld' : '\n    !!ATTENTION!!\nCe webcode corrrespond à un ancien tour. Pour profiter pleinement de GCTour 2.0 vous devez soumettre de nouveau ce Tour.',
-	'printviewCache' : 'Cache',
+	'printviewCache' : 'Geocache',
 	'printviewFound' : 'Trouvée',
 	'printviewNote' : 'Note',
 	'printviewMarker' : "Waypoint personnel",

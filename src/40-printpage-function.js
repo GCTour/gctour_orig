@@ -148,21 +148,25 @@ function printPageFunction(currentTour){
 						
 						var coverTable = document.createElement('table');					
 						coverTable.style.width = "100%"; 
-						coverTable.style.textAlign = 'left';
+						//~ coverTable.style.textAlign = 'left';
 						//~ coverTable.style.marginLeft = 'auto';
 						//~ coverTable.style.marginRight = 'auto';
 						coverTable.style.border = '1px solid lightgray';
 						
 						coverTable.innerHTML = 
-							'<tr>		 			'+
-							'	<td colspan="2" style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewCache']+'</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>D</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>T</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>S</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewFound']+'</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
-							'	<td style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['markerCoordinate']+'</b></td>		'+
-							'</tr>';
+							'<thead><tr>		 			'+
+							'	<th colspan="2" style="border-bottom:1px solid lightgray;"><b>'+lang['printviewCache']+'</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;">&nbsp;</th>		'+
+							'	<th style="border-bottom:1px solid lightgray;">&nbsp;</th>		'+
+							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>D</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>T</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>S</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;"><b>'+lang['markerCoordinate']+'</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;"><b>'+lang['printviewFound']+'</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;">&nbsp;&nbsp;<b>'+lang['printviewNote']+'</b></th>		'+
+							'</tr><thead>';
+							
+						var tbody = createElement('tbody');append(tbody,coverTable);
 							
 						var isCostumMarker = false;	
 						for (var i = 0; i < currentTour.geocaches.length; ++i){
@@ -170,73 +174,76 @@ function printPageFunction(currentTour){
 						
 							if(!costumMarker){
 								
-								var tr = document.createElement('tr');coverTable.appendChild(tr);
+								var tr = document.createElement('tr');tbody.appendChild(tr);
 								var td = document.createElement('td');tr.appendChild(td);
 								td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
 								
 					
-								td = document.createElement('td');tr.appendChild(td);
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
 								td.innerHTML = "<img src='"+currentTour.geocaches[i].image+"'>";
 								
-								td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = "<span id='d_" + currentTour.geocaches[i].id + "'></span>";
-								
-								td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = "<span id='t_" + currentTour.geocaches[i].id + "'></span>";
-								
-								td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = "<span id='s_" + currentTour.geocaches[i].id + "'></span>";
-								
-								td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = currentTour.geocaches[i].id;
-								
-								td = document.createElement('td');tr.appendChild(td);
-								td.style.verticalAlign = "middle";
-								td.style.width = "30%";					
-								td.style.borderBottomColor = 'lightgray';
-								td.style.borderBottomStyle = 'dashed';
-								td.style.borderBottomWidth = '1px';
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
+								//~ td.style.width = "100%";			
 								td.innerHTML = "<a style='color:#000000;text-decoration: none' href='http://www.geocaching.com/seek/cache_details.aspx?guid="+currentTour.geocaches[i].guid+"'>"+currentTour.geocaches[i].name + "</a>";
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;border-right:1px dashed lightgray;"});tr.appendChild(td);
+								td.innerHTML = "<span style='margin:0 2px'>"+currentTour.geocaches[i].id+"</span>";
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;border-right:1px dashed lightgray;"});tr.appendChild(td);
+								td.innerHTML = "<span style='margin:0 2px' id='d_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;border-right:1px dashed lightgray;"});tr.appendChild(td);
+								td.innerHTML = "<span style='margin:0 2px' id='t_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;border-right:1px dashed lightgray;"});tr.appendChild(td);
+								td.innerHTML = "<span style='margin:0 2px' id='s_" + currentTour.geocaches[i].id + "'></span>";
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
+								td.innerHTML = "<span style='margin:0 2px' id='coords_"+currentTour.geocaches[i].id+"'></span>";
+								
+							
+								
 								
 								td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "middle";				
 								//~ td.style.border = '1px solid lightgray';
 								td.innerHTML = "<div style='margin-left:auto;margin-right:auto;width:10px;height:10px;border:1px solid lightgray;'>&nbsp;</div>";
 								
-								td = document.createElement('td');tr.appendChild(td);
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
 								td.style.verticalAlign = "middle";
-								td.style.width = "50%";					
+								td.style.width = "100%";					
 								td.innerHTML = "&nbsp;";
-								td.style.borderBottomColor = 'lightgray';
-								td.style.borderBottomStyle = 'dashed';
-								td.style.borderBottomWidth = '1px';
+								//~ td.style.borderBottomColor = 'lightgray';
+								//~ td.style.borderBottomStyle = 'dashed';
+								//~ td.style.borderBottomWidth = '1px';
 								
+							
 								
-								td = document.createElement('td');tr.appendChild(td);
+						/*		td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "right";
 								td.style.width = "20%";	
 								td.innerHTML = "<span id='coords_"+currentTour.geocaches[i].id+"'></span>";
 								td.style.borderBottomColor = 'lightgray';
 								td.style.borderBottomStyle = 'dashed';
 								td.style.borderBottomWidth = '1px';
-								
+							*/	
 							} else {
 								isCostumMarker = costumMarker;
 							}
 						}
 						
 						if(isCostumMarker){
-							coverTable.innerHTML += 
+							tbody.innerHTML += 
 							'<tr>		 			'+
-							'	<td colspan=3 style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewMarker']+'</b></td>		'+
-							'	<td colspan=4 style="border-bottom-color:lightgray;border-bottom-style:dashed;border-bottom-width:1px"><b>'+lang['printviewNote']+'</b></td>		'+
+							'	<td colspan="10" style="border-bottom:1px solid lightgray;"><b>'+lang['printviewMarker']+'</b></td>		'+
 							'</tr>';
 							
 							for (var i = 0; i < currentTour.geocaches.length; ++i){
 								var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 							
 								if(costumMarker){
-									var tr = document.createElement('tr');coverTable.appendChild(tr);
+									var tr = document.createElement('tr');tbody.appendChild(tr);
 									var td = document.createElement('td');tr.appendChild(td);
 									
 									td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
@@ -248,10 +255,8 @@ function printPageFunction(currentTour){
 									td = document.createElement('td');tr.appendChild(td);
 									td.style.verticalAlign = "middle";
 									td.style.width = "30%";				
-									td.colSpan = "4";	
-									td.style.borderBottomColor = 'lightgray';
-									td.style.borderBottomStyle = 'dashed';
-									td.style.borderBottomWidth = '1px';
+									td.colSpan = "8";	
+									td.style.borderBottom = '1px solid lightgray';
 									td.innerHTML = currentTour.geocaches[i].name;
 									td.innerHTML += " - "+Dec2DM_String(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude);
 																		
@@ -441,21 +446,19 @@ function printPageFunction(currentTour){
 								cache_note += geocache.cache_note;
 							}
 							
-							// replace placeholder on titlepage with real coordinates
-							var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
-							title_coords.innerHTML = geocache.coordinates;
-							
-							
-							// setting D, T and size on titlepage
-							 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
-							 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
-							 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = "M";
-							
-							
-							
-							
-							var title_dt =
-							title_dt
+					
+							if(GM_getValue('printFrontpage',true) && !minimal){							
+								// replace placeholder on titlepage with real coordinates
+								var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
+								title_coords.innerHTML = geocache.coordinates;
+								
+								
+								// setting D, T and size on titlepage
+								 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
+								 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
+								 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = "M";
+							}
+	
 							
 								
 							var geocacheMapping = new Array(

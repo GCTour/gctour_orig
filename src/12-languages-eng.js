@@ -88,7 +88,7 @@
 	'webcodePrompt' : 'Download tour\nPlease enter a valid webcode, to load the tour:',
 	'webcodesuccess' : ' was successfully loaded!',
 	'webcodeOld' : '\n    !!ATTENTION!!\nThis webcode is connected with an old tour. To get all benefits of GCTour 2.0 you must upload this tour again.',
-	'printviewCache' : 'Cache',
+	'printviewCache' : 'Geocache',
 	'printviewFound' : 'Found',
 	'printviewNote' : 'Note',
 	'printviewMarker' : "Own waypoint",

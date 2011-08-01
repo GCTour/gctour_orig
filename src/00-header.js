@@ -5,6 +5,7 @@
 // @build		   @build@
 // @description    Cachetour planing made easy. Pick some Caches, order the list and print it out. Free for all users of geocaching.com! 
 // @include        http://www.geocaching.com/*
+// @include			http://gctour-spot.appspot.com*#gui
 // @include        https://www.geocaching.com/*
 // @copyright      2008, 2009, 2010, 2011 Martin Georgi
 // @author         madd.in

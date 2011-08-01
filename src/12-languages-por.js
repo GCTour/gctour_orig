@@ -88,7 +88,7 @@ lang_por = {
 	'webcodePrompt' : 'Transferir rota\nIntroduza um c&#243;digo v&#225;lido, para carregar a rota:',
 	'webcodesuccess' : ' foi carregada!',
 	'webcodeOld' : '\n    !!ATEN&#199;&#195;O!!\nEste c&#243;digo est&#225; conectado com uma rota antiga. Para obter todos os benef&#237;cios do GCTour 2.0, tem de enviar a rota novamente.',
-	'printviewCache' : 'cache',
+	'printviewCache' : 'geocache',
 	'printviewFound' : 'encontrada',
 	'printviewNote' : 'nota',
 	'printviewMarker' : "waypoint pr&#243;prio",

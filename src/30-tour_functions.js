@@ -50,6 +50,14 @@ function addNewTableCell(theEntry,effects){
 	
 	// make the gcid link
 	var nameCite = createElement('span',{style:"vertical-align:top"});
+	
+	
+	
+			
+	var indexDiv = createElement('span',{style:"margin-right: 6px;"});
+		indexDiv.innerHTML = "<b>"+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+"</b>";
+		append(indexDiv,nameCite);
+		
 	if(!costumMarker){	          
 		var coordinates = GM_getValue('coords_'+theId,"null");
 		
@@ -63,10 +71,14 @@ function addNewTableCell(theEntry,effects){
 		linkElement.href = 'http://www.geocaching.com/seek/cache_details.aspx?guid='+theEntry.guid;
 		linkElement.textContent = theId;
 		nameCite.appendChild(linkElement);
+		
+		
 	} else {
-		nameCite.textContent = theEntry.name;
+		nameCite.innerHTML += theEntry.name;
 		nameCite.style.textDecoration = "underline";
 	}
+	
+
 	
 	
 	// the log/edit button and the delete button
@@ -159,10 +171,12 @@ function addNewTableCell(theEntry,effects){
 	
 	var nameDiv = document.createElement('div');
 	nameDiv.style.clear = 'left';
+
+	
 	if(!costumMarker){
-		nameDiv.innerHTML = theEntry.name;
+		nameDiv.innerHTML += theEntry.name;
 	}else {
-		nameDiv.innerHTML = Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
+		nameDiv.innerHTML += Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
 	}	
 	entryLi.appendChild(nameDiv);
 	

@@ -88,7 +88,7 @@ lang_dut = {
 	'webcodePrompt' : 'Toer downloaden.\nGelieve een geldige webcode in te vullen om een toer te laden:',
 	'webcodesuccess' : ' is succesvol geladen!',
 	'webcodeOld' : '\n    !!AANDACHT!!\nDeze webcode bevat een oude toer. Om alle voordelen van GCTour 2.0 te benutten moet deze toer opnieuw worden geüpload worden.',
-	'printviewCache' : 'cache',
+	'printviewCache' : 'geocache',
 	'printviewFound' : 'gevonden',
 	'printviewNote' : 'note',
 	'printviewMarker' : "eigen waypoint",

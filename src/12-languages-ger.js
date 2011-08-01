@@ -118,7 +118,7 @@
 	'webcodePrompt' : 'Tour download\nBitte gib einen gültigen Webcode ein,\num die dazu passende Tour zu laden:',
 	'webcodesuccess' : ' wurde erfolgreich geladen!',
 	'webcodeOld' : '\n    !!ACHTUNG!!\nEs handelt sich bei diesem Webcode um eine alte Tour. Um sie auch mit den Vorzügen von GCTour 2.0 nutzen zu können musst du sie bitte jetzt erneut hochladen.',
-	'printviewCache' : 'Cache',
+	'printviewCache' : 'Geocache',
 	'printviewFound' : 'Fund',
 	'printviewNote' : 'Notiz',
 	'printviewMarker' : "Eigene Wegpunkte",

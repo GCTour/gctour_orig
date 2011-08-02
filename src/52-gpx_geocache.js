@@ -407,6 +407,7 @@ function getGPX(){
 				'<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" creator="GCTour" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.groundspeak.com/cache/1/0/1 http://www.groundspeak.com/cache/1/0/1/cache.xsd" xmlns="http://www.topografix.com/GPX/1/0">\n'+
 				'	<name>'+currentTour.name+'</name>\n'+
 				'	<desc>This is an individual cache generated from Geocaching.com</desc>\n'+
+				'	<author>GCTour v'+version+'.'+build+'</author>\n'+
 				'	<email>gctour@madd.in</email>\n'+
 				'	<url>http://www.geocaching.com</url>\n'+
 				'	<urlname>Geocaching - High Tech Treasure Hunting</urlname>\n'+
@@ -417,7 +418,7 @@ function getGPX(){
 				'##WAYPOINTS##\n'+
  				'</gpx>';		
 		var geocacheTemplate =
-				'	<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="##LAT##" lon="##LON##">\n'+
+				'	<wpt lat="##LAT##" lon="##LON##">\n'+
 				'		<time>##TIME##</time>\n'+
 				'		<name>##GCID##</name>\n'+
 				'		<desc>##CACHENAME##</desc>\n'+
@@ -426,7 +427,7 @@ function getGPX(){
 				'		<urlname>##CACHENAME##</urlname>\n'+
 				'		<sym>Geocache</sym>\n'+
 				'		<type>Geocache|##TYPE##</type>\n'+
-				'		<groundspeak:cache id="##CACHEID##" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1" available="##AVAILABLE##" archived="##ARCHIVED##">\n'+
+				'		<groundspeak:cache id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">\n'+
 				'			<groundspeak:name>##CACHENAME##</groundspeak:name>\n'+
 				'			<groundspeak:placed_by><![CDATA[>##OWNER##]]></groundspeak:placed_by>\n'+
 				'			<groundspeak:owner><![CDATA[##OWNER##]]></groundspeak:owner>\n'+

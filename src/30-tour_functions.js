@@ -40,10 +40,16 @@ function addNewTableCell(theEntry,effects){
 	// if this is a cosutm marker user other id 
 	var theId = (!costumMarker)?theEntry.id:theEntry.wptcode; 
 	
-	var entryLi = createElement('li', {id: theId, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');"});	
-
-	//set the image
+	var entryLi = createElement('li', {id: theId, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});	
+	//~ 
 	
+	// set the background image
+	//~ entryLi.style.background = "transparent url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+") fixed no-repeat bottom right";
+	entryLi.style.backgroundImage = "url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+")";
+	entryLi.style.backgroundRepeat = "no-repeat";
+	entryLi.style.backgroundPosition = "bottom right";
+	
+	//set the type
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
 	entryLi.setAttribute("class", "dojoDndItem");
 
@@ -54,9 +60,9 @@ function addNewTableCell(theEntry,effects){
 	
 	
 			
-	var indexDiv = createElement('span',{style:"margin-right: 6px;"});
-		indexDiv.innerHTML = "<b>"+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+"</b>";
-		append(indexDiv,nameCite);
+	//~ var indexDiv = createElement('span',{style:"margin-right: 6px;"});
+		//~ indexDiv.innerHTML = "<b>"+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+"</b>";
+		//~ append(indexDiv,nameCite);
 		
 	if(!costumMarker){	          
 		var coordinates = GM_getValue('coords_'+theId,"null");

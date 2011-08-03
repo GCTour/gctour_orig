@@ -1,0 +1,9 @@
+# Account info for GoogleCode upload
+GCODE_user="gctour.support" 
+GCODE_password="" # nur für "upload" interessant 
+
+App=gc_tour
+src.dir=src
+build.dir=build     
+tmp.dir=tmp
+GcTour.dir=#muss gesetzt sein

@@ -316,7 +316,9 @@ function printPageFunction(currentTour){
 								for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
 									var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
 									log_div.setAttribute("class", "removable");
-									log_div.innerHTML = logs[log_i].from.replace(/href=".*?"/,"")+"<br>";
+					
+									log_div.appendChild(logs[log_i].typeImg);
+									log_div.innerHTML += " " + logs[log_i].logdate +" - "+ logs[log_i].from +"<br>";
 									log_div.innerHTML += logs[log_i].text;
 									append(log_div, logs_div);
 								}

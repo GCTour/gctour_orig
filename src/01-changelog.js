@@ -10,6 +10,10 @@
  *		- NEW: printview contains now the PM cache note!
  * 		- NEW: delete button for current tour
  * 
+ * version 2.0.11206
+ * 		- FIXED: GPX bug after gc.com update
+ * 		- FIXED: Printview after gc.com update
+ * 
  * version 2.0.11158
  * 		- FIXED: scrollbar bug Firefox 3.6
  * 		- FIXED: "Search For Geocaches" page in Firefox 3.6

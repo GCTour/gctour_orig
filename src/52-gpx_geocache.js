@@ -134,46 +134,55 @@ function getGPXGeoCache(gcid){
 	for(var i = 0; i<geocache_obj.logs.length;i++){
 		var logObj = new Object();
 		
-		var from_element = createElement('div');from_element.innerHTML = geocache_obj.logs[i].from;
-
-		//get cacher name from link
-		logObj.cacherName =  dojo.query("a",from_element)[0].innerHTML;
-
-		//and log type from image
-		var typeImage = dojo.query("img",from_element)[0].src;
-		// specify the logtyo to fit into GPX
+		//	from: "madd.in"
+		//	type: "Found It", "Didn't find it", "Temporarily Disable Listing", "Write note", "Enable Listing",...
+		//  text: "Netter Log eintrag."
+		//	logdate: "August 18" oder "February 17, 2007"
+		//	id: 12345679
 		
-		if(typeImage == "http://www.geocaching.com/images/icons/icon_smile.gif"){
-			logObj.type = (isGroundspeak)?"Found it":"Found";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/icon_sad.gif"){
-			logObj.type = (isGroundspeak)?"Didn't find it":"Didn't find it";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/icon_needsmaint.gif"){
-			logObj.type = (isGroundspeak)?"Needs Maintenance":"Note";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/icon_remove.gif"){
-			logObj.type = (isGroundspeak)?"Needs Archived":"Note";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/big_smile.gif"){
-			logObj.type = (isGroundspeak)?"Post Reviewer Note":"Note";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/icon_maint.gif"){
-			logObj.type = (isGroundspeak)?"Owner Maintenance":"Note";
-		}else if(typeImage == "http://www.geocaching.com/images/icons/icon_note.gif"){
-			logObj.type = (isGroundspeak)?"Write note":"Note";
-		}else{
-			logObj.type = (isGroundspeak)?"Write note":"Other";
+		var gc_log =  geocache_obj.logs[i];
+		logObj.cacherName = gc_log.from;
+		
+		switch (gc_log.type) {
+			case "Found It":
+				logObj.type = (isGroundspeak)?"Found it":"Found";
+				break;
+			case "Didn't find it":
+				logObj.type = (isGroundspeak)?"Didn't find it":"Didn't find it";
+				break;
+			case "Needs Maintenance":
+				logObj.type = (isGroundspeak)?"Needs Maintenance":"Note";
+				break;
+			case "Needs Archived":
+				logObj.type = (isGroundspeak)?"Needs Archived":"Note";
+				break;
+			case "Owner Maintenance":
+				logObj.type = (isGroundspeak)?"Owner Maintenance":"Note";
+				break;
+			case "Post Reviewer Note":
+				logObj.type = (isGroundspeak)?"Post Reviewer Note":"Note";
+				break;
+			case "Write note":
+				logObj.type = (isGroundspeak)?"Write note":"Note";
+				break;
+			default:
+				logObj.type = (isGroundspeak)?"Write note":"Other";
+				break;
+				
 		}
-		
-		
 		
 		// crazy founddate founder
 		var month,day,year;
 		var p = new RegExp(/((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)) (\d+), (\d+)/);
-		var m = p.exec(geocache_obj.logs[i].from);
+		var m = p.exec(gc_log.logdate);
+		
 		if(m != null){
 			month =m[1];
 			day=m[2];
 			year=m[3];
 		} else {
 			p = new RegExp(/((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)) (\d+)/);
-			m = p.exec(geocache_obj.logs[i].from);
+			m = p.exec(gc_log.logdate);
 			month =m[1];
 			day=m[2];
 			year = new Date().getFullYear()
@@ -197,14 +206,9 @@ function getGPXGeoCache(gcid){
 		var foundDate = new Date(year, month, day);
 		logObj.foundDate = foundDate; // ITS DONE! peew
 		
-		logObj.content = geocache_obj.logs[i].text;
-		logObj.id = geocache_obj.logs[i].id;
+		logObj.content = gc_log.text;
+		logObj.id = gc_log.id;
 		
-		//~ GM_log("--------["+i+"]-------");
-		//~ GM_log(logObj.cacherName);
-		//~ GM_log(logObj.type);
-		//~ GM_log(logObj.foundDate);
-		//~ GM_log(logObj.content);
 		
 		// jobs done great - lets save this
 		geocache.logs.push(logObj);

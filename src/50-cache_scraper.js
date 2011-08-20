@@ -311,21 +311,66 @@ function getGeocacheFromElement(element){
 	geocache.logs = new Array();
 	
 	var logs_td = dojo.query('table[class="LogsTable"] > tbody > tr > td',element);
-	
 	for(var log_i = 0;log_i < logs_td.length-1;log_i++){
 		var log_object = new Object();
 		
+		
+		// log
+		//	from: "madd.in"
+		//	type: "Found It", "Didn't find it", "Temporarily Disable Listing", "Write note", "Enable Listing",...
+		//  text: "Netter Log eintrag."
+		//	logdate: "August 18" oder "February 17, 2007"
+		//	id: 12345679
 		var log = logs_td[log_i];
-		log_object.from = log.firstChild.innerHTML;
-		log_object.text = log.textContent.replace(log.firstChild.textContent, "").replace("View Log","").replace(/\(\d+ found\)/, "");
-		
-		
+		log_object.from = dojo.query('p[class="logOwnerProfileName"] > strong > a',log)[0].innerHTML;	
+		log_object.typeImg = dojo.query('div[class="HalfLeft LogType"] > strong > img',log)[0];
+		log_object.type = log_object.typeImg.alt;
+		log_object.text = dojo.query('p[class="LogText"]',log)[0].innerHTML;
+		log_object.logdate = dojo.query("span[class='minorDetails LogDate']",log)[0].innerHTML;
 		var log_uid = dojo.query("a:last-child",log)[0].href.split("=")[1]; // get the log id from the link
 		log_object.id = parseInt(log_uid.replace(/-/g,""),16)%10000000; // and create a semi unique id
 		
+		
+	/* nicht genutzter Quelltext für die kurze umstellunge des Datums
+		// bestimme den ungefähren tag des Logs
+			// today
+			// about a day ago
+			// about 2 days ago
+			// about 25 days ago
+			// about a month ago
+			// about 2 months ago
+			// about a year ago
+			// about 2 year ago
+			var days = 0;
+			var today = new Date();
+			var p = new RegExp(/about (a|\d+) (day|month|year)/);
+			var m = p.exec(dojo.query("span[class='minorDetails LogDate']",logs_td[0])[0].innerHTML);
+			if(m != null){
+				var quantity = (m[1] == "a")?1:m[1];
+		
+				switch (m[2]) {
+					case "day": 
+						days = quantity * 1;
+						break;
+					case "month": 
+						days = quantity * 30;
+						break;
+					case "year": 
+						days = quantity * 365;
+						break;
+				}
+
+				
+
+			} 
+			var millisecs = days * 24 * 60 * 60 * 1000; // wenn regex nicht greift - dann wird das Datum auf den aktuellen Tag datiert - z.B. bei "today"
+		log_object.date = new Date(today.getTime()-millisecs);
+*/
+
+		
+
 		geocache.logs.push(log_object);
 	}
-
 	
 	return geocache;
 }

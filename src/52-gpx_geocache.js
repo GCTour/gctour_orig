@@ -433,8 +433,8 @@ function getGPX(){
 				'		<type>Geocache|##TYPE##</type>\n'+
 				'		<groundspeak:cache id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">\n'+
 				'			<groundspeak:name>##CACHENAME##</groundspeak:name>\n'+
-				'			<groundspeak:placed_by><![CDATA[>##OWNER##]]></groundspeak:placed_by>\n'+
-				'			<groundspeak:owner><![CDATA[##OWNER##]]></groundspeak:owner>\n'+
+				'			<groundspeak:placed_by>##OWNER##</groundspeak:placed_by>\n'+
+				'			<groundspeak:owner>##OWNER##</groundspeak:owner>\n'+
 				'			<groundspeak:type>##TYPE##</groundspeak:type>\n'+
 				'			<groundspeak:container>##CONTAINER##</groundspeak:container>\n'+
 				'			<groundspeak:attributes>\n##ATTRIBUTES##			</groundspeak:attributes>\n'+
@@ -442,9 +442,9 @@ function getGPX(){
 				'			<groundspeak:terrain>##TERRAIN##</groundspeak:terrain>\n'+
 				'			<groundspeak:country>##COUNTRY##</groundspeak:country>\n'+
 				'			<groundspeak:state>##STATE##</groundspeak:state>\n'+
-				'			<groundspeak:short_description html="True"><![CDATA[##SUMMARY##]]></groundspeak:short_description>\n'+
-				'			<groundspeak:long_description html="True"><![CDATA[##DESCRIPTION##]]></groundspeak:long_description>\n'+
-				'			<groundspeak:encoded_hints><![CDATA[##HINT##]]></groundspeak:encoded_hints>\n'+					
+				'			<groundspeak:short_description html="True">##SUMMARY##</groundspeak:short_description>\n'+
+				'			<groundspeak:long_description html="True">##DESCRIPTION##</groundspeak:long_description>\n'+
+				'			<groundspeak:encoded_hints>##HINT##</groundspeak:encoded_hints>\n'+					
 				'			<groundspeak:logs>\n##LOGS##			</groundspeak:logs>\n'+
 				'		</groundspeak:cache>\n'+
 				'	</wpt>';
@@ -452,8 +452,8 @@ function getGPX(){
 				'				<groundspeak:log id="##LOGID##">\n'+
 				'					<groundspeak:date>##TIME##</groundspeak:date>\n'+
 				'					<groundspeak:type>##LOGTYPE##</groundspeak:type>\n'+
-				'					<groundspeak:finder><![CDATA[##CACHERNAME##]]></groundspeak:finder>\n'+
-				'					<groundspeak:text><![CDATA[##LOGTEXT##]]></groundspeak:text>\n'+
+				'					<groundspeak:finder>##CACHERNAME##</groundspeak:finder>\n'+
+				'					<groundspeak:text>##LOGTEXT##</groundspeak:text>\n'+
 				'				</groundspeak:log>\n';
 		
 		
@@ -511,9 +511,9 @@ function getGPX(){
 												
 							 new Array('LOGID',logs[j].id), // Issue3
 							 new Array('TIME',xsdDateTime(logs[j].foundDate)),
-							 new Array('CACHERNAME',logs[j].cacherName),
+							 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 							 new Array('LOGTYPE',logs[j].type),
-							 new Array('LOGTEXT',logs[j].content)
+							 new Array('LOGTEXT',encodeHtml(logs[j].content))
 						);
 						
 						var cacheWaypointLog = geocacheLogTemplate;
@@ -548,8 +548,8 @@ function getGPX(){
 						 new Array('ATTRIBUTES',attributesString),
 						 new Array('DIFFICULTY',geocache.difficulty),
 						 new Array('TERRAIN',geocache.terrain),
-						 new Array('SUMMARY',geocache.shortDescription),
-						 new Array('DESCRIPTION',geocache.longDescription),
+						 new Array('SUMMARY',encodeHtml(geocache.shortDescription)),
+						 new Array('DESCRIPTION',encodeHtml(geocache.longDescription)),
 						 new Array('HINT',encodeHtml(geocache.hint)),
 						 new Array('LOGS',logsStringArray.join(""))
 					);

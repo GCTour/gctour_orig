@@ -458,7 +458,7 @@ function printPageFunction(currentTour){
 								// setting D, T and size on titlepage
 								 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
 								 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
-								 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = "M";
+								 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.size.substring(0,1);
 							}
 	
 							

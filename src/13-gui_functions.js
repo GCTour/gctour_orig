@@ -315,6 +315,7 @@ function makeMapFunction(){
 				break;
 			}
 		}
+		alert(API_HOST+'/map/check/'+markerQuery.join(","));
 		
 		get(API_HOST+'/map/check/'+markerQuery.join(","),
 			function(text){

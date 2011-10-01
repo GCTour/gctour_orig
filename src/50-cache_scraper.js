@@ -326,10 +326,9 @@ function getGeocacheFromElement(element){
 		log_object.typeImg = dojo.query('div[class="HalfLeft LogType"] > strong > img',log)[0];
 		log_object.type = log_object.typeImg.alt;
 		log_object.text = dojo.query('p[class="LogText"]',log)[0].innerHTML;
-		log_object.logdate = dojo.query("span[class='minorDetails LogDate']",log)[0].innerHTML;
+		log_object.logdate = parseDate(dojo.query("span[class='minorDetails LogDate']",log)[0].innerHTML);
 		var log_uid = dojo.query("a:last-child",log)[0].href.split("=")[1]; // get the log id from the link
 		log_object.id = parseInt(log_uid.replace(/-/g,""),16)%10000000; // and create a semi unique id
-		
 		
 	/* nicht genutzter Quelltext für die kurze umstellunge des Datums
 		// bestimme den ungefähren tag des Logs

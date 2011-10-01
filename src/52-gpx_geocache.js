@@ -171,6 +171,8 @@ function getGPXGeoCache(gcid){
 				
 		}
 		
+		logObj.foundDate = gc_log.logdate
+		/*
 		// crazy founddate founder
 		var month,day,year;
 		var p = new RegExp(/((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)) (\d+), (\d+)/);
@@ -205,7 +207,7 @@ function getGPXGeoCache(gcid){
 
 		var foundDate = new Date(year, month, day);
 		logObj.foundDate = foundDate; // ITS DONE! peew
-		
+		*/
 		logObj.content = gc_log.text;
 		logObj.id = gc_log.id;
 		

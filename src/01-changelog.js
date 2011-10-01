@@ -10,6 +10,9 @@
  *		- NEW: printview contains now the PM cache note!
  * 		- NEW: delete button for current tour
  * 
+ * version 2.0.11239
+ * 		- FIXED: GPX bug 
+ * 
  * version 2.0.11206
  * 		- FIXED: GPX bug after gc.com update
  * 		- FIXED: Printview after gc.com update

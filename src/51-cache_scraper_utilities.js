@@ -38,3 +38,18 @@ function parse_coordinates(coords_string){
 	  
 	  return new Array(lat,lon);
 }
+
+
+// holt bisher nur die ersten 100 Logs ab!
+function getAllLogs(userToken){
+
+	var req = new XMLHttpRequest();						
+	var myUrl = 'http://www.geocaching.com/seek/geocache.logbook?tkn='+userToken+'&idx=1&num=100&decrypt=false';
+	req.open("GET", myUrl, false);
+	// execute the request synchron
+	req.send(null);
+	// after execution parse the result
+	var log_object =  JSON.parse(req.responseText);
+	alert(req.responseText);
+	alert(log_object.data);
+}

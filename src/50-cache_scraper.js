@@ -49,8 +49,9 @@ function getGeocacheFromElement(element){
 	//~ geocache.find_counts
 	//~ geocache.logs
 
+	var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
 	// first check if really logged in 
-	
+	getAllLogs(userToken);
 	
 	//~ var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
 	var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;

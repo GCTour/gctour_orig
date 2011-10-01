@@ -3,7 +3,7 @@
 // @namespace      madd.in
 // @version        @version@
 // @build		   @build@
-// @description    Cachetour planing made easy. Pick some Caches, order the list and print it out. Free for all users of geocaching.com! 
+// @description    Cachetour planing made easy. Pick some Caches, sort the list and print it out. Free for all users of geocaching.com! 
 // @include        http://www.geocaching.com/*
 // @include			http://gctour-spot.appspot.com*#gui
 // @include        https://www.geocaching.com/*

@@ -49,9 +49,8 @@ function getGeocacheFromElement(element){
 	//~ geocache.find_counts
 	//~ geocache.logs
 
-	var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
+
 	// first check if really logged in 
-	getAllLogs(userToken);
 	
 	//~ var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
 	var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
@@ -309,8 +308,16 @@ function getGeocacheFromElement(element){
 	}
 	
 	geocache.find_counts = dojo.query('span[id="ctl00_ContentBody_lblFindCounts"] > p ',element)[0];
-	geocache.logs = new Array();
 	
+	
+	// hole den UserToken und benutze ihn um die Logs einzusammeln
+	var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
+	geocache.logs = getAllLogs(userToken);
+	
+	
+	
+	
+	/* old code - nicht mehr benötigt seit dem man die Logs mittels JSON abholen kann 
 	var logs_td = dojo.query('table[class="LogsTable"] > tbody > tr > td',element);
 	for(var log_i = 0;log_i < logs_td.length-1;log_i++){
 		var log_object = new Object();
@@ -331,7 +338,7 @@ function getGeocacheFromElement(element){
 		var log_uid = dojo.query("a:last-child",log)[0].href.split("=")[1]; // get the log id from the link
 		log_object.id = parseInt(log_uid.replace(/-/g,""),16)%10000000; // and create a semi unique id
 		
-	/* nicht genutzter Quelltext für die kurze umstellunge des Datums
+	/ * nicht genutzter Quelltext für die kurze umstellunge des Datums
 		// bestimme den ungefähren tag des Logs
 			// today
 			// about a day ago
@@ -365,12 +372,12 @@ function getGeocacheFromElement(element){
 			} 
 			var millisecs = days * 24 * 60 * 60 * 1000; // wenn regex nicht greift - dann wird das Datum auf den aktuellen Tag datiert - z.B. bei "today"
 		log_object.date = new Date(today.getTime()-millisecs);
-*/
+* /
 
 		
 
 		geocache.logs.push(log_object);
-	}
+	} */
 	
 	return geocache;
 }

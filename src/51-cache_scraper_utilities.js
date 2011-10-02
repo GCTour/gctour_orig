@@ -44,7 +44,7 @@ function parse_coordinates(coords_string){
 function getAllLogs(userToken){
 	
 	var totalPages = 1;
-	
+	var logs = [];
 	
 	for(var i = 1;i<= totalPages;i++){
 		var req = new XMLHttpRequest();						
@@ -54,9 +54,41 @@ function getAllLogs(userToken){
 		req.send(null);
 		// after execution parse the result
 		var log_obj =  JSON.parse(req.responseText);
-		debug(log_obj.data.length);
-		debug(log_obj.pageInfo.totalPages);
+
+		// füge alle ankommenden logs an das bestehende Array einfach hinten dran!
+		logs = logs.concat(log_obj.data);
+		
+		
+		// ein Log Obj sieht wir folgt aus:
+		//~ LogID	189964204
+		//~ CacheID	2071649
+		//~ LogGuid	"f04c620c-7ec0-4e3d-840d-e887e8257a76"
+		//~ Latitude	null
+		//~ Longitude	null
+		//~ LatLonString	""
+		//~ LogType	"Found it"
+		//~ LogTypeImage	"icon_smile.gif"
+		//~ LogText	"Heute Vormittag konnten... ahhr, die Zwergpiraten"
+		//~ Created	"10/02/2011"
+		//~ Visited	"10/02/2011"
+		//~ UserName	"Zwergpiraten"
+		//~ MembershipLevel	1
+		//~ AccountID	2455575
+		//~ AccountGuid	"d0421737-e9ee-4a10-9c7e-be4ed9399d6d"
+		//~ Email	""
+		//~ AvatarImage	"c77832e3-6051-4c3b-a37d-113ca51acd14.jpg"
+		//~ GeocacheFindCount	572
+		//~ GeocacheHideCount	0
+		//~ ChallengesCompleted	1
+		//~ IsEncoded	false
+		//~ creator	Object { GroupTitle="Member", GroupImageUrl="/images/icons/reg_user.gif"}
+		//~ GroupTitle	"Member"	
+		//~ GroupImageUrl	"/images/icons/reg_user.gif"
+		//~ Images	[]
+		//~ debug(logs[0].UserName);
 		
 		totalPages = log_obj.pageInfo.totalPages;
 	}
+	
+	return logs;
 }

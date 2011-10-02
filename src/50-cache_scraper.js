@@ -222,7 +222,7 @@ function getGeocacheFromElement(element){
 	
 	geocache.short_description = dojo.query('span[id="ctl00_ContentBody_ShortDescription"]',element)[0];
 	geocache.long_description = dojo.query('span[id="ctl00_ContentBody_LongDescription"]',element)[0];
-	geocache.images = dojo.query('span[id="ctl00_ContentBody_Images"] > a',element);
+	geocache.images = dojo.query('a[rel="lightbox"]',element);
 	
 	geocache.additional_waypoints = new Array();
 	

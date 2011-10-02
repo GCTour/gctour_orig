@@ -161,6 +161,7 @@ function printPageFunction(currentTour){
 							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>D</b></th>		'+
 							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>T</b></th>		'+
 							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>S</b></th>		'+
+							'	<th style="border-bottom:1px solid lightgray;" align="center"><b>L4L</b>&nbsp;</th>		'+
 							'	<th style="border-bottom:1px solid lightgray;"><b>'+lang['markerCoordinate']+'</b></th>		'+
 							'	<th style="border-bottom:1px solid lightgray;"><b>'+lang['printviewFound']+'</b></th>		'+
 							'	<th style="border-bottom:1px solid lightgray;">&nbsp;&nbsp;<b>'+lang['printviewNote']+'</b></th>		'+
@@ -176,7 +177,7 @@ function printPageFunction(currentTour){
 								
 								var tr = document.createElement('tr');tbody.appendChild(tr);
 								var td = document.createElement('td');tr.appendChild(td);
-								td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
+								td.innerHTML = "<b style='margin:0 6px'>"+(i+1)+"</b>";
 								
 					
 								td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
@@ -199,9 +200,13 @@ function printPageFunction(currentTour){
 								td.innerHTML = "<span style='margin:0 2px' id='s_" + currentTour.geocaches[i].id + "'></span>";
 								
 								td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
+								td.innerHTML = "<span style='' id='l4l_"+currentTour.geocaches[i].id+"'></span>";
+							
+								
+								td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
 								td.innerHTML = "<span style='margin:0 2px' id='coords_"+currentTour.geocaches[i].id+"'></span>";
 								
-							
+								
 								
 								
 								td = document.createElement('td');tr.appendChild(td);
@@ -460,6 +465,10 @@ function printPageFunction(currentTour){
 								 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
 								 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
 								 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.size.substring(0,1);
+								 
+								 // set the last 4 logs icon:
+								dojo.query("span[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = getLast4Logs(geocache.logs);
+								 
 							}
 	
 							
@@ -645,6 +654,31 @@ function printPageFunction(currentTour){
 
 }
 
+
+// funktion ähnlich http://www.gsak.net/help/hs11980.htm
 function getLast4Logs(logs){
+	var getColor = function(log){
+		switch (log.LogType) {
+			  case "Found it":
+				return "green";
+			  case "Didn't find it":
+				return "red";
+			case "Needs Maintenance":
+				return "blue";
+			case "Temporarily Disable Listing":
+				return "black";
+			case "Needs Archived":
+				return "yellow";
+			default:
+				return "gray";
+		}};
+	
+	return '<div style="margin-left: 2px;margin-right: 2px;margin-top: 2px;width: 11px; height: 11px; border: 1px solid black;">\
+	<div style="float:left;width:5px;height:5px;background-color:'+getColor(logs[0])+';border-right:1px solid white;border-bottom:1px solid white"></div>\
+	<div style="float:right;width:5px;height:5px;background-color:'+getColor(logs[1])+';border-bottom:1px solid white"></div>\
+	<div style="float:left;width:5px;height:5px;background-color:'+getColor(logs[2])+';border-right:1px solid white;"></div>\
+	<div style="float:left;width:5px;height:5px;background-color:'+getColor(logs[3])+'"></div></div>';
 	
 }
+
+

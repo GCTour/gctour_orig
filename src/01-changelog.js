@@ -4,11 +4,14 @@
  * version @version@.@build@
  * 		- FIXED: autoTour
  * 		- FIXED: GCTour on the search page
+ * 		- FIXED: Logs in printout
+ * 		- FIXED: Logs in GPX
  * 		- UPDATED: french translation
  * 		- GPX: New Groundspeak implementation to prevent XML errors
  *		- NEW: Titlepage in the printview now contains coordinates and basic informations
  *		- NEW: printview contains now the PM cache note!
  * 		- NEW: delete button for current tour
+ * 		- NEW: "Last4Logs" (L4L) has been added to the printout - similar to http://www.gsak.net/help/hs11980.htm
  * 
  * version 2.0.11239
  * 		- FIXED: GPX bug 

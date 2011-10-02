@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<project name="GcTour"  basedir=".">
+	
+		<property file="build.prop"/>	
+		     
+		<property name="Version" value="2.1" />
+        <tstamp>
+                <format property="Build" pattern="yyDDD" />
+        </tstamp>
+        
+        <tstamp/>
+        
+        
+        
+        <target name="concatenate" description="Concatenate all js files">
+                <echo>Concat all sources to a script.</echo>
+                <concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+                        <fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js" />
+                </concat>
+        </target>
+
+        <target name="compress" depends="concatenate" description="Compress application.js to application-min.js">
+                <echo>Compress script.</echo>
+                <apply executable="java" parallel="false">
+                        <filelist dir="${tmp.dir}" files="${App}.user.js" />
+                        <arg line="-jar" />
+                        <arg path="lib/yuicompressor-2.4.2.jar" />
+                        <srcfile />
+                        <arg line="--charset utf-8" />           
+                        <arg line="-o" />
+                        <mapper type="glob" from="${App}.user.js" to="${tmp.dir}/${App}-min.user.js" />
+                        <targetfile />
+                <!--    <arg line="-v" /> -->
+                </apply>
+        </target>
+        
+        <target name="make" depends="compress" description="Add Userscript-Header to the Script.">
+                <echo>Add Userscript-Header to the script.</echo>
+                <concat destfile="${build.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+                    <fileset file="${src.dir}/00-header.js" />
+                        <fileset file="${tmp.dir}/${App}.user.js" />
+                </concat>
+                <delete file="${tmp.dir}/${App}.user.js"/>
+                
+                <echo>Add Userscript-Header to the compressed script.</echo>
+                <concat destfile="${build.dir}/${App}-min.user.js" fixlastline="yes" eol="lf" encoding="UTF8" >
+                    <fileset file="${src.dir}/00-header.js" />
+                        <fileset file="${tmp.dir}/${App}-min.user.js" />
+                </concat>
+                <delete file="${tmp.dir}/${App}-min.user.js"/>          
+                
+                <!-- setup current version -->
+                <replace file="${build.dir}/${App}.user.js" token="@version@" value="${Version}" />             
+                <replace file="${build.dir}/${App}.user.js" token="@build@" value="${Build}" />         
+                <replace file="${build.dir}/${App}-min.user.js" token="@version@" value="${Version}" />         
+                <replace file="${build.dir}/${App}-min.user.js" token="@build@" value="${Build}" />             
+        </target>
+        
+        
+        <target name="makeff" depends="make" description="Copies the script to the GM_SCRIPTS folder in your firefox. Not enabled by default.">
+                <copy todir="${GcTour.dir}/">
+                        <fileset dir="${build.dir}/" includes="${App}.user.js" />
+                </copy>
+        </target>
+        
+        <target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">
+            <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
+
+			<gcupload 
+				username="gctour.support" 
+				password="xw8qS3jt5vf2" 
+				projectname="gctour" 
+				filename="build/gc_tour.user.js" 
+				targetfilename="gc_tour.${DSTAMP}.user.js"
+				summary="snapshot release for version ${Version}"
+				labels="Type-Installer, OpSys-All" />
+        </target>
+        
+</project> 

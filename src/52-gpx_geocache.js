@@ -141,10 +141,29 @@ function getGPXGeoCache(gcid){
 		//	id: 12345679
 		
 		var gc_log =  geocache_obj.logs[i];
-		logObj.cacherName = gc_log.from;
+		logObj.cacherName = gc_log.UserName;
 		
-		switch (gc_log.type) {
-			case "Found It":
+		if(!isGroundspeak){
+			switch (gc_log.LogType) {
+				case "Found it":
+				logObj.type = "Found";
+				break;
+			case "Didn't find it":
+				logObj.type = "Not Found";
+				break;
+			case "Write note":
+				logObj.type = "Note";
+				break;
+			default:
+				logObj.type ="Other";
+				break;	
+			}
+		} else {
+			logObj.type = gc_log.LogType;
+		}
+				/*
+		switch (gc_log.LogType) {
+			case "Found it":
 				logObj.type = (isGroundspeak)?"Found it":"Found";
 				break;
 			case "Didn't find it":
@@ -165,51 +184,36 @@ function getGPXGeoCache(gcid){
 			case "Write note":
 				logObj.type = (isGroundspeak)?"Write note":"Note";
 				break;
+			case "Temporarily Disable Listing":
+				logObj.type = (isGroundspeak)?"Temporarily Disable Listing":"Note";
+				break;
+			case "Enable Listing":
+				logObj.type = (isGroundspeak)?"Enable Listing":"Note";
+				break;
+			case "Unarchive":
+				logObj.type = (isGroundspeak)?"Unarchive":"Note";
+				break;
+			case "Archive":
+				logObj.type = (isGroundspeak)?"Archive":"Note";
+				break;
+			case "Publish Listing":
+				logObj.type = (isGroundspeak)?"Publish Listing":"Note";
+				break;
+			case "Enable Listing":
+				logObj.type = (isGroundspeak)?"Enable Listing":"Note";
+				break;
+			case "Update Coordinates":
+				logObj.type = (isGroundspeak)?"Update Coordinates":"Note";
+				break;
 			default:
 				logObj.type = (isGroundspeak)?"Write note":"Other";
 				break;
-				
-		}
-		
-		logObj.foundDate = gc_log.logdate
-		/*
-		// crazy founddate founder
-		var month,day,year;
-		var p = new RegExp(/((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)) (\d+), (\d+)/);
-		var m = p.exec(gc_log.logdate);
-		
-		if(m != null){
-			month =m[1];
-			day=m[2];
-			year=m[3];
-		} else {
-			p = new RegExp(/((?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)) (\d+)/);
-			m = p.exec(gc_log.logdate);
-			month =m[1];
-			day=m[2];
-			year = new Date().getFullYear()
-		}
-		
-		switch (month) {
-			case "January": month=0;break;
-			case "February": month=1;break;
-			case "March": month=2;break;
-			case "April": month=3;break;
-			case "May": month=4;break;
-			case "June": month=5;break;
-			case "July": month=6;break;
-			case "August": month=7;break;
-			case "September": month=8;break;
-			case "October": month=9;break;
-			case "November": month=10;break;
-			case "December": month=11;break;
-		}
-
-		var foundDate = new Date(year, month, day);
-		logObj.foundDate = foundDate; // ITS DONE! peew
-		*/
-		logObj.content = gc_log.text;
-		logObj.id = gc_log.id;
+			
+		}*/
+		debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
+		logObj.foundDate = parseDate(gc_log.Created);
+		logObj.content = gc_log.LogText;
+		logObj.id = gc_log.LogID;
 		
 		
 		// jobs done great - lets save this

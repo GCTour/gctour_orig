@@ -1,6 +1,6 @@
 # Account info for GoogleCode upload
 GCODE_user=gctour.support
-GCODE_password=zG7TM6rc2pv3
+GCODE_password=password
 
 App=gc_tour
 src.dir=src

@@ -1,16 +1,91 @@
 /* 
  * Changelog:
+ * 
+ * version @version@.@build@
+ * 		- FIXED: autoTour
+ * 		- FIXED: GCTour on the search page
+ * 		- FIXED: Logs in printout
+ * 		- FIXED: Logs in GPX
+ * 		- UPDATED: french translation
+ * 		- GPX: New Groundspeak implementation to prevent XML errors
+ *		- NEW: Titlepage in the printview now contains coordinates and basic informations
+ *		- NEW: printview contains now the PM cache note!
+ * 		- NEW: delete button for current tour
+ * 		- NEW: "Last4Logs" (L4L) has been added to the printout - similar to http://www.gsak.net/help/hs11980.htm
+ * 
+ * version 2.0.11239
+ * 		- FIXED: GPX bug 
+ * 
+ * version 2.0.11206
+ * 		- FIXED: GPX bug after gc.com update
+ * 		- FIXED: Printview after gc.com update
+ * 
+ * version 2.0.11158
+ * 		- FIXED: scrollbar bug Firefox 3.6
+ * 		- FIXED: "Search For Geocaches" page in Firefox 3.6
+ * 		- FIXED: Bug with new GCComment version
+ * 		- FIXED: bug in popup after uploading an tour
+ * 		- UPDATED: french translation
+ * version 2.0.11158
+ * 		- FIXED: Event-Cache bug
+ * 		- FIXED: Printout need some work
+ * 		- FIXED: Update dialog bug
+ * 		- FIXED: autoTour dialog
+ * 		- FIXED: Layout modifications from gc.com
+ * 		- FIXED: autoTour find now earthcaches
+ * 		- FIXED: own waypoints coordinates were sometimes wrong rounded
+ * 		- GPX: Logs does now have an unique id
+ * 		- GPX: Archived/Unavailable geocaches are marked so
+ * 		- MAP: Tweak code on the map site. The use of the map will now be much faster.
+ * 		- NEW: Coordinates of geocaches can now be moved.
+ * 		- NEW: Added a dialog to send me a message.
+ * 		- NEW: Geocaches can now printed directly from their detailspage
+ * 		- NEW: Tour upload has been completöy redesigned
+ * 		- NEW: Support for the new beta Maps
+ * 		- NEW: Dutch translation (thanks to searchjaunt)
+ * 		- NEW: Portuguese translation (thanks to Ruben)
+ * 		- NEW: French translation (thanks to flashmoon)
+ * 		- NEW: Added support for all GC.com date formats
+ * 		- NEW: GCComment print view implementation
+ * 		- ... and much more i already forgot
+ * 
  *
+ * version 1.97.11033
+ * 		- FIXED: gccom layout change.
+ * 
+ * version 1.97.10361
+ * 		- FIXED: autotour with new OCR program
+ * 		- FIXED: GPX/Print now contains correct hidden date
+ * 		- FIXED: geocaches lists now are shown correctly again
+ * 		- NEW: Google-Appengine program to decode D/T/Size images
+ * 
+ * version 1.97.10356
+ * 		- FIXED: GCTour is now working after gc.com update #2
+ *
+ * version 1.97.10313
+ * 		- FIXED: GCTour is now working after gc.com update
+ * 
  * version 1.97
  *		- GPX: add <groundspeak:name> to GPX
  *      - GPX: Additional Waypoints now named - Waypoint.Prefix + (GCID without leading GC)
  *      - GPX: changed Groundspeak "Multi-Cache" to "Multi-cache"
+ *      - GPX: fixed earthcache type
+ *      - GPX: changed log id to a usable value - Issue3
+ *      - GPX: added attributes to Groundspeak GPX
  *		- FIXED: caches can remain in watchlist without error  
- *		- FIXED: that a tour remains in list after deleting it
- *      - Bookmark Lists now have "add to tour" buttons
- *      - Tour can now sorted via Drag n' Drop
- *      - Code Review
- * 		- Create repository at http://code.google.com/p/gctour/
+ *		- FIXED: that a tour remains in list after deleting
+ *		- FIXED: autoTour is working after update 7/28/10
+ *		- FIXED: superscript text is now shown correct in printview
+ *      - NEW: Bookmark Lists now have "add to tour" buttons
+ *      - NEW: Tour can now sorted via drag n' drop
+ * 		- NEW: Add check on Firefox >= 3.5
+ *		- NEW: Minimal-printview containing cacheheader, hint and spoiler images
+ *		- NEW: Recode the complete update routine
+ *		- NEW: Add check whether the script is still logged on when scraping data
+ *		- CHANGED: Renew the buttons
+ *      - MISC: Code Review
+ * 		- MISC: Create repository at http://code.google.com/p/gctour/
+ *		- MISC: Start implementing http://gctour-spot.appspot.com/
  *
  * version 1.96
  * 		- gc.com layout update 6/29/10 fixed

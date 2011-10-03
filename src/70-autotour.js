@@ -1,4 +1,40 @@
 // autoTour gui
+
+function showAutoTourDialog(center,radius){
+    var overLay, queryFilterDiv;
+
+	if(!userName){
+		alert(lang['notLogedIn']);
+		return;
+	}
+
+
+	overLay = getOverlay({caption:lang['autoTour'],minimized:true});
+	overLay.appendChild(getCoordinatesTab());
+	
+	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:30px;'});
+	autoTourContainer.style.display = 'none';
+	
+	autoTourContainer.appendChild(getMapPreviewTab());	
+	queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
+	queryFilterDiv.appendChild(getTypeFilter());
+	queryFilterDiv.appendChild(getSizeFilter());
+	queryFilterDiv.appendChild(getDtFiler('Difficulty'));
+	queryFilterDiv.appendChild(getDtFiler('Terrain'));
+	queryFilterDiv.appendChild(getSpecialFilter());
+	autoTourContainer.appendChild(getAutoTourSubmit());
+	
+	
+	overLay.appendChild(autoTourContainer);
+
+	if(center && radius){
+
+		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
+		dojo.query("input[id='markerRadius']")[0].value = radius;
+		getMarkerCoord()();
+	}
+}
+
 function startAutoTour(){
 	var typeInputs = dojo.query("input[name='type']");
 	var sizeInputs = dojo.query("input[name='size']");
@@ -63,7 +99,7 @@ function getMarkerCoord(latitude,longitude){
 
 
 		var markerCoords = dojo.query("input[id='markerCoords']")[0].value;
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
+		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)Â°(\s*)(\d{0,2}[\.,]\d+)/);
 		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
 		var lat,lon;
 		if(markerCoords.match(regex)){
@@ -105,45 +141,6 @@ function getMarkerCoord(latitude,longitude){
 }
 
 
-function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
-	return function(){
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
-		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
-		window.setTimeout(
-				function(){
-				var result = regex.exec(cordsInput.value);
-				var result2 = regex2.exec(cordsInput.value);
-
-				log(result +" " +result2);
-				if (!result && !result2) {
-				cordsInput.style.backgroundColor = "#FF8888";
-
-				} else if (result) {
-				cordsInput.style.backgroundColor = "#88DC3B";
-
-				var lat = DM2Dec(result[3],result[6]);
-				if(result[1] == 'S') lat = lat * (-1);
-				cordsInputLat.value = lat;
-
-				var lon = DM2Dec(result[10],result[13]);
-				if(result[8] == 'W') lon = lon * (-1);
-				cordsInputLon.value = lon;
-				document.getElementById('staticGMap').style.display = 'block';
-				updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}else if (result2) {
-					cordsInput.style.backgroundColor = "#88DC3B";
-					var lat = parseFloat(result2[1]+""+result2[2]);
-					var lon = parseFloat(result2[3]+""+result2[4]);
-
-					cordsInputLat.value = lat;
-					cordsInputLon.value = lon;
-					document.getElementById('staticGMap').style.display = 'block';
-					updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}
-
-				},10);
-	}
-}
 
 function getSpecialFilter(){
 	var specialDiv = document.createElement('div');
@@ -214,7 +211,7 @@ function getDtFiler(boxName){
 
 
 function getSizeFilter(){
-	var sizes = ['micro','small','regular','large','other','virtual','not_chosen'];
+	var sizes = ['micro','small','regular','large','other'];
 
 	var sizesCheckboxesDiv = document.createElement('div');
 
@@ -289,39 +286,33 @@ function getTypeFilter(){
 
 
 function getCoordinatesTab(){
-	var coordsDiv = createElement('div');
+	var coordsDiv = createElement('div',{style:"clear:both"});
 	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
+	
+	var findMeButton = getLocateMeButton();
+	findMeButton.style.cssFloat = 'right';
+	append(findMeButton,coordsDiv);
+	
 
 	var divEbene = createElement('div', {className: 'ebene'});
-	var spanLabel = createElement('span', {className: 'label'});append(spanLabel, divEbene);
-	var spanFeld = createElement('span', {});append(spanFeld, divEbene);
-	spanLabel.innerHTML = lang["autoTourCenter"];
-	var cordsInput = createElement('input', {type: 'text', id: "markerCoords"});
-	append(cordsInput,spanFeld);
-	append(getLocateMeButton(),spanFeld);
-	var coordsExample = createElement('span',{style: "font-size:66%"});append(coordsExample,spanFeld);
-	coordsExample.innerHTML = "<br/><i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i> or <i>Berlin</i> ";
+
+	divEbene.innerHTML = '<b>'+lang["autoTourCenter"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerCoords"><br/>\
+						<small>'+lang['autoTourHelp']+'</small>';
+						
 	append(divEbene, coordsDiv);
 
 	divEbene = createElement('div', {className: 'ebene'});
-	spanLabel = createElement('span', {className: 'label'});append(spanLabel, divEbene);
-	spanFeld = createElement('span', {});append(spanFeld, divEbene);
-	spanLabel.innerHTML = lang["autoTourRadius"];
-	var cordsRadiusInput = createElement('input', {type: 'text', id: "markerRadius", maxlength: "4", style:"width:50px;margin-right:5px"});append(cordsRadiusInput,spanFeld);
-	var coordsSelect = createElement('select', {id: "markerRadiusUnit"});append(coordsSelect, spanFeld);
-	var coordsSelectElement = createElement("option", {selected:"selected", value: "km"});append(coordsSelectElement, coordsSelect);
-	coordsSelectElement.innerHTML = lang["kilometer"];
-	coordsSelectElement = createElement("option", {value: "sm"});append(coordsSelectElement, coordsSelect);
-	coordsSelectElement.innerHTML = lang["mile"];
+	divEbene.innerHTML = '<b>'+lang["autoTourRadius"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" style="width:50px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+lang["kilometer"]+'</option><option value="sm">'+lang["mile"]+'</option></select>';
 	append(divEbene, coordsDiv);
-
-
-
-	divEbene = createElement('div', {className: 'submit'});
-	var useButton = createElement('button');append(useButton,divEbene);
-	useButton.innerHTML = lang["autoTourRefresh"];
+	
+	divEbene = createElement('div');
+	divEbene.setAttribute('class','dialogFooter');
+	
+	
+	var useButton = createElement('input',{type:"button",value:lang["autoTourRefresh"],style:"background-image:url("+autoTourImage+")"});append(useButton,divEbene);
 	useButton.addEventListener('click',getMarkerCoord() ,false);
+	
 	append(divEbene, coordsDiv);
 
 	return coordsDiv;
@@ -329,8 +320,8 @@ function getCoordinatesTab(){
 
 function getMapPreviewTab(){
 	var coordsDiv = createElement('div');
-	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
+	coordsDiv.style.clear = "both";
 
 	var cordsInputLat = createElement('input', {type: 'hidden', id: "coordsDivLat"});
 	coordsDiv.appendChild(cordsInputLat);
@@ -348,14 +339,14 @@ function getMapPreviewTab(){
 	var staticGMap = createElement('div');
 	staticGMap.id = 'staticGMap';
 
-	staticGMap.style.border = '2px solid gray';
-	staticGMap.style.backgroundImage = "url("+previewImage+")";
-	staticGMap.style.backgroundPosition = "center";
-	staticGMap.style.backgroundRepeat = "no-repeat";
-
-	staticGMap.style.height = '200px';
-	staticGMap.style.width = '400px';
-	staticGMap.style.backgroundRepeat = 'no-repeat';
+	//~ staticGMap.style.border = '2px solid gray';
+	//~ staticGMap.style.backgroundImage = "url("+previewImage+")";
+	//~ staticGMap.style.backgroundPosition = "center";
+	//~ staticGMap.style.backgroundRepeat = "no-repeat";
+//~ 
+	//~ staticGMap.style.height = '200px';
+	//~ staticGMap.style.width = '400px';
+	//~ staticGMap.style.backgroundRepeat = 'no-repeat';
 
 	coordsDiv.appendChild(staticGMap);
 
@@ -368,8 +359,8 @@ function getMapPreviewTab(){
 }
 
 function getLocateMeButton(){
-	var button = createElement('button',{style:"margin-left:10px"});
-	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;color:#F6A828;font-weight:bold'>Locate Me</span>";
+	var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
+	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+lang['findMe']+"</span>";
 
 	button.addEventListener('click',
 			function(){
@@ -414,8 +405,6 @@ function getAutoTourSubmit(){
 
 	getCachesButton.addEventListener('click',
 			startAutoTour,false);
-
-
 	return queryFilterDiv;
 
 }
@@ -463,8 +452,8 @@ function CalcPrjWP(lat,lon, dist, angle)
 
 function updateAutoTourMap(lat,lon){
 
-	//~ var meterMiles = dojo.query("select[id='markerRadiusUnit'] > option[selected='selected']")[0].value;
-
+	//make the container visible
+	dojo.byId('autoTourContainer').style.display = 'block';
 
 	var radiusOrg = dojo.query("input[id='markerRadius']")[0].value;
 	if(isNaN(radiusOrg) || radiusOrg == "")// please break if radius is no number
@@ -478,25 +467,10 @@ function updateAutoTourMap(lat,lon){
 	if(radiusMiles == "")
 		return;
 
-	var apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g";
-
-	var path = "path=fillcolor:0xF6A8287F|color:0xF6A828FF|"
-	
-	    // to draw a circle - add 24 edges und combine them
-		for(var i = 1; i<=361;i = i+15){
-			var waypoint = CalcPrjWP(lat,lon,radiusMiles,i);
-			debug("WPT PRJ lat:"+lat+" lon:"+lon+" radius:"+radiusMiles+"Miles i:"+i);
-			debug("WPT PRJ "+waypoint[0]+","+waypoint[1]);
-			debug("");
-
-			path += waypoint[0]+","+waypoint[1];
-
-			if(i != 361)
-				path += "|";
-
-		}
 	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
-	staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?'+path+'&size=400x200&sensor=false&key='+apiKey+')';
+	staticGMap.innerHTML = "";
+	var staticMapppppp = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
+	
 
 	var latArray = Dec2DM(lat);
 	var lonArray = Dec2DM(lon);
@@ -508,8 +482,8 @@ function updateAutoTourMap(lat,lon){
 	lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
 
 
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = latOrigin+""+latArray[0]+"Â° "+latArray[1]+" ";
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML += lonOrigin+""+lonArray[0]+"Â° "+lonArray[1];
 	dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
 
 	dojo.animateProperty(
@@ -517,7 +491,7 @@ function updateAutoTourMap(lat,lon){
 	node: "markerCoordsPreview",duration: 1000,
 	properties: {
 	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }
+	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
 	}
 	}).play();
 	dojo.animateProperty(
@@ -525,7 +499,7 @@ function updateAutoTourMap(lat,lon){
 	node: "markerRadiusPreview",duration: 1000,
 	properties: {
 	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }
+	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
 	}
 	}).play();
 
@@ -549,7 +523,7 @@ function updateAutoTourMap(lat,lon){
 
 				dojo.animateProperty({
 					node: "markerCountPreview",duration: 1000,
-					properties: {backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }}
+					properties: {backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }}
 				}).play();
 
 
@@ -566,7 +540,7 @@ function updateAutoTourMap(lat,lon){
 
 				dojo.animateProperty({
 					node: "markerCountPreview",duration: 2000,
-					properties: {backgroundColor:{ start: "#FF0005", end: "#EEEEEE" }}
+					properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
 				}).play();
 
 

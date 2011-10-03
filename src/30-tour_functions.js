@@ -34,27 +34,58 @@ function isIdInTable(gcId){
 
 function addNewTableCell(theEntry,effects){
 	
-	var costumMarker = (typeof(theEntry.lat) != "undefined");
+	var costumMarker = (typeof(theEntry.latitude) != "undefined");
 
-	var entryLi = createElement('li', {id: theEntry.id, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"')"});	
-	//set the image
+
+	// if this is a cosutm marker user other id 
+	var theId = (!costumMarker)?theEntry.id:theEntry.wptcode; 
+	
+	var entryLi = createElement('li', {id: theId, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});	
+	//~ 
+	
+	// set the background image
+	//~ entryLi.style.background = "transparent url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+") fixed no-repeat bottom right";
+	entryLi.style.backgroundImage = "url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+")";
+	entryLi.style.backgroundRepeat = "no-repeat";
+	entryLi.style.backgroundPosition = "bottom right";
+	
+	//set the type
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
 	entryLi.setAttribute("class", "dojoDndItem");
 
 	
 	// make the gcid link
 	var nameCite = createElement('span',{style:"vertical-align:top"});
+	
+	
+	
+			
+	//~ var indexDiv = createElement('span',{style:"margin-right: 6px;"});
+		//~ indexDiv.innerHTML = "<b>"+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+"</b>";
+		//~ append(indexDiv,nameCite);
+		
 	if(!costumMarker){	          
+		var coordinates = GM_getValue('coords_'+theId,"null");
+		
+		if(coordinates != "null"){
+			var moveCoords = createElement('img',{src:'http://www.geocaching.com/images/icons/coord_update.gif',height:"12",style:"float:right;margin-right:5px", alt:lang['movedGeocache'], title:lang['movedGeocache']});
+			nameCite.appendChild(moveCoords);
+		}
 		var linkElement = document.createElement('a');
-		linkElement.style.fontSize = '9px';
+		//linkElement.style.fontSize = '9px'; to small!
 		linkElement.style.fontFamily = 'arial,sans-serif';
 		linkElement.href = 'http://www.geocaching.com/seek/cache_details.aspx?guid='+theEntry.guid;
-		linkElement.textContent = theEntry.id;
+		linkElement.textContent = theId;
 		nameCite.appendChild(linkElement);
+		
+		
 	} else {
-		nameCite.textContent = theEntry.name;
+		nameCite.innerHTML += theEntry.name;
+		nameCite.style.textDecoration = "underline";
 	}
-	entryLi.appendChild(nameCite);
+	
+
+	
 	
 	// the log/edit button and the delete button
 	var functionButtonsDiv = document.createElement('div');
@@ -67,7 +98,7 @@ function addNewTableCell(theEntry,effects){
 		logVisitImage.title = lang['logYourVisit'];
 		logVisitImage.style.cursor = 'pointer';    
 		logVisitImage.src = "http://www.geocaching.com/images/stockholm/16x16/add_comment.gif";
-		logVisitImage.addEventListener('click', function(){window.location.href = 'http://www.geocaching.com/seek/log.aspx?wp='+theEntry.id;}, true);	
+		logVisitImage.addEventListener('click', function(){window.location.href = 'http://www.geocaching.com/seek/log.aspx?wp='+theId;}, true);	
 		addOpacityEffects(logVisitImage); 
 		functionButtonsDiv.appendChild(logVisitImage);
 	} else {
@@ -86,12 +117,13 @@ function addNewTableCell(theEntry,effects){
     deleteImage.title = lang['removeFromList'];
     deleteImage.style.cursor = 'pointer'; 
     deleteImage.src = deleteImageString;
-	deleteImage.addEventListener('click', deleteElementFunction(theEntry.id), true);	
+	deleteImage.addEventListener('click', deleteElementFunction(theId), true);	
 	addOpacityEffects(deleteImage); 
 	functionButtonsDiv.appendChild(deleteImage);	
 
 
 	// thanks to adam r
+	/* unneeded  since the list uses drag and drop 
 	var upDownDiv = document.createElement('div');
 	upDownDiv.align = "right";
 	
@@ -100,7 +132,7 @@ function addNewTableCell(theEntry,effects){
     topButton.title = "top";
     topButton.style.cursor = 'pointer';
     topButton.src = topArrowImageString;
-    topButton.addEventListener('click', moveTop(theEntry.id), true);
+    topButton.addEventListener('click', moveTop(theId), true);
     addOpacityEffects(topButton);
 	
 	var upButton = document.createElement('img');
@@ -109,7 +141,7 @@ function addNewTableCell(theEntry,effects){
     upButton.style.marginRight = '5px';
     upButton.style.cursor = 'pointer';
     upButton.src = upArrowImageString;
-    upButton.addEventListener('click', moveUp(theEntry.id), true);
+    upButton.addEventListener('click', moveUp(theId), true);
     addOpacityEffects(upButton);
     
 	
@@ -119,7 +151,7 @@ function addNewTableCell(theEntry,effects){
     downButton.style.cursor = 'pointer';    
 	downButton.style.marginRight = '5px';
     downButton.src = downArrowImageString;    
-    downButton.addEventListener('click', moveDown(theEntry.id), true);
+    downButton.addEventListener('click', moveDown(theId), true);
     addOpacityEffects(downButton);
 	
 	var bottomButton = document.createElement('img');
@@ -127,7 +159,7 @@ function addNewTableCell(theEntry,effects){
     bottomButton.title = "bottom";
     bottomButton.style.cursor = 'pointer';
     bottomButton.src = bottomArrowImageString;
-    bottomButton.addEventListener('click', moveBottom(theEntry.id), true);
+    bottomButton.addEventListener('click', moveBottom(theId), true);
     addOpacityEffects(bottomButton);
 		
 	functionButtonsDiv.appendChild(document.createElement('br'));
@@ -136,16 +168,21 @@ function addNewTableCell(theEntry,effects){
 	upDownDiv.appendChild(document.createElement('br'));
 	upDownDiv.appendChild(downButton);
 	upDownDiv.appendChild(bottomButton);
-	functionButtonsDiv.appendChild(upDownDiv);
+	functionButtonsDiv.appendChild(upDownDiv);*/
+	
+	
 	entryLi.appendChild(functionButtonsDiv);
+	entryLi.appendChild(nameCite);
 	
 	
 	var nameDiv = document.createElement('div');
 	nameDiv.style.clear = 'left';
+
+	
 	if(!costumMarker){
-		nameDiv.innerHTML = theEntry.name;
+		nameDiv.innerHTML += theEntry.name;
 	}else {
-		nameDiv.innerHTML = theEntry.content;
+		nameDiv.innerHTML += Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
 	}	
 	entryLi.appendChild(nameDiv);
 	
@@ -166,7 +203,7 @@ function addNewTableCell(theEntry,effects){
 
 function getPositionsOfId(theId){
 	for (var i = 0; i < currentTour.geocaches.length; i++){
-		if(currentTour.geocaches[i].id == theId){
+		if(currentTour.geocaches[i].id == theId || currentTour.geocaches[i].wptcode == theId){
 			return i;
 		}
 	}
@@ -248,10 +285,10 @@ function moveBottom(id){
 	}
 }
 
-function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol){
+function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,wptcode){
 	
 	if(currentTour.geocaches.length == 0){
-		var table = document.getElementById('tourTable');		
+		var table = document.getElementById('cacheList');		
 		table.innerHTML ='';
 	}
 	
@@ -263,13 +300,16 @@ function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol){
 	//		content	->	the content		"Test\nLINEBREAK"
 	//		symbol	->	GPX symbol name "Red Flag"
 	
+
+
+	
 	var entry = new Object();
-	entry.id = name+lat+lon;	
+	
+	
+	entry.wptcode = (wptcode)?wptcode:(new Date().getTime()-Math.round(lat+lon*1000)).toString(16);	
 	entry.name = name;		
 	entry.latitude = lat;
 	entry.longitude = lon;
-	entry.lat = lat;
-	entry.lon = lon;
 	entry.image = typeImage;
 	entry.content = content;
 	entry.symbol = typeSymbol;
@@ -293,7 +333,7 @@ function addElementFunction(theId, theGuId, theName, theTypeImage){
    return function () {
    		
 			if(currentTour.geocaches.length == 0){
-				var table = document.getElementById('tourTable');		
+				var table = document.getElementById('cacheList');		
 				table.innerHTML ='';
 			}
    			if(!isIdInTable(theId)){
@@ -366,7 +406,7 @@ function saveCurrentTour(){
 	saveTour(currentTour);
 }
 	
-function saveTour(tour){	
+function saveTour(tour, notLoad){	
 	var i;
 	for (i= 0; i < tours.length; ++i){
 		if(tours[i].id == tour.id){
@@ -374,9 +414,16 @@ function saveTour(tour){
 		}
 	}
 		
-	GM_setValue('currentTour', tour.id);
+		
+	
 	GM_setValue('tours', uneval(tours));
-	log("updating "+tour.name);
+	if(notLoad === undefined){
+		GM_setValue('currentTour', tour.id);
+		log("updating "+tour.name);
+		
+		checkOnlineConsistent(tour);
+	}
+	
 }
 
 function updateCacheCount(count){
@@ -387,9 +434,39 @@ function updateCacheCount(count){
       node: "cachecount",duration: 1000,
       properties: {
         //~ color:         { start: "black", end: "white" },
-        backgroundColor:   { start: "#FFE000", end: "#EEEEEE" }
+        backgroundColor:   { start: "#FFE000", end: "#FFF" }
       }
     }).play();
+    
+    
+    dojo.animateProperty(
+    {
+      node: "gctourButton",duration: 1000,
+      properties: {
+        //~ color:         { start: "black", end: "white" },
+        backgroundColor:   { start: "#FF0000", end: "#B2D4F3" }
+      }
+    }).play();
+    
+    
+    
+}
+
+function deleteCurrentTour(){
+	if (confirm(lang['removeTourDialog'])) {  
+		var tableId;
+		for (tableId = 0; tableId<tours.length;tableId++){
+			if(tours[tableId].id == currentTour.id){
+				 break;
+			}
+		}
+		
+		var nextTourId = tours[(tableId + 1) % tours.length].id;
+		var currentTourId = currentTour.id;
+		
+		loadTour(nextTourId)();
+		deleteTourFunction(currentTourId, true)();
+	}
 }
 
 function deleteElementFunction(theId){
@@ -407,7 +484,7 @@ function deleteElementFunction(theId){
 				
 				// locate the element to delete
 				for (var i = 0; i < currentTour.geocaches.length; i++){
-					if(currentTour.geocaches[i].id == theId){
+					if(currentTour.geocaches[i].id == theId || currentTour.geocaches[i].wptcode == theId){
 						// array in js are dumb - where is removeAt ??
 						currentTour.geocaches.splice(i,1);
 						log("removing '"+theId +"' from '"+ currentTour.name+"'");
@@ -422,7 +499,7 @@ function deleteElementFunction(theId){
 	
 				
 				if(currentTour.geocaches.length == 0){
-					var table = document.getElementById('tourTable');		
+					var table = document.getElementById('cacheList');		
 					table.innerHTML = lang['emptyList'];
 				}
             }
@@ -444,6 +521,9 @@ function removeElementsFunction(descriptionElement, id, tagName){
 function loadTour(id){
 	return function(){
 		GM_setValue('currentTour',id);
+		if (document.getElementById("inconsistentTour")){
+			document.getElementById("inconsistentTour").style.display="none";
+		}
 
 		if(document.URL.search("webcode")>=0){
 			window.location = "http://www.geocaching.com";
@@ -454,16 +534,85 @@ function loadTour(id){
 	}
 }
 
-function deleteTourFunction(id,listElement){
+function updateTour(){
+	initCore();
+	updateGUI();
+}
+
+
+
+function checkOnlineConsistent(t){
+	 // Creates way to much traffic :( 
+	 // maybe in the next version
+	 
+	 /*
+	
+	if(t.webcode){
+		geocaches = new Array();
+		waypoints = new Array();				
+		costumMarkers = new Array();
+			
+		var list = {webcode:t.webcode,geocaches:[]};
+		for (cache_i = 0; cache_i < t.geocaches.length; ++cache_i){			
+			list.geocaches.push((typeof(t.geocaches[cache_i].latitude) != "undefined")?t.geocaches[cache_i].wptcode:t.geocaches[cache_i].id );
+		}
+
+		
+		
+		var jsonTour = JSON.stringify(list);
+		post(API_HOST+'/tour/check', "tour="+jsonTour,	
+			function(text){
+				log("checkOnlineConsistent:"+text)
+				
+				if(text == "false"){
+					if (document.getElementById("inconsistentTour")){
+						document.getElementById("inconsistentTour").style.display="inline";
+					} else {
+						window.setTimeout(function(){document.getElementById("inconsistentTour").style.display="inline"},3000);	
+					}
+				} else {
+					
+					if (document.getElementById("inconsistentTour")){
+						document.getElementById("inconsistentTour").style.display="none";
+					} else {
+						window.setTimeout(function(){document.getElementById("inconsistentTour").style.display="none"},3000);	
+					}
+				}
+			}
+		);
+	} */
+}
+	
+
+function deleteTourFunction(id, force){
 	return function(){
-		if (confirm(lang['removeTourDialog'])) {  
+		if (force || confirm(lang['removeTourDialog'])) {  
+			
 			for (var i = 0; i < tours.length; i++){
 				if(tours[i].id == id){
 					log("removing '"+tours[i].name +"'");
 					// array in js are dumb - where is removeAt ??
+					
+					var cachelist = document.getElementById('dialogDetails');
+					
+	
+					
+					if(cachelist && cachelist.getAttribute("tourid") == tours[i].id){
+						
+						showCacheList(currentTour)();
+						var loadButton = document.getElementById('loadButton');
+						loadButton.setAttribute("disabled","disabled");
+					}
+				
+					
+					dojo.destroy(dojo.byId("tour"+id));
+
+
+
 					tours.splice(i,1);
-					saveCurrentTour();
-					updateTour();
+					saveCurrentTour();					
+					
+					//updateTour();
 					
 					break;
 				}

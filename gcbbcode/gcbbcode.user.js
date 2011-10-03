@@ -6,22 +6,20 @@
 // ==/UserScript==
 //
 // (C) Copyright Martin Georgi 2010.
-// Version 1.26
+// Version 1.3
 
-var version = '1.26';
+var version = '1.3';
 var scriptId = 'gcbbcode';
 
-var textForm = document.getElementById('ctl00_ContentBody_LogBookPanel1_tbLogInfo');
+var textForm = document.getElementById('ctl00_ContentBody_LogBookPanel1_uxLogInfo');
 if(!textForm){
 	textForm = document.getElementById('tbLongDesc');
 }
 
 document.getElementById('aspnetForm').addEventListener("submit",function(){
     var logType = document.getElementById('ctl00_ContentBody_LogBookPanel1_ddLogType');
-   
-	// "found it" = 2		"attendet" = 10 	"wecam photo taken" = 11
-    if(getSelectedValue(logType)==2 || getSelectedValue(logType)==10 || getSelectedValue(logType)==11){
-        setFounds(getFounds()+1);
+    if(getSelectedValue(logType)==2 || getSelectedValue(logType)==10){ // increment count on "found it" or "attended"
+        setFounds(getFounds()+1); 
     } 
     
     textForm.value = textForm.value.replace(/\{FOUNDS\}/g, getFounds());
@@ -44,6 +42,7 @@ var templateMode = false;
 var templateTable = document.createElement('table');
 
 // --- IMAGES ---
+var qmark_image = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAttJREFUeNp8k91LU2Ecx7%2FnZXObujlftlxuGanbKAlMChGkS1GxBKGriAq7iLwLguom6KI%2FoLwIgsib0osgTNRMMXwhUXOapE5JNJ0693p0521np%2BcxGF71uzk%2FnufzfX6vh0F5K7KWyQBCCvbTjqoqt9PHcaxJ0zLS6tbecmx7fxX5FoBlszif9UQFtkKb796d1rttzfWN3grPOZ5nuXQ6o62sba5%2F%2FDwx8PrD1zeJaGIZZuM%2FDUsjOxvhqb3VMDoemNf%2FY%2FSecpQ%2F1sHTApv%2FhndsciFwEpwObOi9fXP6%2B08z%2BuLydvaccpSnOg6cm%2Bm83fKo42ZTG81EUVS86PqCZ68G0T3wA8NTQUxNryPXZMAFrwtn3E5nZD8qTY4HhtkSl8N7vamuRdc1yLKInVAE26EwmusrcP9aDc57rNja3Udv%2FzRi8SR5XgflqY4tK7V7ncX5nmQiCUE4gt1mxPOHzbjoL0GeWYemimQKEirLbOSbhpBIgPJUx3McY1EV2ZgUBJCxwGDgsLMbw8DIHIkYRa45Bx3ttWhvvozDI4FEZkB5quMlUUmFI1FF1618Oq2RMbJgdBVXr5wlWVSj2u%2BGroNkICMWE8HzHA6iSYXq%2BJ1wfHXt9%2FamxcT5JEmBgVwOjS3g5bshuJx2POlsQ1lpIejD1EwmIyhPdXw0IqwMjM73l5fm%2B2Q1A44BdvfCpDwJFrILsphCIs5Cy%2BhgGAaKxILyVMeh2K9vhKJb7pL8Bofd7BQlGUX2XLgcVtRdqkAx8emZqqqkHA3fAxuLb%2FtmHqtAmIPdB1VSDxaCoZ%2FOAnON3Wo8lWNg4XYVwZLDQxQl0mWNpK1ibulPoKtn6kEyKc2CY8mSFHhBHTGlbM6uhr4l4imZYzIFsqLkHaVk%2FSglKVs7sbXBiWB3z8jSU0EgQjIRHPf95F9F26pojNVm8hfmmSpJjTlkI%2BXooRRMJqRfMHK08Cz%2BV4ABAGmclqueREoBAAAAAElFTkSuQmCC';
 var colorPickerImageString = 'data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%10%00%00'+
 '%00%10%08%06%00%00%00%1F%F3%FFa%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware'+
 '%00Adobe%20ImageReadyq%C9e%3C%00%00%00%18tEXtCopyright%00Stella%20Schulze%D4b%7D%BE%00%00'+
@@ -325,6 +324,22 @@ function createSmallButton(image,buttonFunction){
     button.addEventListener('click', buttonFunction, false);
     return button;    
 }
+
+function getDonateButton(){
+
+	var donate_div = document.createElement('div');
+	donate_div.style.cssFloat = "right";
+	donate_div.innerHTML = "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'> \
+                            <input type='hidden' name='cmd' value='_s-xclick'> \
+                            <input type='hidden' name='hosted_button_id' value='75G3QUQL8JLAJ'> \
+                            <input type='image' src='https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal - The safer, easier way to pay online!'> \
+                            <img alt='' border='0' src='https://www.paypal.com/de_DE/i/scr/pixel.gif' width='1' height='1'> \
+                            </form>";
+	//	<form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="75G3QUQL8JLAJ"><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"><img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1"></form>
+
+	return donate_div;
+
+}
 	
 
 function getButtonsTable(){
@@ -394,8 +409,30 @@ function getButtonsTable(){
 	    
 	spanElement.appendChild(foundLink);
 	
-	tdElement.appendChild(spanElement);
-	trElement.appendChild(tdElement);
+	var counter_help_image = document.createElement('img');
+	counter_help_image.style.marginLeft = '5px';
+	counter_help_image.src = qmark_image;
+	
+//counter_help_image.src = 'http://online.sagepub.com/site/img/iconHelp.gif';
+//counter_help_image.src = 'http://www.geocaching.com/images/wpttypes/sm/8.gif';
+
+	counter_help_image.addEventListener('click', function(){
+	    var help_text = 
+"To use the counter you have to set the value of your founds first. \n\
+Then you must add the keyword:\n\
+     {FOUNDS} \n \
+in your log or template! It will replaced after your submit.";
+
+	    
+	    alert(help_text);
+	
+	},false);
+	spanElement.appendChild(counter_help_image);	
+	
+	tdElement.appendChild(spanElement);	
+    trElement.appendChild(tdElement);
+	
+
 	
 	
 	
@@ -594,8 +631,7 @@ function insertTemplate(templateId, atCursor, forceInsert){
 		for (i = 0; i < templates.length; i++) {
 			if(templates[i][0] == templateId){
 										
-				var templateTestString =  templates[i][2];
-				templateTestString = templates[i][2].replace(/\s*/g,'');
+				var templateTestString =  templates[i][2].replace(/\{FOUNDS\}/g,"").replace(/\s*/g,'');
 				
 				// insert only, if texform does not contain the template
 				var trimmedTextform = textForm.value.replace(/\s*/g,'');
@@ -1030,9 +1066,14 @@ function init(){
 	var tdElement = document.createElement('td');
 	
 	tdElement.colSpan = '2';
+	
+	tdElement.appendChild(getDonateButton());
 	tdElement.appendChild(getButtonsTable());
 	tdElement.style.borderBottom = '1px solid lightgray';
 	trElement.appendChild(tdElement);
+	
+	
+	
 	logTable.appendChild(trElement);
 	
 	
@@ -1083,7 +1124,7 @@ function init(){
 		
 
 		
-		
+		/*
 		var logTypeArray = new Array();
 		logTypeArray["2"] = "Found it";
 		logTypeArray["3"] = "Didn't find it";
@@ -1095,7 +1136,7 @@ function init(){
 		var logType = document.getElementById('ctl00_ContentBody_LogBookPanel1_ddLogType');
 		logType.removeAttribute('onChange');
 		logType.addEventListener('change',function(){document.getElementById('setDefaultButton').innerHTML = "set <b>"+logTypeArray[getSelectedValue(logType)]+"</b> as default";},false);
-		
+		*/
 		var calenderElement = getCalendarTable();
 		if(calenderElement){
 		
@@ -1138,7 +1179,7 @@ function init(){
 		//~ <option value="7"></option>
 		//~ <option value="45">Needs Maintenance</option>
 		//~ <option value="-1">- Select One -</option>
-
+/*
 		var currentType = getSelectedValue(logType);
 		var defaultType = GM_getValue("defaultLogType" , "-1");
 		
@@ -1193,7 +1234,7 @@ function init(){
 		
 		logType.parentNode.insertBefore(setDefaultButton, logType.nextSibling );
 		logType.parentNode.insertBefore(document.createElement("br"), setDefaultButton);
-
+*/
 	}
 //	textForm.selectionStart = 0;
 //	textForm.selectionEnd = 0;	
@@ -1337,3 +1378,4 @@ function convertROTStringWithBrackets(C) {
 
 update();
 init();
+

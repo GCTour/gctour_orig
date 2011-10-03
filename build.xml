@@ -67,8 +67,8 @@
             <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
 
 			<gcupload 
-				username="gctour.support" 
-				password="xw8qS3jt5vf2" 
+				username="${GCODE_user}"
+				password="${GCODE_password}"
 				projectname="gctour" 
 				filename="build/gc_tour.user.js" 
 				targetfilename="gc_tour.${DSTAMP}.user.js"

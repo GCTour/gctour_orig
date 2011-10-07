@@ -661,14 +661,12 @@ function init(){
 		
 		
 	
-		var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL') || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
-		var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
-
-		// if logged in, Login_Name_Link will be the link to the username
-		// if not logged in, Login_Name_Link will be the same as loginLogoutLink
-		if (logInOutLink != nameLink) {
+		if(!dojo.byId('ctl00_divNotSignedIn')){
+			var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL') || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
+			var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
+			
 			userName = nameLink.textContent.trim();
-		} 
+		}	
 			
 	}
 

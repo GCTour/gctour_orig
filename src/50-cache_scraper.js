@@ -67,19 +67,18 @@ function getGeocacheFromElement(element){
 	
 	
 	
+	var minimal_geocache = getMinimalGeocacheDetails(element);
+	
 	var geocache = new Object();
-	geocache.gcid = trim(dojo.query('span[id="ctl00_ContentBody_uxWaypointName"]',element)[0].textContent);
-	geocache.cacheid = trim(dojo.query('a[href*="/seek/log.aspx?ID="]',element)[0].href.split("=")[1]);
-	geocache.guid = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly']",element)[0].href.split("guid=")[1];
-	geocache.name = trim(dojo.query('span[id="ctl00_ContentBody_CacheName"]',element)[0].textContent);
-	geocache.image = dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src;
-	geocache.type =	dojo.query('a[href="/about/cache_types.aspx"] > img',element)[0].src.split("/")[5].split(".")[0];
+	geocache.gcid = minimal_geocache.gccode;
+	geocache.cacheid = minimal_geocache.cacheid;
+	geocache.guid = minimal_geocache.guid;
+	geocache.name = minimal_geocache.name;
+	geocache.type =	minimal_geocache.type.split(".")[0];
+	geocache.image = "http://www.geocaching.com/images/WptTypes/"+geocache.type+".gif";
+	
 	geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
 	
-	
-	//~ alert(unsafeWindow.getGCComment);
-	//~ alert("GCComment für '"+geocache.guid+"' -> '"+unsafeWindow.getGCComment(geocache.guid)+"'");
-	//~ 
 	
 	if(unsafeWindow.getGCComment){
 		var comment = unsafeWindow.getGCComment(geocache.guid);
@@ -147,18 +146,9 @@ function getGeocacheFromElement(element){
 		geocache.hidden = hiddenMonth+"/"+hiddenDay+"/"+hiddenYear;
 	}*/
 	
-	
-	
 
-
-/*	try{ // Old code - doesnt know why this try
-		geocache.size = dojo.query('small',element)[2].textContent.split("(")[1].split(")")[0];
-	} catch(e){
-		geocache.size = dojo.query('small',element)[1].textContent.split("(")[1].split(")")[0];
-	}
-*/	
 	geocache.difficulty = dojo.query('span[id="ctl00_ContentBody_uxLegendScale"] > img',element)[0].alt.split(" out of ")[0];
-	geocache.terrain = dojo.query('span[id="ctl00_ContentBody_Localize6"] > img',element)[0].alt.split(" out of ")[0];
+	geocache.terrain = dojo.query('span[id="ctl00_ContentBody_Localize12"] > img',element)[0].alt.split(" out of ")[0];
 
 
 	geocache.size = trim(dojo.query('img[src*="/images/icons/container/"]',element)[0].alt.split(": ")[1]);

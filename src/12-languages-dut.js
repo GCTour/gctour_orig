@@ -137,7 +137,7 @@ lang_dut = {
 	"autoTourRadius" : "Radius",
 	"autoTourCenter" : "Middelpunt",
 	"autoTourHelp" : "coördinaten of adres:<i>N50° 53.692 E004° 20.478</i> or <i>50.894867 4.341300</i> of <i>Atomium</i>",
-	"autoTourRefresh" : "Maak een autoTour aan met deze waarden!",
+	"autoTourRefresh" : "Beregn een autoTour aan met deze waarden!",
 	"autoTourCacheCounts" : "Geschat <i>aantal</i> geocaches in deze regio:",
 	"autoTourDuration" : "Geschatte tijd om deze autoTour aan te maken:",
 	"kilometer" : "Kilometer",

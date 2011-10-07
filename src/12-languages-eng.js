@@ -137,7 +137,7 @@
 	"autoTourRadius" : "Radius",
 	"autoTourCenter" : "Center",
 	"autoTourHelp" : "Coordinates or address:<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i> or <i>Paris Eiffel Tower</i>",
-	"autoTourRefresh" : "Create autoTour with this values!",
+	"autoTourRefresh" : "Calculate a car tour with these values!",
 	"autoTourCacheCounts" : "Estimated <i>total number</i> of caches in this region:",
 	"autoTourDuration" : "Estimated duration to produce this autoTour:",
 	"kilometer" : "Kilometer",

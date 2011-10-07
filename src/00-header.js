@@ -2,14 +2,15 @@
 // @name           GC Tour
 // @namespace      madd.in
 // @version        @version@
-// @build		   @build@
+// @build          @build@
 // @description    Cachetour planing made easy. Pick some Caches, sort the list and print it out. Free for all users of geocaching.com! 
 // @include        http://www.geocaching.com/*
-// @include			http://gctour-spot.appspot.com*#gui
 // @include        https://www.geocaching.com/*
+// @include        http://gctour-spot.appspot.com*#gui
+// @exclude        http://www.geocaching.com/about/smilies.aspx
 // @copyright      2008, 2009, 2010, 2011 Martin Georgi
 // @author         madd.in
-// @icon		   http://www.madd.in/geocaching/gm/gctourextension/icon.png
+// @icon           http://www.madd.in/geocaching/gm/gctourextension/icon.png
 // @license        GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 

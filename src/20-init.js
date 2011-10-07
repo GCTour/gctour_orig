@@ -424,8 +424,8 @@ function init(){
 
 
 
-	// beta maps - map/beta/default.aspx
-	if(document.URL.search("\/map\/beta\/default\.aspx")>=0) {
+	// beta maps - map/beta/default.aspx = map/beta/
+	if(document.URL.search("\/map\/beta\/")>=0) {
 		
 		//~ <div style="width:100px;margin-left:auto;margin-right:auto;background-color:#fff;padding:3px;-moz-border-radius:3px;border:2px solid #666"><img src=""></div>
 		

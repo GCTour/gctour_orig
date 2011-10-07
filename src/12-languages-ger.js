@@ -138,7 +138,7 @@
 	"autoTourRadius" : "Radius",
 	"autoTourCenter" : "Mittelpunkt",
 	"autoTourHelp" : "Koordinaten oder Adresse:<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i> oder <i>Berlin Ernst-Reuter-Platz</i>",
-	"autoTourRefresh" : "Erzeuge eine autoTour mit diesen Werten!",
+	"autoTourRefresh" : "Berechne eine autoTour mit diesen Werten!",
 	"autoTourCacheCounts" : "Geschätze <i>gesamt</i> Anzahl Caches in dieser Region:",
 	"autoTourDuration" : "Geschätze Dauer der Erzeugung dieser autoTour:",
 	"kilometer" : "Kilometer",

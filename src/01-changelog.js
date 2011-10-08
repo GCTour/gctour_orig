@@ -13,6 +13,9 @@
  * 		- NEW: delete button for current tour
  * 		- NEW: "Last4Logs" (L4L) has been added to the printout - similar to http://www.gsak.net/help/hs11980.htm
  * 
+ * version 2.0.11280
+ * 		- FIXED: silent update changes from gc.com
+ * 
  * version 2.0.11239
  * 		- FIXED: GPX bug 
  * 

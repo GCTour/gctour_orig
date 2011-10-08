@@ -35,13 +35,13 @@ function openChangeCoordinates(){
 	mapTd.align = 'left';
 	var coords = parseCoordinates(coordinates);
 	
-	var gc_type = dojo.query('a[href="/about/cache_types.aspx"] > img')[0].src.split("/")[5].split(".")[0];
+	var minimal_geocache = getMinimalGeocacheDetails(document.getElementsByTagName('html')[0]);
+	var gc_type = minimal_geocache.type;
 	
 	var staticMap = new StaticMap(mapTd,{lat:coords.latitude,lon:coords.longitude,geocache_type:gc_type});
 
 	
-	
-	var cacheId = trim(document.getElementById('ctl00_ContentBody_uxWaypointName').textContent);
+	var cacheId = minimal_geocache.gccode;
 			
 	
 	td = document.createElement('td');tr.appendChild(td);

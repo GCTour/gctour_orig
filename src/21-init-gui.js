@@ -25,15 +25,11 @@ function initButton(){
 		
 		
 		// locate the values and save it
-		var cacheIdCode = document.getElementById('ctl00_ContentBody_uxWaypointName');
-		var cacheId = trim(cacheIdCode.textContent);
-		
-		// get the guid
-		var guidId = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly5Logs']")[0].href.split("guid=")[1].split("&")[0];
-		
-		var cacheName = trim(document.getElementById('ctl00_ContentBody_CacheName').textContent);
-
-		var cacheTypeImage = getElementsByAttribute('title',"About Cache Types")[0].getElementsByTagName('img')[0].src.split("/")[5];
+		var minimal_geocache = getMinimalGeocacheDetails(document.getElementsByTagName('html')[0]);
+		var cacheId = minimal_geocache.gccode;
+		var guidId = minimal_geocache.guid;		
+		var cacheName = minimal_geocache.name;
+		var cacheTypeImage = minimal_geocache.type;
 		
 		// on click add an element	
 		newButton.addEventListener('click', addElementFunction(cacheId,guidId,cacheName,cacheTypeImage), false);

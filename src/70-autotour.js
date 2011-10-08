@@ -12,7 +12,7 @@ function showAutoTourDialog(center,radius){
 	overLay = getOverlay({caption:lang['autoTour'],minimized:true});
 	overLay.appendChild(getCoordinatesTab());
 	
-	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:30px;'});
+	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:12px;'});
 	autoTourContainer.style.display = 'none';
 	
 	autoTourContainer.appendChild(getMapPreviewTab());	
@@ -32,7 +32,10 @@ function showAutoTourDialog(center,radius){
 		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
 		dojo.query("input[id='markerRadius']")[0].value = radius;
 		getMarkerCoord()();
-	}
+	} else {
+    dojo.query("input[id='markerRadius']")[0].value = 2;
+    dojo.query("input[id='markerCoords']")[0].focus();
+  }
 }
 
 function startAutoTour(){
@@ -303,14 +306,13 @@ function getCoordinatesTab(){
 	append(divEbene, coordsDiv);
 
 	divEbene = createElement('div', {className: 'ebene'});
-	divEbene.innerHTML = '<b>'+lang["autoTourRadius"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" style="width:50px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+lang["kilometer"]+'</option><option value="sm">'+lang["mile"]+'</option></select>';
+	divEbene.innerHTML = '<b>'+lang["autoTourRadius"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+lang["kilometer"]+'</option><option value="sm">'+lang["mile"]+'</option></select>';
 	append(divEbene, coordsDiv);
 	
 	divEbene = createElement('div');
 	divEbene.setAttribute('class','dialogFooter');
 	
-	
-	var useButton = createElement('input',{type:"button",value:lang["autoTourRefresh"],style:"background-image:url("+autoTourImage+")"});append(useButton,divEbene);
+	var useButton = createElement('input',{type:"button",value:lang["autoTourRefresh"],style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
 	useButton.addEventListener('click',getMarkerCoord() ,false);
 	
 	append(divEbene, coordsDiv);
@@ -351,9 +353,9 @@ function getMapPreviewTab(){
 	coordsDiv.appendChild(staticGMap);
 
 	var cacheCountLabel = createElement('div');append(cacheCountLabel, coordsDiv);
-	cacheCountLabel.innerHTML = lang["autoTourCacheCounts"]+"<b id='markerCountPreview'>???</b>"
+	cacheCountLabel.innerHTML = lang["autoTourCacheCounts"]+" <b id='markerCountPreview'>???</b>"
 		var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
-	tourDurationLabel.innerHTML = lang['autoTourDuration']+"<b id='markerDurationMin'>???</b>min<b id='markerDurationSec'>???</b>sec"
+	tourDurationLabel.innerHTML = lang['autoTourDuration']+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec"
 
 		return coordsDiv;
 }

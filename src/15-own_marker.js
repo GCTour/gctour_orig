@@ -229,7 +229,7 @@ function showNewMarkerDialog(marker){
 			longitude =  document.getElementById('cordsInputLon').value*1;
 			if(marker){
 				markerPosition = getPositionsOfId(marker.id);
-				markerPositionDelta = markerPosition -  currentTour.geocaches.length +1;
+				markerPositionDelta = markerPosition - currentTour.geocaches.length +1;
 				deleteElementFunction((marker.id)?marker.id:marker.wptcode)();
 			} else {
 				markerPositionDelta = 0;

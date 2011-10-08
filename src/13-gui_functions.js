@@ -139,11 +139,7 @@ function removeHoverEffect(element){return function(){element.style.margin = '1p
 
 function openSend2GpsFunctionLocal(){
 	return function(){
-		if(!userName){
-			alert(lang['notLogedIn']);
-		} else if( currentTour.geocaches.length == 0) {
-			alert(lang['emptyList']);
-		} else {
+		if(isLogedIn() && isNotEmptyList()){
 			if(GM_getValue('showGpx',false)){
 				window.open('http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=true', 's2gps', config='width=425,height=610,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=yes,directories=no,status=no');			
 			} else {
@@ -155,17 +151,12 @@ function openSend2GpsFunctionLocal(){
 
 function downloadGPXFunction(){
 	return function(){		
-        var gpxForm, nameInput, contentArea, tourName, currentDate, currentDateString, dummyString;
-		if(!userName){
-			alert(lang['notLogedIn']);
-		} else if( currentTour.geocaches.length == 0) {
-			alert(lang['emptyList']);
-		} else {	
+		var gpxForm, nameInput, contentArea, tourName, currentDate, currentDateString, dummyString;
 
-			
+    if(isLogedIn() && isNotEmptyList()){
+
 			// add progressbar while loading
 			addProgressbar();
-			
 
 			gpxForm = document.createElement('form');
 			gpxForm.setAttribute('style','display:;');
@@ -173,7 +164,7 @@ function downloadGPXFunction(){
 			gpxForm.id="gpxForm";
 
 			gpxForm.method = 'post';
-			
+
 			nameInput = document.createElement('input');nameInput.type = 'hidden';gpxForm.appendChild(nameInput);
 			nameInput.name = 'name';
 			
@@ -185,7 +176,6 @@ function downloadGPXFunction(){
 
 			currentDate =  new Date();
 			currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
-
 
 			nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
@@ -221,7 +211,6 @@ function downloadGPXFunction(){
 
 				// all done - remove the overlay
 				closeOverlay(); 
-
 
 			} catch (e) {
 				addErrorDialog({caption:"GPX error", _exception:e}); 
@@ -291,13 +280,8 @@ function sendToGPS(){
 
 function makeMapFunction(){
 	
-	
-	if(!userName){
-			alert(lang['notLogedIn']);
-	} else if( currentTour.geocaches.length == 0) {
-		alert(lang['emptyList']);
-	} else {
-			
+	if(isLogedIn() && isNotEmptyList()){
+
 		// add the overlay while loading
 		addProgressbar({caption:lang['makeMapWait']});  
 		
@@ -360,8 +344,7 @@ function makeMapFunction(){
 }
 
 function getMapGeocache(gcid){
-	
-	
+
 	var geocache = getGeocache(gcid);
 	if(geocache !== "pm only"){
 		var mapCache = new Object();
@@ -389,23 +372,14 @@ function getMapGeocache(gcid){
 function getMapMarker(markerId){
 	var marker = currentTour.geocaches[getPositionsOfId(markerId)];
 	marker.index = cache_i;
-	
 	return marker;
 }
 
-
-
 function uploadTourFunction(id){
-	return function(){ 
-	    var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString,costumMarkers;
-		try{
-			if(!userName){
-				alert(lang['notLogedIn']);
-			} else if( currentTour.geocaches.length == 0) {
-				alert(lang['emptyList']);
-			} else {	
-				
-		
+	return function(){
+		var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString,costumMarkers;
+		if(isLogedIn() && isNotEmptyList()){
+			try{
 				for (i = 0; i < tours.length; i++){
 					if(tours[i].id == id){
 											
@@ -453,20 +427,15 @@ function uploadTourFunction(id){
 						break;
 					}
 				}
-			}
-		} catch(e){addErrorDialog({caption:"Upload tour error", _exception:e});}	
+			} catch(e){addErrorDialog({caption:"Upload tour error", _exception:e});}
+		}
 	}
 }
 
-
 function uploadMap(markerObj,callback){
-	
 	var jsonMap = JSON.stringify(markerObj).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication 
-	
-	
 	post(API_HOST+'/map/save', "map="+jsonMap,callback);
 }
-
 
 function upload(tour){
 		if( !tour.password){ // vllt doch mit !tour.uuid || ????
@@ -539,15 +508,10 @@ function upload(tour){
 }
 
 function openSend2GpsDialog(){
-	if(!userName){
-		alert(lang['notLogedIn']);
-	} else if( currentTour.geocaches.length == 0) {
-		alert(lang['emptyList']);
-	} else {	
+	if(isLogedIn() && isNotEmptyList()){
 		var overlay= getOverlay({caption:"Send to GPS"});
 		overlay.innerHTML = "<iframe src='http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=1' width='450px' height='350' scrolling='no' marginheight='0' marginwidth='0' frameborder='0'></iframe>";
 	}
-	
 }
 
 function openSettingsDialog(){
@@ -555,31 +519,19 @@ function openSettingsDialog(){
 	settings.show();
 }
 
-
 function sendMessageDialog(){
-	 
-	 if(!userName){
-		alert(lang['notLogedIn']);
-		return;
-	}
+	if(isLogedIn()){
+		var overLay = getOverlay({caption:lang['sendMessageTitle'],minimized:true});
 
-	 
-	 
-	var overLay = getOverlay({caption:lang['sendMessageTitle'],minimized:true});
-	
-	
-	overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact"> \
-	'+lang["sendMessage"]+'<br/> \
-	<input type="hidden" name="redir" value='+window.location+'> \
-	<input type="hidden" name="user" value='+userName+'> \
-	<textarea rows="10" style="width:99%" name="message"></textarea> \
-	<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+lang['sendMessageSubmit']+'"></input></div>\
-	</form>';
-	
-	//<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" "type="submit" name="send" value="'+lang['sendMessageSubmit']+'"></input>\
-	
+		overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact"> \
+    '+lang["sendMessage"]+'<br/> \
+		<input type="hidden" name="redir" value='+window.location+'> \
+		<input type="hidden" name="user" value='+userName+'> \
+		<textarea rows="10" style="width:99%" name="message"></textarea> \
+		<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+lang['sendMessageSubmit']+'"></input></div>\
+		</form>';
+  }
 }
-
 
 function populateTours(){
 	var tourList = dojo.byId('dialogListContainer');
@@ -594,25 +546,18 @@ function populateTours(){
 	for (var tourIt = 0; tourIt<tours.length; tourIt++){
 		var tour = tours[tourIt];
 		var tourListLi = createElement('li',{id:"tour"+tour.id});append(tourListLi,tourListUl);
-			
-		
-		
 		var tourLink;
 		// make the current Tour not clickable nor deletable!
-		
-		
+
 		tourLink = createElement('a',{style:"cursor:pointer;font-size:10px;color:#003399"});
 		tourLink.innerHTML = tour.name+"&nbsp;<small>("+tour.geocaches.length+")</small>";
-		
-		
-		
+
 		if(tour.id == currentTour.id){				
 			//~ tourListLi.setAttribute("class", "activeTour");
 			tourLink.innerHTML = "<b>"+tourLink.innerHTML+"</b>";
 		} else {			
 			//~ var deleteButton = document.createElement('img',{title:lang['removeTour'],src:""+deleteImageString,style:"cursor:pointer;margin-right:5px:float:right;"});
-			
-			
+						
 			var deleteButton = document.createElement('img');
 			deleteButton.title = lang['removeTour'];
 			deleteButton.src = deleteImageString;
@@ -632,44 +577,32 @@ function populateTours(){
 		
 		tourLink.addEventListener('click', showCacheList(tour),false);		
 		append(tourLink,tourListLi);
-			
 
-			
-			
 	}	
 }
 	
 
 function openTourDialog(){
 	var overLay = getOverlay({caption:lang['openTour']});
-	
-	
 	var tourList = createElement('div',{id:"dialogListContainer"});append(tourList,overLay);
 	var cacheList = createElement('div',{id:"dialogDetails"});append(cacheList,overLay);
 	
 	populateTours();
 	
-	
-	
-	
 	// load,close buttons
 	var buttonsDiv = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
 		buttonsDiv.setAttribute('class','dialogFooter');
-	
-	
+
 	var closeButton = createElement('input',{type:"button",value:lang["cancel"],style:"background-image:url("+closebuttonImage+")"});append(closeButton,buttonsDiv);
 		closeButton.addEventListener('click', closeOverlay, false);
-		
-		
+
 	var loadButton = createElement('input',{type:"button",value:lang['load'],disabled:"",id:"loadButton",style:"background-image:url("+openTourImageString+")"});append(loadButton,buttonsDiv);
 		loadButton.addEventListener('click', function(){
 			var id = dojo.byId("dialogDetails").getAttribute("tourid");
 			loadTour(id)();
 			closeOverlay();
 		}, false);
-		
-		
-	
+
 	// load currentTour
 	showCacheList(currentTour)();
 	
@@ -683,16 +616,12 @@ function showCacheList(tour){
 		cacheList.scrollTop=0;
 		cacheList.setAttribute("tourid", tour.id);
 
-		
-
 		cacheList.innerHTML = "<u><b>"+tour.name+"</b>";
 		if(tour.webcode){
 			cacheList.innerHTML += "&nbsp;&nbsp;&nbsp;<i>Webcode:"+tour.webcode+"</i>";
 		}
 		cacheList.innerHTML += "</u><br/>";
-		
-		
-				
+
 		var copyButton = document.createElement('img');
 		copyButton.title = lang['copyTour'];
 		copyButton.src = copyImage;
@@ -722,8 +651,7 @@ function showCacheList(tour){
 			
 			showCacheList(newTour)();
 		},false);
-		
-				
+
 		var deleteButton = document.createElement('img');
 		deleteButton.title = lang['removeTour'];
 		deleteButton.src = deleteImageString;
@@ -731,7 +659,6 @@ function showCacheList(tour){
 		deleteButton.style.marginRight = '5px';
 		deleteButton.style.cssFloat = 'right';
 		deleteButton.addEventListener('click',deleteTourFunction(tour.id), false);
-		
 		
 		var renameButton = document.createElement('img');
 		renameButton.src = editImageString;
@@ -741,6 +668,7 @@ function showCacheList(tour){
 		renameButton.style.marginRight = '5px';
 		renameButton.style.cssFloat = 'right';
 		renameButton.addEventListener('click', 
+
 		function(){
 			var newTourName = prompt(lang['newTourDialog'], tour.name);  
 			if(!newTourName) return;
@@ -751,23 +679,13 @@ function showCacheList(tour){
 			showCacheList(tour)();   				
 			},false);
 		
-		
-		
-		
-		
-						
 		if(tour.id != currentTour.id){	
 			cacheList.insertBefore(deleteButton,cacheList.firstChild);
 		}
 	
 		cacheList.insertBefore(renameButton,cacheList.firstChild);
 		cacheList.insertBefore(copyButton,cacheList.firstChild);
-		
-		
-			
 
-		
-		
 		var cacheListUl = createElement('ul');
 		cacheListUl.setAttribute("class", "dialogList");
 		
@@ -776,27 +694,23 @@ function showCacheList(tour){
 			
 			var cacheListLi = createElement('li',{style:"b"});append(cacheListLi,cacheListUl);
 			cacheListLi.innerHTML = "<img src='"+geocache.image+"' style='margin-left=10px'> "+geocache.name+"&nbsp;<small>("+((geocache.id != undefined)?geocache.id:geocache.wptcode)+")</small>";
-			
-		
+
 		}
 		append(cacheListUl,cacheList);
-		
+
 		// make loadButton available
 		
-		
+
 		var loadButton = document.getElementById('loadButton');
 		loadButton.value = "'"+tour.name+"' "+lang['load'];
 		loadButton.removeAttribute('disabled');
-		
-		
-		
+
 		// first remove all active tour css classes
 		dojo.query("ul[class='dialogList'] > li").removeClass("activeTour");
 		//and then set it to the clicked
 		document.getElementById('tour'+tour.id).setAttribute("class", "activeTour");
 	}
 }
-
 
 function downloadTourDialog(){
 	var overlay= getOverlay({caption:lang["webcodeDownloadButton"],minimized:true});
@@ -805,12 +719,10 @@ function downloadTourDialog(){
 
 	divEbene.innerHTML = '<b>Webcode:</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="webcodeInput"><br/>\
 						'+lang['webcodeDownloadHelp'];
-	
-	
-	
+
 	divEbene = createElement('div');append(divEbene,overlay);
 	divEbene.setAttribute('class','dialogFooter');
-	
+
 	var downloadButton = createElement('input',{type:"button",value:lang["webcodeDownloadButton"],style:"background-image:url("+downloadImageString+")"});append(downloadButton,divEbene);
 	downloadButton.addEventListener('click',function(){
 		var webcode = trim(dojo.byId('webcodeInput').value);
@@ -821,9 +733,8 @@ function downloadTourDialog(){
 	
 }
 
-
 function downloadTourFunction(webcode){
-    var details;
+	var details;
 
 	// add the overlay while loading
 	addProgressbar();
@@ -872,15 +783,12 @@ function downloadTourFunction(webcode){
 	GM_xmlhttpRequest(details);	
 }
 
-
 function showInformationDiv(tour){
 	return function(){
-	    var infomationDiv, i;
-	
+		var infomationDiv, i;
+
 		infomationDiv = document.createElement('div');
 		document.body.appendChild(infomationDiv);
-
-
 
 		infomationDiv.id = "infomationDiv";
 		infomationDiv.style.position = "fixed";
@@ -902,4 +810,24 @@ function showInformationDiv(tour){
 			infomationDiv.innerHTML +=  "<div style='border-bottom: 1px dotted  #448e35'> <img src='"+tour.geocaches[i].image+"' style='margin-left=10px'> "+tour.geocaches[i].name + "</div>";
 		}
 	};
+}
+
+// is logged = true : false
+function isLogedIn(){
+	if(userName){
+		return true;
+	} else {
+		alert(lang['notLogedIn']);
+		return false;
+	}
+}
+
+// list is not empty = true : false
+function isNotEmptyList(){
+	if(currentTour.geocaches.length > 0){
+		return true;
+	} else {
+		alert(lang['emptyList']);
+		return false;
+	}
 }

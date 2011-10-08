@@ -330,53 +330,48 @@ function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,wptcode)
 }
 
 function addElementFunction(theId, theGuId, theName, theTypeImage){
-   return function () {
-   		
-			if(currentTour.geocaches.length == 0){
-				var table = document.getElementById('cacheList');		
-				table.innerHTML ='';
-			}
-   			if(!isIdInTable(theId)){
-   				// entry:								e.g.:
-   				//		id		->	the gc.com id		GC00815
-   				//		guid	->	the guid			6e974919-2b47-46e2-8661-3fc62a5a9650
-   				//		name	->	the cachename		Echo the tomcat
-   				//		image	->	the typeimage		http://www.geocaching.com/images/WptTypes/sm/2.gif
-				var entry = new Object();
-				entry.id = theId;		
-				//~ entry.name = theName.textContent;
-				entry.name = theName;
-				entry.guid = theGuId;
-				
-				// split the src an take only x.gif
-				//~ var typeGif = theTypeImage.getAttribute('src').split("/")[3];
-				var typeGif = theTypeImage;
-				entry.image = 'http://www.geocaching.com/images/WptTypes/sm/'+typeGif;
+	return function () {
 
-				// add the newbie
-				addNewTableCell(entry,true);
-				
-				// and make it persistence
-				saveNewCache(entry);
-				
-				// update the cache count	
-				updateCacheCount(currentTour.geocaches.length);
-	
-				
-			}
+		if(currentTour.geocaches.length == 0){
+			var table = document.getElementById('cacheList');		
+			table.innerHTML ='';
+		}
+		if(!isIdInTable(theId)){
+			// entry:								e.g.:
+			//		id		->	the gc.com id		GC00815
+			//		guid	->	the guid			6e974919-2b47-46e2-8661-3fc62a5a9650
+			//		name	->	the cachename		Echo the tomcat
+			//		image	->	the typeimage		http://www.geocaching.com/images/WptTypes/sm/2.gif
+			var entry = new Object();
+			entry.id = theId;		
+			//~ entry.name = theName.textContent;
+			entry.name = theName;
+			entry.guid = theGuId;
+
+			// split the src an take only x.gif
+			//~ var typeGif = theTypeImage.getAttribute('src').split("/")[3];
+			var typeGif = theTypeImage;
+			entry.image = 'http://www.geocaching.com/images/WptTypes/sm/'+typeGif;
+
+			// add the newbie
+			addNewTableCell(entry,true);
+
+			// and make it persistence
+			saveNewCache(entry);
+
+			// update the cache count	
+			updateCacheCount(currentTour.geocaches.length);
+
+		}
 	}
 }
 
 function saveNewCache(entry){
-	
 	currentTour = getTourById(currentTourId);
-	
 	currentTour.geocaches.push(entry);
 	saveCurrentTour();
-	
 	log("saving "+ entry.id +" to "+currentTour.name);
 }
-
 
 function newTourFunction(preset){
 	return function(){

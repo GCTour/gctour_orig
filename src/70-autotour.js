@@ -1,13 +1,9 @@
 // autoTour gui
 
 function showAutoTourDialog(center,radius){
-    var overLay, queryFilterDiv;
+	var overLay, queryFilterDiv;
 
-	if(!userName){
-		alert(lang['notLogedIn']);
-		return;
-	}
-
+  if(!isLogedIn()) return;
 
 	overLay = getOverlay({caption:lang['autoTour'],minimized:true});
 	overLay.appendChild(getCoordinatesTab());
@@ -23,8 +19,7 @@ function showAutoTourDialog(center,radius){
 	queryFilterDiv.appendChild(getDtFiler('Terrain'));
 	queryFilterDiv.appendChild(getSpecialFilter());
 	autoTourContainer.appendChild(getAutoTourSubmit());
-	
-	
+
 	overLay.appendChild(autoTourContainer);
 
 	if(center && radius){

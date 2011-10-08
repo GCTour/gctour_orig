@@ -1,13 +1,9 @@
 function printPageFunction(currentTour){
-	return function(){
-		if(!userName){
-			alert(lang['notLogedIn']);
-		} else if( currentTour.geocaches.length == 0) {
-			alert(lang['emptyList']);
-		} else {		
-			
+	return function(){  
+		if(isLogedIn() && isNotEmptyList()){
+
 			var minimal = GM_getValue('printMinimal',false);
-			
+
 			var cacheDetailTemplate = 
 				'<div class="cacheDetail" id="###GUID###">'+
 				'	<div class="geocache_count ###HIDDENSTYLE###"><span>###CACHECOUNT###</span></div>'+

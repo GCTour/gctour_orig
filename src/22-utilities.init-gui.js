@@ -16,15 +16,8 @@ function addCacheToTourFromMap(cacheUrl){
 		var cacheDetails = document.createElement('div');
 		cacheDetails.innerHTML = responseDetails.responseText;
 
-		// locate the values and save it
-		var cacheId = trim(dojo.query('span[id="ctl00_ContentBody_uxWaypointName"]',cacheDetails)[0].textContent);
-		var guidId = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly']",cacheDetails)[0].href.split("guid=")[1];
-	
-		var cacheName = trim(dojo.query('span[id="ctl00_ContentBody_CacheName"]',cacheDetails)[0].textContent);
-		var cacheTypeImage = dojo.query('a[href="/about/cache_types.aspx"] > img',cacheDetails)[0].src.split("/")[5];
-
-		addElementFunction(cacheId,guidId,cacheName,cacheTypeImage)();
-
+		var minimal_geocache = getMinimalGeocacheDetails(cacheDetails);
+		addElementFunction(minimal_geocache.gccode,minimal_geocache.guid,minimal_geocache.name,minimal_geocache.type)();
 	}
 }
 

@@ -137,7 +137,7 @@ lang_por = {
 	"autoTourRadius" : "Raio",
 	"autoTourCenter" : "Centro",
 	"autoTourHelp" : "Coordenadas ou Endere&#231;o:<i>N51&#186; 12.123 E010&#186; 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Eiffel Tower</i>",
-	"autoTourRefresh" : "Criar autoRota com estes valores!",
+	"autoTourRefresh" : "Oblicz autoRota com estes valores!",
 	"autoTourCacheCounts" : "<i>N&#250;mero</i> estimado de caches na regi&#227;o:",
 	"autoTourDuration" : "Previs&#227;o do tempo de cria&#231;&#227;o desta autoRota:",
 	"kilometer" : "Quilometros",

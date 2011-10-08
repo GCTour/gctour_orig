@@ -137,7 +137,7 @@ lang_fre= {
 	"autoTourRadius" : "Rayon",
 	"autoTourCenter" : "Centre",
 	"autoTourHelp" : "Coordonnées ou adresse:<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Tour Eiffel</i>",
-	"autoTourRefresh" : "Créer un autoTour avec ces valeurs",
+	"autoTourRefresh" : "Calculer un tour de voiture avec ces valeurs!",
 	"autoTourCacheCounts" : "Estimation du<i>nombre total</i> de cache dans cette zone:",
 	"autoTourDuration" : "Durée estimée de création de cet autoTour:",
 	"kilometer" : "Kilomètre",

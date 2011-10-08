@@ -1,0 +1,17 @@
+# Diese Datei umbenennen in "build.prop"
+#
+# Nur GcTour.dir ist ein Pflichtfeld.
+
+# Account info for GoogleCode upload
+GCODE_user=gctour.support
+GCODE_password=
+
+App=gc_tour
+src.dir=src
+build.dir=build
+tmp.dir=tmp
+# Linux
+#GcTour.dir=/home/martin/.mozilla/firefox/<PROFILE>/gm_scripts/gc_tour
+# Windows
+#GcTour.dir=Hier bitte ein Pfadbeispiel eintragen.
+GcTour.dir

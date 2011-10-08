@@ -431,8 +431,9 @@ function init(){
 		
 		var autoTour_div = createElement('div',{
 			style:'width: 100px; \
-			margin-left: auto; \
-			margin-right: auto; \
+			height: 30px; \
+			margin: 0 auto; \
+			overflow: hidden; \
 			border-radius: 5px; \
 			background-color: #FFF; \
 			border: 4px solid #999; \

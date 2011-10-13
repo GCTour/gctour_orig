@@ -21,11 +21,23 @@ String.prototype.endsWith = function(str)
 // init the whole script - started with dojo
 initDojo();
 
-// init the core components (first tour, current tour)
-initCore();	
+if(isOpera){
+	//wait until document is loaded and init the core components (first tour, current tour)
+	window.addEventListener('DOMContentLoaded',function(){		
+		initCore();
+ 	},true);
+}
+else
+{
+	// init the core components (first tour, current tour)
+	initCore();	
+}
 
-// check for updates
-update();
+//Opera has an autoupdate function
+if(!isOpera){
+	// check for updates
+	update();
+}
 
 // test for firefox >= 3.5
 if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);

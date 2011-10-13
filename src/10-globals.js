@@ -2,7 +2,7 @@
 const version="@version@" // will be checked once the day 
 const build="@build@" // will be checked once the day 
 const scriptId = 'gctour'; 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 //~ const API_HOST = 'http://localhost:8888/api';
 //~ const GCTOUR_HOST = 'http://localhost:8888';
 const API_HOST = 'http://gctour-spot.appspot.com/api'; 
@@ -19,7 +19,8 @@ var tours,
     wptArray, attributes_array,
     rot13array,
     timeout,
-    sticky = GM_getValue('sticky',false);
+    sticky = GM_getValue('sticky',false),
+    isOpera = (typeof opera != "undefined");
 
 
 wptArray = [

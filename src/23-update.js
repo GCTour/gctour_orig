@@ -1,8 +1,8 @@
 function update() {
-	var updateDate = eval(GM_getValue('updateDate'));
+	var updateDate = new Date(GM_getValue('updateDate'));
 	if (!updateDate) {
 		updateDate = new Date();
-		GM_setValue('updateDate', uneval(updateDate));
+		GM_setValue('updateDate', updateDate.toString());
 	}
 	
 	var currentDate = new Date();
@@ -10,7 +10,7 @@ function update() {
 	if (currentDate.getTime() - updateDate.getTime() > 86400000) {
 	//~ if (true) { // ATTENTION!!
 		// set the new updateDate
-		GM_setValue('updateDate', uneval(currentDate));
+		GM_setValue('updateDate', currentDate.toString());
 	    var update_request = {'script':scriptId,'version':version,'build':build};
 
 	    post(API_HOST+'/update', 'update='+JSON.stringify(update_request),

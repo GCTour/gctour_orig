@@ -288,7 +288,7 @@ StaticMap.prototype.update = function(){
 		}
 		
 				
-		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?path=color:0xB2D4F3FF|weight:5|fillcolor:0xB2D4F366|'+pathString+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&sensor=false';
+		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?path=color:0xB2D4F3FF|weight:5|fillcolor:0xB2D4F366|'+pathString+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&sensor=false)';
 			
 		this.show();
 		
@@ -311,7 +311,7 @@ StaticMap.prototype.update = function(){
 		}
 		
 		
-		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?zoom='+this._zoom+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&maptype=roadmap&'+markerString+'&sensor=false';
+		this._staticGMap.style.backgroundImage = 'url(http://maps.google.com/maps/api/staticmap?zoom='+this._zoom+'&size='+((this._options.width)?this._options.width:'350')+'x'+((this._options.height)?this._options.height:'200')+'&maptype=roadmap&'+markerString+'&sensor=false)';
 			
 		this.show();
 	}

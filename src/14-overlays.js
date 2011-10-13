@@ -135,7 +135,7 @@ function addErrorDialog(options){
 	errorReport+= "gpxschema: "+GM_getValue('gpxschema',0)+"\n";
 	errorReport+= "gpxhtml: "+GM_getValue('gpxhtml',true)+"\n";
 	errorReport+= "tour:\n";
-	errorReport+= uneval(currentTour)+"\n";
+	errorReport+= JSON.stringify(currentTour)+"\n";
 	errorReport+= "--------\n";
 	errorReport+= GM_getValue('debug_lastcachesite',"");
 	

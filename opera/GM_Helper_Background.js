@@ -37,7 +37,7 @@ function xmlhttpRequestBackground(details) {
 		"statusText":  (httpReq.readyState < 4 ? "" : httpReq.statusText),
 		"responseHeaders": (httpReq.readyState < 4 ? "" : httpReq.getAllResponseHeaders()),
 		"responseText": (httpReq.readyState < 4 ? "" : httpReq.responseText),
-		"readyState": (httpReq.readyState < 4 ? "" : httpReq.readyState),
+		"readyState": (httpReq.readyState),
 		//Hope this works
 		"finalUrl": (httpReq.readyState < 4 ? "" : httpReq.responseXML.documentURI),
 		"id": details.id

@@ -44,11 +44,22 @@ function append(thisElement, toThis){
 
 /* wrapper functions for persintence */
 function saveValue(name, value){
-	return uneval(GM_setValue(name,value));
+	return (GM_setValue(name,JSON.stringify(value)));
 }
 
-function loadValue(name, defaultValue){
-	return eval(GM_getValue(name, defaultValue));
+function loadValue(name, defaultValue){	
+	
+	debug("loadValue: '"+name+"', with default '"+defaultValue+"' (typeof "+(typeof defaultValue)+")");
+	
+	//~ alert(GM_getValue(name, defaultValue));
+	var result = GM_getValue(name, "");
+	debug("loadValue: result -> '"+result.substr(0,20)+"...'");
+	try{
+		return result!=""?JSON.parse(result):defaultValue;
+	} catch(e){ // fallback eval
+		debug("loadValue: FALLBACK :-(");
+		return eval(result);
+	}
 }
 
 
@@ -366,13 +377,13 @@ function appendScript(href, domNode) {
 function getDateFormat(force){
 	
 	
-	var date_format_update = eval(GM_getValue('date_format_update'));
+	var date_format_update = new Date(GM_getValue('date_format_update'));
 	
 	var current_date = new Date();
 	// get date format every 30 minutes
 	if (force || !date_format_update || dojo.date.difference(date_format_update, current_date, "minute") > 30){
 			//replace updatedate
-			GM_setValue('date_format_update',uneval(current_date));
+			GM_setValue('date_format_update',current_date.toString());
 
 			// load prefences page
 			var req = new XMLHttpRequest();							

@@ -25,6 +25,21 @@ function gctourMapFunction(){
 //    unsafeWindow.$('spanCacheCount').update(cnt);
 	unsafeWindow.setMapLabelDisplay(dojo.byId('chkShowNumbers').checked);	
 	
+    //With opera GCTour breaks the GCVote script (no stars on the map) -> let us fix this!
+    if(isOpera)
+    {
+	//For GCVote Map-Compatibility 
+	var cb=document.getElementById("autoupdatemapinput");	
+	if(cb)
+	{
+		if(cb.checked) {
+			var input=document.getElementById("hiddenTriggerInput");
+			var event=document.createEvent("MouseEvents");
+			event.initEvent("click", true, false);
+			input.dispatchEvent(event);
+		}
+	}
+    }
 }
 
 function extendCacheTableRow(info){

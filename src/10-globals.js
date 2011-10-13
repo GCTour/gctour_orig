@@ -19,7 +19,8 @@ var tours,
     wptArray, attributes_array,
     rot13array,
     timeout,
-    sticky = GM_getValue('sticky',false);
+    sticky = GM_getValue('sticky',false),
+    isOpera = (typeof opera != "undefined");
 
 
 wptArray = [

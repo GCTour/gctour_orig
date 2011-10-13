@@ -8,9 +8,6 @@
 	<!-- timestamp -->
 	<tstamp>
 		<format property="GcTour.Build" pattern="yyDDD" />
-	</tstamp>
-
-	<tstamp>
 		<format property="date" pattern="dd MMM yyyy HH:mm" locale="de_DE" />
 	</tstamp>	
 	
@@ -86,6 +83,13 @@
 		<copy todir="${GcTour.dir}/">
 			<fileset dir="${build.dir}/" includes="${App}.user.js" />
 		</copy>
+	</target>
+
+	<target name="build.opera" depends="make">
+		<replace file="opera/config.xml" token="@version@" value="${Version}" />      
+		<replace file="opera/config.xml" token="@build@" value="${Build}" />                    
+		<copy file="${build.dir}/${App}.user.js" tofile="opera/includes/GCTour.user.js"/>
+		<zip destfile="${build.dir}/GCTour.oex" basedir="opera"/>
 	</target>
 
 	<target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">

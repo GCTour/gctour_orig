@@ -86,10 +86,17 @@
 	</target>
 
 	<target name="build.opera" depends="make">
-		<replace file="opera/config.xml" token="@version@" value="${Version}" />      
-		<replace file="opera/config.xml" token="@build@" value="${Build}" />                    
-		<copy file="${build.dir}/${App}.user.js" tofile="opera/includes/GCTour.user.js"/>
-		<zip destfile="${build.dir}/GCTour.oex" basedir="opera"/>
+		<copy todir="${tmp.dir}/opera">
+			<fileset dir="opera/" includes="**" />
+		</copy>
+		<replace file="${tmp.dir}/opera/config.xml" token="@version@" value="${GcTour.Version}" />
+		<replace file="${tmp.dir}/opera/config.xml" token="@build@" value="${GcTour.Build}" />
+		<copy file="${build.dir}/${App}.user.js" tofile="${tmp.dir}/opera/includes/GCTour.user.js"/>
+		<zip destfile="${build.dir}/GCTour.oex" basedir="${tmp.dir}/opera">
+			<patternset>
+				<include name="**"/>
+			</patternset>
+		</zip>
 	</target>
 
 	<target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">

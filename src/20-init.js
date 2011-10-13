@@ -1,5 +1,6 @@
 // init core variables
 function initCore(){
+	debug("Start: init_core()");
 
 	// setting up the language
 	lang = languages[GM_getValue('language',1)];
@@ -18,8 +19,6 @@ function initCore(){
 	// go get the current tour from the tour list
 	currentTourId = GM_getValue('currentTour',-1);
 	currentTour = getTourById(currentTourId);
-	
-	
 	
 
 	// oh - there is no current tour!? create one!
@@ -244,17 +243,14 @@ function init(){
 			
 			addProgressbar({caption:lang['autoTourWait']});
 			
+			var tq_caches = loadValue('tq_caches', new Array());
+ 			var tq_typeFilter = JSON.parse(GM_getValue('tq_typeFilter'));
+ 			var tq_sizeFilter = JSON.parse(GM_getValue('tq_sizeFilter'));
+ 			var tq_dFilter = JSON.parse(GM_getValue('tq_dFilter'));
+ 			var tq_tFilter = JSON.parse(GM_getValue('tq_tFilter'));
+ 			var tq_specialFilter = JSON.parse(GM_getValue('tq_specialFilter'));
 			
-			var tq_caches = eval(GM_getValue('tq_caches', new Array()));
-			var tq_typeFilter = eval(GM_getValue('tq_typeFilter'));
-			var tq_sizeFilter = eval(GM_getValue('tq_sizeFilter'));
-			var tq_dFilter = eval(GM_getValue('tq_dFilter'));
-			var tq_tFilter = eval(GM_getValue('tq_tFilter'));
-			var tq_specialFilter = eval(GM_getValue('tq_specialFilter'));
-
-
-					
-
+			
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']> span")[0];
 
 			if(!pagesSpan){
@@ -284,12 +280,7 @@ function init(){
 				method: 'GET',
 				url: 'http://geocaching-ocr.appspot.com/geocachingocr?il='+dtImageQuery,
 				onload: function(responseDetails) {
-						if(typeof JSON === "undefined"){
-							var dtsize_details = eval("("+responseDetails.responseText+")");
-						} else {
-							var dtsize_details = JSON.parse(responseDetails.responseText);
-						}
-						
+						var dtsize_details = JSON.parse(responseDetails.responseText);
 						
 						var resultTable = dojo.query("table[class = 'SearchResultsTable Table'] > tbody > tr");
 						var j = 0;
@@ -371,8 +362,8 @@ function init(){
 								
 						} // END for each cache
 						
-						GM_setValue('tq_caches',uneval(tq_caches));
-
+						GM_setValue('tq_caches',JSON.stringify(tq_caches));
+						
 						var gcComLinks = document.getElementsByTagName("a");
 						var nextLink;
 						for(var i = 0; i<gcComLinks.length;i++){

@@ -70,10 +70,20 @@ function initDojo(){
 			
 			// if dojo is ready to go ( include all required modules ), init GCTour
 			dojo.addOnLoad(function(){ 
-			        setTimeout(function() { // hack to prevent "access violation" from Greasemonkey http://wiki.greasespot.net/0.7.20080121.0_compatibility
-                        init();
-                    },0);
-                });		
+			        if(isOpera)
+ 				{
+					//Wait until the document is loaded, and then call init()
+ 					window.addEventListener('DOMContentLoaded',function(){
+ 						init();
+ 					},true);
+ 				}
+ 				else
+ 				{
+ 					setTimeout(function() { // hack to prevent "access violation" from Greasemonkey http://wiki.greasespot.net/0.7.20080121.0_compatibility
+ 						init();
+ 					},0);
+ 				}
+			},0);               	
 		}, 'false');
 	}
 }

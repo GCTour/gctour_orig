@@ -6,7 +6,6 @@
 //Helper script for greasemonkey-scripts with Opera extension
 //Copyright (C) 2011  Skywalker90
 
-var scriptName = "_GCTour";
 var backgroundScript;
 var date = new Date();
 var callBack = new Array();
@@ -21,50 +20,13 @@ var XMLHttpRequest = window.XMLHttpRequest;
 //GM_log
 GM_log = opera.postError;
 
-function uneval(object)
-{	
-	return JSON.stringify(object);
-}
-
-function newEval(string)
-{
-	if(typeof string == "object")
-	{
-		return string;
-	}
-	else if(typeof string == "undefined")
-	{
-		return string;
-	}
-	else
-	{
-		return JSON.parse(string);
-	}
-}
-
-
-
 function GM_setValue(name, value) {
-    window.localStorage.setItem(name+scriptName, value)
+	widget.preferences.setItem(name,value);	
 }
 
 function GM_getValue(name, defaultValue) {
-    return window.localStorage.getItem(name+scriptName) == null ? defaultValue : window.localStorage.getItem(name+scriptName);
-}
-
-function GM_deleteValue(oKey) {
-    try {
-        window.localStorage.removeItem(oKey+scriptName);
-    }
-    catch (e) { }
-}
-
-function GM_listValues() {
-    var keys = new Array();
-    for (i = 0; i < window.localStorage.length; i++) {
-        keys[i] = window.localStorage.key(i).replace(scriptName,"");
-    }
-    return keys;
+	var result = widget.preferences.getItem(name);
+	return (result != "" && result != null && result != "null" )?result:defaultValue;
 }
 
 function GM_openInTab(url)

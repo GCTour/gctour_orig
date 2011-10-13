@@ -63,6 +63,12 @@
                 </copy>
         </target>
         
+        <target name="build.opera" depends="make">
+			<replace file="opera/config.xml" token="@version@" value="${Version}" />      
+			<replace file="opera/config.xml" token="@build@" value="${Build}" />                    
+			<copy file="${build.dir}/${App}.user.js" tofile="opera/includes/GCTour.user.js"/>
+			<zip destfile="${build.dir}/GCTour.oex" basedir="opera"/>
+        </target>
         <target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">
             <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
 

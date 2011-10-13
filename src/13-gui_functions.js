@@ -299,7 +299,7 @@ function makeMapFunction(){
 				break;
 			}
 		}
-		alert(API_HOST+'/map/check/'+markerQuery.join(","));
+		debug("Map request:"+API_HOST+'/map/check/'+markerQuery.join(","));
 		
 		get(API_HOST+'/map/check/'+markerQuery.join(","),
 			function(text){
@@ -630,7 +630,7 @@ function showCacheList(tour){
 		copyButton.style.cssFloat = 'right';
 		copyButton.addEventListener('click',function(){
 			
-			var newTour = eval(uneval(tour));
+			var newTour = JSON.parse(JSON.stringify(tour));
 			newTour.id = getNewTourId();
 			
 
@@ -752,7 +752,7 @@ function downloadTourFunction(webcode){
 				alert(lang['webcodeerror']);
 			
 			} else if (responseObject.type == "oldtour"){
-				onlineTour = eval(responseObject.message);
+				onlineTour = JSON.parse(responseObject.message);
 				onlineTour.id = getNewTourId();		
 				tours.push(onlineTour);
 				saveCurrentTour();

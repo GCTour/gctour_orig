@@ -76,11 +76,11 @@ function startAutoTour(){
 
 
 	GM_setValue('tq_url', url);
-	GM_setValue('tq_typeFilter', uneval(typeFilter));
-	GM_setValue('tq_sizeFilter', uneval(sizeFilter));
-	GM_setValue('tq_dFilter', uneval(difficultyFilter));
-	GM_setValue('tq_tFilter', uneval(terrainFilter));
-	GM_setValue('tq_specialFilter', uneval(specialFilter));
+	GM_setValue('tq_typeFilter', JSON.stringify(typeFilter));
+	GM_setValue('tq_sizeFilter', JSON.stringify(sizeFilter));
+	GM_setValue('tq_dFilter', JSON.stringify(difficultyFilter));
+	GM_setValue('tq_tFilter', JSON.stringify(terrainFilter));
+	GM_setValue('tq_specialFilter', JSON.stringify(specialFilter));
 	GM_setValue('tq_StartUrl', document.location.href);
 
 	document.location.href = url;
@@ -120,11 +120,7 @@ function getMarkerCoord(latitude,longitude){
 				method: 'GET',
 				url: "http://maps.google.com/maps/geo?q="+markerCoords+"&output=json&oe=utf8&sensor=false&key=ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g",
 				onload: function(responseDetails) {
-						if(typeof JSON === "undefined"){
-							var jsonResponse = eval("("+responseDetails.responseText+")");
-						} else {
-							var jsonResponse = JSON.parse(responseDetails.responseText);
-						}
+						var jsonResponse = JSON.parse(responseDetails.responseText);
 						if(jsonResponse.Placemark){
 							var lat = parseFloat(jsonResponse.Placemark[0].Point.coordinates[1]);
 							var lon = parseFloat(jsonResponse.Placemark[0].Point.coordinates[0]);

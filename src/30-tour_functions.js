@@ -1,6 +1,6 @@
 function getTourById(id){
 	currentTourId = GM_getValue('currentTour',-1);
-	tours = eval(GM_getValue('tours',new Array()));
+	tours = loadValue('tours',new Array());
 	for (var i = 0; i<tours.length;i++){
 		if(tours[i].id == currentTourId){
 			return tours[i];
@@ -411,7 +411,7 @@ function saveTour(tour, notLoad){
 		
 		
 	
-	GM_setValue('tours', uneval(tours));
+	GM_setValue('tours', JSON.stringify(tours));
 	if(notLoad === undefined){
 		GM_setValue('currentTour', tour.id);
 		log("updating "+tour.name);

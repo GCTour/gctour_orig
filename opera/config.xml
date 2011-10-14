@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" version="@version@.@build@">
+    <name>GCTour</name>
+    <description>Cachetour planing made easy. Pick some Caches, sort the list and print it out. Free for all users of geocaching.com!</description>
+    <author href="http://gctour.madd.in/">madd.in (ported to Opera by Skywalker90)</author>   
+    <icon src="icons/GCTour.png"/>
+     <access origin="http://geocaching.com" subdomains="true"/>
+     <access origin="https://geocaching.com" subdomains="true"/>
+     <access origin="http://maps.google.com" subdomains="true"/>
+     <access origin="http://gctour-spot.appspot.com" subdomains="true"/>
+     <access origin="http://geocaching-ocr.appspot.com" subdomains="true"/>
+</widget>

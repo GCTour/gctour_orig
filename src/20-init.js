@@ -460,7 +460,7 @@ function init(){
 
 		
 		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');
-		cacheDetailsTemplate.innerHTML = cacheDetailsTemplate.innerHTML.replace(/<\/div>\s*{{else}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+lang['addToTour']+'</span></a></div>{{else}}');	
+		cacheDetailsTemplate.textContent = cacheDetailsTemplate.textContent.replace(/<\/div>\s*{{else}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+lang['addToTour']+'</span></a></div>{{else}}');	
 		
 		unsafeWindow.add2tour = function(){
 			setTimeout(function() { 

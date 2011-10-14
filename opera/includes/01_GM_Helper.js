@@ -29,6 +29,21 @@ function GM_getValue(name, defaultValue) {
 	return (result != "" && result != null && result != "null" )?result:defaultValue;
 }
 
+function GM_deleteValue(name) {		
+	try {		
+		widget.preferences.removeItem(name);		
+	}		
+	catch (e) { }		
+}
+
+function GM_listValues() {		
+	var keys = new Array();		
+	for (i = 0; i < widget.preferences.length; i++) {		
+		keys[i] = widget.preferences.key(i);		
+	}		
+	return keys;		
+}
+
 function GM_openInTab(url)
 {
 	window.open(url);

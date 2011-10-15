@@ -1,26 +1,5 @@
-/* ----- DEBUG OUTPUT FUNCTIONS ------*/
-function log(arguments) {
-  if (DEBUG_MODE) {
-  	GM_log("Log: " + arguments);
-  }
-}
-function debug(arguments) {
-  if (DEBUG_MODE) {
-    GM_log("DEBUG: " + arguments);
-  }
-}
+/* ----- utilities ------*/
 
-
-function warn(arguments) {
-  if (DEBUG_MODE) {
-    GM_log("Warning: " + arguments);
-  }
-}
-function error(arguments) {
-  if (DEBUG_MODE) {
-    GM_log("Error: " + arguments);
-  }
-}
 /* USAGE: createElement('table',{style:"border-collapse:seperate;"});append(image_table,dummy_images); */
 function createElement(type, attributes){
 	var node = document.createElement(type), attr;

@@ -1,0 +1,3 @@
+/*
+* greasemonkey settings and function
+*/

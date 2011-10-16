@@ -1,6 +1,8 @@
 // init core variables
 function initCore(){
 	debug("Start: init_core()");
+	
+	setStyle();  // GM_addStyle
 
 	// setting up the language
 	lang = languages[GM_getValue('language',1)];

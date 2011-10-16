@@ -1,7 +1,7 @@
 /*
 * CSS Container, run before init
 */
-function setStyle(){
+function initStyle(){
 
 	// adding styles:
 	GM_addStyle(

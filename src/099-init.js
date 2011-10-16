@@ -1,8 +1,6 @@
 // init core variables
 function initCore(){
 	debug("Start: init_core()");
-	
-	setStyle();  // GM_addStyle
 
 	// setting up the language
 	lang = languages[GM_getValue('language',1)];
@@ -90,10 +88,12 @@ function initDojo(){
 	}
 }
 
-function init(){			
+function init(){
+
+	// set Styles (GM_addStyle)
+	initStyle();
 
 	// add global styles
-
 	var head =document.getElementsByTagName('head')[0];    
 	var style = document.createElement('style');
 	style.type = 'text/css';

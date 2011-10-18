@@ -654,11 +654,13 @@ function printPageFunction(currentTour){
 
 // funktion ähnlich http://www.gsak.net/help/hs11980.htm
 function getLast4Logs(logs, canvas_element){
-	var getColor = function(log){
-		switch (log.LogType) {
-			  case "Found it":
+
+	var getColor = function(log4Logs){
+		if ((typeof (log4Logs)) === 'undefined') { return "LightGray"};
+		switch (log4Logs.LogType) {
+			case "Found it":
 				return "green";
-			  case "Didn't find it":
+			case "Didn't find it":
 				return "red";
 			case "Needs Maintenance":
 				return "blue";
@@ -667,30 +669,22 @@ function getLast4Logs(logs, canvas_element){
 			case "Needs Archived":
 				return "yellow";
 			default:
-				return "gray";
-		}};
-	
+				return "LightGray";
+		}
+	};
+
 	var canvas = canvas_element; 
-	var ctx = canvas.getContext("2d");  
-	var size = 5;
-	var border = 2;
+	var ctx = canvas.getContext("2d");
 	ctx.fillStyle = "black"; 
 	//~ ctx.fillRect(0,0,17,17);
-
 	ctx.clearRect(1,1,15,15);
 
-	ctx.fillStyle = getColor(logs[0]);  
-	ctx.fillRect (2, 2, 6,6);
+	var pos = [[2,2],[9,2],[2,9],[9,9]];
+	var dim = [6,6];
+	for (var i = 0; i < pos.length; i++) {
+		ctx.fillStyle = getColor(logs[i]);
+		ctx.fillRect (pos[i][0], pos[i][1], dim[0], dim[1]);
+	}
 
-
-	ctx.fillStyle = getColor(logs[1]);  
-	ctx.fillRect (9, 2, 6,6); 
-
-	ctx.fillStyle = getColor(logs[2]);  
-	ctx.fillRect (2, 9, 6,6); 
-
-	ctx.fillStyle = getColor(logs[3]);  
-	ctx.fillRect (9, 9, 6,6); 
 }
-
 

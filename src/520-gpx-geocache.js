@@ -335,7 +335,7 @@ function getGPXNew(){
 							 new Array('TIME',xsdDateTime(logs[j].foundDate)),
 							 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 							 new Array('LOGTYPE',logs[j].type),
-							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+							 new Array('LOGTEXT',encodeHtml($("<div/>").html(logs[j].content.br2space()).text().trimAll()))
 						);
 						
 						var cacheWaypointLog = waypointLogTemplate;
@@ -497,7 +497,7 @@ function getGPX(){
 							 new Array('TIME',xsdDateTime(new Date())),
 							 new Array('CACHERNAME',"GCTour"),
 							 new Array('LOGTYPE', "Note"),
-							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+							 new Array('LOGTEXT',encodeHtml($("<div/>").html(logs[j].content.br2space()).text().trimAll()))
 						);
 						
 						var cacheWaypointLog = waypointLogTemplate;
@@ -519,7 +519,7 @@ function getGPX(){
 							 new Array('TIME',xsdDateTime(logs[j].foundDate)),
 							 new Array('CACHERNAME',encodeHtml(logs[j].cacherName)),
 							 new Array('LOGTYPE',logs[j].type),
-							 new Array('LOGTEXT',encodeHtml(logs[j].content))
+							 new Array('LOGTEXT',encodeHtml($("<div/>").html(logs[j].content.br2space()).text().trimAll()))
 						);
 						
 						var cacheWaypointLog = geocacheLogTemplate;

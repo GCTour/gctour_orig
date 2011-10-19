@@ -20,27 +20,10 @@ function append(thisElement, toThis){
 	return toThis.appendChild(thisElement);
 }
 
-
-/* wrapper functions for persintence */
-function saveValue(name, value){
-	return (GM_setValue(name,JSON.stringify(value)));
+function parseXml(str, typ) {
+	// typ z.B. 'text/xml'
+	return (new DOMParser()).parseFromString(str, typ);
 }
-
-function loadValue(name, defaultValue){	
-	
-	debug("loadValue: '"+name+"', with default '"+defaultValue+"' (typeof "+(typeof defaultValue)+")");
-	
-	//~ alert(GM_getValue(name, defaultValue));
-	var result = GM_getValue(name, "");
-	debug("loadValue: result -> '"+result.substr(0,20)+"...'");
-	try{
-		return result!=""?JSON.parse(result):defaultValue;
-	} catch(e){ // fallback eval
-		debug("loadValue: FALLBACK :-(");
-		return eval(result);
-	}
-}
-
 
 function fillTemplate(mapping, template){
     var j, dummy;

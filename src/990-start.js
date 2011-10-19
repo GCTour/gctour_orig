@@ -9,14 +9,26 @@ String.prototype.hashCode = function(){
 	if (this.length == 0) return code;
 	for (i = 0; i < this.length; i++) {
 		character = this.charCodeAt(i);
-		hash = 31*hash+character;
+		hash = 31 * hash + character;
 		hash = hash & hash; // Convert to 32bit integer
 	}
 	return hash;
 }
 
-String.prototype.endsWith = function(str)
-{return (this.match(str+"$")==str)}
+String.prototype.endsWith = function(str){
+	return (this.match(str+"$")==str);
+}
+
+// Convert HTML breaks to spaces
+String.prototype.br2space = function() {
+	return this.replace(/<br\s*\/?>/mg," ");
+};
+
+// Return a new string without leading and trailing whitespace
+// Double spaces whithin the string are removed as well
+String.prototype.trimAll = function() {
+	return this.replace(/^\s+|(\s+(?!\S))/mg,"");
+};
 
 // init the whole script - started with dojo
 initDojo();
@@ -41,8 +53,8 @@ if(!isOpera){
 
 // test for firefox >= 3.5
 if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
- var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
- if (ffversion < 3.5){
-    alert("Sorry, but you are running 'Firefox "+ffversion+"' which is not supported anymore.\nPlease update to 'Firefox 3.5' or above to use GCTour!");
- }
+	var ffversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+	if (ffversion < 3.5){
+		alert("Sorry, but you are running 'Firefox "+ffversion+"' which is not supported anymore.\nPlease update to 'Firefox 3.5' or above to use GCTour!");
+	}
 }

@@ -2,8 +2,9 @@
  * Changelog:
  *
  * version @version@.@build@
- *   - UPDATED: dutch translation
  *   - FIXED: <=3 Logs in printout -> "Last4Logs" (L4L) in the printout
+ *   - FIXED: Logs in GPX (Unicode hexadez.)
+ *   - UPDATED: dutch translation
  *   - Add jQuery (1.6.4) and jQuery-ui (1.8.16)
  *
  * version 2.1.11285

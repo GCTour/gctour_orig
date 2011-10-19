@@ -38,7 +38,7 @@
 	<target name="concatenate" depends="init" description="Concatenate all js files">
 		<echo>Concat all sources to a script.</echo>
 		<concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF8">
-			<fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js" />
+			<fileset dir="${src.dir}/" includes="*.js" excludes="00-header.js,_*.js" />
 		</concat>
 	</target>
 

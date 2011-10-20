@@ -254,7 +254,7 @@ function init(){
 								var entry = new Object(); // gather informations line-by-line
 							
 							
-								dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/)
+								dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{2,9})\s*\|/)
 								entry.id = "GC"+RegExp.$1;
 								entry.name = trim(dojo.query('span',entryTds[5])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];

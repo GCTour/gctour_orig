@@ -610,19 +610,21 @@ function init(){
 			initButton();
 		}		
 
-		//var loginLink = dojo.query('a[href="http://www.geocaching.com/my/"]')[0];
-		
-		//~ var loginLink = dojo.byId("ctl00_LoginUrl").previousSibling.previousSibling;
-		//var loginLink = ("ctl00_LoginUrl").parentNode.getElementsByTagName('a')[0];
-		
-		
-	
+/*
 		if(!dojo.byId('ctl00_divNotSignedIn')){
 			var logInOutLink = dojo.byId('ctl00_hlSignOut') || dojo.byId('hlSignIn') || dojo.byId('uxLoginStatus_uxLoginURL') || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');// TODO - vllt ncoh mehr IDS? || dojo.byId('ctl00_ContentLogin_uxLoginStatus_uxLoginURL');
 			var nameLink = logInOutLink.parentNode.getElementsByTagName('a')[0];
 			
 			userName = nameLink.textContent.trim();
-		}	
+		}	 
+*/
+		var userLink = $('a.SignedInProfileLink, a.CommonUsername, .LoginUsername'); // default, Challenges + Account + Membership ,Login
+		if (userLink) {
+			userName = userLink.eq(0).text().trim();
+			debug("Username: " + userName);
+		} else {
+			debug("Username not found");
+		}
 			
 	}
 

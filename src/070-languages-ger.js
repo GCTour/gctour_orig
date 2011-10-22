@@ -1,5 +1,4 @@
-    lang_ger = {
-    
+lang_ger = {
 	'name' : 'Deutsch',
 	'language' : 'Sprache',
 	'addToTour' : 'Zur Tour hinzufügen',
@@ -14,6 +13,7 @@
 	'addShownBookmarksToNewTour' : 'zu <b>neuer</b> Tour hinzufügen',
 	'showCaches' : 'Angezeigte Caches:',
 	'newVersionDialog' : 'Es gibt eine neuer Version der GCTour.\nZum update gehen? \n\n',
+	'newVersionTitle' : 'Nova versão disponível',
 	'removeTourDialog' : "Soll die Tour wirklich gelöscht werden?",
 	'logYourVisit' : "log your visit",
 	'removeFromList' : "aus Liste entfernen",
@@ -31,7 +31,7 @@
 	'sendMessage' : "Du hast einen Fehler gefunden? Du möchtest eine Verbesserung vorschlagen oder deine Meinung zu GCTour loswerden? Dann schreibe mir eine <b>Nachricht:</b>",
 	'sendMessageTitle' : "Sende eine Nachricht an den Entwickler.",
 	'sendMessageSubmit' : "Schicke diese Nachricht ab!",
-	'showSettings' : 'Einstellungen anzeigen',	
+	'showSettings' : 'Einstellungen anzeigen',
 	'settings_caption' : 'Einstellungen',
 	'settingsPrintMinimal' : 'Minimierte Druckansicht',
 	'settingsLogCount' : 'Anzahl der Logs in Druckansicht',
@@ -50,18 +50,18 @@
 	'settingsDownladGPX' : 'GPX download<br/>',
 	'settingsGPX' : 'GPX Einstellungen',
 	'settingsGPXHtml' : 'Beschreibung mit HTML',
+	'settingsUploadTour' : 'Tour upload',
 	'settingsGPXStripGC' : 'Entferne "GC" in GC-Code',
 	'settingsGPXWpts' : 'Additional-Waypoints exportieren',
 	'settingsGPXSchema' : 'GPX-Version',
 	'settingsGPXSchemaGS' : 'groundspeak',
 	'settingsGPXSchemaAU' : 'geocaching.com.au',
-	'settingsUploadTour' : 'Tour upload',
 	'settingsFontSize' : 'Schriftgr&ouml;&szlig;e:',
 	'settingsPageBreak' : 'Seitenumbruch nach Geocache:',
 	'settingsPageBreakAfterMap' : 'Seitenumbruch nach Übersichtskarte:',
 	'settingsFrontPage' : 'Titelseite:',
 	'settingsOutlineMap' : 'Übersichtskarte für alle Caches:',
-	'settingsOutlineMapSinge' : 'Übersichtskarte für jeden Cache:',		
+	'settingsOutlineMapSinge' : 'Übersichtskarte für jeden Cache:',
 	'settingsDecryptHintsDesc' : 'Die Hinweise werden schon mittels Rot13 auf der Druckansicht entschlüsselt.',
 	'settingsPrintMinimalDesc' : 'Beinhaltet nur noch Hint und Spoiler zu jedem Geocache.',
 	'settingsEditDescriptionDesc' : 'Die Beschreibung lässt sich komplett nach eigenem Belieben anpassen.',
@@ -151,7 +151,7 @@
 	"example" : "Beispiel:",
 	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i>",	
 	"dontPrintHint" : "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<br><br>Wenn dieser Fehler öfter auftritt, dann schicke mir bitte einen Fehlerbericht.<br><div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='schließen' style='background-image:url("+closebuttonImage+")'><input type='submit' value='Fehlerbericht senden'  style='background-image:url("+sendMessageImage+")'></form></div>",
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>##ERROR##<br/>Versuch es einfach noch einmal!<br><br>Wenn dieser Fehler öfter auftritt, dann schicke mir bitte einen Fehlerbericht.<br><div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='schließen' style='background-image:url("+closebuttonImage+")'><input type='submit' value='Fehlerbericht senden' style='background-image:url("+sendMessageImage+")'></form></div>",
 	"SCRIPT_ERROR" : "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GCTour zu nutzen!" ,
 	'mapTypes' : 
 		[{"caption":"Google Karte","value":"roadmap"}, 
@@ -164,6 +164,4 @@
 		 {"caption":"OSM Fahrrad","value":"osmaC"},
 		 {"caption":"OSM ÖPNV","value":"osmaP"}],
 	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Es ist eine neue Version von &nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;verf&uuml;gbar.</p><p>Du benutzt die Version <b>###VERSION_OLD###</b>. Die aktuellste Version ist <b>###VERSION_NEW###</b></p><p><b>Versions Historie:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
-	};
-	
-	
+};

@@ -17,16 +17,14 @@ function update() {
 		    function(text){
 			    //alert(text);
 			    var update_obj = JSON.parse(text);
-				log("update check: returns "+text);
-				if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
-					log("update check: version "+version+" build:"+build);
-					log("update check: result from GAE:"+update_obj.changes[0]);
-					return;
-				}
-			
-			
-			    var overlayBody = getOverlay({caption:"new version available",minimized:true});
-		
+					log("update check: returns "+text);
+					if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
+						log("update check: version "+version+" build:"+build);
+						log("update check: result from GAE:"+update_obj.changes[0]);
+						return;
+					}
+
+					var overlayBody = getOverlay({caption:lang['newVersionTitle'],minimized:true});
 
 			    var versions_string = ""
 			    for(var ver_i =0 ; ver_i<update_obj.changes.length; ver_i++){

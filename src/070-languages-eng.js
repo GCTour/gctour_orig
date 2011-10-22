@@ -1,4 +1,4 @@
-    lang_eng = {		
+lang_eng = {
 	'name' : 'English',
 	'language' : 'Language',
 	'addToTour' : 'Add to Tour',
@@ -13,6 +13,7 @@
 	'addShownBookmarksToNewTour' : 'to <b>new</b> tour',
 	'showCaches' : 'Add shown geocaches:',
 	'newVersionDialog' : 'There is a new version of GCTour.\nDo you want to update? \n\n',
+	'newVersionTitle' : 'new version available',
 	'removeTourDialog' : "Are you sure to remove this tour?",
 	'logYourVisit' : "Log your visit",
 	'removeFromList' : "Remove from list",
@@ -147,12 +148,12 @@
 	"close" : "Close",
 	'install' : 'Install',
 	"edit" : "edit",
-	"example" : "eg. ",	
-	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i>",	
+	"example" : "eg. ",
+	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i>",
 	"dontPrintHint" : "<b>Information :</b><br/>Elements in such a box will <u>not</u> be printed!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;I'm sorry but an error occurs:<br/>##ERROR##<br/> Please just try again!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>If this error comes every time, please send this error report.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='send error report'  style='background-image:url("+sendMessageImage+")'></form></div>",
-    "ERROR_REPORT_SUBMIT" : "send report",
-    "SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GCTour!" ,
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;I'm sorry but an error occurs:<br/>##ERROR##<br/> Please just try again!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>If this error comes every time, please send this error report.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='send error report' style='background-image:url("+sendMessageImage+")'></form></div>",
+	"ERROR_REPORT_SUBMIT" : "send report",
+	"SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GCTour!" ,
 	'mapTypes' : 
 		[{"caption":"Google Map","value":"roadmap"}, 
 		 {"caption":"Google Satellite","value":"satellite"}, 
@@ -164,4 +165,4 @@
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
 	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>There is a new version of&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;available for installation.</p><p>You currently have version <b>###VERSION_OLD###</b> installed. The latest version is <b>###VERSION_NEW###</b></p><p><b>Version History:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
-	};
+};

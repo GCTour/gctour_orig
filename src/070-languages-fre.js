@@ -1,4 +1,4 @@
-lang_fre= {		
+lang_fre = {
 	'name' : 'Français',
 	'language' : 'Language',
 	'addToTour' : 'Ajouter au Tour',
@@ -13,6 +13,7 @@ lang_fre= {
 	'addShownBookmarksToNewTour' : 'à un <b>nouveau</b> Tour',
 	'showCaches' : 'Ajouter les caches affichées:',
 	'newVersionDialog' : 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n',
+	'newVersionTitle' : 'Nouvelle version disponible',
 	'removeTourDialog' : "Etes-vous sûrs de vouloir supprimer ce Tour?",
 	'logYourVisit' : "Loguer votre visite",
 	'removeFromList' : "Supprimer de la liste",
@@ -30,7 +31,7 @@ lang_fre= {
 	'sendMessage' : "Vous avez trouvé un bug ? Vous avez une suggestion à propos de GCTour? Votre opinion m'intéresse.<br/>Envoyez-moi un<b>message</b>:",
 	'sendMessageTitle' : "Contacter l'auteur",
 	'sendMessageSubmit' : "Envoyer le message!",
-	'showSettings' : 'Configurer',	
+	'showSettings' : 'Configurer',
 	'settings_caption' : 'Configuration',
 	'settingsPrintMinimal' : 'Version imprimable minimale',
 	'settingsLogCount' : 'Nombre de logs à inclure dans la version imprimable',
@@ -54,7 +55,7 @@ lang_fre= {
 	'settingsGPXWpts' : 'Exporter les Waypoints additionnels',
 	'settingsGPXSchema' : 'version GPX',
 	'settingsGPXSchemaGS' : 'groundspeak',
-	'settingsGPXSchemaAU' : 'geocaching.com.au',	
+	'settingsGPXSchemaAU' : 'geocaching.com.au',
 	'settings_map' : 'Carte',
 	'settings_map_geocacheid' : 'Afficher l\'Id de la cache',	
 	'settings_map_geocacheindex' : 'Afficher le sommaire des caches',
@@ -150,9 +151,8 @@ lang_fre= {
 	"example" : "Ex. ",	
 	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i>",	
 	"dontPrintHint" : "<b>Information :</b><br/>Les éléménts ayant cette apparence ne seront <u>pas</u> imprimés!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>##ERREUR##<br/> Réessayez SVP !<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='send error report'  style='background-image:url("+sendMessageImage+")'></form></div>",
-    "ERROR_REPORT_SUBMIT" : "envoi du rapport",
-    "SCRIPT_ERROR" : "Il semble que des javascripts ne peuvent s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'aolcdn.com' et 'geocaching.com' à utiliser GCTour de manière permanente!" ,
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>##ERREUR##<br/> Réessayez SVP !<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='envoi du rapport' style='background-image:url("+sendMessageImage+")'></form></div>",
+	"SCRIPT_ERROR" : "Il semble que des javascripts ne peuvent s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'aolcdn.com' et 'geocaching.com' à utiliser GCTour de manière permanente!" ,
 	'mapTypes' : 
 		[{"caption":"Google Map","value":"roadmap"}, 
 		 {"caption":"Google Satellite","value":"satellite"}, 
@@ -164,4 +164,4 @@ lang_fre= {
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
 	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Une nouvelle version de&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;est disponible.</p><p>Version installée : <b>###VERSION_OLD###</b>. Version la plus récente disponible: <b>###VERSION_NEW###</b></p><p><b>Historique des versions:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
-	};
+};

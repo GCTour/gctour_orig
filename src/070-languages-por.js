@@ -13,6 +13,7 @@ lang_por = {
 	'addShownBookmarksToNewTour' : 'para uma <b>nova</b> rota',
 	'showCaches' : 'Adicionar Geocaches vis&#237;veis:',
 	'newVersionDialog' : 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n',
+	'newVersionTitle' : 'Nova versão disponível',
 	'removeTourDialog' : "Deseja mesmo remover esta rota?",
 	'logYourVisit' : "Registar a sua Visita",
 	'removeFromList' : "Remover da lista",
@@ -76,8 +77,8 @@ lang_por = {
 	'rename' : 'Renomear',
 	'upload' : 'Enviar rota',
 	'onlineTour' : 'Transferir Rota',
-	'webcodeDownloadHelp':'Por favor introduza aqui o c&#65533;digo que recebeu e clique em "Transferir Rota".',	
-	'webcodeDownloadButton':'Transferir Rota',	
+	'webcodeDownloadHelp':'Por favor introduza aqui o c&#65533;digo que recebeu e clique em "Transferir Rota".',
+	'webcodeDownloadButton':'Transferir Rota',
 	'findMe' : 'Encontra-me!',
 	'webcodeerror' : 'O C&#243;digo escolhido n&#227;o existe!',
 	'tourUploaded1' : 'Rota enviada com sucesso!\nC&#243;digo:\n      ',
@@ -150,9 +151,8 @@ lang_por = {
 	"example" : "ex. ",			
 	"exampleCoords" : "<i>N51&#186; 12.123 E010&#186; 23.123</i> ou <i>40.597 -75.542</i>",	
 	"dontPrintHint" : "<b>Informa&#231;&#227;o :</b><br />Elementos na caixa <u>n&#227;o</u> v&#227;o ser impressos!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Lamento mas ocorreu um erro:<br/>##ERROR##<br/> Por favor tente outra vez!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='send error report'  style='background-image:url("+sendMessageImage+")'></form></div>",
-    "ERROR_REPORT_SUBMIT" : "enviar relat&#243;rio",
-    "SCRIPT_ERROR" : "Aparenta que est&#225; a bloquear algumas fontes de javascript (ex. NoScript). Por favor permita 'aolcdn.com' e 'geocaching.com' permanentemente para usar GCTour!" ,
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Lamento mas ocorreu um erro:<br/>##ERROR##<br/> Por favor tente outra vez!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='enviar relat&#243;rio' style='background-image:url("+sendMessageImage+")'></form></div>",
+	"SCRIPT_ERROR" : "Aparenta que est&#225; a bloquear algumas fontes de javascript (ex. NoScript). Por favor permita 'aolcdn.com' e 'geocaching.com' permanentemente para usar GCTour!" ,
 	'mapTypes' : 
 		[{"caption":"Google Map","value":"roadmap"}, 
 		 {"caption":"Google Satellite","value":"satellite"}, 
@@ -164,4 +164,4 @@ lang_por = {
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
 	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Existe uma nova vers&#227;o de &nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;dispon&#237;vel para instalar.</p><p>Tem a vers&#227;o <b>###VERSION_OLD###</b> instalada. A &#250;ltima versão &#233; <b>###VERSION_NEW###</b></p><p><b>Hist&#243;rico</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
-	};
+};

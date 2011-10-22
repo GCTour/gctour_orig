@@ -151,7 +151,17 @@ lang_fre = {
 	"example" : "Ex. ",	
 	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i>",	
 	"dontPrintHint" : "<b>Information :</b><br/>Les éléménts ayant cette apparence ne seront <u>pas</u> imprimés!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>##ERREUR##<br/> Réessayez SVP !<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='envoi du rapport' style='background-image:url("+sendMessageImage+")'></form></div>",
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>"+
+		"##ERROR##<br/><br/>"+
+		"Réessayez SVP, ou venir chercher une <a href='#' id='gctour_update_error_dialog'>mise à jour</a>!<br/><br/>"+
+		"Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br/>"+
+		"<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
+		"<form action='"+GCTOUR_HOST+"/error' method='post'>"+
+		"<input type='hidden' name='redir' value='##LOCATION##'>"+
+		"<input type='hidden' name='user' value='##USERNAME##'>"+
+		"<textarea name='report' style='display:none;'>##ERRORREPORT##</textarea>"+
+		"<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
+		"<input type='submit' value='envoi du rapport' style='background-image:url("+sendMessageImage+")'></form></div>",
 	"SCRIPT_ERROR" : "Il semble que des javascripts ne peuvent s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'aolcdn.com' et 'geocaching.com' à utiliser GCTour de manière permanente!" ,
 	'mapTypes' : 
 		[{"caption":"Google Map","value":"roadmap"}, 
@@ -163,5 +173,6 @@ lang_fre = {
 		 {"caption":"OSM Osma","value":"osma"}, 
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
-	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Une nouvelle version de&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;est disponible.</p><p>Version installée : <b>###VERSION_OLD###</b>. Version la plus récente disponible: <b>###VERSION_NEW###</b></p><p><b>Historique des versions:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
+	'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>Une nouvelle version de&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;est disponible.</p><p>Version installée : <b>###VERSION_OLD###</b>. Version la plus récente disponible: <b>###VERSION_NEW###</b></p><p><b>Historique des versions:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
+	'updateCurrently' : 'GCTour la version '+version+'.'+build+' est actuellement!'
 };

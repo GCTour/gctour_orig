@@ -151,7 +151,17 @@ lang_dut = {
 	"example" : "bv. ",	
 	"exampleCoords" : "<i>N50°53.692 E004° 20.478</i> or <i>50.894867 4.341300</i>",	
 	"dontPrintHint" : "<b>Ter info :</b><br/>Gegevens in dit kader worden <u>niet</u> afgedrukt!",
-	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Spijtig genoeg is er een fout gebeurd:<br/>##ERROR##<br/> probeer het nogmaals!<div align='center' style='border-bottom: 1px solid gray; padding: 5px; margin-bottom: 10px;'></div>Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br><div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'><form action='"+GCTOUR_HOST+"/error' method='post'><input type='hidden' name='redir' value='##LOCATION##'><input type='hidden' name='user' value='##USERNAME##'><textarea name='report' style='display:none;' >##ERRORREPORT##</textarea><input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'><input type='submit' value='foutenrapport versturen' style='background-image:url("+sendMessageImage+")'></form></div>",
+	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Spijtig genoeg is er een fout gebeurd:<br/>"+
+		"##ERROR##<br/><br/>"+
+		"Probeer het opnieuw proberen, of kijk voor <a href='#' id='gctour_update_error_dialog'>update</a>!<br/><br/>"+
+		"Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br/>"+
+		"<div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
+		"<form action='"+GCTOUR_HOST+"/error' method='post'>"+
+		"<input type='hidden' name='redir' value='##LOCATION##'>"+
+		"<input type='hidden' name='user' value='##USERNAME##'>"+
+		"<textarea name='report' style='display:none;' >##ERRORREPORT##</textarea>"+
+		"<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
+		"<input type='submit' value='foutenrapport versturen' style='background-image:url("+sendMessageImage+")'></form></div>",
 	"SCRIPT_ERROR" : "Blijkbaar blokkeer je javascript functionaliteiten (bv. NoScript). Gelieve 'aolcdn.com' en 'geocaching.com' niet te filteren om gebruik te kunnen maken van GCTour!" ,
 	'mapTypes' : 
 		[{"caption":"Google Map","value":"roadmap"}, 
@@ -163,5 +173,6 @@ lang_dut = {
 		 {"caption":"OSM Osma","value":"osma"}, 
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
-	'updateDialog' : "<div><img src='http://gctour.madd.in/images/antenna.gif' style='float:right'><p>Er is een nieuwe versie van&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;beschikbaar voor installatie.</p><p>Versie <b>###VERSION_OLD###</b> is momenteel geïnstalleerd. De recentste versie is <b>###VERSION_NEW###</b></p><p><b>Versie geschiedenis:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>"
+	'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>Er is een nieuwe versie van&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;beschikbaar voor installatie.</p><p>Versie <b>###VERSION_OLD###</b> is momenteel geïnstalleerd. De recentste versie is <b>###VERSION_NEW###</b></p><p><b>Versie geschiedenis:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
+	'updateCurrently' : 'GCTour versie '+version+'.'+build+' is op dit moment!'
 };

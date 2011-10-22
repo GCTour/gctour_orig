@@ -51,10 +51,9 @@ function getGeocacheFromElement(element){
 
 
 	// first check if really logged in 
-	    var fehler = test[229];
+	
 	//~ var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
-	//var logIOLink = dojo.query('a[id="ctl00_hlSignOutTTEST"]',element)[0].previousSibling.previousSibling;
-	var logIOLink = false;
+	var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
 	if(!logIOLink){
 		throw "No longer logged in.";
 	}

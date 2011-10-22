@@ -20,7 +20,7 @@ lang_fre = {
 	'emptyList' : 'La liste est vide.',
 	'notLogedIn' : 'Merci de vous connecter ...',
 	'months' : ["jan", "fév", "mar", "avr", "mai", "jui", "jul", "aou", "sep", "oct", "nov", "dec"],
-	'prinviewTitle' : 'http://gctour.madd.in',
+	'prinviewTitle' : 'GCTour - http://gctour.madd.in',
 	'pleaseWait' : 'Veuillez patienter...',
 	'newList' : 'Nouveau Tour',
 	'sendToGps' : 'Transférer vers GPS',

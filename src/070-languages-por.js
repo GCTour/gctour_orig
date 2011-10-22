@@ -20,7 +20,7 @@ lang_por = {
 	'emptyList' : 'A lista est&#225; vazia.',
 	'notLogedIn' : 'Fa&#231;a login ...',
 	'months' : ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
-	'prinviewTitle' : 'http://gctour.madd.in',
+	'prinviewTitle' : 'GCTour - http://gctour.madd.in',
 	'pleaseWait' : 'Por favor aguarde - a carregar conte&#250;do ...',
 	'newList' : 'Nova Rota',
 	'sendToGps' : 'Enviar para o GPS',

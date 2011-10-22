@@ -20,7 +20,7 @@ lang_dut = {
 	'emptyList' : 'De lijst is leeg.',
 	'notLogedIn' : 'Gelieve in te loggen ...',
 	'months' : ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"],
-	'prinviewTitle' : 'http://gctour.madd.in',
+	'prinviewTitle' : 'GCTour - http://gctour.madd.in',
 	'pleaseWait' : 'Even geduld  - gegevens worden geladen ...',
 	'newList' : 'Nieuwe toer',
 	'sendToGps' : 'Naar GPS versturen',

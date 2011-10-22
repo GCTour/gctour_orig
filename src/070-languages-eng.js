@@ -20,7 +20,7 @@ lang_eng = {
 	'emptyList' : 'The list is empty.',
 	'notLogedIn' : 'Please login ...',
 	'months' : ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
-	'prinviewTitle' : 'http://gctour.madd.in',
+	'prinviewTitle' : 'GCTour - http://gctour.madd.in',
 	'pleaseWait' : 'Please wait - loading data ...',
 	'newList' : 'New Tour',
 	'sendToGps' : 'Send to GPS',

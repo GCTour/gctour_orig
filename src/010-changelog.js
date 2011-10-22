@@ -2,6 +2,9 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - NEW: Update added link in the error message
+ *
+ * version 2.1.11293
  *   - FIXED: <=3 Logs in printout -> "Last4Logs" (L4L) in the printout
  *   - FIXED: Logs in GPX (Unicode hexadez.)
  *   - UPDATED: dutch translation
@@ -50,7 +53,7 @@
  *   - NEW: Coordinates of geocaches can now be moved.
  *   - NEW: Added a dialog to send me a message.
  *   - NEW: Geocaches can now printed directly from their detailspage
- *   - NEW: Tour upload has been completöy redesigned
+ *   - NEW: Tour upload has been completly redesigned
  *   - NEW: Support for the new beta Maps
  *   - NEW: Dutch translation (thanks to searchjaunt)
  *   - NEW: Portuguese translation (thanks to Ruben)

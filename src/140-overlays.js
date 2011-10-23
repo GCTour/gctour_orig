@@ -114,10 +114,11 @@ function addErrorDialog(options){
 	errorReport+= "build: "+build+"\n";
 	errorReport+= "exception: "+options._exception+"\n";
 	errorReport+= "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
+	errorReport+= "last GCID url: http://www.geocaching.com/seek/cache_details.aspx?log=y&wp="+GM_getValue("debug_lastgcid","")+"\n";
 	errorReport+= "error: "+options.caption+"\n";
 	errorReport+= "username: "+userName+"\n";
 	errorReport+= "useragent: "+unsafeWindow.navigator.userAgent+"\n";
-	errorReport+= "url: "+document.URL+"\n";
+	errorReport+= "document.url: "+document.URL+"\n";
 	errorReport+= "gpxschema: "+GM_getValue('gpxschema',0)+"\n";
 	errorReport+= "gpxhtml: "+GM_getValue('gpxhtml',true)+"\n";
 	errorReport+= "tour:\n";

@@ -20,4 +20,16 @@
   debug(str);
 //  alert(str);
 
+// init gctour object
+$.gctour      = $.gctour || {};
+
+// init language object
+$.gctour.i18n = $.gctour.i18n || {};
+
+// set default Language
+$.gctour.defaultLang = 'en';
+
+// init current language = default language
+$.gctour.currentLang = $.gctour.defaultLang;
+
 })();

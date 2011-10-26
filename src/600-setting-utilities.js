@@ -1,6 +1,6 @@
-function setLanguage(i){
+function setLanguage(l){
 	return function(){
-		GM_setValue('language',i);
+		GM_setValue('language',l);
 		window.location.reload();
 	}
 }
@@ -16,7 +16,6 @@ function toggleBoolValue(valueName, defaultValue){
 		GM_setValue(valueName, !GM_getValue(valueName, defaultValue));
 	}
 }
-
 
 function  setPrintFontSize(fontSize){
 	return function(){

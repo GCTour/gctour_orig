@@ -26,6 +26,30 @@ const isjQueryWindow = (
 // setze $ mit jQuery local (Greasemonkey) oder alternativ GC
 var $ = (isjQueryLocal) ? jQuery : unsafeWindow.jQuery;
 
+/*
+**************************
+*     TEST Anfang
+*/
+/*
+			// TEST wir als 3. ausgeführt
+			jQuery(function($){
+				alert("3. jQuery(function($){: " + $.fn.jquery);
+			});
+
+			// TEST wir als 2. ausgeführt
+			unsafeWindow.jQuery(function($){
+				alert("2. unsafeWindow.jQuery(function($){: " + $.fn.jquery);
+			});
+
+			// TEST wir als 1. ausgeführt
+			alert("0 $: " + $.fn.jquery);
+
+*/
+/*
+**************************
+*     TEST ENDE
+*/
+
 // is jQuery und UI geladen
 const isjQuery = (
 	(typeof $ !== "undefined") && (typeof $ === "function") &&
@@ -45,7 +69,6 @@ const isOpera = (((isjQuery === true) && $.browser.opera) || (typeof opera !== "
 var tours,
 	currentTour,
 	userName,
-	lang,lang_ger,lang_eng,languages, // the language file
 	dojoPath = "http://o.aolcdn.com/dojo/1.6",
 	head = document.getElementsByTagName('head')[0],
 	dojo,

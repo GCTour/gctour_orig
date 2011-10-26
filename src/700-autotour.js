@@ -5,13 +5,13 @@ function showAutoTourDialog(center,radius){
 
   if(!isLogedIn()) return;
 
-	overLay = getOverlay({caption:lang['autoTour'],minimized:true});
+	overLay = getOverlay({caption:$.gctour.lang('autoTour'),minimized:true});
 	overLay.appendChild(getCoordinatesTab());
-	
+
 	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:12px;'});
 	autoTourContainer.style.display = 'none';
-	
-	autoTourContainer.appendChild(getMapPreviewTab());	
+
+	autoTourContainer.appendChild(getMapPreviewTab());
 	queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
 	queryFilterDiv.appendChild(getTypeFilter());
 	queryFilterDiv.appendChild(getSizeFilter());
@@ -138,7 +138,7 @@ function getMarkerCoord(latitude,longitude){
 
 function getSpecialFilter(){
 	var specialDiv = document.createElement('div');
-	specialDiv.style.cssFloat = "left";	
+	specialDiv.style.cssFloat = "left";
 	specialDiv.style.paddingRight = "10px";
 	specialDiv.style.textAlign = "left";
 	specialDiv.innerHTML = "<b>That</b><br/>";
@@ -170,7 +170,7 @@ function getDtFiler(boxName){
 
 	var checkboxesDiv = document.createElement('div');
 
-	checkboxesDiv.style.cssFloat = "left";	
+	checkboxesDiv.style.cssFloat = "left";
 	checkboxesDiv.style.textAlign = "left";
 	checkboxesDiv.style.paddingRight = "10px";
 	checkboxesDiv.innerHTML = "<b>"+boxName+"</b><br/>";
@@ -209,7 +209,7 @@ function getSizeFilter(){
 
 	var sizesCheckboxesDiv = document.createElement('div');
 
-	sizesCheckboxesDiv.style.cssFloat = "left";	
+	sizesCheckboxesDiv.style.cssFloat = "left";
 	sizesCheckboxesDiv.style.textAlign = "left";
 	sizesCheckboxesDiv.style.paddingRight = "10px";
 	sizesCheckboxesDiv.innerHTML = "<b>Size</b><br/>";
@@ -224,7 +224,7 @@ function getSizeFilter(){
 		checkbox.style.margin = '0px';
 		var label = createElement('label');
 		label.setAttribute("for", "size"+sizes[i]);
-		
+
 		var caption = createElement('img');
 		append(caption,label);
 		caption.src = "http://www.geocaching.com/images/icons/container/"+sizes[i]+".gif";
@@ -250,7 +250,7 @@ function getTypeFilter(){
 	typeDiv.style.cssFloat = "left";
 	typeDiv.innerHTML = "<b>Type</b><br/>";
 
-	for(var i = 0; i< wptArray.length;i++){	
+	for(var i = 0; i< wptArray.length;i++){
 		var checkboxDiv = createElement('span');
 
 		var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i]['wptTypeId'], id: "type"+wptArray[i]['wptTypeId'], checked: 'checked'});
@@ -259,7 +259,7 @@ function getTypeFilter(){
 
 		var label = createElement('label');
 		label.setAttribute("for", "type"+wptArray[i]['wptTypeId']);
-		
+
 		append(label,checkboxDiv);
 		var caption = createElement('img');
 		append(caption,label);
@@ -283,29 +283,29 @@ function getCoordinatesTab(){
 	var coordsDiv = createElement('div',{style:"clear:both"});
 	coordsDiv.id = 'coordsDiv';
 	coordsDiv.align = "left";
-	
+
 	var findMeButton = getLocateMeButton();
 	findMeButton.style.cssFloat = 'right';
 	append(findMeButton,coordsDiv);
-	
+
 
 	var divEbene = createElement('div', {className: 'ebene'});
 
-	divEbene.innerHTML = '<b>'+lang["autoTourCenter"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerCoords"><br/>\
-						<small>'+lang['autoTourHelp']+'</small>';
-						
+	divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourCenter')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerCoords"><br/>\
+						<small>'+$.gctour.lang('autoTourHelp')+'</small>';
+
 	append(divEbene, coordsDiv);
 
 	divEbene = createElement('div', {className: 'ebene'});
-	divEbene.innerHTML = '<b>'+lang["autoTourRadius"]+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+lang["kilometer"]+'</option><option value="sm">'+lang["mile"]+'</option></select>';
+	divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('kilometer')+'</option><option value="sm">'+$.gctour.lang('mile')+'</option></select>';
 	append(divEbene, coordsDiv);
-	
+
 	divEbene = createElement('div');
 	divEbene.setAttribute('class','dialogFooter');
-	
-	var useButton = createElement('input',{type:"button",value:lang["autoTourRefresh"],style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
+
+	var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
 	useButton.addEventListener('click',getMarkerCoord() ,false);
-	
+
 	append(divEbene, coordsDiv);
 
 	return coordsDiv;
@@ -326,9 +326,9 @@ function getMapPreviewTab(){
 	coordsDiv.appendChild(cordsInputRadius);
 
 	var coordsLabel = createElement('div');append(coordsLabel, coordsDiv);
-	coordsLabel.innerHTML = lang["markerCoordinate"]+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+lang["autoTourRadius"]+": <b id='markerRadiusPreview'>???km</b>"
+	coordsLabel.innerHTML = $.gctour.lang('markerCoordinate')+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+$.gctour.lang('autoTourRadius')+": <b id='markerRadiusPreview'>???km</b>"
 
-	// previewMap	
+	// previewMap
 	var staticGMap = createElement('div');
 	staticGMap.id = 'staticGMap';
 
@@ -336,7 +336,7 @@ function getMapPreviewTab(){
 	//~ staticGMap.style.backgroundImage = "url("+previewImage+")";
 	//~ staticGMap.style.backgroundPosition = "center";
 	//~ staticGMap.style.backgroundRepeat = "no-repeat";
-//~ 
+//~
 	//~ staticGMap.style.height = '200px';
 	//~ staticGMap.style.width = '400px';
 	//~ staticGMap.style.backgroundRepeat = 'no-repeat';
@@ -344,16 +344,16 @@ function getMapPreviewTab(){
 	coordsDiv.appendChild(staticGMap);
 
 	var cacheCountLabel = createElement('div');append(cacheCountLabel, coordsDiv);
-	cacheCountLabel.innerHTML = lang["autoTourCacheCounts"]+" <b id='markerCountPreview'>???</b>"
+	cacheCountLabel.innerHTML = $.gctour.lang('autoTourCacheCounts')+" <b id='markerCountPreview'>???</b>"
 		var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
-	tourDurationLabel.innerHTML = lang['autoTourDuration']+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec"
+	tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration')+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec"
 
 		return coordsDiv;
 }
 
 function getLocateMeButton(){
 	var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
-	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+lang['findMe']+"</span>";
+	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+$.gctour.lang('findMe')+"</span>";
 
 	button.addEventListener('click',
 			function(){
@@ -404,7 +404,7 @@ function getAutoTourSubmit(){
 
 // waypoint projecting
 function CalcPrjWP(lat,lon, dist, angle)
-{  
+{
 	var B1 = parseFloat(lat);
 	var L1 = parseFloat(lon);
 	var Dist = parseFloat(dist);
@@ -463,7 +463,7 @@ function updateAutoTourMap(lat,lon){
 	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
 	staticGMap.innerHTML = "";
 	var staticMapppppp = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
-	
+
 
 	var latArray = Dec2DM(lat);
 	var lonArray = Dec2DM(lon);
@@ -510,7 +510,7 @@ function updateAutoTourMap(lat,lon){
 			dummyDiv.innerHTML = responseDetails.responseText;
 
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
-			
+
 			if(pagesSpan){
 				dojo.query("b[id='markerCountPreview']")[0].innerHTML = pagesSpan.getElementsByTagName('b')[0].innerHTML;
 

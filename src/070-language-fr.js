@@ -1,4 +1,4 @@
-lang_fre = {
+$.gctour.i18n.fr = {
 	'name' : 'Français',
 	'language' : 'Language',
 	'addToTour' : 'Ajouter au Tour',

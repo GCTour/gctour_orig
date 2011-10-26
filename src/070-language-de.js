@@ -1,5 +1,4 @@
 $.gctour.i18n.de = {
-	'test' : 'test in deutsch',
 	'name' : 'Deutsch',
 	'language' : 'Sprache',
 	'addToTour' : 'Zur Tour hinzufügen',

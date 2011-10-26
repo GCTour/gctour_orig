@@ -1,5 +1,5 @@
-lang_por = {
-	'name' : 'Portugu&#234;s',
+$.gctour.i18n.pt = {
+	'name' : 'Português',
 	'language' : 'Idioma',
 	'addToTour' : 'Adicionar &#224; rota',
 	'directPrint' : 'Imprimir esta Geocache',

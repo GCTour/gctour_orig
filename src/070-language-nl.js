@@ -1,4 +1,4 @@
-lang_dut = {
+$.gctour.i18n.nl = {
 	'name' : 'Nederlands',
 	'language' : 'Taal',
 	'addToTour' : 'Aan toer toevoegen',

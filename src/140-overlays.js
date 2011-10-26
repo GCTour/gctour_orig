@@ -22,11 +22,11 @@ function getListOverlay(options){
 	append(listUl,list);
 
 	var details = createElement('div',{id:"dialogDetails"});append(details,overlay);
-	
+
 	var dialogFooter = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(dialogFooter,overlay);
 	dialogFooter.setAttribute('class','dialogFooter');
 
-	var close = createElement('input',{type:"button",value:lang["close"],style:"background-image:url("+saveImage+")"});append(close,dialogFooter);
+	var close = createElement('input',{type:"button",value:$.gctour.lang('close'),style:"background-image:url("+saveImage+")"});append(close,dialogFooter);
 	close.addEventListener('click', closeOverlay, false);
 
 	return [listUl, details];
@@ -64,7 +64,7 @@ function getOverlay(options){
 	closeButton = createElement('img', {style:"cursor:pointer;"});append(closeButton, dialogHead);
 	closeButton.style.cssFloat = "right";
 	closeButton.src = closebuttonImage;
-	
+
 	var closeFunction = options.closeCallback || closeOverlayRemote;
 	closeButton.addEventListener('click',closeFunction(localDocument), false);
 	//addOpacityEffects(closeButton);
@@ -82,7 +82,7 @@ function closeOverlay(){
 	closeOverlayRemote(document)();
 }
 
-function closeOverlayRemote(theDocument){	
+function closeOverlayRemote(theDocument){
 	return function(){
 		removeNode("dialogMask",theDocument);
 		removeNode("dialogBody",theDocument);
@@ -94,8 +94,8 @@ function removeNode(id,theDocument){
 	try{
 		var node = theDocument.getElementById(id);
 		 dojo.destroy(node);
-		
-		//node.parentNode.removeChild(node);	
+
+		//node.parentNode.removeChild(node);
 	} catch(e){} // prevent error if id doesn't exist
 }
 
@@ -126,14 +126,14 @@ function addErrorDialog(options){
 	errorReport+= "--------\n";
 	errorReport+= GM_getValue('debug_lastcachesite',"");
 
-	var error_dialog =lang["ERROR_DIALOG"].replace(/##ERROR##/, '<br><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
+	var error_dialog =$.gctour.lang('ERROR_DIALOG').replace(/##ERROR##/, '<br><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
 	error_dialog = error_dialog.replace(/##LOCATION##/,window.location);
-	error_dialog = error_dialog.replace(/##USERNAME##/,userName);	
+	error_dialog = error_dialog.replace(/##USERNAME##/,userName);
 	error_dialog = error_dialog.replace(/##ERRORREPORT##/,errorReport);
 
 	errorDiv = document.createElement('div');
 	errorDiv.style.padding = '5px';
-	errorDiv.style.textAlign = 'left';	
+	errorDiv.style.textAlign = 'left';
 	errorDiv.innerHTML = error_dialog;
 	buttons = dojo.query('input',errorDiv);
 
@@ -151,14 +151,14 @@ function addErrorDialog(options){
 	$("#gctour_update_error_dialog").bind('click', function() {
 		update(true);
 	});
-	
+
 }
 
 function addProgressbar(options){
 	var overlay;
 	if(options){
 		var theDocument = options._document || document;
-		var theCaption = options.caption || lang['pleaseWait'];
+		var theCaption = options.caption || $.gctour.lang('pleaseWait');
 
 		if(options.closeCallback){
 			overlay = getOverlay({caption:theCaption,minimized:true,_document:theDocument,closeCallback:options.closeCallback});
@@ -167,7 +167,7 @@ function addProgressbar(options){
 		}
 
 	} else {
-		overlay = getOverlay({caption:lang['pleaseWait'],minimized:true,_document:document});
+		overlay = getOverlay({caption:$.gctour.lang('pleaseWait'),minimized:true,_document:document});
 	}
 
 	var progressBarContainer = document.createElement('div');append(progressBarContainer,overlay);
@@ -181,7 +181,7 @@ function addProgressbar(options){
 	progressBar.style.margin = '10px';
 	progressBar.style.align = 'center';
 	progressBar.style.lineHeight = '13px';
-	progressBar.style.verticalAlign = 'middle';	
+	progressBar.style.verticalAlign = 'middle';
 	progressBar.style.background = "url(http://madd.in/ajax-loader2.gif)";
 	progressBar.style.setProperty("-moz-border-radius", "4px", "");
 
@@ -192,7 +192,7 @@ function addProgressbar(options){
 	progressBarElement.style.height = '13px';
 	progressBarElement.style.fontSize = '10px';
 	progressBarElement.style.backgroundColor = '#E78F08';
-	progressBarElement.style.position = 'absolute';	
+	progressBarElement.style.position = 'absolute';
 	progressBarElement.style.margin = '11px';
 	progressBarElement.align = 'center';
 	progressBarElement.style.setProperty("-moz-border-radius", "4px", "");

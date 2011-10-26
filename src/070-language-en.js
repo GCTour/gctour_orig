@@ -1,4 +1,4 @@
-lang_eng = {
+$.gctour.i18n.en = {
 	'name' : 'English',
 	'language' : 'Language',
 	'addToTour' : 'Add to Tour',

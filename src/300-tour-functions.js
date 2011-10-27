@@ -34,20 +34,20 @@ function isIdInTable(gcId){
 
 function addNewTableCell(theEntry,effects){
 
-	var costumMarker = (typeof(theEntry.latitude) != "undefined");
+	var costumMarker = (typeof(theEntry.latitude) !== "undefined");
 
 
 	// if this is a cosutm marker user other id
 	var theId = (!costumMarker)?theEntry.id:theEntry.wptcode;
 
-	var entryLi = createElement('li', {id: theId, style: "opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});
+	var entryLi = createElement('li', {id: theId, style: "position:relative;opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});
 	//~
 
 	// set the background image
 	//~ entryLi.style.background = "transparent url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+") fixed no-repeat bottom right";
-	entryLi.style.backgroundImage = "url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+")";
-	entryLi.style.backgroundRepeat = "no-repeat";
-	entryLi.style.backgroundPosition = "bottom right";
+	//entryLi.style.backgroundImage = "url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+")";
+	//entryLi.style.backgroundRepeat = "no-repeat";
+	//entryLi.style.backgroundPosition = "bottom right";
 
 	//set the type
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
@@ -83,8 +83,6 @@ function addNewTableCell(theEntry,effects){
 		nameCite.innerHTML += theEntry.name;
 		nameCite.style.textDecoration = "underline";
 	}
-
-
 
 
 	// the log/edit button and the delete button
@@ -177,7 +175,8 @@ function addNewTableCell(theEntry,effects){
 
 	var nameDiv = document.createElement('div');
 	nameDiv.style.clear = 'left';
-
+	nameDiv.style.position = 'relative';
+	nameDiv.style.zIndex = 2;
 
 	if(!costumMarker){
 		nameDiv.innerHTML += theEntry.name;
@@ -185,6 +184,11 @@ function addNewTableCell(theEntry,effects){
 		nameDiv.innerHTML += Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
 	}
 	entryLi.appendChild(nameDiv);
+
+	var counterDiv = document.createElement('div');
+	counterDiv.className='counter unselectable';
+	counterDiv.innerHTML = (getPositionsOfId(theEntry.id || theEntry.wptcode)+1);
+	entryLi.appendChild(counterDiv);
 
 	document.getElementById('cacheList').appendChild(entryLi);
 	if(unsafeWindow.draglist){

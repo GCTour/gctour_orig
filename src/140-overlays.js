@@ -117,6 +117,10 @@ function addErrorDialog(options){
 	errorReport+= "last GCID url: http://www.geocaching.com/seek/cache_details.aspx?log=y&wp="+GM_getValue("debug_lastgcid","")+"\n";
 	errorReport+= "error: "+options.caption+"\n";
 	errorReport+= "username: "+userName+"\n";
+	
+	// ToDo: Usernamen zu guid ? 
+	// Leerzeichen im UserName führen zum falschen User aus "GCTour Support" wird GCTour
+	errorReport+= "Email to user: "+encodeURI("http://www.geocaching.com/email/?u="+userName+"&text=Hallo "+userName+", error: "+options.caption)+"\n";
 	errorReport+= "useragent: "+unsafeWindow.navigator.userAgent+"\n";
 	errorReport+= "document.url: "+document.URL+"\n";
 	errorReport+= "gpxschema: "+GM_getValue('gpxschema',0)+"\n";

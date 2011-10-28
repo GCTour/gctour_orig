@@ -75,7 +75,7 @@ function printPageFunction(currentTour){
 					var Min = now.getMinutes();
 					var StdAusgabe = ((Std < 10) ? "0" + Std : Std);
 					var MinAusgabe = ((Min < 10) ? "0" + Min : Min);
-					newwindow2.document.title = currentTour.name +' - '+ now.getDate()+'.'+(Jahresmonat+1)+'.'+now.getFullYear()+' '+StdAusgabe+':'+MinAusgabe +" - "+$.gctour.lang('prinviewTitle');
+					newwindow2.document.title = currentTour.name +' - '+ now.getDate()+'.'+(Jahresmonat+1)+'.'+now.getFullYear()+' '+StdAusgabe+':'+MinAusgabe +" - "+$.gctour.lang('printviewTitle');
 
 					body.innerHTML = '';
 					addProgressbar({_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}});

@@ -2,7 +2,9 @@
  * Changelog:
  *
  * version @version@.@build@
- *   - NEW: Update added link in the error message
+ *   - FIXED: GPX Download bug "...ctl00_hlSignOut... is undefined"
+ *   - NEW: Update added link in the error-Dialog
+ *   - NEW: User can write a message in the error-Dialog
  *
  * version 2.1.11293
  *   - FIXED: <=3 Logs in printout -> "Last4Logs" (L4L) in the printout

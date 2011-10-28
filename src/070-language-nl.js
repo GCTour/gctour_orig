@@ -152,13 +152,15 @@ $.gctour.i18n.nl = {
 	"exampleCoords" : "<i>N50°53.692 E004° 20.478</i> or <i>50.894867 4.341300</i>",	
 	"dontPrintHint" : "<b>Ter info :</b><br/>Gegevens in dit kader worden <u>niet</u> afgedrukt!",
 	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Spijtig genoeg is er een fout gebeurd:<br/>"+
-		"##ERROR##<br/><br/>"+
-		"Probeer het opnieuw proberen, of kijk voor <a href='#' id='gctour_update_error_dialog'>update</a>!<br/><br/>"+
+		"##ERROR##<br/>"+
+		"Probeer het opnieuw proberen, of kijk voor <a href='#' id='gctour_update_error_dialog'>update</a>!<br/>"+
 		"Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br/>"+
 		"<div align='right'  class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
 		"<form action='"+GCTOUR_HOST+"/error' method='post'>"+
 		"<input type='hidden' name='redir' value='##LOCATION##'>"+
 		"<input type='hidden' name='user' value='##USERNAME##'>"+
+		"<div style='text-align:left;'>note</div>"+
+		"<textarea name='message' rows='4' style='width:99%'></textarea>"+
 		"<textarea name='report' style='display:none;' >##ERRORREPORT##</textarea>"+
 		"<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
 		"<input type='submit' value='foutenrapport versturen' style='background-image:url("+sendMessageImage+")'></form></div>",

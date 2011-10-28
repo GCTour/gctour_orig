@@ -152,13 +152,15 @@ $.gctour.i18n.fr = {
 	"exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i>",	
 	"dontPrintHint" : "<b>Information :</b><br/>Les éléménts ayant cette apparence ne seront <u>pas</u> imprimés!",
 	'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>"+
-		"##ERROR##<br/><br/>"+
-		"Réessayez SVP, ou venir chercher une <a href='#' id='gctour_update_error_dialog'>mise à jour</a>!<br/><br/>"+
+		"##ERROR##<br/>"+
+		"Réessayez SVP, ou venir chercher une <a href='#' id='gctour_update_error_dialog'>mise à jour</a>!<br/>"+
 		"Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br/>"+
 		"<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
 		"<form action='"+GCTOUR_HOST+"/error' method='post'>"+
 		"<input type='hidden' name='redir' value='##LOCATION##'>"+
 		"<input type='hidden' name='user' value='##USERNAME##'>"+
+		"<div style='text-align:left;'>Note</div>"+
+		"<textarea name='message' rows='4' style='width:99%'></textarea>"+
 		"<textarea name='report' style='display:none;'>##ERRORREPORT##</textarea>"+
 		"<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
 		"<input type='submit' value='envoi du rapport' style='background-image:url("+sendMessageImage+")'></form></div>",

@@ -51,10 +51,9 @@ function getGeocacheFromElement(element){
 
 
 	// first check if really logged in 
-	
-	//~ var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
-	var logIOLink = dojo.query('a[id="ctl00_hlSignOut"]',element)[0].previousSibling.previousSibling;
-	if(!logIOLink){
+	// default, Challenges + Account + Membership ,Login
+	var logLink = $(element).find('a.SignedInProfileLink, a.CommonUsername, .LoginUsername');
+	if (logLink.length === 0) {
 		throw "No longer logged in.";
 	}
 	

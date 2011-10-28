@@ -54,7 +54,7 @@ function getGeocacheFromElement(element){
 	// default, Challenges + Account + Membership ,Login
 	var logLink = $(element).find('a.SignedInProfileLink, a.CommonUsername, .LoginUsername');
 	if (logLink.length === 0) {
-		throw "No longer logged in.";
+		throw $.gctour.lang('notLogedIn');
 	}
 	
 

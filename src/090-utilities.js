@@ -167,13 +167,13 @@ function parseCoordinates(coordinates){
 		var lon = DM2Dec(result[10],result[13]);
 		if(result[8] == 'W') lon = lon * (-1);
 		
-		return {latitude:lat,longitude:lon};
+		return new LatLon(lat,lon);
 		
 	} else {
 		var lat = parseFloat(result2[1]+""+result2[2]);
 		var lon = parseFloat(result2[3]+""+result2[4]);
 		
-		return {latitude:lat,longitude:lon};
+		return new LatLon(lat,lon);
 	}
 }
 

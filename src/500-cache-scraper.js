@@ -1,6 +1,5 @@
 function getGeocache(gcid){
-	var req = new XMLHttpRequest();
-							
+	var req = new XMLHttpRequest();							
 	var myUrl = 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid;
 	req.open("GET", myUrl, false);
 	// execute the request synchron

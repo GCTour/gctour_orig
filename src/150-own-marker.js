@@ -85,11 +85,12 @@ function showNewMarkerDialog(marker){
 				cordsInput.style.backgroundColor = "#FF8888";
 			} else {
 				cordsInput.style.backgroundColor = "#88DC3B";
-				cordsInputLat.value = coords.latitude;
-				cordsInputLon.value = coords.longitude;
-
-				staticMap.setCoordinates(coords.latitude,coords.longitude);
-
+				cordsInputLat.value = coords._lat;
+				cordsInputLon.value = coords._lon;
+	
+				
+				staticMap.setCoordinates(coords._lat,coords._lon);
+				
 			}
 		}
 	};
@@ -256,17 +257,22 @@ function showNewMarkerDialog(marker){
 		cordsInputLon.value = marker.longitude;	// 123.12333
 		wptcodeInput.value = marker.wptcode;	// 123.12333#12312412312
 
+		var latLon = new LatLon(marker.latitude,marker.longitude);
+		cordsInput.value = latLon.toString("dm");
 
-		latArray = Dec2DM(marker.latitude);
-		lonArray = Dec2DM(marker.longitude);
-
-		latOrigin = (latArray[0]<0)?"S":"N";
-		lonOrigin = (lonArray[0]<0)?"W":"E";
-
-		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
-		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
-
-		cordsInput.value = (Dec2DM_String(marker.latitude,marker.longitude));
+		//~ latArray = Dec2DM(marker.latitude);
+		//~ lonArray = Dec2DM(marker.longitude);
+//~ 
+		//~ latOrigin = (latArray[0]<0)?"S":"N";
+		//~ lonOrigin = (lonArray[0]<0)?"W":"E";
+//~ 
+		//~ latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
+		//~ lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
+		//~ 
+		//~ 
+		//~ 
+		//~ 
+		//~ cordsInput.value = (Dec2DM_String(marker.latitude,marker.longitude));
 
 		//~ cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
 		//~ cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];

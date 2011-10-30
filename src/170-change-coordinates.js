@@ -14,7 +14,7 @@ function openChangeCoordinates(){
 	tr = document.createElement('tr');anTable.appendChild(tr);
 	td = document.createElement('td');tr.appendChild(td);
 	td.colSpan = 2;
-	td.innerHTML = lang.moveGeocacheHelp;
+	td.innerHTML = $.gctour.lang('moveGeocacheHelp');
 
 
     tr = document.createElement('tr');anTable.appendChild(tr);
@@ -33,12 +33,15 @@ function openChangeCoordinates(){
 
 	var  mapTd = document.createElement('td');
 	mapTd.align = 'left';
-	var coords = parseCoordinates(coordinates);
+	var coordinates = parseCoordinates(coordinates);
+	
+
 
 	var minimal_geocache = getMinimalGeocacheDetails(document.getElementsByTagName('html')[0]);
 	var gc_type = minimal_geocache.type;
 
-	var staticMap = new StaticMap(mapTd,{lat:coords.latitude,lon:coords.longitude,geocache_type:gc_type});
+	var coords = parseCoordinates(coordinates);
+	var staticMap = new StaticMap(mapTd,{lat:coords._lat,lon:coords._lon,geocache_type:gc_type.split(".")[0]});
 
 
 	var cacheId = minimal_geocache.gccode;
@@ -82,11 +85,11 @@ function openChangeCoordinates(){
 				cordsInput.style.backgroundColor = "#FF8888";
 			} else {
 				cordsInput.style.backgroundColor = "#88DC3B";
-				cordsInputLat.value = coords.latitude;
-				cordsInputLon.value = coords.longitude;
-
-				staticMap.setNewCoordinates(coords.latitude,coords.longitude);
-
+				cordsInputLat.value = coords._lat;
+				cordsInputLon.value = coords._lon;
+				
+				staticMap.setNewCoordinates(coords._lat,coords._lon);
+				
 			}
 		}
 	};
@@ -206,7 +209,7 @@ function changeCoordinates(coordinates){
 			var newCoordinates = parseCoordinates(coordinates);
 
 			var gc_type = dojo.query('a[href="/about/cache_types.aspx"] > img')[0].src.split("/")[5].split(".")[0];
-			var staticMap = new StaticMap(overlay,{lat:originalCoordinates.latitude,lon:originalCoordinates.longitude,newLat:newCoordinates.latitude,newLon:newCoordinates.longitude,width:475,height:300,geocache_type:gc_type});
+			var staticMap = new StaticMap(overlay,{lat:originalCoordinates._lat,lon:originalCoordinates._lon,newLat:newCoordinates._lat,newLon:newCoordinates._lon,width:475,height:300,geocache_type:gc_type});
 
 		}, false);
 	}

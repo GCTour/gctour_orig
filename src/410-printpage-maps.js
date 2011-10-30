@@ -93,7 +93,7 @@ function getMapControl(mapQuery,map_frame){
 		inputElement.checked = 'checked';
 		factor = 1;
 	}
-	inputElement.addEventListener('click',function(){var factor = 1;map_frame.style.width=(factor * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
+	inputElement.addEventListener('click',function(){var factor = 1;map_frame.style.width=(1 * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
 	control_container.appendChild(document.createTextNode("large"));
 
 
@@ -104,7 +104,7 @@ function getMapControl(mapQuery,map_frame){
 		inputElement.checked = 'checked';
 		factor = 0.75;
 	}
-	inputElement.addEventListener('click',function(){var factor = 0.75;map_frame.style.width=(factor * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
+	inputElement.addEventListener('click',function(){var factor = 0.75;map_frame.style.width=(1 * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
 	control_container.appendChild(document.createTextNode("medium"));
 
 
@@ -115,7 +115,7 @@ function getMapControl(mapQuery,map_frame){
 		inputElement.checked = 'checked';
 		factor = 0.5;
 	}
-	inputElement.addEventListener('click',function(){var factor = 0.5;map_frame.style.width=(factor * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
+	inputElement.addEventListener('click',function(){var factor = 0.5;map_frame.style.width=(1 * 20) +"cm";map_frame.style.height=(factor*500)+"px";}, false);
 	control_container.appendChild(document.createTextNode("small"));
 
 	control_container.appendChild(createElement('br'));
@@ -424,6 +424,6 @@ function updateMapSize(newDocument, mapId,factor){
 	return function(){
 		var map = newDocument.getElementById(mapId).getElementsByTagName('iframe')[0];
 		map.style.width = (factor * 20) +"cm";
-		map.style.height = (factor * 500) +"px";
+		map.style.height = (1 * 500) +"px";
 	}
 }

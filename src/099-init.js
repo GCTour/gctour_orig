@@ -426,7 +426,7 @@ function init(){
 
 
 		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');
-		cacheDetailsTemplate.textContent = cacheDetailsTemplate.textContent.replace(/<\/div>\s*{{else}}/g,'<br><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span></a></div>{{else}}');
+		cacheDetailsTemplate.textContent = cacheDetailsTemplate.textContent.replace(/<\/div>\s*{{else}}/g,'<br/><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span></a></div>{{else}}');
 
 		unsafeWindow.add2tour = function(){
 			setTimeout(function() {

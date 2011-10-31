@@ -76,7 +76,7 @@ function convertROTStringWithBrackets(C) {
 		F = C.charAt(A);
 		if (A < (B - 4)) {
 			if (C.toLowerCase().substr(A, 4) == "<br/>") {
-				D += "<br>";
+				D += "<br/>";
 				A += 3;
 				continue
 			}

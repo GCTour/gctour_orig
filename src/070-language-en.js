@@ -176,5 +176,5 @@ $.gctour.i18n.en = {
 		 {"caption":"OSM Cycle","value":"osmaC"},
 		 {"caption":"OSM Public Transport","value":"osmaP"}],
 	'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>There is a new version of&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;available for installation.</p><p>You currently have version <b>###VERSION_OLD###</b> installed. The latest version is <b>###VERSION_NEW###</b></p><p><b>Version History:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
-	'updateCurrently' : 'GCTour version '+version+'.'+build+' is up to date!'
+	'updateCurrently' : 'GCTour version '+VERSION+'.'+BUILD+' is up to date!'
 };

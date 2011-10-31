@@ -110,8 +110,8 @@ function addErrorDialog(options){
 
 	var overlay = getOverlay(options);
 
-	errorReport = "version: "+version+"\n";
-	errorReport+= "build: "+build+"\n";
+	errorReport = "version: "+VERSION+"\n";
+	errorReport+= "build: "+BUILD+"\n";
 	errorReport+= "exception: "+options._exception+"\n";
 	errorReport+= "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
 	errorReport+= "last GCID url: http://www.geocaching.com/seek/cache_details.aspx?log=y&wp="+GM_getValue("debug_lastgcid","")+"\n";

@@ -14,7 +14,7 @@ function update(force) {
 		//~ if (true) { // ATTENTION!!
 		// set the new updateDate
 		GM_setValue('updateDate', currentDate.toString());
-		var update_request = {'script':scriptId,'version':version,'build':build};
+		var update_request = {'script':SCRIPTID,'version':VERSION,'build':BUILD};
 
 		post(API_HOST+'/update', 'update='+JSON.stringify(update_request),
 			function(text){
@@ -22,7 +22,7 @@ function update(force) {
 				var update_obj = JSON.parse(text);
 				log("update check: returns "+text);
 				if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
-					log("update check: version "+version+" build:"+build);
+					log("update check: version "+VERSION+" build:"+BUILD);
 					log("update check: result from GAE:"+update_obj.changes[0]);
 
 					if (force === true) {
@@ -47,7 +47,7 @@ function update(force) {
 				}
 
 				var updateMapping = [
-					['VERSION_OLD',version+"."+build],
+					['VERSION_OLD',VERSION+"."+BUILD],
 					['VERSION_NEW',update_obj.version+"."+update_obj.build],
 					['VERSION_HISTORY',versions_string]
 				];
@@ -94,7 +94,7 @@ function parseUpdateXMLResponse(xmlString) {
 	var scriptElements = xmlDoc.getElementsByTagName('script');
 
 	for(i = 0;i< scriptElements.length;i++) {
-		if (scriptElements[i].getAttribute('id') == scriptId) {
+		if (scriptElements[i].getAttribute('id') === SCRIPTID) {
 			var versions = scriptElements[i].getElementsByTagName('version');
 			var currentVersion = 0;
 			var currentVersionIndex;
@@ -105,14 +105,14 @@ function parseUpdateXMLResponse(xmlString) {
 				}
 			}
 
-			if (currentVersion > version) {
+			if (currentVersion > VERSION) {
 				updateNode = versions[currentVersionIndex];
 			}
 		}
 	}
 
 	if (updateNode) {
-		var confirmString = 'There is a new version of GcTour.\n\t'+ version +' -> '+ updateNode.getAttribute('number') +'\nChanges:\n';
+		var confirmString = 'There is a new version of GcTour.\n\t'+ VERSION +' -> '+ updateNode.getAttribute('number') +'\nChanges:\n';
 
 		var changes = updateNode.getElementsByTagName('change');
 		for(j = 0;j< changes.length;j++) {
@@ -120,7 +120,7 @@ function parseUpdateXMLResponse(xmlString) {
 		}
 		confirmString += '\nDo you want to update?';
 		if (confirm(confirmString)) {
-			GM_openInTab('http://gc.madd.in/gm/update.php?scriptId='+scriptId+'&fromVersion='+version+'&toVersion='+updateNode.getAttribute('number'));
+			GM_openInTab('http://gc.madd.in/gm/update.php?scriptId='+SCRIPTID+'&fromVersion='+VERSION+'&toVersion='+updateNode.getAttribute('number'));
 		}
 	}
 }

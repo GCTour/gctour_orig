@@ -103,7 +103,7 @@ function showNewMarkerDialog(marker){
 
 	tr = document.createElement('tr');anTable.appendChild(tr);
 	td = document.createElement('td');tr.appendChild(td);
-	td.innerHTML = $.gctour.lang('markerContent')+'<br><div style="font-size:xx-small">('+$.gctour.lang('markerContentHint')+')</div>';
+	td.innerHTML = $.gctour.lang('markerContent')+'<br/><div style="font-size:xx-small">('+$.gctour.lang('markerContentHint')+')</div>';
 
 	td = document.createElement('td');tr.appendChild(td);
 	contentTextarea = document.createElement('textarea');td.appendChild(contentTextarea);

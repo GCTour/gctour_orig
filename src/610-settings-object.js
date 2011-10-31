@@ -24,7 +24,7 @@ Settings.prototype.show = function(){
 		var headerLi = createElement('li');append(headerLi,listUl);
 
 		var settingsLink;
-		settingsLink = createElement('a',{style:"cursor:pointer;font-size:12px;color:#003399",});
+		settingsLink = createElement('a',{style:"cursor:pointer;font-size:12px;color:#003399"});
 		settingsLink.setAttribute("setting", header_i);
 
 		settingsLink.innerHTML = $.gctour.lang(header);
@@ -52,7 +52,7 @@ Settings.prototype.getGPX = function(){
 	// schemata
 	var schema_div = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;"});append(schema_div,div);
 	var schema_caption = createElement('span');append(schema_caption,schema_div);
-	schema_caption.innerHTML = "<b>"+$.gctour.lang('settingsGPXSchema');+"</b><br>";
+	schema_caption.innerHTML = "<b>"+$.gctour.lang('settingsGPXSchema')+"</b><br/>";
 	append(this.getSelectbox(schema_arr,'gpxschema',0,setGPXSchema),schema_caption);
 	var description = createElement('div',{style:"margin-left:10px;"});
 	description.innerHTML = $.gctour.lang('settingsGPXSchemaDesc');
@@ -89,7 +89,7 @@ Settings.prototype.getLanguage = function(){
 	//languages
 	var lang_div = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;"});append(lang_div,div);
 	var lang_caption = createElement('span');append(lang_caption,lang_div);
-	lang_caption.innerHTML = "<b>"+$.gctour.lang('language');+"</b><br>";
+	lang_caption.innerHTML = "<b>"+$.gctour.lang('language')+"</b><br/>";
 	append(this.getSelectbox(language_arr,'language',$.gctour.defaultLang,setLanguage),lang_caption);
 
 	return div;
@@ -101,7 +101,7 @@ Settings.prototype.getMaps = function(){
 	// maptype
 	var mapt_div = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;"});append(mapt_div,div);
 	var mapt_caption = createElement('span');append(mapt_caption,mapt_div);
-	mapt_caption.innerHTML = "<b>"+$.gctour.lang('settingsMapType')+"</b><br>";
+	mapt_caption.innerHTML = "<b>"+$.gctour.lang('settingsMapType')+"</b><br/>";
 
 	var typeArray = $.gctour.lang('mapTypes');
 	append(this.getSelectbox(typeArray,'printOutlineMapType','roadmap',setPrintMapType),mapt_caption);
@@ -109,7 +109,7 @@ Settings.prototype.getMaps = function(){
 	//map size
 	var mapsi_div = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;"});append(mapsi_div,div);
 	var mapsi_caption = createElement('span');append(mapsi_caption,mapsi_div);
-	mapsi_caption.innerHTML = "<b>"+$.gctour.lang('settingsMapSize')+"</b><br>";
+	mapsi_caption.innerHTML = "<b>"+$.gctour.lang('settingsMapSize')+"</b><br/>";
 
 	var sizeArray = new Array('large','medium','small');
 	append(this.getSelectbox(sizeArray,'defaultMapSize','large',setPrintMapSize),mapsi_caption);
@@ -137,7 +137,7 @@ Settings.prototype.getPrint = function(){
 
 	var log_caption = createElement('span');
 	append(log_caption,log_div);
-	log_caption.innerHTML = "<b>"+$.gctour.lang('settingsLogCount')+"</b><br>";
+	log_caption.innerHTML = "<b>"+$.gctour.lang('settingsLogCount')+"</b><br/>";
 
 	var log_button_div = createElement('div',{style:"margin-left:10px"});
 
@@ -218,7 +218,7 @@ Settings.prototype.getPrint = function(){
 
 	var font_caption = createElement('span');
 	append(font_caption,font_div);
-	font_caption.innerHTML = "<b>"+$.gctour.lang('settingsFontSize')+"</b><br>";
+	font_caption.innerHTML = "<b>"+$.gctour.lang('settingsFontSize')+"</b><br/>";
 
 	var sizeArray = new Array("xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large");
 	append(this.getSelectbox(sizeArray,'printFontSize','x-small',setPrintFontSize),font_caption);

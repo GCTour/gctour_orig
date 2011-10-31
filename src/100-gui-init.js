@@ -298,7 +298,7 @@ function initComponents(){
 	tourHeaderDiv.style.height = ((currentTour.webcode)?55:35)+"px";
 
 	tourHeaderDiv.innerHTML = '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>';
-	tourHeaderDiv.innerHTML+="<span id='webcode'><br>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>"
+	tourHeaderDiv.innerHTML+="<span id='webcode'><br/>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>"
 	// show the webcode if it is available
 	if(!currentTour.webcode){
 		dojo.query("span[id='webcode']",tourHeaderDiv)[0].style.display = 'none';

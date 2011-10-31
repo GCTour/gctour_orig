@@ -320,7 +320,7 @@ function printPageFunction(currentTour){
 
 									var log_type_img = createElement('img', {src:'http://www.geocaching.com/images/icons/'+logs[log_i].LogTypeImage});
 									log_div.appendChild(log_type_img);
-									log_div.innerHTML += " " + logs[log_i].Created +" - "+ logs[log_i].UserName +" ("+logs[log_i].GeocacheFindCount+")<br>";
+									log_div.innerHTML += " " + logs[log_i].Created +" - "+ logs[log_i].UserName +" ("+logs[log_i].GeocacheFindCount+")<br/>";
 									log_div.innerHTML += logs[log_i].LogText;
 									append(log_div, logs_div);
 								}
@@ -346,8 +346,8 @@ function printPageFunction(currentTour){
 										content += "<td style='width:50%;'>";
 										content +="<img src='"+geocache.additional_waypoints[waypoints_i].symbol+"'>";
 										content +="<b>"+geocache.additional_waypoints[waypoints_i].name+"</b>";
-										content +=" | "+geocache.additional_waypoints[waypoints_i].coordinates + "<br>";
-										content += "<i>"+geocache.additional_waypoints[waypoints_i].note + "</i><br>";
+										content +=" | "+geocache.additional_waypoints[waypoints_i].coordinates + "<br/>";
+										content += "<i>"+geocache.additional_waypoints[waypoints_i].note + "</i><br/>";
 									}
 									content += "</tr>";
 
@@ -371,7 +371,7 @@ function printPageFunction(currentTour){
 										}
 
 										content += "<td class='removable'>";
-										content += "<img style='max-width:8cm;' src='"+geocache.images[images_i].href+"'><br>";
+										content += "<img style='max-width:8cm;' src='"+geocache.images[images_i].href+"'><br/>";
 										content += "<b>"+geocache.images[images_i].textContent+"</b>";
 										content += "</td>";
 									}

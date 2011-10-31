@@ -130,7 +130,7 @@ function addErrorDialog(options){
 	errorReport+= "--------\n";
 	errorReport+= GM_getValue('debug_lastcachesite',"");
 
-	var error_dialog =$.gctour.lang('ERROR_DIALOG').replace(/##ERROR##/, '<br><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
+	var error_dialog =$.gctour.lang('ERROR_DIALOG').replace(/##ERROR##/, '<br/><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
 	error_dialog = error_dialog.replace(/##LOCATION##/,window.location);
 	error_dialog = error_dialog.replace(/##USERNAME##/,userName);
 	error_dialog = error_dialog.replace(/##ERRORREPORT##/,errorReport);

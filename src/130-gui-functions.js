@@ -70,7 +70,7 @@ function updateGUI(){
 	var webcodeSpan = dojo.byId("webcode");
 
 	if(currentTour.webcode){
-		webcodeSpan.innerHTML = "<br>Webcode:<b>"+currentTour.webcode+"</b></span>"
+		webcodeSpan.innerHTML = "<br/>Webcode:<b>"+currentTour.webcode+"</b></span>"
 		webcodeSpan.style.display = "inline";
 	} else {
 		webcodeSpan.style.display = "none";

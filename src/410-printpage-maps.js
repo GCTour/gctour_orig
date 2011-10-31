@@ -33,7 +33,7 @@ function getMap(mapQuery){
 	var map_frame = document.createElement('iframe');
 	map_frame.className = 'cacheMap';
 	map_frame.id = mapId;
-	map_frame.style.width = (factor * 20) + "cm";
+	map_frame.style.width = (1 * 20) + "cm";
 	map_frame.style.height = (factor * 500) + 'px';
 	map_frame.style.border = '1px solid lightgray';
 	map_frame.src = getMapUrl(mapQuery);

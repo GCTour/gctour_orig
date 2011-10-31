@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" version="@version@.@build@">
+<widget xmlns="http://www.w3.org/ns/widgets" version="2.1.11286">
     <name>GCTour</name>
     <description>Cachetour planing made easy. Pick some Caches, sort the list and print it out. Free for all users of geocaching.com!</description>
     <author href="http://gctour.madd.in/">madd.in (ported to Opera by Skywalker90)</author>   

@@ -237,7 +237,7 @@ function printPageFunction(currentTour){
 						if(isCostumMarker){
 							tbody.innerHTML +=
 							'<tr>		 			'+
-							'	<td colspan="10" style="border-bottom:1px solid lightgray;"><b>'+$.gctour.lang('printviewMarker')+'</b></td>		'+
+							'	<td colspan="11" style="border-bottom:1px solid lightgray;"><b>'+$.gctour.lang('printviewMarker')+'</b></td>		'+
 							'</tr>';
 
 							for (var i = 0; i < currentTour.geocaches.length; ++i){
@@ -256,7 +256,7 @@ function printPageFunction(currentTour){
 									td = document.createElement('td');tr.appendChild(td);
 									td.style.verticalAlign = "middle";
 									td.style.width = "30%";
-									td.colSpan = "8";
+									td.colSpan = "9";
 									td.style.borderBottom = '1px solid lightgray';
 									td.innerHTML = currentTour.geocaches[i].name;
 									td.innerHTML += " - "+Dec2DM_String(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude);

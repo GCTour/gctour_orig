@@ -259,26 +259,7 @@ function showNewMarkerDialog(marker){
 
 		var latLon = new LatLon(marker.latitude,marker.longitude);
 		cordsInput.value = latLon.toString("dm");
-
-		//~ latArray = Dec2DM(marker.latitude);
-		//~ lonArray = Dec2DM(marker.longitude);
-//~ 
-		//~ latOrigin = (latArray[0]<0)?"S":"N";
-		//~ lonOrigin = (lonArray[0]<0)?"W":"E";
-//~ 
-		//~ latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
-		//~ lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
-		//~ 
-		//~ 
-		//~ 
-		//~ 
-		//~ cordsInput.value = (Dec2DM_String(marker.latitude,marker.longitude));
-
-		//~ cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-		//~ cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
 		cordsInput.style.backgroundColor = "#88DC3B";
-		//~ updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13); // update map
-
 		contentTextarea.innerHTML = marker.content;
 		checkMarkerCoord(cordsInput)();
 	}
@@ -351,45 +332,5 @@ function changeType(value,table,typeArray,staticMap){
 
 			trElement.appendChild(tdElement);
 		}
-	}
-}
-
-function saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon){
-	return function(){
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
-		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
-		window.setTimeout(
-				function(){
-				var result = regex.exec(cordsInput.value);
-				var result2 = regex2.exec(cordsInput.value);
-
-				log(result +" " +result2);
-				if (!result && !result2) {
-				cordsInput.style.backgroundColor = "#FF8888";
-
-				} else if (result) {
-				cordsInput.style.backgroundColor = "#88DC3B";
-
-				var lat = DM2Dec(result[3],result[6]);
-				if(result[1] == 'S') lat = lat * (-1);
-				cordsInputLat.value = lat;
-
-				var lon = DM2Dec(result[10],result[13]);
-				if(result[8] == 'W') lon = lon * (-1);
-				cordsInputLon.value = lon;
-				document.getElementById('staticGMap').style.display = 'block';
-				updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}else if (result2) {
-					cordsInput.style.backgroundColor = "#88DC3B";
-					var lat = parseFloat(result2[1]+""+result2[2]);
-					var lon = parseFloat(result2[3]+""+result2[4]);
-
-					cordsInputLat.value = lat;
-					cordsInputLon.value = lon;
-					document.getElementById('staticGMap').style.display = 'block';
-					updateMarkerOverviewMap(cordsInputLat.value ,cordsInputLon.value,13);
-				}
-
-				},10);
 	}
 }

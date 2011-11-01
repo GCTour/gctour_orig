@@ -1,16 +1,96 @@
+/**
+ * Interpretiert eine Koordinaten Eingabe des Formats "N51° 12.123 E010° 23.123" oder "51.123 10.123"
+ *
+ * @param   {String} coord_string: Koordinaten in einem Format
+ * @returns {LatLon} Koordinaten Object
+ */
+
+function parseCoordinates(coord_string,force_Geocoding){
+	
+	// entferne alle "," in Koordinaten String
+	if(typeof coord_string == "string") coord_string = coord_string.replace(/,/g,".");
+	
+	
+	// regex for N51° 12.123 E12° 34.123
+	var regex_coord_ns = new RegExp(/(N|S)\s*(\d{0,2})\s*°\s*(\d{0,2}[\.,]\d+)/);
+	var regex_coord_ew = new RegExp(/(E|W)\s*(\d{0,3})\s*°\s*(\d{0,2}[\.,]\d+)/);
+	
+	//regex for 51.123 12.123
+	var regex_coord_dec = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)\s*(-{0,1}\d{0,3}[\.,]\d+)/);
+	
+	
+	var result_coord_ns = regex_coord_ns.exec(coord_string);
+	var result_coord_ew = regex_coord_ew.exec(coord_string);
+	var result_coord_dec = regex_coord_dec.exec(coord_string);
+	
+	
+	// Koordinate ist keins der beiden numerischen Formate
+	if (!(result_coord_ns && result_coord_ew) && !result_coord_dec) {
+	
+		// ... jetzt hilft nur noch Google ...
+		if(force_Geocoding){	
+			var geocoding_obj = JSON.parse(GM_xmlhttpRequest({ // sende einen synchronen request an die geocoding api von google - Doc: http://code.google.com/apis/maps/documentation/javascript/services.html#GeocodingRequests
+			  method: "GET",
+			  synchronous: true,
+			  url: "http://maps.googleapis.com/maps/api/geocode/json?address="+coord_string+"&sensor=false"
+			}).responseText);
+			
+			if(geocoding_obj.status === "ZERO_RESULTS"){ // noch nicht einmal Google kann mit der eingabe etwas anfangen
+				return false;
+			}
+						
+			var lat = geocoding_obj.results[0].geometry.location.lat;
+			var lon = geocoding_obj.results[0].geometry.location.lng;
+			return new LatLon(lat, lon);			
+		} else {
+			return false;
+		}
+	} else if (result_coord_ns && result_coord_ew) {
+		// result_coord_ns[0] = "N51° 12.123"
+		// result_coord_ew[0] = "E010° 23.123"
+		var lat = Geo.parseDMS(result_coord_ns[0]);
+		var lon = Geo.parseDMS(result_coord_ew[0]);
+		return new LatLon(lat,lon);
+		
+	} else {
+		// result enthält beide Teile der Koordinate
+		var lat = Geo.parseDMS(result_coord_dec[1]);
+		var lon = Geo.parseDMS(result_coord_dec[2]);	
+		
+		return new LatLon(lat,lon);
+	}
+}
+
+function distanceBetween(lat1,lon1, lat2,lon2) {
+	var R = 6371000; // meters (change this constant to get miles)	
+	var dLat = (lat2-lat1) * Math.PI / 180;
+	var dLon = (lon2-lon1) * Math.PI / 180;
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+	Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 )
+	*
+	Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = R * c;
+	return d;
+}
+
+
+
+
 /** Orientiert an  Geodesy representation conversion functions (c) Chris Veness 2002-2011  **/
 
 
 var Geo = {} // Geo namespace, representing static class
 /**
  * Interpretiert einen String als Gradzahl. Diese Funktion verarbeitet alle 3 möglichen Formate (d, dm, dms)
+ * Limitiert auf eine Komponente pro Aufruf.
  * 
  * @param   {String} dmsStr: Koordinaten String
  * @returns {Number} deg: Degrees
  */
 Geo.parseDMS = function(dmsStr){
 	// entferne alle nicht Zahlen (Regex:[^\d.\s]) und teile den String an den verbleibenden Leerzeichen (Regex:[^0-9.,])
-	var dms = dmsStr.replace(/[^\d.\s]/g,'').trim().split(/[^0-9.,]+/);
+	var dms = dmsStr.replace(/[^\d.\s]/g,' ').trim().split(/[^0-9.,]+/);
 	
 	// wenn nix mehr übrig bleibt -> keine Koordinate
 	if (dms == '') return NaN;

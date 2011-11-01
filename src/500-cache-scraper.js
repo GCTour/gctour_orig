@@ -157,13 +157,12 @@ function getGeocacheFromElement(element){
 	geocache.lon = dojo.query('a[id="ctl00_ContentBody_lnkConversions"]',element)[0].href.split("lon=")[1].split("&")[0];
 	
 
-	// if the user changed the coordinates of an geocache
+	// if the user changed the coordinates of this geocache
 	if(GM_getValue('coords_'+geocache.gcid,"null") != "null"){ // use it
 		var coordinates = GM_getValue('coords_'+geocache.gcid,"null");
 		geocache.lat = coordinates.split("#")[0];
 		geocache.lon = coordinates.split("#")[1];	
-		
-		geocache.coordinates = Dec2DM_String(geocache.lat, geocache.lon);
+		geocache.coordinates = new LatLon(geocache.lat , geocache.lon ).toString();
 		
 	}
 
@@ -225,20 +224,15 @@ function getGeocacheFromElement(element){
 		var row1_tds = row1.getElementsByTagName('td');
 		var row2_tds = row2.getElementsByTagName('td');
 
-		
-		var coordinates_array = parse_coordinates(row1_tds[6].textContent);
-		
-
-
-		
+		var coordinates = parseCoordinates(row1_tds[6].textContent);		
 		var waypoint = new Object();
 		waypoint.symbol = row1_tds[2].childNodes[1].src;
 		waypoint.prefix = trim(row1_tds[3].textContent);
 		waypoint.lookup = trim(row1_tds[4].textContent);
 		waypoint.name = row1_tds[5].childNodes[1].textContent;
 		waypoint.coordinates = trim(row1_tds[6].textContent);
-		waypoint.latitude = coordinates_array[0];
-		waypoint.longitude = coordinates_array[1];		
+		waypoint.latitude = coordinates._lat;
+		waypoint.longitude = coordinates._lon;	
 		waypoint.note = trim(row2_tds[2].textContent);
 
 

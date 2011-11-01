@@ -215,20 +215,6 @@ function printPageFunction(currentTour){
 								td.style.verticalAlign = "middle";
 								td.style.width = "100%";
 								td.innerHTML = "&nbsp;";
-								//~ td.style.borderBottomColor = 'lightgray';
-								//~ td.style.borderBottomStyle = 'dashed';
-								//~ td.style.borderBottomWidth = '1px';
-
-
-
-						/*		td = document.createElement('td');tr.appendChild(td);
-								td.style.verticalAlign = "right";
-								td.style.width = "20%";
-								td.innerHTML = "<span id='coords_"+currentTour.geocaches[i].id+"'></span>";
-								td.style.borderBottomColor = 'lightgray';
-								td.style.borderBottomStyle = 'dashed';
-								td.style.borderBottomWidth = '1px';
-							*/
 							} else {
 								isCostumMarker = costumMarker;
 							}
@@ -259,7 +245,7 @@ function printPageFunction(currentTour){
 									td.colSpan = "9";
 									td.style.borderBottom = '1px solid lightgray';
 									td.innerHTML = currentTour.geocaches[i].name;
-									td.innerHTML += " - "+Dec2DM_String(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude);
+									td.innerHTML += " - "+new LatLon(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude).toString();
 
 								}
 							}
@@ -438,7 +424,7 @@ function printPageFunction(currentTour){
 							if(geocache.comment){
 								gcComment = "<b><u>GCComment:</u></b><br/>";
 								if(geocache.comment.lat){
-									var parsedCoords = Dec2DM_String(geocache.comment.lat,geocache.comment.lng);
+									var parsedCoords = new LatLon(geocache.comment.lat,geocache.comment.lng).toString();
 									gcComment += "<b>Final Coordinates:</b> "+parsedCoords+"<br/>";
 								}
 								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
@@ -544,17 +530,12 @@ function printPageFunction(currentTour){
 							costumMarkers.push(cm);
 							// map costum marker to uploadable version - END -
 
-
-							var latArray = Dec2DM(currentTour.geocaches[i].latitude);
-							var lonArray = Dec2DM(currentTour.geocaches[i].longitude);
-
-
 							var markerMapping = new Array(
 								new Array('GCID',$.gctour.lang('printviewMarker')),
 								new Array('CACHECOUNT',(i+1)),
 								new Array('TYPE',currentTour.geocaches[i].image),
 								new Array('NAME',currentTour.geocaches[i].name),
-								new Array('COORDINATES',latArray[0]+ "°&nbsp;"+ latArray[1] + "&nbsp;&nbsp;" + lonArray[0]+ "°&nbsp;"+ lonArray[1]),
+								new Array('COORDINATES',new LatLon(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude).toString()),
 								new Array('CONTENT',currentTour.geocaches[i].content.replace(/\n/g, "<br />"))
 							);
 							if(minimal){

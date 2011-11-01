@@ -181,7 +181,7 @@ function addNewTableCell(theEntry,effects){
 	if(!costumMarker){
 		nameDiv.innerHTML += theEntry.name;
 	}else {
-		nameDiv.innerHTML += Dec2DM_String(theEntry.latitude,theEntry.longitude) + " " + theEntry.content;
+		nameDiv.innerHTML += new LatLon(theEntry.latitude,theEntry.longitude).toString() + " " + theEntry.content;
 	}
 	entryLi.appendChild(nameDiv);
 

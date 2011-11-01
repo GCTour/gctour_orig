@@ -1,7 +1,8 @@
 /**
- * Interpretiert eine Koordinaten Eingabe des Formats "N51° 12.123 E010° 23.123" oder "51.123 10.123"
+ * Interpretiert eine Koordinaten Eingabe des Formats "N51° 12.123 E010° 23.123" oder "51.123 10.123" bzw. benutzt Googles Geocoding API um die Koordinaten zu finde.
  *
  * @param   {String} coord_string: Koordinaten in einem Format
+ * @param   {Boolean} [force_Geocoding=false]: Wenn gesetzt sucht die Methode bei nicht numerischer Eingabe mittels Geocoding nach den Koordinaten
  * @returns {LatLon} Koordinaten Object
  */
 

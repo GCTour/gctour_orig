@@ -75,7 +75,7 @@ function initButton(){
 
 		if(GM_getValue('coords_'+cacheId,"null") != "null"){
 			var coords_cacheId = GM_getValue('coords_'+cacheId);
-			changeCoordinates(Dec2DM_String(coords_cacheId.split('#')[0], coords_cacheId.split('#')[1]));
+			changeCoordinates(new LatLon(coords_cacheId.split('#')[0], coords_cacheId.split('#')[1]).toString());
 
 		}
 

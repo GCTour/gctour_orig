@@ -26,7 +26,7 @@ function showAutoTourDialog(center,radius){
 
 		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
 		dojo.query("input[id='markerRadius']")[0].value = radius;
-		getMarkerCoord()();
+		getMarkerCoord();
 	} else {
     dojo.query("input[id='markerRadius']")[0].value = 2;
     dojo.query("input[id='markerCoords']")[0].focus();
@@ -87,51 +87,14 @@ function startAutoTour(){
 
 }
 
-function getMarkerCoord(latitude,longitude){
-	return function(){
-
-		if(latitude && longitude){
-			updateAutoTourMap(latitude,longitude);
-			return;
-		}
-
-
-		var markerCoords = dojo.query("input[id='markerCoords']")[0].value;
-		var regex = new RegExp(/(N|S)(\s*)(\d{0,2})(\s*)°(\s*)(\d{0,2}[\.,]\d+)(\s*)(E|W)(\s*)(\d{0,3})(\s*)°(\s*)(\d{0,2}[\.,]\d+)/);
-		var regex2 = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)(\s*)(-{0,1}\d{0,3}[\.,]\d+)/);
-		var lat,lon;
-		if(markerCoords.match(regex)){
-
-			var ergebnis = regex.exec(markerCoords);
-
-			lat = DM2Dec(ergebnis[3],ergebnis[6]);
-			if(ergebnis[1] == 'S') lat = lat * (-1);
-
-			lon = DM2Dec(ergebnis[10],ergebnis[13]);
-			if(ergebnis[8] == 'W') lon = lon * (-1);
-
-
-		} else if(markerCoords.match(regex2)){
-			lat = parseFloat(RegExp.$1+""+RegExp.$2);
-			lon = parseFloat(RegExp.$3+""+RegExp.$4);
-		} else {
-			log("Google req://maps.google.com/maps/geo?q="+markerCoords+"&output=json&oe=utf8&sensor=true_or_false&key=ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g");
-			GM_xmlhttpRequest({
-				method: 'GET',
-				url: "http://maps.google.com/maps/geo?q="+markerCoords+"&output=json&oe=utf8&sensor=false&key=ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g",
-				onload: function(responseDetails) {
-						var jsonResponse = JSON.parse(responseDetails.responseText);
-						if(jsonResponse.Placemark){
-							var lat = parseFloat(jsonResponse.Placemark[0].Point.coordinates[1]);
-							var lon = parseFloat(jsonResponse.Placemark[0].Point.coordinates[0]);
-							getMarkerCoord(lat,lon)();
-						}
-					}
-			});
-			return;
-		}
-		updateAutoTourMap(lat, lon);
-	}
+function getMarkerCoord(){
+	var markerCoords = dojo.query("input[id='markerCoords']")[0].value;
+	var coords = parseCoordinates(markerCoords,true);
+	if(coords){
+		updateAutoTourMap(coords._lat, coords._lon);
+	} else { // Sehr seltener Fall wenn auch die google geolocate API versagt.
+		alert("'"+markerCoords+"' is not an address!");
+	}	
 }
 
 
@@ -304,7 +267,7 @@ function getCoordinatesTab(){
 	divEbene.setAttribute('class','dialogFooter');
 
 	var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
-	useButton.addEventListener('click',getMarkerCoord() ,false);
+	useButton.addEventListener('click',getMarkerCoord ,false);
 
 	append(divEbene, coordsDiv);
 
@@ -368,7 +331,7 @@ function getLocateMeButton(){
 
 				dojo.query("input[id='markerCoords']")[0].value = latitude +' '+longitude;
 				dojo.query("input[id='markerRadius']")[0].value = 1;
-				getMarkerCoord()();
+				getMarkerCoord();
 				},
 
 				function(error){
@@ -462,21 +425,12 @@ function updateAutoTourMap(lat,lon){
 
 	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
 	staticGMap.innerHTML = "";
-	var staticMapppppp = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
+	
+	// create new static map with changed coordinates
+	new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
 
-
-	var latArray = Dec2DM(lat);
-	var lonArray = Dec2DM(lon);
-
-	var latOrigin = (latArray[0]<0)?"S":"N";
-	var lonOrigin = (lonArray[0]<0)?"W":"E";
-
-	latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
-	lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
-
-
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = new LatLon(lat,lon).toString();
+	
 	dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
 
 	dojo.animateProperty(

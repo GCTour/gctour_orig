@@ -136,7 +136,8 @@ function openChangeCoordinates(){
 	submit = createElement('input',{type:"button",value:$.gctour.lang('save'),style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
 	submit.addEventListener('click', function(){
 			GM_setValue('coords_'+cacheId, cordsInputLat.value+'#'+cordsInputLon.value);
-			changeCoordinates(Dec2DM_String(cordsInputLat.value,cordsInputLon.value));
+			
+			changeCoordinates(new LatLon(cordsInputLat.value,cordsInputLon.value).toString());
 			closeOverlay();
 
 	}
@@ -150,29 +151,13 @@ function openChangeCoordinates(){
 
 	if(GM_getValue('coords_'+cacheId,"null") != "null"){
 		var coords_cacheId = GM_getValue('coords_'+cacheId);
-		marker = [];
-		marker.latitude = coords_cacheId.split('#')[0];
-		marker.longitude = coords_cacheId.split('#')[1];
+		var latlng =  new LatLon(coords_cacheId.split('#')[0],coords_cacheId.split('#')[1]);
 
-
-		cordsInputLat.value = marker.latitude;	// 51.123123
-		cordsInputLon.value = marker.longitude;	// 123.12333
-
-
-		latArray = Dec2DM(marker.latitude);
-		lonArray = Dec2DM(marker.longitude);
-
-		latOrigin = (latArray[0]<0)?"S":"N";
-		lonOrigin = (lonArray[0]<0)?"W":"E";
-
-		latArray[0] = (latArray[0]<0)?latArray[0]*(-1):latArray[0];
-		lonArray[0] = (lonArray[0]<0)?lonArray[0]*(-1):lonArray[0];
-
-
-		cordsInput.value = Dec2DM_String(marker.latitude,marker.longitude);
-
-		//~ cordsInput.value = latOrigin+""+latArray[0]+"° "+latArray[1]+" ";
-		//~ cordsInput.value += lonOrigin+""+lonArray[0]+"° "+lonArray[1];
+		
+		cordsInputLat.value = latlng._lat;	// 51.123123
+		cordsInputLon.value = latlng._lon;	// 123.12333
+		
+		cordsInput.value = latlng.toString();
 		cordsInput.style.backgroundColor = "#88DC3B";
 
 		staticMap.setNewCoordinates(cordsInputLat.value ,cordsInputLon.value);
@@ -180,8 +165,13 @@ function openChangeCoordinates(){
 
 
 	} else {
-		cordsInput.value = coordinates;
-		saveMarkerCoord(cordsInput,cordsInputLat,cordsInputLon)();
+		var latlng =  parseCoordinates(coordinates);		
+		cordsInputLat.value = latlng._lat;	// 51.123123
+		cordsInputLon.value = latlng._lon;	// 123.12333
+		cordsInput.value = latlng.toString();
+		cordsInput.style.backgroundColor = "#88DC3B";
+
+		staticMap.setNewCoordinates(cordsInputLat.value ,cordsInputLon.value);
 	}
 
 }

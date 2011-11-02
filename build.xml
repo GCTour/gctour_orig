@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="GcTour" basedir="." default="make">
+
+  <!-- property -->
+  <property file="build.prop"/>
+  <loadfile property="GcTour.Version" srcfile="version.txt" />
+
+  <property name="tmp.file.cssall" value="tmp-allcss.css" description="temporary file for concat css files" />
+  <property name="file.css.js" value="080-style.js" description="script file for the css" />
+
+  <!-- timestamp -->
+  <tstamp>
+    <format property="GcTour.Build" pattern="yyDDD" />
+    <format property="date" pattern="dd MMM yyyy HH:mm" locale="de_DE" />
+  </tstamp>
+
+  <!-- taskdefs -->
+  <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
+
+
+  <!-- beginning projects -->
+  <target name="init" depends="clean">
+    <echo>
+  project: ${ant.project.name} from ${date}
+  version: ${GcTour.Version}
+  build:   ${GcTour.Build}
+    </echo>
+
+    <echo>
+  directories
+    development:   ${src.dir}
+    dist (final):  ${build.dir}
+    dist (tmp):    ${tmp.dir}
+    </echo>
+
+    <!-- create directories -->
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${tmp.dir}"/>
+
+  </target>
+
+
+  <target name="copy" depends="init" description="">
+    <echo>copy all files to temp path</echo>
+    <copy failonerror="true" todir="${tmp.dir}" flatten="true">
+      <fileset dir="${src.dir}/" includes="*.js,*.css" excludes="_*.*" />
+    </copy>
+  </target>
+
+
+  <target name="concatenate_css" depends="copy" description="Concatenate all css files">
+
+    <echo>Concat all stylesheets sources to a css</echo>
+    <concat destfile="${tmp.dir}/${tmp.file.cssall}"
+            encoding="UTF-8" outputencoding="UTF-8"
+            fixlastline="yes" eol="lf">
+      <fileset dir="${tmp.dir}/" includes="*.css" excludes="_*.*" />
+    </concat>
+
+    <echo>replace quotation mark to apostrophe</echo>
+    <replaceregexp match='"' replace="'" flags="mg" file="${tmp.dir}/${tmp.file.cssall}" />
+
+    <echo>load all stylesheets and add suffix of line a backslash</echo>
+    <loadfile srcfile="${tmp.dir}/${tmp.file.cssall}" property="allcss">
+      <filterchain>
+        <suffixlines suffix="\\\\"/>
+      </filterchain>
+    </loadfile>
+
+    <echo>include stylesheets to the script</echo>
+    <replaceregexp match="##includeallcssfiles##" replace="${allcss}" file="${tmp.dir}/${file.css.js}" />
+
+  </target>
+
+
+  <target name="concatenate_js" depends="concatenate_css" description="Concatenate all js files">
+    <echo>Concat all sources to a script.</echo>
+    <concat destfile="${tmp.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF-8">
+      <fileset dir="${tmp.dir}/" includes="*.js" excludes="000-header.js,_*.*" />
+    </concat>
+  </target>
+
+
+  <target name="compress" depends="concatenate_js" description="Compress application.js to application-min.js">
+    <echo>Compress script.</echo>
+    <apply executable="java" parallel="false" failonerror="true">
+      <filelist dir="${tmp.dir}" files="${App}.user.js" />
+      <arg line="-jar" />
+      <arg path="lib/yuicompressor-2.4.6.jar" />
+      <srcfile />
+      <arg line="--charset utf-8" />
+      <arg line="-o" />
+      <mapper type="glob" from="${App}.user.js" to="${tmp.dir}/${App}-min.user.js" />
+      <targetfile />
+      <!-- <arg line="-v" /> -->
+    </apply>
+  </target>
+
+
+  <target name="make" depends="compress" description="Add Userscript-Header to the Script.">
+
+    <echo>Add current version to the header.</echo>
+    <replace dir="${tmp.dir}/">
+      <fileset dir="${tmp.dir}/" includes="00*.js,01*.js,02*.js" />
+      <replacefilter token="@version@" value="${GcTour.Version}" />
+      <replacefilter token="@build@" value="${GcTour.Build}" />
+    </replace>
+
+    <echo>Add Userscript-Header to the script.</echo>
+    <concat destfile="${build.dir}/${App}.user.js" fixlastline="yes" eol="lf" encoding="UTF-8">
+      <fileset file="${tmp.dir}/000-header.js" />
+      <fileset file="${tmp.dir}/${App}.user.js" />
+    </concat>
+
+    <echo>Add Userscript-Header to the compressed script.</echo>
+    <concat destfile="${build.dir}/${App}-min.user.js" fixlastline="yes" eol="lf" encoding="UTF-8">
+      <fileset file="${tmp.dir}/000-header.js" />
+      <fileset file="${tmp.dir}/${App}-min.user.js" />
+    </concat>
+
+    <echo>delete tmp path.</echo>
+    <delete dir="${tmp.dir}" />
+
+  </target>
+
+
+  <target name="makeff" depends="make" description="Copies the script to the GM_SCRIPTS folder in your firefox. Not enabled by default.">
+    <copy todir="${GcTour.dir}/">
+      <fileset dir="${build.dir}/" includes="${App}.user.js" />
+    </copy>
+  </target>
+
+
+  <target name="build.opera" depends="make">
+    <copy todir="${tmp.dir}/opera">
+      <fileset dir="opera/" includes="**" />
+    </copy>
+    <replace file="${tmp.dir}/opera/config.xml" token="@version@" value="${GcTour.Version}" />
+    <replace file="${tmp.dir}/opera/config.xml" token="@build@" value="${GcTour.Build}" />
+    <copy file="${build.dir}/${App}.user.js" tofile="${tmp.dir}/opera/includes/GCTour.user.js"/>
+    <zip destfile="${build.dir}/GCTour.oex" basedir="${tmp.dir}/opera">
+      <patternset>
+        <include name="**"/>
+      </patternset>
+    </zip>
+  </target>
+
+
+  <target name="upload" depends="make" description="Upload build/gc_tour.user.js as snapshot to googlecode.">
+    <gcupload
+      username="${GCODE_user}"
+      password="${GCODE_password}"
+      projectname="gctour"
+      filename="build/gc_tour.user.js"
+      targetfilename="gc_tour.${DSTAMP}.user.js"
+      summary="snapshot release for version ${Version}"
+      labels="Type-Installer, OpSys-All" />
+  </target>
+
+
+  <target name="clean" depends="">
+    <delete dir="${build.dir}" />
+    <delete dir="${tmp.dir}" />
+  </target>
+
+
+</project>

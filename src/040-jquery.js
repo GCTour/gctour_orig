@@ -32,4 +32,39 @@ $.gctour.defaultLang = 'en';
 // init current language = default language
 $.gctour.currentLang = $.gctour.defaultLang;
 
+
+
+
+$.fn.addShadowEffect = function() {
+  return this.each(function() {
+    $(this).bind({
+      mouseenter: function() {
+        $(this).addClass( "imgShadow");
+      },
+      mouseleave: function() {
+        $(this).removeClass( "imgShadow");
+      }
+    });
+  });
+};
+
+$.fn.addOpacityEffect = function() {
+  return this.each(function() {
+    var $this = $(this);
+    $this
+      .css({opacity: "0.5"})
+      .bind({
+        mouseenter: function() {
+          $this.stop().animate({opacity:'1'}, 300);
+        },
+        mouseleave: function() {
+          $this.stop().animate({opacity:'0.5'}, 300);
+        }
+    });
+  });
+};
+
+
+
+
 })();

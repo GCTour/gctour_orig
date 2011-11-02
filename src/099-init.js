@@ -123,7 +123,7 @@ function init(){
 				'	-moz-background-inline-policy:continuous;'+
 				'	-moz-background-origin:padding;'+
 				'	border:1pt dashed gray;'+
-			//	'	background:#FFFFFF none repeat scroll 0 0;'+
+				'	background-color:#FFFFFF;'+
 				'	color:#000000;'+
 				'}'+
 				''+

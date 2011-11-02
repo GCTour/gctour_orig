@@ -141,7 +141,6 @@ function initComponents(){
 
 	dojo.query(thisDiv).onmouseenter(function(e){ clearTimeout(timeout);});
 	dojo.query(thisDiv).onmouseleave(function(e){
-
 		if(!sticky){
 			timeout = setTimeout(function(){
 				if(dojo.byId("gctourContainer").style.left == "0px"){
@@ -154,80 +153,56 @@ function initComponents(){
 			}, 1000);
 		}
 	});
-
-
-	var cacheList = document.createElement('ol');
-    cacheList.className = 'cachelist container handles';
-	cacheList.setAttribute("dojoType","dojo.dnd.Source");
-	cacheList.setAttribute("jsId","draglist");
-
-	cacheList.id = 'cacheList';
-	cacheList.style.width = '100%';
-	cacheList.setAttribute("border","0");
-
-
-
-
-	var div = document.createElement('div');
-	div.style.overflow = 'auto';
-	div.style.height = '80%';
-	div.style.width = '100%';
-	div.appendChild(cacheList);
-
-    // make it drag n drop - only available after dojo.addOnLoad fired - see init.js
-    dojo.parser.parse(div);
-
-	dojo.subscribe("/dnd/start", function(){
-		dojo.body().style.cursor = 'url("'+closedHand+'"), default';
-	});
-
-	dojo.subscribe("/dnd/cancel", function(){
-		dojo.body().style.cursor = '';
-	});
-
-    // persist the new order after some cache is draged
-    dojo.subscribe("/dnd/drop", function(source, nodes, copy, target){
-		    dojo.body().style.cursor = '';
-            var cachelist = dojo.query('ol[id="cacheList"]')[0];
-
-            // iterate over current cachelist in DOM
-            var idList = [];
-            for(var i = 0; i < cachelist.childNodes.length;i++){
-                idList.push(cachelist.childNodes[i].id); // save every id - in right order
-                debug("ids: "+cachelist.childNodes[i].id);
-            }
-
-            var tempCaches = [];
+	
+	
+	var geocacheList = document.createElement('ul');
+	geocacheList.id ="cacheList";
+	geocacheList.className = 'cachelist';
+	geocacheList.style.width = '100%';
+	
+	
+	$(geocacheList).sortable({
+		axis: 'y',
+		stop: function(event, ui){
+			
+			
+			// TODO: Geht vielleicht schneller ;-) 
+			//~ var geocache_code = ui.item.attr('id');
+			
+			// save the current sortation			
+			var idList = [];
+			
+			$("#cacheList").find("li").each(function(i){idList.push(this.id);});
+            // make an geocache array with the new sort
+            
+            debug("Drag n Drop in progress:");
+			var tempCaches = [];
             for(var i = 0; i < idList.length;i++){ // for each id
                 var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
-                tempCaches.push(currentTour.geocaches[position]); // after this add the cache in the temporary array
-
-                debug("position: "+position);
-                debug("gcid: "+currentTour.geocaches[position].id);
-
-
+                var geocache = currentTour.geocaches[position];
+                tempCaches.push(geocache); // and add it to the temporary array
+				debug("\tMove "+geocache.id+" from '"+position+"' to '"+i+"'.");
             }
-
-            // ... and make it persistent
+            
+            // Overwrite the old sortation
             currentTour.geocaches = tempCaches;
-
+			// ... and save the new tour object
             setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
-                saveCurrentTour();
+                saveCurrentTour(); 
             },0);
-
-            // highlight the moved cache
-	        dojo.fadeOut({
-	        node: nodes[0],duration: 300,
-		        onEnd: function(){
-			        dojo.fadeIn({
-					        node: nodes[0],duration: 300
-			        }).play()
-		        }
-	        }).play();
-    });
-
-
-
+            
+           ui.item.effect("slide", { times:3 }, 300);
+            
+            return;			
+		}
+	});
+	$(geocacheList).disableSelection();
+	
+	var geocacheListContainer = document.createElement('div');
+	geocacheListContainer.style.overflow = 'auto';
+	geocacheListContainer.style.height = '80%';
+	geocacheListContainer.style.width = '100%';
+	geocacheListContainer.appendChild(geocacheList);
 
 
 	var newButton = document.createElement('img');
@@ -443,7 +418,7 @@ function initComponents(){
 			append(header, thisDiv);
 			append(buttonsDiv, thisDiv);
 			append(tourHeaderDiv, thisDiv);
-			append(div, thisDiv);
+			append(geocacheListContainer, thisDiv);
 			append(footerDiv, thisDiv);
 
 

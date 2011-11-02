@@ -99,7 +99,7 @@ function initComponents(){
 		-moz-user-select:none;'});
 	menuButton.className = "header";
 
-	menuButton.innerHTML = "<h1 style='height: 10px;border-radius: 0 5px 0 0;'><img src='"+gctourLogoSmall+"'></h1>";
+	menuButton.innerHTML = "<h1 style='height: 16px;border-radius: 0 5px 5px 0;'><img src='"+gctourLogoSmall+"'></h1>";
 
 	dojo.query("h1",menuButton)[0].id = "gctourButton";
 	dojo.query("h1",menuButton).onmouseover(function(e){
@@ -306,102 +306,103 @@ function initComponents(){
 
 			append(createElement('br'),tourHeaderDiv)
 
-			var renameButton = document.createElement('img');
-			renameButton.src = editImageString;
-			renameButton.title = $.gctour.lang('rename');
-			renameButton.alt = $.gctour.lang('rename');
-			renameButton.style.cursor = 'pointer';
-			renameButton.style.marginRight = '5px';
-			renameButton.addEventListener('click',
-				function(){
-				var newTourName = prompt($.gctour.lang('newTourDialog'), currentTour.name);
-				if(!newTourName) return;
-				currentTour.name = newTourName;
-				saveCurrentTour();
-				updateTour();
-				//~ window.location.reload();
-				},false);
-			addOpacityEffects(renameButton);
+	$(tourHeaderDiv).append(
 
-			var deleteButton = document.createElement('img');
-			deleteButton.id = "gctourDeleteButton";
-			deleteButton.src = deleteImageString;
-			deleteButton.alt = $.gctour.lang('removeTour');
-			deleteButton.title = $.gctour.lang('removeTour');
-			deleteButton.style.cursor = 'pointer';
-			deleteButton.style.marginRight = '3px';
-			deleteButton.style.display = (tours.length == 1)?'none':'inline';
+			// rename
+			$('<img>', {
+			  'class': 'tourImage',
+				src:    editImageString,
+				title:  $.gctour.lang('rename'),
+				alt :   $.gctour.lang('rename'),
+				click: function(){
+					var newTourName = prompt($.gctour.lang('newTourDialog'), currentTour.name);
+					if(!newTourName) return;
+					currentTour.name = newTourName;
+					saveCurrentTour();
+					updateTour();
+				}
+			}),
 
-			deleteButton.addEventListener('click', deleteCurrentTour, false);
-			addOpacityEffects(deleteButton);
+			// print
+			$('<img>', {
+				'class': 'tourImage',
+				src:    printerImageString,
+				title:  $.gctour.lang('printview'),
+				alt :   $.gctour.lang('printview'),
+				click: function(){
+					printPageFunction(currentTour)();
+				}
+			}),
 
+			// sendGPS
+			$('<img>', {
+				'class': 'tourImage',
+				src:    sensGPSImageString,
+				title:  $.gctour.lang('sendToGps'),
+				alt :   $.gctour.lang('sendToGps'),
+				click: function(){
+					openSend2GpsDialog();
+				}
+			}),
 
-			var markerButton = document.createElement('img');
-			markerButton.src = plusImageString;
-			markerButton.alt = $.gctour.lang('addOwnWaypoint');
-			markerButton.title = $.gctour.lang('addOwnWaypoint');
-			markerButton.style.cursor = 'pointer';
-			markerButton.style.marginRight = '3px';
-			markerButton.addEventListener('click', function(){showNewMarkerDialog();}, false);
-			addOpacityEffects(markerButton);
+			// downloadGPX
+			$('<img>', {
+				'class': 'tourImage',
+				src:    downloadGPXImageString,
+				title:  $.gctour.lang('downloadGpx'),
+				alt :   $.gctour.lang('downloadGpx'),
+				click: function(){
+					downloadGPXFunction()();
+				}
+			}),
 
-			var sendGPSButton = document.createElement('img');
-			sendGPSButton.alt = $.gctour.lang('sendToGps');
-			sendGPSButton.title = $.gctour.lang('sendToGps');
-			sendGPSButton.src = sensGPSImageString;
-			sendGPSButton.style.cursor = 'pointer';
-			sendGPSButton.style.marginRight = '5px';
-			//sendGPSButton.addEventListener('click', openSend2GpsFunctionLocal(), false);
-			sendGPSButton.addEventListener('click', openSend2GpsDialog, false);
-			addOpacityEffects(sendGPSButton);
+			// makeMap
+			$('<img>', {
+				'class': 'tourImage',
+				src:    mapImageString,
+				title:  $.gctour.lang('makeMap'),
+				alt :   $.gctour.lang('makeMap'),
+				click: function(){
+					makeMapFunction();
+				}
+			}),
 
-			var makeMapButton = document.createElement('img');
-			makeMapButton.alt = $.gctour.lang('makeMap');
-			makeMapButton.title = $.gctour.lang('makeMap');
-			makeMapButton.src = mapImageString;
-			makeMapButton.style.cursor = 'pointer';
-			makeMapButton.style.marginRight = '5px';
-			//sendGPSButton.addEventListener('click', openSend2GpsFunctionLocal(), false);
-			makeMapButton.addEventListener('click', makeMapFunction, false);
-			addOpacityEffects(makeMapButton);
+			// uploadTour
+			$('<img>', {
+				'class': 'tourImage',
+				src:    uploadImageString,
+				title:  $.gctour.lang('upload'),
+				alt :   $.gctour.lang('upload'),
+				click: function(){
+					uploadTourFunction(currentTour.id)();
+				}
+			}),
 
-			var uploadTourButton = document.createElement('img');
-			uploadTourButton.alt = $.gctour.lang('upload');
-			uploadTourButton.title = $.gctour.lang('upload');
-			uploadTourButton.src = uploadImageString;
-			uploadTourButton.style.cursor = 'pointer';
-			uploadTourButton.style.marginRight = '5px';
-			uploadTourButton.addEventListener('click', function(){uploadTourFunction(currentTour.id)();}, false);
-			addOpacityEffects(uploadTourButton);
+			// addWaypoint
+			$('<img>', {
+				'class': 'tourImage',
+				src:    plusImageString,
+				title:  $.gctour.lang('addOwnWaypoint'),
+				alt :   $.gctour.lang('addOwnWaypoint'),
+				click: function(){
+					showNewMarkerDialog();
+				}
+			}),
 
-			var requestPrintButton = document.createElement('img');
-			requestPrintButton.alt = $.gctour.lang('printview');
-			requestPrintButton.title = $.gctour.lang('printview');
-			requestPrintButton.src = printerImageString;
-			requestPrintButton.style.cursor = 'pointer';
-			requestPrintButton.style.marginRight = '5px';
-			requestPrintButton.addEventListener('click', function(){printPageFunction(currentTour)();}, false);
-			addOpacityEffects(requestPrintButton);
+			// deleteTour
+			$('<img>', {
+				id:      'gctourDeleteButton',
+				'class': 'tourImage',
+				src:     deleteImageString,
+				title:   $.gctour.lang('removeTour'),
+				alt :    $.gctour.lang('removeTour'),
+				css: {'display' : (tours.length  <= 1) ? 'none' : 'inline'},
+				click: function(){
+					deleteCurrentTour();
+				}
+			})
 
-			var downloadGPXButton= document.createElement('img');
-			downloadGPXButton.alt = $.gctour.lang('downloadGpx');
-			downloadGPXButton.title = $.gctour.lang('downloadGpx');
-			downloadGPXButton.src = downloadGPXImageString;
-			downloadGPXButton.style.cursor = 'pointer';
-			downloadGPXButton.style.marginRight = '5px';
-			downloadGPXButton.addEventListener('click',downloadGPXFunction(), false);
-			addOpacityEffects(downloadGPXButton);
-
-			append(renameButton,tourHeaderDiv);
-			append(requestPrintButton,tourHeaderDiv);
-			append(sendGPSButton,tourHeaderDiv);
-			append(downloadGPXButton,tourHeaderDiv);
-			append(makeMapButton,tourHeaderDiv);
-			append(uploadTourButton,tourHeaderDiv);
-			append(markerButton,tourHeaderDiv);
-
-			append(deleteButton,tourHeaderDiv);
-
+	).find("img.tourImage").addShadowEffect().addOpacityEffect();
 
 			var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
 

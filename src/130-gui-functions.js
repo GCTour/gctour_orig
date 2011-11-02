@@ -113,14 +113,19 @@ function updateGUI(){
 	*/
 }
 
-function addOpacityEffects(element){
-	element.style.opacity = '0.4';
-	element.addEventListener('mouseover', addOpacityEffect(element),false);
-	element.addEventListener('mouseout',  removeOpacityEffect(element),false);
-}
-
-function addOpacityEffect(element){return function(){	element.style.opacity = '1';}}
-function removeOpacityEffect(element){return function(){element.style.opacity = '0.4'}}
+// ToDo: switch to $.fn.addOpacityEffects
+var addOpacityEffects = function(elem) {
+	$(elem)
+		.css({opacity: "1"})
+		.bind({
+			mouseenter: function() {
+				$(this).stop().animate({opacity:'0.4'},200);
+			},
+			mouseleave: function() {
+				$(this).stop().animate({opacity:'1'},300);
+			}
+		});
+};
 
 function addHoverEffects(element){
 	element.addEventListener('mouseover', addHoverEffect(element),false);
@@ -136,15 +141,14 @@ function addHoverEffect(element){return function(){element.style.margin = '0px';
 function removeHoverEffect(element){return function(){element.style.margin = '1px';element.style.border = '0px solid lightgray';element.style.background = '';}}
 
 
-
 function openSend2GpsFunctionLocal(){
 	return function(){
+	  var url = 'http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=true',
+		   h    = (GM_getValue('showGpx',false)) ? 610 : 280;
+		   conf = 'width=425,height=' + h +',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=yes,directories=no,status=no';
+		
 		if(isLogedIn() && isNotEmptyList()){
-			if(GM_getValue('showGpx',false)){
-				window.open('http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=true', 's2gps', config='width=425,height=610,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=yes,directories=no,status=no');
-			} else {
-				window.open('http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=true', 's2gps', config='width=425,height=280,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=yes,directories=no,status=no');
-			}
+			window.open(url, 's2gps', config=conf);
 		}
 	}
 }

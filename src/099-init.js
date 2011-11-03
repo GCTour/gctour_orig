@@ -109,29 +109,7 @@ function init(){
 	var head =document.getElementsByTagName('head')[0];
 	var style = document.createElement('style');
 	style.type = 'text/css';
-	style.innerHTML =
-		'.cachelist li {'+
-			'	-moz-border-radius-bottomright:10px;'+
-				'	-moz-border-radius-topleft:10px;'+
-				'	list-style-position:inside;'+
-				'	color:#000000;'+
-				'	margin:0.5em;'+
-				'	padding:3px;'+
-				'	width:120px;'+
-				'	min-height:44px;'+
-				'	-moz-background-clip:border;'+
-				'	-moz-background-inline-policy:continuous;'+
-				'	-moz-background-origin:padding;'+
-				'	border:1pt dashed gray;'+
-				'	background-color:#FFFFFF;'+
-				'	color:#000000;'+
-				'}'+
-				''+
-				'.cachelist {'+
-					'	font-size:80%;'+
-						//~ '	list-style-type:disc;'+
-						'	padding:0;'+
-						'}';
+
 	head.appendChild(style);
 
 

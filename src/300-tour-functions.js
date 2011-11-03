@@ -51,7 +51,6 @@ function addNewTableCell(theEntry,effects){
 
 	//set the type
     entryLi.style.listStyleImage="url('"+theEntry.image+"')";
-	entryLi.setAttribute("class", "dojoDndItem");
 
 
 	// make the gcid link

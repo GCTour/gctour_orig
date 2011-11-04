@@ -126,7 +126,7 @@ function initComponents(){
 		padding: 0 !important;\
 		position: fixed !important;\
 		top: 30px !important;\
-		width: 200px !important;\
+		width: 200px;\
 		z-index: 100002 !important;\
 		border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;',
 		id:"gctourContainer"});
@@ -153,51 +153,50 @@ function initComponents(){
 			}, 1000);
 		}
 	});
-	
-	
+
+
 	var geocacheList = document.createElement('ul');
 	geocacheList.id ="cacheList";
 	geocacheList.className = 'cachelist';
 	geocacheList.style.width = '100%';
-	
-	
+
+
 	$(geocacheList).sortable({
 		axis: 'y',
+		placeholder: 'ui-sortable-placeholder',
+		opacity: 0.8,
+		revert: true,
 		stop: function(event, ui){
-			
-			
-			// TODO: Geht vielleicht schneller ;-) 
+
+			// TODO: Geht vielleicht schneller ;-)
 			//~ var geocache_code = ui.item.attr('id');
-			
-			// save the current sortation			
+
+			// save the current sortation
 			var idList = [];
-			
+
 			$("#cacheList").find("li").each(function(i){idList.push(this.id);});
-            // make an geocache array with the new sort
-            
-            debug("Drag n Drop in progress:");
+			// make an geocache array with the new sort
+
+			debug("Drag n Drop in progress:");
 			var tempCaches = [];
-            for(var i = 0; i < idList.length;i++){ // for each id
-                var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
-                var geocache = currentTour.geocaches[position];
-                tempCaches.push(geocache); // and add it to the temporary array
+			for(var i = 0; i < idList.length;i++){ // for each id
+				var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
+				var geocache = currentTour.geocaches[position];
+				tempCaches.push(geocache); // and add it to the temporary array
 				debug("\tMove "+geocache.id+" from '"+position+"' to '"+i+"'.");
-            }
-            
-            // Overwrite the old sortation
-            currentTour.geocaches = tempCaches;
+			}
+
+			// Overwrite the old sortation
+			currentTour.geocaches = tempCaches;
 			// ... and save the new tour object
-            setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
-                saveCurrentTour(); 
-            },0);
-            
-           ui.item.effect("slide", { times:3 }, 300);
-            
-            return;			
+			setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
+				saveCurrentTour();
+			},0);
+
+			return;
 		}
-	});
-	$(geocacheList).disableSelection();
-	
+	}).disableSelection();
+
 	var geocacheListContainer = document.createElement('div');
 	geocacheListContainer.style.overflow = 'auto';
 	geocacheListContainer.style.height = '80%';

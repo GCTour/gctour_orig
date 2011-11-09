@@ -2,7 +2,7 @@ function update(force) {
 	var ver_i, chg_i; // for
 	var updateDate = new Date(GM_getValue('updateDate'));
 
-	if (!updateDate) {
+	if (!updateDate || updateDate == "Invalid Date") {
 		updateDate = new Date();
 		GM_setValue('updateDate', updateDate.toString());
 	}

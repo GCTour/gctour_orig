@@ -4,6 +4,7 @@
  * version @version@.@build@
  *   - FIXED: GPX Download bug "...ctl00_hlSignOut... is undefined"
  *   - FIXED: Issue 18
+ * 	 - FIXED: Update bug
  *   - NEW: Update added link in the error-Dialog
  *   - NEW: User can write a message in the error-Dialog
  *

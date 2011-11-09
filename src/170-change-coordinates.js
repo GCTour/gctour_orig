@@ -23,7 +23,7 @@ function openChangeCoordinates(){
 	td.textContent = $.gctour.lang('originalCoordinates');
 
 
-	var coordinates = dojo.byId('ctl00_ContentBody_LatLon').textContent;
+	var coordinates = dojo.byId('uxLatLon').textContent;
 
 	try{
 		coordinates = coordinates.split("(")[1].split(")")[0];
@@ -178,7 +178,7 @@ function openChangeCoordinates(){
 
 function changeCoordinates(coordinates){
 
-	var coordinates_ele = dojo.byId('ctl00_ContentBody_LatLon');
+	var coordinates_ele = dojo.byId('uxLatLon');
 	try{
 		var coordinates_org = coordinates_ele.textContent.split("(")[1].split(")")[0];
 	} catch(e){

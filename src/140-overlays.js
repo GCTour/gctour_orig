@@ -110,29 +110,29 @@ function addErrorDialog(options){
 
 	var overlay = getOverlay(options);
 
-	errorReport = "version: "+VERSION+"\n";
-	errorReport+= "build: "+BUILD+"\n";
-	errorReport+= "exception: "+options._exception+"\n";
-	errorReport+= "last GCID: "+GM_getValue("debug_lastgcid","")+"\n";
-	errorReport+= "last GCID url: http://www.geocaching.com/seek/cache_details.aspx?log=y&wp="+GM_getValue("debug_lastgcid","")+"\n";
-	errorReport+= "error: "+options.caption+"\n";
-	errorReport+= "username: "+userName+"\n";
-	
-	// ToDo: Usernamen zu guid ? 
-	// Leerzeichen im UserName führen zum falschen User aus "GCTour Support" wird GCTour
-	errorReport+= "Email to user: "+encodeURI("http://www.geocaching.com/email/?u="+userName+"&text=Hallo "+userName+", error: "+options.caption)+"\n";
-	errorReport+= "useragent: "+unsafeWindow.navigator.userAgent+"\n";
-	errorReport+= "document.url: "+document.URL+"\n";
-	errorReport+= "gpxschema: "+GM_getValue('gpxschema',0)+"\n";
-	errorReport+= "gpxhtml: "+GM_getValue('gpxhtml',true)+"\n";
-	errorReport+= "tour:\n";
-	errorReport+= JSON.stringify(currentTour)+"\n";
-	errorReport+= "--------\n";
-	errorReport+= GM_getValue('debug_lastcachesite',"");
+		
+		// expects a post with this fields:
+		//		- redir: url to redirectory after sending
+		//		- version: 2.1.11293
+		//		- exception: TypeError: dojo.query("span[id=\"ctl00_ContentBody_LatLon\"]", element)[0] is undefined
+		//		- gccode: GC2W6GG
+		//		- errorSource: Upload tour error
+		//		- username: MOKA28
+		//		- userAgent: Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
+		//		- lastTour:	{"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im Strütbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"Strütbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - Nähe Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
+
+		
+		errorReport = '\
+		<input type="hidden" name="version" value="'+VERSION+'.'+BUILD+'" >\
+		<input type="hidden" name="exception" value="'+options._exception+'" >\
+		<input type="hidden" name="gccode" value="'+GM_getValue("debug_lastgcid","")+'" >\
+		<input type="hidden" name="errorSource" value="'+options.caption+'" >\
+		<input type="hidden" name="username" value="'+userName+'" >\
+		<input type="hidden" name="userAgent" value="'+unsafeWindow.navigator.userAgent+'" >\
+		<input type="hidden" name="lastTour" value="'+encodeURI(JSON.stringify(currentTour))+'">';
 
 	var error_dialog =$.gctour.lang('ERROR_DIALOG').replace(/##ERROR##/, '<br/><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
 	error_dialog = error_dialog.replace(/##LOCATION##/,window.location);
-	error_dialog = error_dialog.replace(/##USERNAME##/,userName);
 	error_dialog = error_dialog.replace(/##ERRORREPORT##/,errorReport);
 
 	errorDiv = document.createElement('div');

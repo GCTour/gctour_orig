@@ -156,12 +156,11 @@ $.gctour.i18n.de = {
 		"Versuch es einfach noch einmal oder suche nach einem <a href='#' id='gctour_update_error_dialog'>Update</a>!<br/>"+
 		"Wenn dieser Fehler öfter auftritt, dann schicke mir bitte einen Fehlerbericht.<br/>"+
 		"<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
-		"<form action='"+GCTOUR_HOST+"/error' method='post'>"+
+		"<form action='"+GCTOUR_HOST+"/error2' accept-charset='UTF-8' method='post'>"+
 		"<input type='hidden' name='redir' value='##LOCATION##'>"+
-		"<input type='hidden' name='user' value='##USERNAME##'>"+
+		"##ERRORREPORT##"+
 		"<div style='text-align:left;'>Notizen</div>"+
-		"<textarea name='message' rows='4' style='width:99%'></textarea>"+
-		"<textarea name='report' style='display:none;' >##ERRORREPORT##</textarea>"+
+		"<textarea name='userNote' rows='4' style='width:99%'></textarea>"+
 		"<input onclick='return false;' type='button' value='schließen' style='background-image:url("+closebuttonImage+")'>"+
 		"<input type='submit' value='Fehlerbericht senden' style='background-image:url("+sendMessageImage+")'></form></div>",
 	"SCRIPT_ERROR" : "Es sieht so aus, als blockierst du benötigte Javascript-Quellen (z.B. durch das Firefox-Addon NoScript). Bitte lasse 'aolcdn.com' und 'geocaching.com' dauerhaft zu, um GCTour zu nutzen!" ,

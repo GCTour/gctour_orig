@@ -4,10 +4,10 @@ var
 	BUILD      = "@build@",      // will be checked once the day
 	SCRIPTID   = 'gctour',
 	DEBUG_MODE = true,
-//~	API_HOST = 'http://localhost:8888/api',
-//~	GCTOUR_HOST = 'http://localhost:8888',
-	API_HOST = 'http://gctour-spot.appspot.com/api',
-	GCTOUR_HOST = 'http://gctour-spot.appspot.com',
+	API_HOST = 'http://localhost/gctour',
+	GCTOUR_HOST = 'http://localhost',
+	//~ API_HOST = 'http://gctour-spot.appspot.com/api',
+	//~ GCTOUR_HOST = 'http://gctour-spot.appspot.com',
 
 	jQueryLocal = true,  // true = Greasemonkey script require, false = Geocaching <script .... /> include
 

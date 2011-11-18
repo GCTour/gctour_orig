@@ -156,7 +156,7 @@ $.gctour.i18n.de = {
 		"Versuch es einfach noch einmal oder suche nach einem <a href='#' id='gctour_update_error_dialog'>Update</a>!<br/>"+
 		"Wenn dieser Fehler öfter auftritt, dann schicke mir bitte einen Fehlerbericht.<br/>"+
 		"<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
-		"<form action='"+GCTOUR_HOST+"/error2' accept-charset='UTF-8' method='post'>"+
+		"<form action='"+API_HOST+"/error/send' accept-charset='UTF-8' method='post'>"+
 		"<input type='hidden' name='redir' value='##LOCATION##'>"+
 		"##ERRORREPORT##"+
 		"<div style='text-align:left;'>Notizen</div>"+

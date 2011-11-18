@@ -13,6 +13,7 @@ Die Website mit ihrer API habe ich mittels REST Framework Tonic (http://peej.git
 
 List der aktuellen Ressource (geklammerte Ressourcen noch _NICHT_ implementiert):
 	/map/save - POST 
+	(/map/check - POST)
 	(/map/show - POST - Anzeigen einer Karte mit den Eigenschaften (entitycodes}, {options}, {maptype} aus POST)
 	/map/show/{entitycodes}/{options}/{maptype} - GET
 

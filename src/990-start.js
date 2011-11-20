@@ -35,16 +35,22 @@ String.prototype.trimAll = function() {
 
 (function () {
 
-	// test for firefox >= 3.5
+	// test for gecko-version >= 1.9.2 (firefox >= 3.6)
+	// http://docs.jquery.com/Browser_compatibility#About_Browser_Compatibility
+	// http://de.wikipedia.org/wiki/Firefox#Wichtige_Versionen (Gecko Version)
 	if ($.browser.mozilla) {
-		var splitVersion = $.browser.version.split('.');
-		var majorNumber = parseInt(((splitVersion[0]) ? splitVersion[0] : 0), 10);
-		var minorNumber = parseInt(((splitVersion[1]) ? splitVersion[1] : 0), 10);
+		var arrV = $.browser.version.split('.'),
+			majorN = parseInt(((arrV[0]) ? arrV[0] : 0), 10),
+			minorN = parseInt(((arrV[1]) ? arrV[1] : 0), 10),
+			buildN = parseInt(((arrV[2]) ? arrV[2] : 0), 10);
 
-		if ( !((majorNumber > 3) || (majorNumber === 3 && minorNumber >= 5)) ) {
-			alert("Sorry, but you are running 'Firefox " + $.browser.version  + 
-				"' which is not supported anymore.\nPlease update to 'Firefox 3.5' or above to use GCTour!");
+		if (!( (majorN >= 2) ||  // >= FF 4
+			(majorN === 1 && minorN === 9 && buildN === 2) // = FF 3.6.xx
+		)) {
+			alert("Sorry, but you are running 'Firefox " + $.browser.version  +
+				"' which is not supported anymore.\nPlease update to 'Firefox 3.6' or above to use GCTour!");
 		}
+		//else { alert("okay: " + $.browser.version); }
 	}
 
 	// init the whole script - started with dojo

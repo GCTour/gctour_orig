@@ -158,23 +158,15 @@ function init(){
 		return;
 	}
 
-
-
-
-
-
-
-	// update the complete gui if the tab gets focus
-	window.addEventListener("focus", updateTour,false);
-
-	window.addEventListener("resize", handleResize,false);
-
-
-	//~ window.onresize = function(event) {
-    //~ ...
-//~ }
-
-
+	$(window).bind({
+		// update the complete gui if the tab gets focus
+		'focus': function(e) {
+			updateTour(e);
+		},
+		'resize': function(e) {
+			handleResize(e);
+		}
+	});
 
     // process autoTour
 	if(GM_getValue('tq_url')){

@@ -372,36 +372,43 @@ function init(){
 	// beta maps - map/beta/default.aspx = map/beta/
 	if(document.URL.search("\/map\/beta\/")>=0) {
 
-		//~ <div style="width:100px;margin-left:auto;margin-right:auto;background-color:#fff;padding:3px;-moz-border-radius:3px;border:2px solid #666"><img src=""></div>
-
-		var autoTour_div = createElement('div',{
-			style:'width: 100px; \
-			height: 30px; \
-			margin: 0 auto; \
-			overflow: hidden; \
-			border-radius: 5px; \
-			background-color: #FFF; \
-			border: 4px solid #999; \
-			cursor: pointer;'
-		});
-		autoTour_div.className = "header";
-
-		autoTour_div.innerHTML = "<h1><img src='"+mapToAutoTour+"'>";
-
-		dojo.query("h1",autoTour_div).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = "#B2D4F3"}).onclick(function(e)
-		{
-			var googleMap = unsafeWindow.map;
-
-			var bounds = googleMap.getBounds();
-			var center = googleMap.getCenter();
-
-			var radius = Math.floor(distanceBetween(center.lat(),center.lng(),bounds.getNorthEast().lat(),bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng())/2)) / 1000;
-
-			showAutoTourDialog(center,radius);
-		});
-
-		dojo.byId('maps-hd').appendChild(autoTour_div);
-
+		 $("<div>",{
+			"class": "header",
+				"css": {
+					'width': 100,
+					'height': 30,
+					'margin': "0 auto",
+					'overflow': "hidden",
+					'border-radius': 5,
+					'background-color': "#FFF",
+					'border': "4px solid #999",
+					'cursor': 'pointer'
+				},
+				"html": $("<h1>", {
+					mouseover: function(e){
+						$(this).css({backgroundColor: "orange"});
+					},
+					mouseout: function(e){
+						$(this).css({backgroundColor: "#B2D4F3"});
+					},
+					click: function(e) {
+						var googleMap = unsafeWindow.map,
+						bounds = googleMap.getBounds(),
+						center = googleMap.getCenter(),
+						radius = Math.floor(
+							distanceBetween(
+								center.lat(), center.lng(),
+								bounds.getNorthEast().lat(),
+								bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
+							)
+						) / 1000;
+						showAutoTourDialog(center, radius);
+					},
+					"html": $("<img>", {
+						"src": mapToAutoTour
+					})
+				})
+		}).appendTo("#maps-hd");
 
 		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');
 		cacheDetailsTemplate.textContent = cacheDetailsTemplate.textContent.replace(/<\/div>\s*{{else}}/g,'<br/><a  class="lnk" href="javascript:add2tour();"><img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span></a></div>{{else}}');

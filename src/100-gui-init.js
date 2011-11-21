@@ -88,7 +88,7 @@ function initComponents(){
 	//~ var thisDiv = getElementsByAttribute('class','widget-navigation')[0];
 
 	var menuButton = createElement('div',{
-		style:'height: 29px !important;\
+		style:'height: 30px !important;\
 		padding: 0 !important;\
 		position: fixed !important;\
 		top: 30px !important;\

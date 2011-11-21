@@ -9,23 +9,8 @@ var
 	//~ API_HOST = 'http://gctour-spot.appspot.com/api',
 	//~ GCTOUR_HOST = 'http://gctour-spot.appspot.com',
 
-	jQueryLocal = true,  // true = Greasemonkey script require, false = Geocaching <script .... /> include
-
-	// jQuery local vorhanden und gewünscht ?
-	isjQueryLocal = (
-		(jQueryLocal === true) && (typeof jQuery !== "undefined") &&
-		(typeof jQuery === "function") && (typeof jQuery.fn === "object")
-	),
-
-// jQuery mit "unsafeWindow" vorhanden ?
-	isjQueryWindow = (
-		(typeof unsafeWindow.jQuery !== "undefined") &&
-		(typeof unsafeWindow.jQuery === "function") &&
-		(typeof unsafeWindow.jQuery.fn === "object")
-	),
-
-	// setze $ mit jQuery local (Greasemonkey) oder alternativ GC
-	$ = ((isjQueryLocal) ? jQuery : unsafeWindow.jQuery),
+	// setze $ mit jQuery local (Greasemonkey)
+	$ = window.jQuery,
 
 	// is jQuery und UI geladen
 	isjQuery = (
@@ -133,17 +118,17 @@ var
 *     TEST Anfang
 */
 /*
-			// TEST wir als 3. ausgeführt
+			// TEST wir als 3. ausgefÃ¼hrt
 			jQuery(function($){
 				alert("3. jQuery(function($){: " + $.fn.jquery);
 			});
 
-			// TEST wir als 2. ausgeführt
+			// TEST wir als 2. ausgefÃ¼hrt
 			unsafeWindow.jQuery(function($){
 				alert("2. unsafeWindow.jQuery(function($){: " + $.fn.jquery);
 			});
 
-			// TEST wir als 1. ausgeführt
+			// TEST wir als 1. ausgefÃ¼hrt
 			alert("0 $: " + $.fn.jquery);
 
 */

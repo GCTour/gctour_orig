@@ -3,21 +3,9 @@
 
   <!-- property -->
   <property file="build.prop"/>
-  <loadfile property="GcTour.Version" srcfile="version.txt" />
-
-  <property name="tmp.file.cssall" value="tmp-allcss.css" description="temporary file for concat css files" />
-  <property name="file.css.js" value="080-style.js" description="script file for the css" />
-
-  <!-- timestamp -->
-  <tstamp>
-    <format property="GcTour.Build" pattern="yyDDD" />
-    <format property="date" pattern="dd MMM yyyy HH:mm" locale="de_DE" />
-  </tstamp>
-
-  <!-- taskdefs -->
-  <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
-
-
+  <loadfile property="GcTour.Version" srcfile="version.txt" />	
+	<import file="build_general_prop.xml" />
+	
   <!-- beginning projects -->
   <target name="init" depends="clean">
     <echo>
@@ -102,8 +90,10 @@
     <echo>Add current version to the header.</echo>
     <replace dir="${tmp.dir}/">
       <fileset dir="${tmp.dir}/" includes="00*.js,01*.js,02*.js" />
-      <replacefilter token="@version@" value="${GcTour.Version}" />
-      <replacefilter token="@build@" value="${GcTour.Build}" />
+      <replacefilter token="@version@"            value="${GcTour.Version}" />
+      <replacefilter token="@build@"              value="${GcTour.Build}" />
+      <replacefilter token="@url_require_jquery@" value="${url.jquery}" />
+      <replacefilter token="@url_require_ui@"     value="${url.jquery-ui}" />
     </replace>
 
     <echo>Add Userscript-Header to the script.</echo>
@@ -132,17 +122,25 @@
 
 
   <target name="build.opera" depends="make">
+
     <copy todir="${tmp.dir}/opera">
       <fileset dir="opera/" includes="**" />
     </copy>
     <replace file="${tmp.dir}/opera/config.xml" token="@version@" value="${GcTour.Version}" />
     <replace file="${tmp.dir}/opera/config.xml" token="@build@" value="${GcTour.Build}" />
+
+    <!-- download jQuery and jQuery ui -->
+    <get src="${url.jquery}"    dest="${tmp.dir}/opera/includes/02_jquery.js"    verbose="on" />
+    <get src="${url.jquery-ui}" dest="${tmp.dir}/opera/includes/04_jquery-ui.js" verbose="on" />
+
     <copy file="${build.dir}/${App}.user.js" tofile="${tmp.dir}/opera/includes/GCTour.user.js"/>
+
     <zip destfile="${build.dir}/GCTour.oex" basedir="${tmp.dir}/opera">
       <patternset>
         <include name="**"/>
       </patternset>
     </zip>
+
   </target>
 
 

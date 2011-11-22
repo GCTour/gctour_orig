@@ -11,8 +11,8 @@
 // @copyright      2008, 2009, 2010, 2011 Martin Georgi
 // @author         madd.in
 // @icon           http://www.madd.in/geocaching/gm/gctourextension/icon.png
-// @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js
-// @require        https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js
+// @require        @url_require_jquery@
+// @require        @url_require_ui@
 // @license        GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 

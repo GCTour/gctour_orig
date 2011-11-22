@@ -1,23 +1,18 @@
 <?php
-
+  /*
  * @namespace GCTour\Map\Show
  * @uri /tour/save
  */
 class TourSaveResource extends Resource {
-   
    
     function post($request) {
    $response = new Response($request);
 		
 		if (isset($_POST['tour'])) {
             $tour = $_POST['tour'];
-            
          
             $tour_obj = json_decode($tour);
-            
-            
-          
-            
+
             $response->code = Response::OK;
             $response->addHeader('Content-type', 'text/plain');
             $response->body = "tour saved";

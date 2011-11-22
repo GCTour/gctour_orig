@@ -167,7 +167,7 @@ Geo.toDMS = function(deg, format) {
       dms = d;      // add ° symbol
       break;
     case 'dm':
-      var min = (deg*60).toFixed(30);  // convert degrees to minutes & round
+      var min = (deg*60).toFixed(8);  // convert degrees to minutes & round
       var d = Math.floor(min / 60);    // get component deg/min
       var m = (min % 60).toFixed(3);  // pad with trailing zeros
       if (d<100) d = '0' + d;          // pad with leading zeros

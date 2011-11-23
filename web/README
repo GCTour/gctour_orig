@@ -1,0 +1,30 @@
+Konfiguration
+=============
+
+Als ertes müsst ihr die Datei sql/gctour.sql in eine SQL Datenbank (auf madd.in läuft MySQL) laden. Anschließend muss man die conf/config.inc.php.example in conf/config.inc.php umbennen und ggf. die Werte bearbeiten.
+
+
+
+
+Funktion
+========
+
+Die Website mit ihrer API habe ich mittels REST Framework Tonic (http://peej.github.com/tonic/) realisiert.
+
+List der aktuellen Ressource (geklammerte Ressourcen noch _NICHT_ implementiert):
+	/map/save - POST 
+	(/map/check - POST)
+	(/map/show - POST - Anzeigen einer Karte mit den Eigenschaften (entitycodes}, {options}, {maptype} aus POST)
+	/map/show/{entitycodes}/{options}/{maptype} - GET
+
+	(/tour/save -POST)
+
+	/errors/query - POST
+	/errors/send -POST
+	
+	
+	
+Tests
+=====
+
+Um die API zu testen gibt verschiedene vorgefertige Shell Skripte in tests . Diese tragen erste Werte in eine leere Datenbank ein und können benutzt werden um die Funktionalität der Ressourcen zu testen.

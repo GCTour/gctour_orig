@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+	<title>GCTour Map</title>	
+</head>
+
+
+<body>
+	<h2>Map is empty!</h2>
+	
+	You are trying to create a map with no content:<br/><br/>
+	Geocache IDs: 
+		<ul>
+			{foreach from=$geocacheIds item=id}
+				<li>{$id}</li>
+			{/foreach}
+		</ul>
+		
+	<br/>
+	OwnWaypoints IDs:
+		<ul>
+			{foreach from=$ownWaypointsIds item=id}
+				<li>{$id}</li>
+			{/foreach}
+		</ul>
+		
+	
+</body>
+</html>
+
+

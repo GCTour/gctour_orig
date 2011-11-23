@@ -110,9 +110,9 @@ $.gctour.i18n.nl = {
 	'settingsFrontPageDesc' : 'Een overzicht wordt gemaakt met de volledige lijst van de geocaches met een index en plaats voor notities. ',
 	'settingsOutlineMapDesc' : 'Het overzicht  zal een kaart met alle geocaches bevatten.',
 	'settingsOutlineMapSingeDesc' : 'Na iedere geocache komt een kaart met de geocache en de additional waypoints.',
-	'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> volgens het  originele Groundspeak GPX bestandsindeling dat alle info bevat voor elk modern GPS toestel.</li>\
-	<li><b>Geocaching.com.au:</b> implementatie van het gratis geocaching.com.au formaat. Niet alle GPS toestellen en programma\'s kunnen dit formaat aan.</li></ul>\
-	<b>Indien bij het inlezen van de gegevens, probeer je best nogmaals met het \"Groundspeak\"\  formaat!</b>",
+	'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> volgens het  originele Groundspeak GPX bestandsindeling dat alle info bevat voor elk modern GPS toestel.</li>"+
+     "<li><b>Geocaching.com.au:</b> implementatie van het gratis geocaching.com.au formaat. Niet alle GPS toestellen en programma\'s kunnen dit formaat aan.</li></ul>"+
+     "<b>Indien bij het inlezen van de gegevens, probeer je best nogmaals met het \"Groundspeak\"\  formaat!</b>",
 	'settingsGPXHtmlDesc' : 'Sommige programma\'s en GPS toestellen hebben problemen met geocache beschrijvingen in HTML. Indien dit het geval is, kan je best deze optie afzetten.',
 	'settingsGPXWptsDesc' : 'Additional waypoints worden geëxporteerd als extra waypoint naar GPX. Alle paarkeerplaatsen zullen zichtbaar zijn op je toestel.',
 	'settingsGPXStripGCDesc' : 'Oudere GPS toestellen kunnen problemen hebben met waypoints waarvan de naam langer is dan 8 tekens. Gebruik deze optie indien dit het geval is.',	

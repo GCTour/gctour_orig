@@ -51,12 +51,13 @@
     <echo>load all stylesheets and add suffix of line a backslash</echo>
     <loadfile srcfile="${tmp.dir}/${tmp.file.cssall}" property="allcss">
       <filterchain>
-        <suffixlines suffix="\\\\"/>
+        <prefixlines prefix='\"'/>
+        <suffixlines suffix='\"+'/>
       </filterchain>
     </loadfile>
 
     <echo>include stylesheets to the script</echo>
-    <replaceregexp match="##includeallcssfiles##" replace="${allcss}" file="${tmp.dir}/${file.css.js}" />
+    <replaceregexp match='"##includeallcssfiles##"+' replace="${allcss}" file="${tmp.dir}/${file.css.js}" />
 
   </target>
 

@@ -377,12 +377,6 @@ function init(){
 					'cursor': 'pointer'
 				},
 				"html": $("<h1>", {
-					mouseover: function(e){
-						$(this).css({backgroundColor: "orange"});
-					},
-					mouseout: function(e){
-						$(this).css({backgroundColor: "#B2D4F3"});
-					},
 					click: function(e) {
 						var googleMap = unsafeWindow.map,
 						bounds = googleMap.getBounds(),
@@ -400,6 +394,10 @@ function init(){
 						"src": mapToAutoTour
 					})
 				})
+				.hover(
+          function(){$(this).css({'backgroundColor': 'orange'})},
+          function(){$(this).css({'backgroundColor': '#B2D4F3'})}
+				)
 		}).appendTo("#maps-hd");
 
 		var cacheDetailsTemplate = dojo.byId('cacheDetailsTemplate');

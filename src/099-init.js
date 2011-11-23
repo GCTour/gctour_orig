@@ -48,58 +48,6 @@ function initCore(){
 	checkOnlineConsistent(currentTour);
 }
 
-function initDojo(){
-	// just dont start the script on the gc.com print page!
-	if(document.URL.search("cdpf\.aspx")<=0) {
-
-		var requiredModules, script;
-
-        // required modules - add dojo stuff here
-		requiredModules = [];
-		requiredModules.push("dojo.fx");
-	    requiredModules.push("dojo.parser");
-		requiredModules.push("dojo.dnd.Source");
-		requiredModules.push("dojo.date.locale");
-		requiredModules.push("dojo.number");
-		requiredModules.push("dojo.window");
-
-
-
-		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules,locale: 'en'};
-		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
-
-
-		// check after 20sec if dojo is loaded - otherwhise asume user is blocking Javascript (possible false positve)
-		window.setTimeout(function(){
-			if(!dojo){
-			   alert($.gctour.lang('SCRIPT_ERROR'));
-			}
-		},20000);
-
-		// only way to check if the dojo script is loaded - addOnLoad fails because of unsafeWindow scope
-		script.addEventListener('load', function(event){
-			dojo = unsafeWindow.dojo;
-
-			// if dojo is ready to go ( include all required modules ), init GCTour
-			dojo.addOnLoad(function(){
-			        if(isOpera)
- 				{
-					//Wait until the document is loaded, and then call init()
- 					window.addEventListener('DOMContentLoaded',function(){
- 						init();
- 					},true);
- 				}
- 				else
- 				{
- 					setTimeout(function() { // hack to prevent "access violation" from Greasemonkey http://wiki.greasespot.net/0.7.20080121.0_compatibility
- 						init();
- 					},0);
- 				}
-			},0);
-		}, 'false');
-	}
-}
-
 function init(){
 
 	// set Styles (GM_addStyle)
@@ -209,15 +157,14 @@ function init(){
 
 			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
 
-            // locate the table
+			// locate the table
 
-            var images_array = dojo.query("img[id *= 'uxDTCacheTypeImage']");
+			var images_array = dojo.query("img[id *= 'uxDTCacheTypeImage']");
 
-
-            // find all dtsize images and extract the temporary code
-            var dtImageQuery = "";
-            for(var i = 0; i < images_array.length;i++){
-				dtImageQuery += images_array[i].getAttribute('src').split("=")[1];;
+			// find all dtsize images and extract the temporary code
+			var dtImageQuery = "";
+			for(var i = 0; i < images_array.length;i++){
+				dtImageQuery += images_array[i].getAttribute('src').split("=")[1];
 				dtImageQuery = (i!=images_array.length-1)?dtImageQuery+"-":dtImageQuery;
 			}
 
@@ -235,8 +182,7 @@ function init(){
 								var entryTds = resultTable[i+1].getElementsByTagName('td');
 								var entry = {}; // gather informations line-by-line
 
-
-								dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{2,9})\s*\|/)
+								dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{2,9})\s*\|/);
 								entry.id = "GC"+RegExp.$1;
 								entry.name = trim(dojo.query('span',entryTds[5])[0].textContent);
 								entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
@@ -395,8 +341,8 @@ function init(){
 					})
 				})
 				.hover(
-          function(){$(this).css({'backgroundColor': 'orange'})},
-          function(){$(this).css({'backgroundColor': '#B2D4F3'})}
+          function(){ $(this).css({'backgroundColor': 'orange'}); },
+          function(){ $(this).css({'backgroundColor': '#B2D4F3'}); }
 				)
 		}).appendTo("#maps-hd");
 
@@ -473,18 +419,15 @@ function init(){
 		addBookmarkButton.setAttribute('onclick','return false;');
 		addBookmarkButton.innerHTML ="<img src='"+addToTourImageString+"'/>&nbsp;"+$.gctour.lang('addShownBookmarks');
 		addBookmarkButton.addEventListener('click', function () {
+			for(var k = 0; k<bookmarkLines.length ; k++){
+				var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+				var entry = getEntryFromBookmarkTd(bookmarkLine);
 
-
-					for(var k = 0; k<bookmarkLines.length ; k++){
-						var bookmarkLine = dojo.query("td", bookmarkLines[k]);
-						var entry = getEntryFromBookmarkTd(bookmarkLine);
-
-						if(entry){
-							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-
-						}
-					};
-				},false);
+				if(entry){
+					addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+				}
+			}
+		},false);
 		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].appendChild(addBookmarkButton);
 
 		// button to add all caches in list to a new tour
@@ -517,17 +460,17 @@ function init(){
 
 		// on click add checked caches in bookmark table
 		newButton.addEventListener('click',  function(){
-					for(var k = 0; k<bookmarkLines.length ; k++){
-						var bookmarkLine = dojo.query("td", bookmarkLines[k]);
-						var entry = getEntryFromBookmarkTd(bookmarkLine);
+			for(var k = 0; k<bookmarkLines.length ; k++){
+				var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+				var entry = getEntryFromBookmarkTd(bookmarkLine);
 
-						if(entry){
-							if(entry.checked){
-							addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-							}
-						}
-					};
-				}, false)
+				if(entry){
+					if(entry.checked){
+					addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+					}
+				}
+			}
+		}, false);
 		//add the button to the website
 		dojo.query('input[id="ctl00_ContentBody_ListInfo_btnDownload"]')[0].parentNode.appendChild(newButton);
 	}
@@ -646,3 +589,57 @@ function init(){
 
 	}
 }
+/* END init() */
+
+function initDojo(){
+	// just dont start the script on the gc.com print page!
+	if(document.URL.search("cdpf\.aspx")<=0) {
+
+		var requiredModules, script;
+
+        // required modules - add dojo stuff here
+		requiredModules = [];
+		requiredModules.push("dojo.fx");
+	    requiredModules.push("dojo.parser");
+		requiredModules.push("dojo.dnd.Source");
+		requiredModules.push("dojo.date.locale");
+		requiredModules.push("dojo.number");
+		requiredModules.push("dojo.window");
+
+
+
+		unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules,locale: 'en'};
+		script = appendScript(dojoPath + "/dojo/dojo.xd.js");
+
+
+		// check after 20sec if dojo is loaded - otherwhise asume user is blocking Javascript (possible false positve)
+		window.setTimeout(function(){
+			if(!dojo){
+			   alert($.gctour.lang('SCRIPT_ERROR'));
+			}
+		},20000);
+
+		// only way to check if the dojo script is loaded - addOnLoad fails because of unsafeWindow scope
+		script.addEventListener('load', function(event){
+			dojo = unsafeWindow.dojo;
+
+			// if dojo is ready to go ( include all required modules ), init GCTour
+			dojo.addOnLoad(function(){
+			        if(isOpera)
+ 				{
+					//Wait until the document is loaded, and then call init()
+ 					window.addEventListener('DOMContentLoaded',function(){
+ 						init();
+ 					},true);
+ 				}
+ 				else
+ 				{
+ 					setTimeout(function() { // hack to prevent "access violation" from Greasemonkey http://wiki.greasespot.net/0.7.20080121.0_compatibility
+ 						init();
+ 					},0);
+ 				}
+			},0);
+		}, 'false');
+	}
+}
+

@@ -5,10 +5,7 @@ function initButton(){
 	var cacheControl = dojo.query("div[class='CacheInformationTable']")[0];
 	if (cacheControl != null){
 
-
 		var div_element = createElement('div',{style:"border-top: 1px solid rgb(192, 206, 227);"});append(div_element,cacheControl);
-
-
 
 		var gcTourFieldset = createElement('fieldset',{style:"background-color: #EFF4F9;border-color: #C0CEE3 !important;margin-top:0;padding: 0.5em;"});append(gcTourFieldset,div_element);
 		gcTourFieldset.setAttribute('class','dialogFooter');
@@ -22,7 +19,6 @@ function initButton(){
 		//~ newButton.type = 'submit';
 		//~ newButton.innerHTML = "<img src='"+addToTourImageString+"'/>&nbsp;"+$.gctour.lang('addToTour');
 		//~ newButton.id = 'btnGPXDL';
-
 
 		// locate the values and save it
 		var minimal_geocache = getMinimalGeocacheDetails(document.getElementsByTagName('html')[0]);
@@ -44,14 +40,14 @@ function initButton(){
 
 		// on click add an element
 		newButton.addEventListener('click', function(){
-				var entry = new Object();
+				var entry = {};
 				entry.id = cacheId;
 				entry.name = cacheName;
 				entry.guid = guidId;
 				entry.image = 'http://www.geocaching.com/images/WptTypes/sm/'+cacheTypeImage;
 
 
-				temp_tour = new Object();
+				temp_tour = {};
 				temp_tour.name = entry.name;
 				temp_tour.geocaches = new Array(entry);
 
@@ -60,15 +56,14 @@ function initButton(){
 		}, false);
 
 
-		append(newButton,gcTourFieldset)
+		append(newButton,gcTourFieldset);
 
 
 		// change coordinates
 		newButton = createElement('input',{type:"button",value:$.gctour.lang('moveGeocache'),style:"float:left;background-image:url(http://www.geocaching.com/images/icons/coord_update.gif)"});append(newButton,gcTourFieldset);
 		newButton.setAttribute('onclick','return false;');
 		newButton.addEventListener('click', openChangeCoordinates, false);
-		append(newButton,gcTourFieldset)
-
+		append(newButton,gcTourFieldset);
 
 
 		// update the coordinates if it is already changed:
@@ -76,7 +71,6 @@ function initButton(){
 		if(GM_getValue('coords_'+cacheId,"null") != "null"){
 			var coords_cacheId = GM_getValue('coords_'+cacheId);
 			changeCoordinates(new LatLon(coords_cacheId.split('#')[0], coords_cacheId.split('#')[1]).toString());
-
 		}
 
 	}
@@ -88,15 +82,17 @@ function initComponents(){
 	//~ var thisDiv = getElementsByAttribute('class','widget-navigation')[0];
 
 	var menuButton = createElement('div',{
-		style:'height: 30px !important;\
-		padding: 0 !important;\
-		position: fixed !important;\
-		top: 30px !important;\
-		width: 35px !important;\
-		background-color:#fff;\
-		z-index: 100001 !important;\
-		border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;\
-		-moz-user-select:none;'});
+		style:'height: 30px !important;'+
+			'padding: 0 !important;'+
+			'position: fixed !important;'+
+			'top: 30px !important;'+
+			'width: 35px !important;'+
+			'background-color:#fff;'+
+			'z-index: 100001 !important;'+
+			'border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;'+
+			'-moz-user-select:none;'
+		}
+	);
 	menuButton.className = "header";
 
 	menuButton.innerHTML = "<h1 style='height: 16px;border-radius: 0 5px 5px 0;'><img src='"+gctourLogoSmall+"'></h1>";
@@ -120,16 +116,17 @@ function initComponents(){
 
 
 	var thisDiv = createElement('div',{
-		style:'background-color: #fff;\
-		overflow: hidden;\
-		left:-210px;\
-		padding: 0 !important;\
-		position: fixed !important;\
-		top: 30px !important;\
-		width: 200px;\
-		z-index: 100002 !important;\
-		border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;',
-		id:"gctourContainer"});
+		style:'background-color: #fff;'+
+			'overflow: hidden;'+
+			'left:-210px;'+
+			'padding: 0 !important;'+
+			'position: fixed !important;'+
+			'top: 30px !important;'+
+			'width: 200px;'+
+			'z-index: 100002 !important;'+
+			'border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;',
+		id:"gctourContainer"}
+	);
 
 	if(sticky){
 		thisDiv.style.left = "0px";
@@ -272,13 +269,13 @@ function initComponents(){
 	tourHeaderDiv.style.height = ((currentTour.webcode)?55:35)+"px";
 
 	tourHeaderDiv.innerHTML = '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>';
-	tourHeaderDiv.innerHTML+="<span id='webcode'><br/>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>"
+	tourHeaderDiv.innerHTML+="<span id='webcode'><br/>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>";
 	// show the webcode if it is available
 	if(!currentTour.webcode){
 		dojo.query("span[id='webcode']",tourHeaderDiv)[0].style.display = 'none';
 	}
 
-			append(createElement('br'),tourHeaderDiv)
+	append(createElement('br'),tourHeaderDiv);
 
 	$(tourHeaderDiv).append(
 
@@ -290,7 +287,7 @@ function initComponents(){
 				alt :   $.gctour.lang('rename'),
 				click: function(){
 					var newTourName = prompt($.gctour.lang('newTourDialog'), currentTour.name);
-					if(!newTourName) return;
+					if(!newTourName) { return; }
 					currentTour.name = newTourName;
 					saveCurrentTour();
 					updateTour();
@@ -404,15 +401,20 @@ function initComponents(){
 			//~ header.style.cursor = "pointer";
 			//~ header.style.height = "30px";
 
-			dojo.query("h1",header).onmouseover(function(e){this.style.backgroundColor = "orange"}).onmouseout(function(e){this.style.backgroundColor = (sticky)?"orange":"#B2D4F3"}).onclick(function(e){sticky = !sticky;GM_setValue('sticky',sticky);dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;});
+			dojo.query("h1",header)
+				.onmouseover(function(e){
+					this.style.backgroundColor = "orange";
+				})
+				.onmouseout(function(e){
+					this.style.backgroundColor = (sticky) ? "orange" : "#B2D4F3";
+				})
+				.onclick(function(e){
+					sticky = !sticky;GM_setValue('sticky',sticky);
+					dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;
+				});
 
 			var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
 			footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ VERSION + "." + BUILD + "</div>";
-
-
-
-
-
 
 			append(header, thisDiv);
 			append(buttonsDiv, thisDiv);
@@ -420,22 +422,17 @@ function initComponents(){
 			append(geocacheListContainer, thisDiv);
 			append(footerDiv, thisDiv);
 
-
-
-
-
-
 			// popultate the current list on load
 			for (var i = 0; i < currentTour.geocaches.length; i++){
 				addNewTableCell(currentTour.geocaches[i],false);
 			}
 
-			if(currentTour.geocaches.length == 0){
+			if(currentTour.geocaches.length <= 0){
 				var table = document.getElementById('cacheList');
 				table.innerHTML = $.gctour.lang('emptyList');
 			}
 
-
 			//finally: set new heights and layout!
 			handleResize();
 }
+

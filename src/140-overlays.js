@@ -12,24 +12,21 @@ getOverlay(options);
 
 */
 
+function removeNode(id,theDocument){
+	try{
+		var node = theDocument.getElementById(id);
+		 dojo.destroy(node);
 
-function getListOverlay(options){
-	var overlay = getOverlay(options);
-	var list = createElement('div',{id:"dialogListContainer"});append(list,overlay);
+		//node.parentNode.removeChild(node);
+	} catch(e){} // prevent error if id doesn't exist
+}
 
-	var listUl = createElement('ul');
-	listUl.setAttribute("class", "dialogList");
-	append(listUl,list);
-
-	var details = createElement('div',{id:"dialogDetails"});append(details,overlay);
-
-	var dialogFooter = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(dialogFooter,overlay);
-	dialogFooter.setAttribute('class','dialogFooter');
-
-	var close = createElement('input',{type:"button",value:$.gctour.lang('close'),style:"background-image:url("+saveImage+")"});append(close,dialogFooter);
-	close.addEventListener('click', closeOverlay, false);
-
-	return [listUl, details];
+function closeOverlayRemote(theDocument){
+	return function(){
+		removeNode("dialogMask",theDocument);
+		removeNode("dialogBody",theDocument);
+		removeNode("progressOverlay",theDocument);
+	};
 }
 
 function getOverlay(options){
@@ -55,13 +52,15 @@ function getOverlay(options){
 	dialogBody.className= "dialogBody header";
 	if(options.minimized){dialogBody.className += " dialogMin";}
 
-	var dialogHead =  localDocument.createElement('h1');append(dialogHead,dialogBody);
+	var dialogHead =  localDocument.createElement('h1');
+	append(dialogHead,dialogBody);
 	dialogHead.style.backgroundColor = background_color;
 
 	var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>";
 	dialogHead.innerHTML = icon+caption;
 
-	closeButton = createElement('img', {style:"cursor:pointer;"});append(closeButton, dialogHead);
+	closeButton = createElement('img', {style:"cursor:pointer;"});
+	append(closeButton, dialogHead);
 	closeButton.style.cssFloat = "right";
 	closeButton.src = closebuttonImage;
 
@@ -69,7 +68,8 @@ function getOverlay(options){
 	closeButton.addEventListener('click',closeFunction(localDocument), false);
 	//addOpacityEffects(closeButton);
 
-	var dialogContent = localDocument.createElement('div');append(dialogContent,dialogBody);
+	var dialogContent = localDocument.createElement('div');
+	append(dialogContent,dialogBody);
 	dialogContent.className= "dialogContent";
 
 	bodyNew.appendChild(overLay);
@@ -82,21 +82,27 @@ function closeOverlay(){
 	closeOverlayRemote(document)();
 }
 
-function closeOverlayRemote(theDocument){
-	return function(){
-		removeNode("dialogMask",theDocument);
-		removeNode("dialogBody",theDocument);
-		removeNode("progressOverlay",theDocument);
-	};
-}
+function getListOverlay(options){
+	var overlay = getOverlay(options);
+	var list = createElement('div',{id:"dialogListContainer"});
+	append(list,overlay);
 
-function removeNode(id,theDocument){
-	try{
-		var node = theDocument.getElementById(id);
-		 dojo.destroy(node);
+	var listUl = createElement('ul');
+	listUl.setAttribute("class", "dialogList");
+	append(listUl,list);
 
-		//node.parentNode.removeChild(node);
-	} catch(e){} // prevent error if id doesn't exist
+	var details = createElement('div',{id:"dialogDetails"});
+	append(details,overlay);
+
+	var dialogFooter = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});
+	append(dialogFooter,overlay);
+	dialogFooter.setAttribute('class','dialogFooter');
+
+	var close = createElement('input',{type:"button",value:$.gctour.lang('close'),style:"background-image:url("+saveImage+")"});
+	append(close,dialogFooter);
+	close.addEventListener('click', closeOverlay, false);
+
+	return [listUl, details];
 }
 
 function addErrorDialog(options){
@@ -110,7 +116,7 @@ function addErrorDialog(options){
 
 	var overlay = getOverlay(options);
 
-		
+
 		// expects a post with this fields:
 		//		- redir: url to redirectory after sending
 		//		- version: 2.1.11293
@@ -119,17 +125,17 @@ function addErrorDialog(options){
 		//		- errorSource: Upload tour error
 		//		- username: MOKA28
 		//		- userAgent: Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
-		//		- lastTour:	{"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im Strütbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"Strütbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - Nähe Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
+		//		- lastTour:	{"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im StrÃ¼tbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"StrÃ¼tbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - NÃ¤he Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
 
-		
-		errorReport = '\
-		<input type="hidden" name="version" value="'+VERSION+'.'+BUILD+'" >\
-		<input type="hidden" name="exception" value="'+options._exception+'" >\
-		<input type="hidden" name="gccode" value="'+GM_getValue("debug_lastgcid","")+'" >\
-		<input type="hidden" name="errorSource" value="'+options.caption+'" >\
-		<input type="hidden" name="username" value="'+userName+'" >\
-		<input type="hidden" name="userAgent" value="'+unsafeWindow.navigator.userAgent+'" >\
-		<input type="hidden" name="lastTour" value="'+encodeURI(JSON.stringify(currentTour))+'">';
+
+		errorReport =
+			'<input type="hidden" name="version" value="'+VERSION+'.'+BUILD+'" >'+
+			'<input type="hidden" name="exception" value="'+options._exception+'" >'+
+			'<input type="hidden" name="gccode" value="'+GM_getValue("debug_lastgcid","")+'" >'+
+			'<input type="hidden" name="errorSource" value="'+options.caption+'" >'+
+			'<input type="hidden" name="username" value="'+userName+'" >'+
+			'<input type="hidden" name="userAgent" value="'+unsafeWindow.navigator.userAgent+'" >'+
+			'<input type="hidden" name="lastTour" value="'+encodeURI(JSON.stringify(currentTour))+'">';
 
 	var error_dialog =$.gctour.lang('ERROR_DIALOG').replace(/##ERROR##/, '<br/><div style="border: 1px dashed red;padding:3px;width: 98%;">'+GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b></div>');
 	error_dialog = error_dialog.replace(/##LOCATION##/,window.location);
@@ -174,10 +180,12 @@ function addProgressbar(options){
 		overlay = getOverlay({caption:$.gctour.lang('pleaseWait'),minimized:true,_document:document});
 	}
 
-	var progressBarContainer = document.createElement('div');append(progressBarContainer,overlay);
+	var progressBarContainer = document.createElement('div');
+	append(progressBarContainer,overlay);
 	progressBarContainer.style.marginLeft = "135px";
 
-	var progressBar = document.createElement('div');append(progressBar,progressBarContainer);
+	var progressBar = document.createElement('div');
+	append(progressBar,progressBarContainer);
 	progressBar.style.border = '1px solid lightgray';
 	progressBar.style.height = '13px';
 	progressBar.style.width = '208px';
@@ -189,7 +197,8 @@ function addProgressbar(options){
 	progressBar.style.background = "url(http://madd.in/ajax-loader2.gif)";
 	progressBar.style.setProperty("-moz-border-radius", "4px", "");
 
-	var progressBarElement = document.createElement('div');append(progressBarElement,progressBarContainer);
+	var progressBarElement = document.createElement('div');
+	append(progressBarElement,progressBarContainer);
 	progressBarElement.id = 'progressbar';
 	progressBarElement.style.opacity = '0.6';
 	progressBarElement.style.width = '0px';
@@ -212,3 +221,4 @@ function setProgress(i,count,theDocument){
 	progressBar.style.width = width+'px';
 	progressBar.innerHTML = "<b>"+(i+1)+"/"+count+"</b>";
 }
+

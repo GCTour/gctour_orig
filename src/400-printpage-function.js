@@ -1,5 +1,6 @@
 function printPageFunction(currentTour){
 	return function(){
+		var i, tr, td;
 		if(isLogedIn() && isNotEmptyList()){
 
 			var minimal = GM_getValue('printMinimal',false);
@@ -53,14 +54,13 @@ function printPageFunction(currentTour){
 				'	</div>'+
 				'</div>';
 
-
 			var costumMarker = (typeof(currentTour.geocaches[0].latitude) != "undefined");
+			var newwindow2;
 			if(!costumMarker){
-				var newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[0].guid,'printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
+				newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[0].guid,'printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
 			} else {
-				var newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=39eedff9-69ea-4a18-97b0-bde6bfbccfb7','printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
+				newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=39eedff9-69ea-4a18-97b0-bde6bfbccfb7','printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
 			}
-
 
 			// trick to wait until the page from gc-com is loaded, to prevent tour detection
 			newwindow2.window.addEventListener ("DOMContentLoaded", function() {
@@ -78,8 +78,7 @@ function printPageFunction(currentTour){
 					newwindow2.document.title = currentTour.name +' - '+ now.getDate()+'.'+(Jahresmonat+1)+'.'+now.getFullYear()+' '+StdAusgabe+':'+MinAusgabe +" - "+$.gctour.lang('printviewTitle');
 
 					body.innerHTML = '';
-					addProgressbar({_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}});
-
+					addProgressbar({_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 
 					var head = newwindow2.document.getElementsByTagName('head')[0];
 					var style = document.createElement('style');
@@ -112,7 +111,6 @@ function printPageFunction(currentTour){
 					style.type = 'text/css';
 					//hide the map control in print
 					style.innerHTML = '.noprint   { display: none; } body {margin: 0;padding: 0;color: black;background: transparent;width:99%}';
-
 
 					head.appendChild(style);
 
@@ -166,15 +164,14 @@ function printPageFunction(currentTour){
 						var tbody = createElement('tbody');append(tbody,coverTable);
 
 						var isCostumMarker = false;
-						for (var i = 0; i < currentTour.geocaches.length; ++i){
+						for (i = 0; i < currentTour.geocaches.length; ++i){
 							var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 
 							if(!costumMarker){
 
-								var tr = document.createElement('tr');tbody.appendChild(tr);
-								var td = document.createElement('td');tr.appendChild(td);
+								tr = document.createElement('tr');tbody.appendChild(tr);
+								td = document.createElement('td');tr.appendChild(td);
 								td.innerHTML = "<b style='margin:0 6px'>"+(i+1)+"</b>";
-
 
 								td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
 								td.innerHTML = "<img src='"+currentTour.geocaches[i].image+"'>";
@@ -202,14 +199,10 @@ function printPageFunction(currentTour){
 								td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
 								td.innerHTML = "<span style='margin:0 2px' id='coords_"+currentTour.geocaches[i].id+"'></span>";
 
-
-
-
 								td = document.createElement('td');tr.appendChild(td);
 								td.style.verticalAlign = "middle";
 								//~ td.style.border = '1px solid lightgray';
 								td.innerHTML = "<div style='margin-left:auto;margin-right:auto;width:10px;height:10px;border:1px solid lightgray;'>&nbsp;</div>";
-
 
 								td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
 								td.style.verticalAlign = "middle";
@@ -226,18 +219,17 @@ function printPageFunction(currentTour){
 							'	<td colspan="11" style="border-bottom:1px solid lightgray;"><b>'+$.gctour.lang('printviewMarker')+'</b></td>		'+
 							'</tr>';
 
-							for (var i = 0; i < currentTour.geocaches.length; ++i){
+							for (i = 0; i < currentTour.geocaches.length; ++i){
 								var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 
 								if(costumMarker){
-									var tr = document.createElement('tr');tbody.appendChild(tr);
-									var td = document.createElement('td');tr.appendChild(td);
+									tr = document.createElement('tr');tbody.appendChild(tr);
+									td = document.createElement('td');tr.appendChild(td);
 
 									td.innerHTML = "<b style='margin:0 10px'>"+(i+1)+"</b>";
 
 									td = document.createElement('td');tr.appendChild(td);
 									td.innerHTML = "<img src='"+currentTour.geocaches[i].image+"'>";
-
 
 									td = document.createElement('td');tr.appendChild(td);
 									td.style.verticalAlign = "middle";
@@ -246,37 +238,31 @@ function printPageFunction(currentTour){
 									td.style.borderBottom = '1px solid lightgray';
 									td.innerHTML = currentTour.geocaches[i].name;
 									td.innerHTML += " - "+new LatLon(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude).toString();
-
 								}
 							}
 
 						}
 
-
 						title.appendChild(coverTable);
-
-
 
 						var overview_map = createElement('div',{id:"overview_map"});
 						title.appendChild(overview_map);
 					}
 
-
-
 					/* map array */
-					var geocaches = new Array();
-					var costumMarkers = new Array();
+					var geocaches = [];
+					var costumMarkers = [];
 
-					for (var i = 0; i < currentTour.geocaches.length; ++i){
+					for (i = 0; i < currentTour.geocaches.length; ++i){
 
-						if(GM_getValue("stopTask",false) && i != 0){
+						if(GM_getValue("stopTask",false) && i !== 0){
 							GM_setValue("stopTask",false);
 							newwindow2.close();
-						} else if (GM_getValue("stopTask",false) && i == 0 ) {
+						} else if (GM_getValue("stopTask",false) && i === 0 ) {
 							GM_setValue("stopTask",false);
 						}
-						var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 
+						var costumMarker = (typeof(currentTour.geocaches[i].latitude) != "undefined");
 
 						if(!costumMarker){
 
@@ -295,10 +281,11 @@ function printPageFunction(currentTour){
 
 
 								var logs = geocache.logs;
-								var maxPrintLogs = parseInt(GM_getValue('maxPrintLogs',3));
+								var maxPrintLogs = parseInt(GM_getValue('maxPrintLogs',3), 10);
 								// if maxprintlogs is <= -1, export all logs to the print overview
-								if(maxPrintLogs <= -1)
+								if(maxPrintLogs <= -1) {
 									maxPrintLogs = logs.length;
+								}
 								maxPrintLogs = maxPrintLogs;
 								for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
 									var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
@@ -311,7 +298,6 @@ function printPageFunction(currentTour){
 									append(log_div, logs_div);
 								}
 
-
 								var dummy_additional_waypoints = createElement('div');
 								if (GM_getValue('printAdditionalWaypoints',true)){
 									var wpts_table = createElement('table', {style:"width:100%;border-collapse:separate;"} );append(wpts_table,dummy_additional_waypoints);
@@ -319,15 +305,14 @@ function printPageFunction(currentTour){
 									var content = "<tr>";
 									for(var waypoints_i = 0; waypoints_i < geocache.additional_waypoints.length; waypoints_i++){
 
-									if(waypoints_i % 2 == 0 || waypoints_i == geocache.additional_waypoints.length-1){
-											if(waypoints_i != 0 && waypoints_i != 1){
+									if(waypoints_i % 2 === 0 || waypoints_i == geocache.additional_waypoints.length-1){
+											if(waypoints_i !== 0 && waypoints_i != 1){
 												content += "</tr>";
 											}
-											if(waypoints_i == geocache.additional_waypoints.length-1 && waypoints_i != 1){
+											if(waypoints_i == geocache.additional_waypoints.length-1 && waypoints_i !== 1){
 												content += "<tr>";
 											}
 										}
-
 
 										content += "<td style='width:50%;'>";
 										content +="<img src='"+geocache.additional_waypoints[waypoints_i].symbol+"'>";
@@ -340,15 +325,14 @@ function printPageFunction(currentTour){
 									wpts_table.innerHTML = content;
 								}
 
-
 								//images
 								var dummy_images = createElement('div');
 								if (GM_getValue('printSpoilerImages',true)){
 									var image_table = createElement('table',{style:"border-collapse:seperate;border-spacing:2px;width:100%"});append(image_table,dummy_images);
 									var content = "<tr>";
 									for(var images_i = 0; images_i < geocache.images.length; images_i++){
-										if(images_i % 2 == 0 || images_i == geocache.images.length-1){
-											if(images_i != 0 && images_i != 1){
+										if(images_i % 2 === 0 || images_i == geocache.images.length-1){
+											if(images_i !== 0 && images_i !== 1){
 												content += "</tr>";
 											}
 											if(images_i == geocache.images.length-1 && images_i != 1){
@@ -365,7 +349,6 @@ function printPageFunction(currentTour){
 									image_table.innerHTML = content;
 								}
 
-
 								// inventory
 								var inventory = createElement('span');
 								for (var inventory_i = 0; inventory_i < geocache.inventory.length; inventory_i++){
@@ -373,12 +356,11 @@ function printPageFunction(currentTour){
 									image.src = geocache.inventory[inventory_i].src;
 									append(image,inventory);
 								}
-								if(geocache.inventory.length == 0){
+								if(geocache.inventory.length === 0){
 									var empty_inventory = createElement('span');
 									empty_inventory.innerHTML = "empty";
 									append(empty_inventory,inventory);
 								}
-
 
 								//attributes
 								var attributes = createElement('span');
@@ -388,19 +370,16 @@ function printPageFunction(currentTour){
 									attribute.style.height = "16px";
 									attribute.style.marginRight = "3px";
 									//~ attribute.style.opacity = "0.5";
-									if(attribute.src != "http://www.geocaching.com/images/attributes/attribute-blank.gif")
+									if(attribute.src != "http://www.geocaching.com/images/attributes/attribute-blank.gif") {
 										append(attribute, attributes);
+									}
 								}
-
-
-
 
 								var map_element_dummy = createElement('div');
 								var map_element = createElement('div');append(map_element, map_element_dummy);
 
-
-							// map the geocache to uploadable version
-								var mapCache = new Object();
+								// map the geocache to uploadable version
+								var mapCache = {};
 								mapCache.gcid = geocache.gcid;
 								mapCache.guid = geocache.guid;
 								mapCache.image = geocache.image;
@@ -419,108 +398,104 @@ function printPageFunction(currentTour){
 								geocaches.push(mapCache);
 								// map the geocache to uploadable version - END -
 
-							var gcComment = "";
+								var gcComment = "";
 
-							if(geocache.comment){
-								gcComment = "<b><u>GCComment:</u></b><br/>";
-								if(geocache.comment.lat){
-									var parsedCoords = new LatLon(geocache.comment.lat,geocache.comment.lng).toString();
-									gcComment += "<b>Final Coordinates:</b> "+parsedCoords+"<br/>";
+								if(geocache.comment){
+									gcComment = "<b><u>GCComment:</u></b><br/>";
+									if(geocache.comment.lat){
+										var parsedCoords = new LatLon(geocache.comment.lat,geocache.comment.lng).toString();
+										gcComment += "<b>Final Coordinates:</b> "+parsedCoords+"<br/>";
+									}
+									gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
 								}
-								gcComment += "<b>Comment:</b> ("+geocache.comment.state+") "+geocache.comment.commentValue;
+
+								var cache_note = "";
+								if(geocache.cache_note){
+									cache_note = "<b><u>Cache Note:</u></b><br/>";
+									cache_note += geocache.cache_note;
+								}
+
+								if(GM_getValue('printFrontpage',true) && !minimal){
+									// replace placeholder on titlepage with real coordinates
+									var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
+									title_coords.innerHTML = geocache.coordinates;
+
+									// setting D, T and size on titlepage
+									 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
+									 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
+									 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.size.substring(0,1);
+
+									 // set the last 4 logs icon:
+									 getLast4Logs(geocache.logs, dojo.query("canvas[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0]);
+									//~ dojo.query("span[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = getLast4Logs(geocache.logs);
+
+								}
+
+								var geocacheMapping = [
+									['GCID',geocache.gcid],
+									['CACHECOUNT',i+1],
+									['GUID',geocache.guid],
+									['TYPE',geocache.type],
+									['CACHENAME',(geocache.available)?geocache.name:"<span style='text-decoration: line-through !important;'>"+geocache.name+"</span>"],
+									['OWNER',geocache.owner],
+									['HIDDEN',formatDate(geocache.hidden)],
+									['ATTRIBUTES',attributes.innerHTML],
+									['BEARING',geocache.bearing],
+									['DISTANCE',geocache.distance],
+									['INVENTORY',inventory.innerHTML],
+									['COORDINATES',geocache.coordinates],
+									['DIFFICULTY',geocache.difficulty.replace(/\./,"_")],
+									['TERRAIN',geocache.terrain.replace(/\./,"_")],
+									['SIZE',geocache.size.toLowerCase().replace(/ /,"_")],
+									['SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""],
+									['LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""],
+									['GCCOMMENT',gcComment],
+									['CACHENOTE',cache_note],
+									['HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)],
+									['ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML],
+									['IMAGES',dummy_images.innerHTML],
+									['MAP', map_element_dummy.innerHTML],
+									['MAPID', "MAP_"+geocache.gcid],
+									['LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""],
+									['LOGS',logs_div.innerHTML]
+								];
+
+								if(minimal){
+									geocacheMapping.push(['HIDDENSTYLE',"hidden"]);
+								} else {
+									geocacheMapping.push(['HIDDENSTYLE',""]);
+								}
+
+								var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
+
+								dojo.query("*[class='removable']",cacheDetailTemp)
+									.onclick(function(e){e.stopPropagation();dojo.destroy(this); })
+									.onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";})
+									.onmouseout(function(e){ this.style.opacity="1";});
+
+								// remove images in description
+
+								dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
+								dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
+									node.removeAttribute("href");
+								});
+
+								if(GM_getValue('printEditMode',false)){
+									dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
+									dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
+
+								}
+
+								if(GM_getValue('printPageBreak',false)){
+									if(i < currentTour.geocaches.length-1) {
+										cacheDetailTemp.style.pageBreakAfter = 'always';
+									}
+								}
+
+								body.appendChild(cacheDetailTemp);
+								body.appendChild(document.createElement('br'));
+
 							}
-
-							var cache_note = "";
-							if(geocache.cache_note){
-								cache_note = "<b><u>Cache Note:</u></b><br/>";
-								cache_note += geocache.cache_note;
-							}
-
-
-							if(GM_getValue('printFrontpage',true) && !minimal){
-								// replace placeholder on titlepage with real coordinates
-								var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
-								title_coords.innerHTML = geocache.coordinates;
-
-
-								// setting D, T and size on titlepage
-								 dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
-								 dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
-								 dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.size.substring(0,1);
-
-								 // set the last 4 logs icon:
-								 getLast4Logs(geocache.logs, dojo.query("canvas[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0]);
-								//~ dojo.query("span[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = getLast4Logs(geocache.logs);
-
-							}
-
-
-
-							var geocacheMapping = new Array(
-								new Array('GCID',geocache.gcid),
-								new Array('CACHECOUNT',i+1),
-								new Array('GUID',geocache.guid),
-								new Array('TYPE',geocache.type),
-								new Array('CACHENAME',(geocache.available)?geocache.name:"<span style='text-decoration: line-through !important;'>"+geocache.name+"</span>"),
-								new Array('OWNER',geocache.owner),
-								new Array('HIDDEN',formatDate(geocache.hidden)),
-								new Array('ATTRIBUTES',attributes.innerHTML),
-								new Array('BEARING',geocache.bearing),
-								new Array('DISTANCE',geocache.distance),
-								new Array('INVENTORY',inventory.innerHTML),
-								new Array('COORDINATES',geocache.coordinates),
-								new Array('DIFFICULTY',geocache.difficulty.replace(/\./,"_")),
-								new Array('TERRAIN',geocache.terrain.replace(/\./,"_")),
-								new Array('SIZE',geocache.size.toLowerCase().replace(/ /,"_")),
-								new Array('SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""),
-								new Array('LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""),
-								new Array('GCCOMMENT',gcComment),
-								new Array('CACHENOTE',cache_note),
-								new Array('HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)),
-								new Array('ADDITIONAL_WAYPOINTS',dummy_additional_waypoints.innerHTML),
-								new Array('IMAGES',dummy_images.innerHTML),
-								new Array('MAP', map_element_dummy.innerHTML),
-								new Array('MAPID', "MAP_"+geocache.gcid),
-								new Array('LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""),
-								new Array('LOGS',logs_div.innerHTML)
-							);
-
-							if(minimal){
-								geocacheMapping.push(new Array('HIDDENSTYLE',"hidden"));
-							} else {
-								geocacheMapping.push(new Array('HIDDENSTYLE',""));
-							}
-
-							var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
-
-							dojo.query("*[class='removable']",cacheDetailTemp).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
-
-							// remove images in description
-
-							dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
-							dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
-								node.removeAttribute("href");
-							});
-
-
-							if(GM_getValue('printEditMode',false)){
-								dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
-								dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
-
-							}
-
-							if(GM_getValue('printPageBreak',false)){
-								if(i < currentTour.geocaches.length-1)
-									cacheDetailTemp.style.pageBreakAfter = 'always';
-							}
-
-							body.appendChild(cacheDetailTemp);
-							body.appendChild(document.createElement('br'));
-
-
-						}
-
-
 
 						} else {
 
@@ -530,18 +505,19 @@ function printPageFunction(currentTour){
 							costumMarkers.push(cm);
 							// map costum marker to uploadable version - END -
 
-							var markerMapping = new Array(
-								new Array('GCID',$.gctour.lang('printviewMarker')),
-								new Array('CACHECOUNT',(i+1)),
-								new Array('TYPE',currentTour.geocaches[i].image),
-								new Array('NAME',currentTour.geocaches[i].name),
-								new Array('COORDINATES',new LatLon(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude).toString()),
-								new Array('CONTENT',currentTour.geocaches[i].content.replace(/\n/g, "<br />"))
-							);
+							var markerMapping = [
+								['GCID',$.gctour.lang('printviewMarker')],
+								['CACHECOUNT',(i+1)],
+								['TYPE',currentTour.geocaches[i].image],
+								['NAME',currentTour.geocaches[i].name],
+								['COORDINATES',new LatLon(currentTour.geocaches[i].latitude,currentTour.geocaches[i].longitude).toString()],
+								['CONTENT',currentTour.geocaches[i].content.replace(/\n/g, "<br />")]
+							];
+
 							if(minimal){
-								markerMapping.push(new Array('HIDDENSTYLE',"hidden"));
+								markerMapping.push(['HIDDENSTYLE',"hidden"]);
 							} else {
-								markerMapping.push(new Array('HIDDENSTYLE',""));
+								markerMapping.push(['HIDDENSTYLE',""]);
 							}
 
 							var cacheDetailTemp = fillTemplate(markerMapping,ownMarkerTemplate);
@@ -551,14 +527,12 @@ function printPageFunction(currentTour){
 								//~ geocaches.push(currentTour.geocaches[i]);
 						}
 
-
 						// set the progress
 						setProgress(i,currentTour.geocaches.length,newwindow2.document);
 					}
 
-
 					closeOverlayRemote(newwindow2.document)();// close old ovleray (scraping data)
-					addProgressbar({caption:$.gctour.lang('makeMapWait'),_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}}); // new overlay - getting maps
+					addProgressbar({caption:$.gctour.lang('makeMapWait'),_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}}); // new overlay - getting maps
 					var cacheObject = {};
 					cacheObject.geocaches = geocaches;
 					cacheObject.costumMarkers = costumMarkers;
@@ -567,7 +541,6 @@ function printPageFunction(currentTour){
 							try{
 								var overviewMapQuery = "";
 								var geocacheCodes = [];
-
 
 								for (var i = 0; i < currentTour.geocaches.length; ++i){
 									var marker = currentTour.geocaches[i];
@@ -587,12 +560,10 @@ function printPageFunction(currentTour){
 								var mapCount = (GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false))?1:0;
 								mapCount += (GM_getValue('printOutlineMapSingle',true))?geocacheCodes.length:0;
 
-
 								if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false)){
 									dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery));
 									setProgress(1,mapCount,newwindow2.document);
 								}
-
 
 								// map for each geocache
 								if(GM_getValue('printOutlineMapSingle',true)){
@@ -608,36 +579,27 @@ function printPageFunction(currentTour){
 								}
 								closeOverlayRemote(newwindow2.document)();
 							} catch (e) {
-								addErrorDialog({caption:"Print error maps", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}});
+								addErrorDialog({caption:"Print error maps", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 							}
 
 						}
 					);
 
-
 				} catch (e) {
-					addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();}}});
+					addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 				}
 
-			}
-			, false);
-
-
+			}, false);
 
 		}
-
-
-	}
-
-
+	};
 }
-
 
 // funktion ähnlich http://www.gsak.net/help/hs11980.htm
 function getLast4Logs(logs, canvas_element){
 
 	var getColor = function(log4Logs){
-		if ((typeof (log4Logs)) === 'undefined') { return "LightGray"};
+		if ((typeof (log4Logs)) === 'undefined') { return "LightGray"; }
 		switch (log4Logs.LogType) {
 			case "Found it":
 				return "green";
@@ -668,4 +630,3 @@ function getLast4Logs(logs, canvas_element){
 	}
 
 }
-

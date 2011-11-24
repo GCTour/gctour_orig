@@ -1,3 +1,22 @@
+// is logged = true : false
+function isLogedIn(){
+	if(userName){
+		return true;
+	} else {
+		alert($.gctour.lang('notLogedIn'));
+		return false;
+	}
+}
+
+// list is not empty = true : false
+function isNotEmptyList(){
+	if(currentTour.geocaches.length > 0){
+		return true;
+	} else {
+		alert($.gctour.lang('emptyList'));
+		return false;
+	}
+}
 
 function handleResize(event) {
 	//~ var win_height = window.innerHeight;
@@ -39,8 +58,9 @@ function toggleSettingsFunction(){
 				duration: 400
 			}).play();
 		}
-	}
+	};
 }
+
 function toggleTourListFunction(){
 	return function(){
 		var tourlistDiv = dojo.byId('tourlistDiv');
@@ -55,7 +75,7 @@ function toggleTourListFunction(){
 				duration: 400
 			}).play();
 		}
-	}
+	};
 }
 
 function updateGUI(){
@@ -70,7 +90,7 @@ function updateGUI(){
 	var webcodeSpan = dojo.byId("webcode");
 
 	if(currentTour.webcode){
-		webcodeSpan.innerHTML = "<br/>Webcode:<b>"+currentTour.webcode+"</b></span>"
+		webcodeSpan.innerHTML = "<br/>Webcode:<b>"+currentTour.webcode+"</b></span>";
 		webcodeSpan.style.display = "inline";
 	} else {
 		webcodeSpan.style.display = "none";
@@ -84,21 +104,18 @@ function updateGUI(){
 	}
 
 	table = dojo.byId('cacheList');
-	if(currentTour.geocaches.length == 0){
+	if(currentTour.geocaches.length <= 0){
 		table.innerHTML = $.gctour.lang('emptyList');
 	}
 
 	handleResize();
 
-
-
 	var deleteButton = dojo.byId('gctourDeleteButton');
 	if(tours.length == 1 && deleteButton){
 		deleteButton.style.display = "none";
 	} else {
-		deleteButton.style.display = "inline"
+		deleteButton.style.display = "inline";
 	}
-
 
 	// make the gectour menu sticky if it is set
 /*	sticky = GM_getValue('sticky',false);
@@ -127,6 +144,11 @@ var addOpacityEffects = function(elem) {
 		});
 };
 
+function addClickEffect(element){return function(){	element.style.background = '#a9b2bf';}; }
+function removeClickEffect(element){return function(){element.style.background = '#cdd8e8';}; }
+function addHoverEffect(element){return function(){element.style.margin = '0px';element.style.border = '1px solid lightgray';element.style.background = '#cdd8e8';}; }
+function removeHoverEffect(element){return function(){element.style.margin = '1px';element.style.border = '0px solid lightgray';element.style.background = '';}; }
+
 function addHoverEffects(element){
 	element.addEventListener('mouseover', addHoverEffect(element),false);
 	element.addEventListener('mouseout',  removeHoverEffect(element),false);
@@ -135,22 +157,16 @@ function addHoverEffects(element){
 	element.style.margin = '1px';
 }
 
-function addClickEffect(element){return function(){	element.style.background = '#a9b2bf';}}
-function removeClickEffect(element){return function(){element.style.background = '#cdd8e8';}}
-function addHoverEffect(element){return function(){element.style.margin = '0px';element.style.border = '1px solid lightgray';element.style.background = '#cdd8e8';}}
-function removeHoverEffect(element){return function(){element.style.margin = '1px';element.style.border = '0px solid lightgray';element.style.background = '';}}
-
-
 function openSend2GpsFunctionLocal(){
 	return function(){
 	  var url = 'http://www.geocaching.com/seek/sendtogps.aspx?guid=9d2b4990-7222-4b1c-8062-8b753af24ac5&tour=true',
 		   h    = (GM_getValue('showGpx',false)) ? 610 : 280;
 		   conf = 'width=425,height=' + h +',toolbar=no,menubar=no,scrollbars=no,resizable=no,location=yes,directories=no,status=no';
-		
+
 		if(isLogedIn() && isNotEmptyList()){
 			window.open(url, 's2gps', config=conf);
 		}
-	}
+	};
 }
 
 function downloadGPXFunction(){
@@ -185,7 +201,7 @@ function downloadGPXFunction(){
 			nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
 			try {
-				if (GM_getValue('gpxschema',0) == 0){
+				if (GM_getValue('gpxschema',0) === 0){
 					dummyString = getGPX();
 				} else {
 					dummyString = getGPXNew();
@@ -207,7 +223,6 @@ function downloadGPXFunction(){
 
 */
 
-
 				contentArea.innerHTML = encodeURIComponent(dummyString);
 
 				document.body.appendChild(gpxForm);
@@ -221,39 +236,33 @@ function downloadGPXFunction(){
 				addErrorDialog({caption:"GPX error", _exception:e});
 			}
 		}
-	}
+	};
 }
 
-
-
 function sendToGPS(){
-    var dataStringElement, tourName, currentDate, currentDateString;
+	var dataStringElement, tourName, currentDate, currentDateString;
 
-    // add the overlay while loading
+	// add the overlay while loading
 	addProgressbar();
 	// fix width and height of the header
-    dojo.query('div[id="dialogBody"] > h1')[0].style.width = "486px";
-    dojo.query('div[id="dialogBody"] > h1')[0].style.height = "14px";
+	dojo.query('div[id="dialogBody"] > h1')[0].style.width = "486px";
+	dojo.query('div[id="dialogBody"] > h1')[0].style.height = "14px";
 
 
-    // first time send to GPS is clicked: Accept the License
-    var accept_input = document.getElementById('chkAccept');
-    if(accept_input){
+	// first time send to GPS is clicked: Accept the License
+	var accept_input = document.getElementById('chkAccept');
+	if(accept_input){
 		accept_input.checked = "checked";
 		document.getElementById('btnSubmit').click();
 		return;
 	}
 
-
-
-
-    // change ALWAYS to Garmin
+	// change ALWAYS to Garmin
 	var garmin_tab = document.getElementById('uxGPSProviderTabsn2');
 	if(garmin_tab.getElementsByTagName('table')[0].className != "Selected"){
 		unsafeWindow.__doPostBack('uxGPSProviderTabs','2');
 		return;
 	}
-
 
 	dojo.byId('uxGPSProviderTabs').innerHTML = "<tbody><tr><td>GCTOUR: GARMIN ONLY</td></tr></tbody>";
 	dojo.destroy('premiumUpsellMessage');
@@ -261,7 +270,7 @@ function sendToGPS(){
 	try{
 		dataStringElement = document.getElementById('dataString');
 		dataStringElement.value = $.gctour.lang('pleaseWait');
-		if (GM_getValue('gpxschema',0) == 0){
+		if (GM_getValue('gpxschema',0) === 0){
 			dataStringElement.value = getGPX();
 		} else {
 			dataStringElement.value = getGPXNew();
@@ -272,7 +281,6 @@ function sendToGPS(){
 		currentDate =  new Date();
 		currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
 
-
 		dojo.byId('cacheID').value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
 		// all done - remove the overlay
@@ -281,6 +289,43 @@ function sendToGPS(){
 		addErrorDialog({caption:"Send to GPSr error", _exception:e});
 	}
 
+}
+
+function getMapGeocache(gcid){
+
+	var geocache = getGeocache(gcid);
+	if(geocache !== "pm only"){
+		var mapCache = {};
+		mapCache.gcid = geocache.gcid;
+		mapCache.guid = geocache.guid;
+		mapCache.image = geocache.image;
+		mapCache.name = geocache.name;
+		mapCache.difficulty = geocache.difficulty;
+		mapCache.terrain = geocache.terrain;
+		mapCache.latitude = geocache.lat;
+		mapCache.longitude = geocache.lon;
+
+		// save additional waypoints
+		var additional_waypoints = geocache.additional_waypoints;
+		for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
+			additional_waypoints[waypoint_i].note = "";
+		}
+
+		mapCache.additional_waypoints = additional_waypoints;
+		return mapCache;
+	}
+
+}
+
+function getMapMarker(markerId){
+	var marker = currentTour.geocaches[getPositionsOfId(markerId)];
+	marker.index = cache_i;
+	return marker;
+}
+
+function uploadMap(markerObj,callback){
+	var jsonMap = JSON.stringify(markerObj).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
+	post(API_HOST+'/map/save', "map="+jsonMap,callback);
 }
 
 function makeMapFunction(){
@@ -316,8 +361,8 @@ function makeMapFunction(){
 				} else {
 
 					try{
-						var geocaches = new Array();
-						var costumMarkers = new Array();
+						var geocaches = [];
+						var costumMarkers = [];
 
 						for ( var i= 0; i < result.length; i++){
 							var id = result[i];
@@ -348,41 +393,75 @@ function makeMapFunction(){
 	}
 }
 
-function getMapGeocache(gcid){
+function upload(tour){
+	if( !tour.password){ // vllt doch mit !tour.uuid || ????
+		//~ var pw = prompt("passwort");
+		//~ if(!pw){
+			//~ closeOverlay();
+			//~ return;
+		//~ }
+		//~ tour.password = pw;
+		tour.password = "not yet implemented";
+		upload(tour);
+	} else {
 
-	var geocache = getGeocache(gcid);
-	if(geocache !== "pm only"){
-		var mapCache = new Object();
-		mapCache.gcid = geocache.gcid;
-		mapCache.guid = geocache.guid;
-		mapCache.image = geocache.image;
-		mapCache.name = geocache.name;
-		mapCache.difficulty = geocache.difficulty;
-		mapCache.terrain = geocache.terrain;
-		mapCache.latitude = geocache.lat;
-		mapCache.longitude = geocache.lon;
+		// maybe there are more CHARS than only '&'!
+		var jsonTour = JSON.stringify(tour).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
 
-		// save additional waypoints
-		var additional_waypoints = geocache.additional_waypoints;
-		for(waypoint_i = 0 ; waypoint_i < additional_waypoints.length; waypoint_i++){
-			additional_waypoints[waypoint_i].note = "";
-		}
+		post(API_HOST+'/tour/save', "tour="+jsonTour,
+			function(text){
 
-		mapCache.additional_waypoints = additional_waypoints;
-		return mapCache;
+				var tourServer = JSON.parse(text);
+				// after an error you get this result, eg:
+				// {"message":"wrong password","type":"error"}
+
+				// only if the result is a message
+				if(tourServer.message && tourServer.type == "error"){
+						var pw = prompt("falsches Passwort - bitte richtiges eingeben");   // TODO !!! LANGUAGES!!
+
+						//if pw is empty or dialog closed
+						if(!pw){
+							closeOverlay();
+							return;
+						}
+						tour.password = pw;
+						upload(tour);
+				} else if (tourServer.message && tourServer.type == "info"){
+					alert(tourServer.message);
+					closeOverlay();
+				} else {	 // result is a tour and could be saved  - all done
+
+
+					// remaind to local id!!
+					tourServer.id = tour.id;
+
+					// and the password
+					tourServer.password = tour.password;
+
+
+					currentTour = tourServer;
+					saveCurrentTour();
+
+					checkOnlineConsistent(currentTour);
+
+
+					updateTour();
+
+					closeOverlay();
+
+
+					var codeString = $.gctour.lang('tourUploaded1')+currentTour.webcode+$.gctour.lang('tourUploaded2');
+					alert(codeString);
+				}
+
+			}
+			);
 	}
-
-}
-
-function getMapMarker(markerId){
-	var marker = currentTour.geocaches[getPositionsOfId(markerId)];
-	marker.index = cache_i;
-	return marker;
 }
 
 function uploadTourFunction(id){
 	return function(){
-		var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString,costumMarkers;
+		var i, geocaches, cache_i, costumMarker, geocache, mapCache, waypoint_i, codeString, costumMarkers;
 		if(isLogedIn() && isNotEmptyList()){
 			try{
 				for (i = 0; i < tours.length; i++){
@@ -392,16 +471,16 @@ function uploadTourFunction(id){
 						addProgressbar();
 						if (GM_getValue('uploadMap',true)){ // TODO - upload Map noch gewünscht?
 							//create the overview map
-							geocaches = new Array();
-							costumMarkers = new Array();
+							geocaches = [];
+							costumMarkers = [];
 
 							for (cache_i = 0; cache_i < tours[i].geocaches.length; ++cache_i){
 
-								if(GM_getValue("stopTask",false) && cache_i != 0){
+								if(GM_getValue("stopTask",false) && cache_i !== 0){
 									GM_setValue("stopTask",false);
 									closeOverlay();
 									break;
-								} else if (GM_getValue("stopTask",false) && cache_i == 0 ) {
+								} else if (GM_getValue("stopTask",false) && cache_i === 0 ) {
 									GM_setValue("stopTask",false);
 								}
 								costumMarker = (typeof(tours[i].geocaches[cache_i].latitude) != "undefined");
@@ -434,82 +513,7 @@ function uploadTourFunction(id){
 				}
 			} catch(e){addErrorDialog({caption:"Upload tour error", _exception:e});}
 		}
-	}
-}
-
-function uploadMap(markerObj,callback){
-	var jsonMap = JSON.stringify(markerObj).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
-	post(API_HOST+'/map/save', "map="+jsonMap,callback);
-}
-
-function upload(tour){
-		if( !tour.password){ // vllt doch mit !tour.uuid || ????
-			//~ var pw = prompt("passwort");
-			//~ if(!pw){
-				//~ closeOverlay();
-				//~ return;
-			//~ }
-			//~ tour.password = pw;
-			tour.password = "not yet implemented";
-			upload(tour);
-		} else {
-
-			// maybe there are more CHARS than only '&'!
-			var jsonTour = JSON.stringify(tour).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
-
-			post(API_HOST+'/tour/save', "tour="+jsonTour,
-				function(text){
-
-					var tourServer = JSON.parse(text);
-					// after an error you get this result, eg:
-					// {"message":"wrong password","type":"error"}
-
-					// only if the result is a message
-					if(tourServer.message && tourServer.type == "error"){
-							var pw = prompt("falsches Passwort - bitte richtiges eingeben");   // TODO !!! LANGUAGES!!
-
-							//if pw is empty or dialog closed
-							if(!pw){
-								closeOverlay();
-								return;
-							}
-							tour.password = pw;
-							upload(tour);
-					} else if (tourServer.message && tourServer.type == "info"){
-						alert(tourServer.message);
-						closeOverlay();
-					} else {	 // result is a tour and could be saved  - all done
-
-
-						// remaind to local id!!
-						tourServer.id = tour.id;
-
-						// and the password
-						tourServer.password = tour.password;
-
-
-						currentTour = tourServer;
-						saveCurrentTour();
-
-						checkOnlineConsistent(currentTour);
-
-
-						updateTour();
-
-						closeOverlay();
-
-
-						var codeString = $.gctour.lang('tourUploaded1')+currentTour.webcode+$.gctour.lang('tourUploaded2');
-						alert(codeString);
-					}
-
-
-
-				}
-		    );
-
-
-		}
+	};
 }
 
 function openSend2GpsDialog(){
@@ -528,13 +532,13 @@ function sendMessageDialog(){
 	if(isLogedIn()){
 		var overLay = getOverlay({caption:$.gctour.lang('sendMessageTitle'),minimized:true});
 
-		overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact"> \
-    '+$.gctour.lang('sendMessage')+'<br/> \
-		<input type="hidden" name="redir" value='+window.location+'> \
-		<input type="hidden" name="user" value='+userName+'> \
-		<textarea rows="10" style="width:99%" name="message"></textarea> \
-		<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+$.gctour.lang('sendMessageSubmit')+'"></input></div>\
-		</form>';
+		overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact">'+
+			$.gctour.lang('sendMessage')+'<br/>'+
+			'<input type="hidden" name="redir" value='+window.location+'>'+
+			'<input type="hidden" name="user" value='+userName+'>'+
+			'<textarea rows="10" style="width:99%" name="message"></textarea>'+
+			'<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+$.gctour.lang('sendMessageSubmit')+'"></input></div>'+
+			'</form>';
   }
 }
 
@@ -545,7 +549,6 @@ function populateTours(){
 	var tourListUl = createElement('ul');
 	tourListUl.setAttribute("class", "dialogList");
 	append(tourListUl,tourList);
-
 
 	//construct tour list
 	for (var tourIt = 0; tourIt<tours.length; tourIt++){
@@ -584,35 +587,6 @@ function populateTours(){
 		append(tourLink,tourListLi);
 
 	}
-}
-
-
-function openTourDialog(){
-	var overLay = getOverlay({caption:$.gctour.lang('openTour')});
-	var tourList = createElement('div',{id:"dialogListContainer"});append(tourList,overLay);
-	var cacheList = createElement('div',{id:"dialogDetails"});append(cacheList,overLay);
-
-	populateTours();
-
-	// load,close buttons
-	var buttonsDiv = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
-		buttonsDiv.setAttribute('class','dialogFooter');
-
-	var closeButton = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(closeButton,buttonsDiv);
-		closeButton.addEventListener('click', closeOverlay, false);
-
-	var loadButton = createElement('input',{type:"button",value:$.gctour.lang('load'),disabled:"",id:"loadButton",style:"background-image:url("+openTourImageString+")"});append(loadButton,buttonsDiv);
-		loadButton.addEventListener('click', function(){
-			var id = dojo.byId("dialogDetails").getAttribute("tourid");
-			loadTour(id)();
-			closeOverlay();
-		}, false);
-
-	// load currentTour
-	showCacheList(currentTour)();
-
-	loadButton.setAttribute("disabled","disabled");
-
 }
 
 function showCacheList(tour){
@@ -669,7 +643,7 @@ function showCacheList(tour){
 
 		function(){
 			var newTourName = prompt($.gctour.lang('newTourDialog'), tour.name);
-			if(!newTourName) return;
+			if(!newTourName) { return; }
 			tour.name = newTourName;
 			saveTour(tour,true);
 			populateTours();
@@ -691,7 +665,7 @@ function showCacheList(tour){
 			var geocache = tour.geocaches[cacheIt];
 
 			var cacheListLi = createElement('li',{style:"b"});append(cacheListLi,cacheListUl);
-			cacheListLi.innerHTML = "<img src='"+geocache.image+"' style='margin-left=10px'> "+geocache.name+"&nbsp;<small>("+((geocache.id != undefined)?geocache.id:geocache.wptcode)+")</small>";
+			cacheListLi.innerHTML = "<img src='"+geocache.image+"' style='margin-left=10px'> "+geocache.name+"&nbsp;<small>("+((geocache.id !== undefined)?geocache.id:geocache.wptcode)+")</small>";
 
 		}
 		append(cacheListUl,cacheList);
@@ -707,27 +681,34 @@ function showCacheList(tour){
 		dojo.query("ul[class='dialogList'] > li").removeClass("activeTour");
 		//and then set it to the clicked
 		document.getElementById('tour'+tour.id).setAttribute("class", "activeTour");
-	}
+	};
 }
 
-function downloadTourDialog(){
-	var overlay= getOverlay({caption:$.gctour.lang('webcodeDownloadButton'),minimized:true});
+function openTourDialog(){
+	var overLay = getOverlay({caption:$.gctour.lang('openTour')});
+	var tourList = createElement('div',{id:"dialogListContainer"});append(tourList,overLay);
+	var cacheList = createElement('div',{id:"dialogDetails"});append(cacheList,overLay);
 
-	var divEbene = createElement('div');append(divEbene,overlay);
+	populateTours();
 
-	divEbene.innerHTML = '<b>Webcode:</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="webcodeInput"><br/>\
-						'+$.gctour.lang('webcodeDownloadHelp');
+	// load,close buttons
+	var buttonsDiv = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
+		buttonsDiv.setAttribute('class','dialogFooter');
 
-	divEbene = createElement('div');append(divEbene,overlay);
-	divEbene.setAttribute('class','dialogFooter');
+	var closeButton = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(closeButton,buttonsDiv);
+		closeButton.addEventListener('click', closeOverlay, false);
 
-	var downloadButton = createElement('input',{type:"button",value:$.gctour.lang('webcodeDownloadButton'),style:"background-image:url("+downloadImageString+")"});append(downloadButton,divEbene);
-	downloadButton.addEventListener('click',function(){
-		var webcode = trim(dojo.byId('webcodeInput').value);
-		if(webcode == "")
-			return;
-		downloadTourFunction(webcode);
-	},false);
+	var loadButton = createElement('input',{type:"button",value:$.gctour.lang('load'),disabled:"",id:"loadButton",style:"background-image:url("+openTourImageString+")"});append(loadButton,buttonsDiv);
+		loadButton.addEventListener('click', function(){
+			var id = dojo.byId("dialogDetails").getAttribute("tourid");
+			loadTour(id)();
+			closeOverlay();
+		}, false);
+
+	// load currentTour
+	showCacheList(currentTour)();
+
+	loadButton.setAttribute("disabled","disabled");
 
 }
 
@@ -737,7 +718,7 @@ function downloadTourFunction(webcode){
 	// add the overlay while loading
 	addProgressbar();
 
-	details = new Object();
+	details = {};
 	details.method = 'GET';
 	//~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
 	details.url = API_HOST+'/tour/'+trim(webcode)+'/json';
@@ -770,7 +751,7 @@ function downloadTourFunction(webcode){
 
 				alert("'"+onlineTour.name+"'\n"+$.gctour.lang('webcodesuccess'));
 
-				loadTour(onlineTour.id)()
+				loadTour(onlineTour.id)();
 			}
 
 			closeOverlay();
@@ -779,6 +760,25 @@ function downloadTourFunction(webcode){
 		}
 	};
 	GM_xmlhttpRequest(details);
+}
+
+function downloadTourDialog(){
+	var overlay= getOverlay({caption:$.gctour.lang('webcodeDownloadButton'),minimized:true});
+
+	var divEbene = createElement('div');append(divEbene,overlay);
+
+	divEbene.innerHTML = '<b>Webcode:</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="webcodeInput"><br/>'+$.gctour.lang('webcodeDownloadHelp');
+
+	divEbene = createElement('div');append(divEbene,overlay);
+	divEbene.setAttribute('class','dialogFooter');
+
+	var downloadButton = createElement('input',{type:"button",value:$.gctour.lang('webcodeDownloadButton'),style:"background-image:url("+downloadImageString+")"});append(downloadButton,divEbene);
+	downloadButton.addEventListener('click',function(){
+		var webcode = trim(dojo.byId('webcodeInput').value);
+		if(webcode == "") {return; }
+		downloadTourFunction(webcode);
+	},false);
+
 }
 
 function showInformationDiv(tour){
@@ -810,22 +810,3 @@ function showInformationDiv(tour){
 	};
 }
 
-// is logged = true : false
-function isLogedIn(){
-	if(userName){
-		return true;
-	} else {
-		alert($.gctour.lang('notLogedIn'));
-		return false;
-	}
-}
-
-// list is not empty = true : false
-function isNotEmptyList(){
-	if(currentTour.geocaches.length > 0){
-		return true;
-	} else {
-		alert($.gctour.lang('emptyList'));
-		return false;
-	}
-}

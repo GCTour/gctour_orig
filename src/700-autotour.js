@@ -1,36 +1,105 @@
 // autoTour gui
 
-function showAutoTourDialog(center,radius){
-	var overLay, queryFilterDiv;
+function updateAutoTourMap(lat,lon){
 
-  if(!isLogedIn()) return;
+	//make the container visible
+	dojo.byId('autoTourContainer').style.display = 'block';
 
-	overLay = getOverlay({caption:$.gctour.lang('autoTour'),minimized:true});
-	overLay.appendChild(getCoordinatesTab());
+	var radiusOrg = dojo.query("input[id='markerRadius']")[0].value;
+	if(isNaN(radiusOrg) || radiusOrg == "") {// please break if radius is no number
+		return;
+	}
 
-	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:12px;'});
-	autoTourContainer.style.display = 'none';
+	var meterMiles = dojo.query("select[id='markerRadiusUnit']")[0].selectedIndex;
+	// meter: meterMiles == 0		miles: meterMiles == 1
+	var radiusMiles = (meterMiles==1)?parseFloat(radiusOrg):parseFloat(radiusOrg)*0.621371;
 
-	autoTourContainer.appendChild(getMapPreviewTab());
-	queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
-	queryFilterDiv.appendChild(getTypeFilter());
-	queryFilterDiv.appendChild(getSizeFilter());
-	queryFilterDiv.appendChild(getDtFiler('Difficulty'));
-	queryFilterDiv.appendChild(getDtFiler('Terrain'));
-	queryFilterDiv.appendChild(getSpecialFilter());
-	autoTourContainer.appendChild(getAutoTourSubmit());
+	if(radiusMiles == "") {
+		return;
+	}
 
-	overLay.appendChild(autoTourContainer);
+	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
+	staticGMap.innerHTML = "";
 
-	if(center && radius){
+	// create new static map with changed coordinates
+	var SM = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
 
-		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
-		dojo.query("input[id='markerRadius']")[0].value = radius;
-		getMarkerCoord();
-	} else {
-    dojo.query("input[id='markerRadius']")[0].value = 2;
-    dojo.query("input[id='markerCoords']")[0].focus();
-  }
+	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = new LatLon(lat,lon).toString();
+
+	dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
+
+	dojo.animateProperty({
+		node: "markerCoordsPreview",duration: 1000,
+		properties: {
+			//~ color:         { start: "black", end: "white" },
+			backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
+		}
+	}).play();
+
+	dojo.animateProperty({
+		node: "markerRadiusPreview",duration: 1000,
+		properties: {
+			//~ color:         { start: "black", end: "white" },
+			backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
+		}
+	}).play();
+
+	// get how many caches are in this area
+
+	loadingTime1 = new Date();
+
+	log("url: http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles);
+		GM_xmlhttpRequest({
+		method: 'GET',
+		url: "http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles,
+		onload: function(responseDetails) {
+			var dummyDiv = createElement('div');
+			dummyDiv.innerHTML = responseDetails.responseText;
+
+			var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
+
+			if(pagesSpan){
+				dojo.query("b[id='markerCountPreview']")[0].innerHTML = pagesSpan.getElementsByTagName('b')[0].innerHTML;
+
+				dojo.animateProperty({
+					node: "markerCountPreview",duration: 1000,
+					properties: {backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }}
+				}).play();
+
+				var miliseconds = new Date() - loadingTime1;
+				var seconds = Math.floor((miliseconds * parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) )/1000);
+				seconds = seconds + parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) * 2;
+				var secondsMod = seconds % 60;
+				var minutes = (seconds - secondsMod) /60;
+
+				dojo.query("b[id='markerDurationMin']")[0].innerHTML = minutes;
+				dojo.query("b[id='markerDurationSec']")[0].innerHTML = secondsMod;
+			} else {
+				dojo.query("b[id='markerCountPreview']")[0].innerHTML = 0;
+
+				dojo.animateProperty({
+					node: "markerCountPreview",duration: 2000,
+					properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
+				}).play();
+
+				dojo.query("b[id='markerDurationMin']")[0].innerHTML = 0;
+				dojo.query("b[id='markerDurationSec']")[0].innerHTML = 0;
+			}
+		}
+	});
+
+	// last, save the values
+	dojo.query('input[id="coordsDivLat"]')[0].value = lat;
+	dojo.query('input[id="coordsDivLon"]')[0].value = lon;
+	dojo.query('input[id="coordsDivRadius"]')[0].value = radiusMiles;
+	dojo.query('b[id="markerCountPreview"]')[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
+	dojo.query("b[id='markerDurationMin']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
+	dojo.query("b[id='markerDurationSec']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
+
+	// enable the startQuery button
+	var startQuery = dojo.query('button[id="startQuery"]')[0];
+	startQuery.removeAttribute('disabled');
+	startQuery.style.opacity = "1";
 }
 
 function startAutoTour(){
@@ -39,28 +108,29 @@ function startAutoTour(){
 	var difficultyInputs = dojo.query("input[name='Difficulty']");
 	var terrainInputs = dojo.query("input[name='Terrain']");
 	var specialInputs = dojo.query("input[name='special']");
+	var i;
 
-	var typeFilter = new Object();
-	for(var i = 0; i<typeInputs.length;i++){
+	var typeFilter = {};
+	for(i = 0; i<typeInputs.length;i++){
 		typeFilter[typeInputs[i].value] = typeInputs[i].checked;
 	}
 
-	var sizeFilter = new Object();
-	for(var i = 0; i<sizeInputs.length;i++){
+	var sizeFilter = {};
+	for(i = 0; i<sizeInputs.length;i++){
 		sizeFilter[sizeInputs[i].value] = sizeInputs[i].checked;
 	}
 
-	var difficultyFilter = new Object();
-	for(var i = 0; i<difficultyInputs.length;i++){
+	var difficultyFilter = {};
+	for(i = 0; i<difficultyInputs.length;i++){
 		difficultyFilter[difficultyInputs[i].value] = difficultyInputs[i].checked;
 	}
 
-	var terrainFilter = new Object();
-	for(var i = 0; i<terrainInputs.length;i++){
+	var terrainFilter = {};
+	for(i = 0; i<terrainInputs.length;i++){
 		terrainFilter[terrainInputs[i].value+""] = terrainInputs[i].checked;
 	}
-	var specialFilter = new Object();
-	for(var i = 0; i<specialInputs.length;i++){
+	var specialFilter = {};
+	for(i = 0; i<specialInputs.length;i++){
 		//~ GM_log(">"+specialInputs[i].value+"<");
 		specialFilter[specialInputs[i].value+""] = specialInputs[i].checked;
 	}
@@ -74,7 +144,6 @@ function startAutoTour(){
 		url += "&f=1";
 	}
 
-
 	GM_setValue('tq_url', url);
 	GM_setValue('tq_typeFilter', JSON.stringify(typeFilter));
 	GM_setValue('tq_sizeFilter', JSON.stringify(sizeFilter));
@@ -84,7 +153,6 @@ function startAutoTour(){
 	GM_setValue('tq_StartUrl', document.location.href);
 
 	document.location.href = url;
-
 }
 
 function getMarkerCoord(){
@@ -94,10 +162,8 @@ function getMarkerCoord(){
 		updateAutoTourMap(coords._lat, coords._lon);
 	} else { // Sehr seltener Fall wenn auch die google geolocate API versagt.
 		alert("'"+markerCoords+"' is not an address!");
-	}	
+	}
 }
-
-
 
 function getSpecialFilter(){
 	var specialDiv = document.createElement('div');
@@ -105,7 +171,6 @@ function getSpecialFilter(){
 	specialDiv.style.paddingRight = "10px";
 	specialDiv.style.textAlign = "left";
 	specialDiv.innerHTML = "<b>That</b><br/>";
-
 
 	var specials = ['I haven\'t found ','is Active', 'is not a PM cache'];
 
@@ -122,15 +187,12 @@ function getSpecialFilter(){
 		append(caption, checkboxSpan);
 		append(checkboxSpan, specialDiv);
 		append(createElement('br'), specialDiv);
-
 	}
 
 	return specialDiv;
-
 }
 
 function getDtFiler(boxName){
-
 	var checkboxesDiv = document.createElement('div');
 
 	checkboxesDiv.style.cssFloat = "left";
@@ -155,9 +217,6 @@ function getDtFiler(boxName){
 		value = value.replace(/\./g, "_");
 		caption.src = "http://www.geocaching.com/images/stars/stars"+value+".gif";
 
-
-
-
 		checkboxesDiv.appendChild(checkbox);
 		checkboxesDiv.appendChild(label);
 		checkboxesDiv.appendChild(createElement('br'));
@@ -165,7 +224,6 @@ function getDtFiler(boxName){
 
 	return checkboxesDiv;
 }
-
 
 function getSizeFilter(){
 	var sizes = ['micro','small','regular','large','other'];
@@ -203,8 +261,6 @@ function getSizeFilter(){
 }
 
 function getTypeFilter(){
-
-
 	var typeDiv = document.createElement('div');
 	typeDiv.style.textAlign = "left";
 	typeDiv.style.paddingLeft = "10px";
@@ -230,17 +286,48 @@ function getTypeFilter(){
 
 		append(checkboxDiv,typeDiv);
 
-		if((i+1) % 2 == 0){
+		if((i+1) % 2 === 0){
 			typeDiv.appendChild(createElement('br'));
 			checkboxDiv.style.paddingLeft = '10px';
 		}
 	}
 
-
-
 	return typeDiv;
 }
 
+function getLocateMeButton(){
+	var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
+	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+$.gctour.lang('findMe')+"</span>";
+
+	button.addEventListener('click',
+		function(){
+
+			if(navigator.geolocation){
+				dojo.byId('locateImage').src = "http://madd.in/ajax-loader3.gif";
+				navigator.geolocation.getCurrentPosition(
+					function(position){
+						dojo.byId('locateImage').src = locateMeImage;
+						var latitude = position.coords.latitude;
+						var longitude = position.coords.longitude;
+
+						dojo.query("input[id='markerCoords']")[0].value = latitude +' '+longitude;
+						dojo.query("input[id='markerRadius']")[0].value = 1;
+						getMarkerCoord();
+					},
+
+					function(error){
+						dojo.byId('locateImage').src = locateMeImage;
+						log('Unable to get current location: ' + error);
+					}, {timeout:10000}
+				);
+			} else {
+				alert("Firefox 3.5? Please update to use this!");
+			}
+
+		},false);
+
+	return button;
+}
 
 function getCoordinatesTab(){
 	var coordsDiv = createElement('div',{style:"clear:both"});
@@ -251,11 +338,11 @@ function getCoordinatesTab(){
 	findMeButton.style.cssFloat = 'right';
 	append(findMeButton,coordsDiv);
 
-
 	var divEbene = createElement('div', {className: 'ebene'});
 
-	divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourCenter')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerCoords"><br/>\
-						<small>'+$.gctour.lang('autoTourHelp')+'</small>';
+	divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourCenter')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;'+
+		'<input type="text" id="markerCoords"><br/>'+
+		'<small>'+$.gctour.lang('autoTourHelp')+'</small>';
 
 	append(divEbene, coordsDiv);
 
@@ -289,7 +376,7 @@ function getMapPreviewTab(){
 	coordsDiv.appendChild(cordsInputRadius);
 
 	var coordsLabel = createElement('div');append(coordsLabel, coordsDiv);
-	coordsLabel.innerHTML = $.gctour.lang('markerCoordinate')+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+$.gctour.lang('autoTourRadius')+": <b id='markerRadiusPreview'>???km</b>"
+	coordsLabel.innerHTML = $.gctour.lang('markerCoordinate')+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+$.gctour.lang('autoTourRadius')+": <b id='markerRadiusPreview'>???km</b>";
 
 	// previewMap
 	var staticGMap = createElement('div');
@@ -307,47 +394,11 @@ function getMapPreviewTab(){
 	coordsDiv.appendChild(staticGMap);
 
 	var cacheCountLabel = createElement('div');append(cacheCountLabel, coordsDiv);
-	cacheCountLabel.innerHTML = $.gctour.lang('autoTourCacheCounts')+" <b id='markerCountPreview'>???</b>"
-		var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
-	tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration')+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec"
+	cacheCountLabel.innerHTML = $.gctour.lang('autoTourCacheCounts')+" <b id='markerCountPreview'>???</b>";
+	var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
+	tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration')+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec";
 
-		return coordsDiv;
-}
-
-function getLocateMeButton(){
-	var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
-	button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+$.gctour.lang('findMe')+"</span>";
-
-	button.addEventListener('click',
-			function(){
-
-			if(navigator.geolocation){
-			dojo.byId('locateImage').src = "http://madd.in/ajax-loader3.gif";
-			navigator.geolocation.getCurrentPosition(
-				function(position){
-				dojo.byId('locateImage').src = locateMeImage;
-				var latitude = position.coords.latitude;
-				var longitude = position.coords.longitude;
-
-				dojo.query("input[id='markerCoords']")[0].value = latitude +' '+longitude;
-				dojo.query("input[id='markerRadius']")[0].value = 1;
-				getMarkerCoord();
-				},
-
-				function(error){
-				dojo.byId('locateImage').src = locateMeImage;
-				log('Unable to get current location: ' + error);
-				}, {timeout:10000});
-			} else {
-				alert("Firefox 3.5? Please update to use this!");
-			}
-
-
-			},false);
-
-
-
-	return button;
+	return coordsDiv;
 }
 
 function getAutoTourSubmit(){
@@ -359,19 +410,17 @@ function getAutoTourSubmit(){
 	getCachesButton.style.opacity = "0.4";
 	getCachesButton.disabled = "disabled";
 
-	getCachesButton.addEventListener('click',
-			startAutoTour,false);
+	getCachesButton.addEventListener('click', startAutoTour,false);
 	return queryFilterDiv;
-
 }
 
 // waypoint projecting
-function CalcPrjWP(lat,lon, dist, angle)
-{
+function CalcPrjWP(lat,lon, dist, angle){
 	var B1 = parseFloat(lat);
 	var L1 = parseFloat(lon);
 	var Dist = parseFloat(dist);
 	var Angle = parseFloat(angle);
+	var a, b, c, g, q, B2, L2;
 
 	while (Angle > 360) {
 		Angle = Angle - 360;
@@ -381,136 +430,59 @@ function CalcPrjWP(lat,lon, dist, angle)
 	}
 
 	//var c = Dist / 6371.0; // KM
-	var c = Dist /  3958.75587; // miles
+	c = Dist /  3958.75587; // miles
 	if (B1 >= 0) {
-		var a = (90 - B1) * Math.PI / 180
+		a = (90 - B1) * Math.PI / 180;
 	} else {
-		var a = B1 * Math.PI / 180;
+		a = B1 * Math.PI / 180;
 	}
-	var q = (360 - Angle) * Math.PI / 180;
-	var b = Math.acos(Math.cos(q) * Math.sin(a) * Math.sin(c) + Math.cos(a) * Math.cos(c));
-	var  B2 = 90 - (b * 180 / Math.PI);
+	q = (360 - Angle) * Math.PI / 180;
+	b = Math.acos(Math.cos(q) * Math.sin(a) * Math.sin(c) + Math.cos(a) * Math.cos(c));
+	B2 = 90 - (b * 180 / Math.PI);
 	if (B2 > 90) {
 		B2 = B2 - 180; //Suedhalbkugel
 	}
-	if ((a + b) == 0) {
-		var g = 0; //Nenner unendlich
+	if ((a + b) === 0) {
+		g = 0; //Nenner unendlich
 	} else {
-		var g = Math.acos( (Math.cos(c) - Math.cos(a) * Math.cos(b)) / (Math.sin(a) * Math.sin(b)) );
+		g = Math.acos( (Math.cos(c) - Math.cos(a) * Math.cos(b)) / (Math.sin(a) * Math.sin(b)) );
 	}
 	if (Angle <= 180) {
-		var g = (-1) * g;
+		g = (-1) * g;
 	}
-	var L2 = (L1 - g * 180 / Math.PI);
+	L2 = (L1 - g * 180 / Math.PI);
 
 	return [Math.round(B2 * 100000) / 100000,Math.round(L2 * 100000) / 100000];
 }
 
-function updateAutoTourMap(lat,lon){
+function showAutoTourDialog(center,radius){
+	var overLay, queryFilterDiv;
 
-	//make the container visible
-	dojo.byId('autoTourContainer').style.display = 'block';
+  if(!isLogedIn()) { return; }
 
-	var radiusOrg = dojo.query("input[id='markerRadius']")[0].value;
-	if(isNaN(radiusOrg) || radiusOrg == "")// please break if radius is no number
-		return;
+	overLay = getOverlay({caption:$.gctour.lang('autoTour'),minimized:true});
+	overLay.appendChild(getCoordinatesTab());
 
+	var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:12px;'});
+	autoTourContainer.style.display = 'none';
 
-	var meterMiles = dojo.query("select[id='markerRadiusUnit']")[0].selectedIndex;
-	// meter: meterMiles == 0		miles: meterMiles == 1
-	var radiusMiles = (meterMiles==1)?parseFloat(radiusOrg):parseFloat(radiusOrg)*0.621371;
+	autoTourContainer.appendChild(getMapPreviewTab());
+	queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
+	queryFilterDiv.appendChild(getTypeFilter());
+	queryFilterDiv.appendChild(getSizeFilter());
+	queryFilterDiv.appendChild(getDtFiler('Difficulty'));
+	queryFilterDiv.appendChild(getDtFiler('Terrain'));
+	queryFilterDiv.appendChild(getSpecialFilter());
+	autoTourContainer.appendChild(getAutoTourSubmit());
 
-	if(radiusMiles == "")
-		return;
+	overLay.appendChild(autoTourContainer);
 
-	var staticGMap = dojo.query('div[id="staticGMap"]')[0];
-	staticGMap.innerHTML = "";
-	
-	// create new static map with changed coordinates
-	new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
-
-	dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = new LatLon(lat,lon).toString();
-	
-	dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
-
-	dojo.animateProperty(
-					{
-	node: "markerCoordsPreview",duration: 1000,
-	properties: {
-	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
-	}
-	}).play();
-	dojo.animateProperty(
-			{
-	node: "markerRadiusPreview",duration: 1000,
-	properties: {
-	//~ color:         { start: "black", end: "white" },
-	backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
-	}
-	}).play();
-
-	// get how many caches are in this area
-
-	loadingTime1 = new Date();
-
-
-	log("url: http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles);
-		GM_xmlhttpRequest({
-		method: 'GET',
-		url: "http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles,
-		onload: function(responseDetails) {
-			var dummyDiv = createElement('div');
-			dummyDiv.innerHTML = responseDetails.responseText;
-
-			var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
-
-			if(pagesSpan){
-				dojo.query("b[id='markerCountPreview']")[0].innerHTML = pagesSpan.getElementsByTagName('b')[0].innerHTML;
-
-				dojo.animateProperty({
-					node: "markerCountPreview",duration: 1000,
-					properties: {backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }}
-				}).play();
-
-
-				var miliseconds = new Date() - loadingTime1;
-				var seconds = Math.floor((miliseconds * parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) )/1000);
-				seconds = seconds + parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) * 2;
-				var secondsMod = seconds % 60;
-				var minutes = (seconds - secondsMod) /60;
-
-				dojo.query("b[id='markerDurationMin']")[0].innerHTML = minutes;
-				dojo.query("b[id='markerDurationSec']")[0].innerHTML = secondsMod;
-			} else {
-				dojo.query("b[id='markerCountPreview']")[0].innerHTML = 0;
-
-				dojo.animateProperty({
-					node: "markerCountPreview",duration: 2000,
-					properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
-				}).play();
-
-
-				dojo.query("b[id='markerDurationMin']")[0].innerHTML = 0;
-				dojo.query("b[id='markerDurationSec']")[0].innerHTML = 0;
-			}
-		}
-	});
-
-
-
-	// last, save the values
-	dojo.query('input[id="coordsDivLat"]')[0].value = lat;
-	dojo.query('input[id="coordsDivLon"]')[0].value = lon;
-	dojo.query('input[id="coordsDivRadius"]')[0].value = radiusMiles;
-	dojo.query('b[id="markerCountPreview"]')[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
-	dojo.query("b[id='markerDurationMin']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
-	dojo.query("b[id='markerDurationSec']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
-
-
-
-	// enable the startQuery button
-	var startQuery = dojo.query('button[id="startQuery"]')[0];
-	startQuery.removeAttribute('disabled');
-	startQuery.style.opacity = "1";
+	if(center && radius){
+		dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
+		dojo.query("input[id='markerRadius']")[0].value = radius;
+		getMarkerCoord();
+	} else {
+    dojo.query("input[id='markerRadius']")[0].value = 2;
+    dojo.query("input[id='markerCoords']")[0].focus();
+  }
 }

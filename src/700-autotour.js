@@ -272,17 +272,17 @@ function getTypeFilter(){
 	for(var i = 0; i< wptArray.length;i++){
 		var checkboxDiv = createElement('span');
 
-		var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i]['wptTypeId'], id: "type"+wptArray[i]['wptTypeId'], checked: 'checked'});
+		var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i].wptTypeId, id: "type"+wptArray[i].wptTypeId, checked: 'checked'});
 		append(checkbox,checkboxDiv);
 		checkbox.style.margin = '0px';
 
 		var label = createElement('label');
-		label.setAttribute("for", "type"+wptArray[i]['wptTypeId']);
+		label.setAttribute("for", "type"+wptArray[i].wptTypeId);
 
 		append(label,checkboxDiv);
 		var caption = createElement('img');
 		append(caption,label);
-		caption.src = 'http://www.geocaching.com/images/WptTypes/sm/'+wptArray[i]['wptTypeId']+'.gif';
+		caption.src = 'http://www.geocaching.com/images/WptTypes/sm/'+wptArray[i].wptTypeId+'.gif';
 
 		append(checkboxDiv,typeDiv);
 
@@ -486,3 +486,4 @@ function showAutoTourDialog(center,radius){
     dojo.query("input[id='markerCoords']")[0].focus();
   }
 }
+

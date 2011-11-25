@@ -11,7 +11,6 @@ function Settings(){
 }
 
 Settings.prototype.show = function(){
-
 	var overlayArray = getListOverlay({caption:$.gctour.lang('settings_caption')});
 
 	var listUl = overlayArray[0];
@@ -35,13 +34,10 @@ Settings.prototype.show = function(){
 		settingsLink.setAttribute('header', header);
 
 		append(settingsLink,headerLi);
-
 	}
 
 	this.details.innerHTML = "<h2 align='center'>"+$.gctour.lang('settings_caption')+"</h2>";
-
-}
-
+};
 
 Settings.prototype.getGPX = function(){
 	var div = createElement('div');
@@ -64,7 +60,7 @@ Settings.prototype.getGPX = function(){
 	append(this.getCheckbox('settingsGPXStripGC', 'gpxstripgc',false),div);
 
 	return div;
-}
+};
 
 Settings.prototype.getLanguage = function(){
 	var div = createElement('div'),
@@ -93,7 +89,7 @@ Settings.prototype.getLanguage = function(){
 	append(this.getSelectbox(language_arr,'language',$.gctour.defaultLang,setLanguage),lang_caption);
 
 	return div;
-}
+};
 
 Settings.prototype.getMaps = function(){
 	var div = createElement('div');
@@ -111,7 +107,7 @@ Settings.prototype.getMaps = function(){
 	var mapsi_caption = createElement('span');append(mapsi_caption,mapsi_div);
 	mapsi_caption.innerHTML = "<b>"+$.gctour.lang('settingsMapSize')+"</b><br/>";
 
-	var sizeArray = new Array('large','medium','small');
+	var sizeArray = ['large', 'medium', 'small'];
 	append(this.getSelectbox(sizeArray,'defaultMapSize','large',setPrintMapSize),mapsi_caption);
 
 	append(this.getCheckbox('settings_map_geocacheid', 'settings_map_geocacheid',true),div);
@@ -125,7 +121,7 @@ Settings.prototype.getMaps = function(){
 	append(this.getCheckbox('settings_map_gcde', 'settings_map_gcde',false),div);
 
 	return div;
-}
+};
 
 Settings.prototype.getPrint = function(){
 	var div = createElement('div');
@@ -148,14 +144,12 @@ Settings.prototype.getPrint = function(){
 	exportRadioNoneText.innerHTML = $.gctour.lang('settingsLogCountNone');
 	exportRadioNone.addEventListener('click', function(){GM_setValue('maxPrintLogs',0);},false);
 
-
 	var exportRadioAll = document.createElement('input');
 	var exportRadioAllText = document.createElement('font');
 	exportRadioAll.type = 'radio';
 	exportRadioAll.name = 'logcount';
 	exportRadioAllText.innerHTML = $.gctour.lang('settingsLogCountAll');
 	exportRadioAll.addEventListener('click', function(){GM_setValue('maxPrintLogs',-1);},false);
-
 
 	var exportRadioCount = document.createElement('input');
 	var exportRadioCountText = document.createElement('font');
@@ -174,31 +168,27 @@ Settings.prototype.getPrint = function(){
 			var value = exportText.value; //get characters
 			for(var i=0;i < value.length; ++i) {
 				var new_key = value.charAt(i); //cycle through characters
-				if(((new_key < "0") || (new_key > "9")) && !(new_key == "")) {
+				if ( ((new_key < "0") || (new_key > "9")) && (new_key != "")) {
 				//if(i!= 0 && new_key == "-"){
 				check = false;
 				break;
 				//}
 				}
 			}
-			if(!check) // highlight if something is wrong
-			{
+			if(!check) { // highlight if something is wrong
 				exportText.style.backgroundColor = '#ff7f7f';
-			}
-			else
-			{
+			} else {
 				exportText.style.backgroundColor = '#ffffff';
 				GM_setValue('maxPrintLogs',exportText.value);
 			}
-		}
-	,false);
+		}, false);
 
-	if(GM_getValue('maxPrintLogs',3) == 0){
+	if(GM_getValue('maxPrintLogs', 3) === 0) {
 		exportRadioNone.checked = 'checked';
-	}else if ( GM_getValue('maxPrintLogs',3) <= -1){
+	} else if ( GM_getValue('maxPrintLogs', 3) <= -1) {
 		exportRadioAll.checked = 'checked';
-	}else{
-		exportText.value = GM_getValue('maxPrintLogs',3);
+	} else {
+		exportText.value = GM_getValue('maxPrintLogs', 3);
 		exportRadioCount.checked = 'checked';
 
 	}
@@ -220,11 +210,10 @@ Settings.prototype.getPrint = function(){
 	append(font_caption,font_div);
 	font_caption.innerHTML = "<b>"+$.gctour.lang('settingsFontSize')+"</b><br/>";
 
-	var sizeArray = new Array("xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large");
+	var sizeArray = ["xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large"];
 	append(this.getSelectbox(sizeArray,'printFontSize','x-small',setPrintFontSize),font_caption);
 
 	append(font_div,div);
-
 
 	append(this.getCheckbox('settingsDecryptHints', 'decryptPrintHints',true),div);
 	append(this.getCheckbox('settingsEditDescription', 'printEditMode',false),div);
@@ -240,14 +229,13 @@ Settings.prototype.getPrint = function(){
 	// default map
 
 	return div;
-}
+};
 
 Settings.prototype.getHeader = function(header){
 	var div = createElement('div');
 	div.innerHTML = "<h2 align='center'>"+header+"</h2>";
 	return div;
-}
-
+};
 
 Settings.prototype.getCheckbox = function(caption_lang, gmValue, dValue, isShort){
 	var cb_span = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;padding-bottom:3px;"});
@@ -256,23 +244,21 @@ Settings.prototype.getCheckbox = function(caption_lang, gmValue, dValue, isShort
 	cb.checked = GM_getValue(gmValue,dValue);
 	cb.addEventListener('click',toggleBoolValue(gmValue,dValue), false);
 
-
 	var cb_caption = createElement('span');
 	append(cb_caption,cb_span);
 	cb_caption.innerHTML = "<b>"+$.gctour.lang(caption_lang)+"</b>";
-	if (!isShort) cb_caption.innerHTML += "<br/><div style='margin-left:10px'>"+$.gctour.lang(caption_lang+'Desc')+"</div>";
-
+	if (!isShort) {
+		cb_caption.innerHTML += "<br/><div style='margin-left:10px'>"+$.gctour.lang(caption_lang+'Desc')+"</div>";
+	}
 
 	return cb_span;
-}
-
+};
 
 Settings.prototype.getSelectbox = function(value_array, gmValue, dValue, click_function){
 	var select = document.createElement("select");
 	select.style.width = "90%";
 	select.style.margin = "0 5%";
 	select.style.marginBottom = "5px";
-
 
 	for(var array_i = 0; array_i<value_array.length; array_i++){
 		var option = document.createElement("option");select.appendChild(option);
@@ -283,16 +269,15 @@ Settings.prototype.getSelectbox = function(value_array, gmValue, dValue, click_f
 		option.value = value;
 		option.innerHTML = caption;
 
-		if (GM_getValue(gmValue,dValue) == value)
+		if (GM_getValue(gmValue,dValue) == value) {
 			option.selected = 'selected';
+		}
 
 		option.addEventListener('click', click_function(value), false);
-
 	}
 
 	return select;
-}
-
+};
 
 Settings.prototype.update = function(e) {
 	var linkElement = e.target;
@@ -300,12 +285,10 @@ Settings.prototype.update = function(e) {
 	// remove last active menu entry
 	if(Settings.prototype.activelink){try{dojo.removeClass(Settings.prototype.activelink.parentNode, "activeTour");}catch(e){} }
 
-
 	// set the current entry to active
 	dojo.addClass(linkElement.parentNode, "activeTour");
 
 	Settings.prototype.activelink = linkElement;
-
 
 	var details = document.getElementById('dialogDetails');
 
@@ -318,5 +301,5 @@ Settings.prototype.update = function(e) {
 			details.scrollTop=0;
 		}
 	}
+};
 
-}

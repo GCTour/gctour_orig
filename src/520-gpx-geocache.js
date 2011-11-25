@@ -101,8 +101,8 @@ function getGPXGeoCache(gcid){
 	// if the GPX type is Groundspeak - parse type through the wptArr from autotour:
 	if(isGroundspeak){
 		for( i = 0; i < wptArray.length; i++){
-			if(wptArray[i]['wptTypeId'] == geocache_obj.type){
-				geocache.cacheType = wptArray[i]['name'];
+			if(wptArray[i].wptTypeId == geocache_obj.type){
+				geocache.cacheType = wptArray[i].name;
 			}
 		}
 	} else {

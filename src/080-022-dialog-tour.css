@@ -26,6 +26,7 @@
 .activeTour {
 	border: 1px solid #C0CEE3;
 	-moz-border-radius: 5px 0 0 5px;
+	border-radius: 5px 0 0 5px;
 	background-color:#eff4f9;
 	padding:1px;
 }

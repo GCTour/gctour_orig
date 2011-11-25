@@ -196,6 +196,7 @@ function addProgressbar(options){
 	progressBar.style.verticalAlign = 'middle';
 	progressBar.style.background = "url(http://madd.in/ajax-loader2.gif)";
 	progressBar.style.setProperty("-moz-border-radius", "4px", "");
+	progressBar.style.setProperty("border-radius", "4px", "");
 
 	var progressBarElement = document.createElement('div');
 	append(progressBarElement,progressBarContainer);
@@ -209,6 +210,7 @@ function addProgressbar(options){
 	progressBarElement.style.margin = '11px';
 	progressBarElement.align = 'center';
 	progressBarElement.style.setProperty("-moz-border-radius", "4px", "");
+	progressBarElement.style.setProperty("border-radius", "4px", "");
 
 }
 

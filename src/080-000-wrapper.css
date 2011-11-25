@@ -14,8 +14,8 @@
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	border-radius:8px 0 8px 0;\
-	-moz-border-radius:8px 0 8px 0;\
+	-moz-border-radius:8px 0 8px 0;
+	border-radius:8px 0 8px 0;
 }
 
 #gctourContainer .cachelist {

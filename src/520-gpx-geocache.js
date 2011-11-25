@@ -1,3 +1,32 @@
+function getAttributeXML(attribute_a){
+	return "        <groundspeak:attribute id='"+attribute_a[0]+"' inc='"+attribute_a[3]+"'>"+attribute_a[2]+"</groundspeak:attribute>\n";
+}
+
+function getGPXfromMarker(marker){
+  var gpx = '';
+	gpx += '<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="' + marker.latitude +'" lon="' + marker.longitude +'">\n';
+	gpx += '  <time>' + xsdDateTime(new Date())    + '</time>\n';
+	gpx += '  <name>' + encodeHtml(marker.name)    + '</name>\n';
+	gpx += '  <cmt>'  + encodeHtml(marker.content) + '</cmt>\n';
+	gpx += '  <sym>'  + marker.symbol              + '</sym>\n';
+	gpx += '</wpt>\n';
+	return gpx;
+}
+
+function getWaypointsGPXFromGeocache(waypoint,geocache){
+	var waypointName = waypoint.prefix+geocache.gcid.replace(/GC/,'');
+	var gpx = '';
+	gpx += '<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="' + waypoint.latitude +'" lon="' + waypoint.longitude +'">\n';
+	gpx += '  <time>' + xsdDateTime(geocache.dateHidden) + '</time>\n';
+	gpx += '  <name>' + encodeHtml(waypointName)         + '</name>\n';
+	gpx += '  <cmt>'  + encodeHtml(waypoint.note)        + '</cmt>\n';
+	gpx += '  <desc>' + encodeHtml(waypoint.name)        + '</desc>\n';
+	gpx += '  <sym>'  + waypoint.symbol_groundspeak      + '</sym>\n';
+	gpx += '  <type>' + waypoint.type_groundspeak        + '</type>\n';
+	gpx += '</wpt>\n';
+	return gpx;
+}
+
 function getGPXGeoCache(gcid){
 	var i;  // for ()
 
@@ -9,32 +38,34 @@ function getGPXGeoCache(gcid){
 		return geocache_obj;
 	}
 
-	//~ geocache.gcid
-	//~ geocache.cacheid
-	//~ geocache.name
-	//~ geocache.type
-	//~ geocache.owner
-	//~ geocache.hidden
-	//~ geocache.coordinates
-	//~ geocache.lat
-	//~ geocache.lon
-	//~ geocache.location
-	//~ geocache.state
-	//~ geocache.country
-	//~ geocache.bearing
-	//~ geocache.distance
-	//~ geocache.inventory
-	//~ geocache.size
-	//~ geocache.difficulty
-	//~ geocache.terrain
-	//~ geocache.attributes
-	//~ geocache.short_description
-	//~ geocache.long_description
-	//~ geocache.hint
-	//~ geocache.images
-	//~ geocache.additional_waypoints
-	//~ geocache.find_counts
-	//~ geocache.logs
+	/*
+	geocache.gcid
+		.cacheid
+		.name
+		.type
+		.owner
+		.hidden
+		.coordinates
+		.lat
+		.lon
+		.location
+		.state
+		.country
+		.bearing
+		.distance
+		.inventory
+		.size
+		.difficulty
+		.terrain
+		.attributes
+		.short_description
+		.long_description
+		.hint
+		.images
+		.additional_waypoints
+		.find_counts
+		.logs
+	*/
 
 	geocache.gcid = geocache_obj.gcid;
 	if(GM_getValue('gpxstripgc',false)){
@@ -69,38 +100,38 @@ function getGPXGeoCache(gcid){
 	// define the cache type
 	// if the GPX type is Groundspeak - parse type through the wptArr from autotour:
 	if(isGroundspeak){
-		for( i = 0; i < wptArray.length; i++){	
+		for( i = 0; i < wptArray.length; i++){
 			if(wptArray[i]['wptTypeId'] == geocache_obj.type){
 				geocache.cacheType = wptArray[i]['name'];
 			}
 		}
 	} else {
 		switch (geocache_obj.type){
-			case "2": 
+			case "2":
 				geocache.cacheType = "Traditional";
 				break;
-			case "3": 
+			case "3":
 				geocache.cacheType = "Multi";
 				break;
-			case "4": 
+			case "4":
 				geocache.cacheType = "Virtual";
 				break;
-			case "11": 
+			case "11":
 				geocache.cacheType = "Webcam";
 				break;
-			case "6": 
+			case "6":
 				geocache.cacheType = "Event";
 				break;
-			case "137": 
+			case "137":
 				geocache.cacheType = "Earthcache";
 				break;
-			case "453": 
+			case "453":
 				geocache.cacheType = "Event";
 				break;
 			default:
 				geocache.cacheType = "Other";
 				break;
-		}	
+		}
 	}
 
 	geocache.attributes_array = geocache_obj.attributes_array;
@@ -205,7 +236,7 @@ function getGPXGeoCache(gcid){
 			default:
 				logObj.type = (isGroundspeak)?"Write note":"Other";
 				break;
-			
+
 		}
 */
 		debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
@@ -267,7 +298,7 @@ function getGPXNew(){
 		'</gpx>';
 
 	var gpxDom = parseXml(gpxHeader,"application/xml");
-	var gpxElement = gpxDom.getElementsByTagName('gpx')[0];		
+	var gpxElement = gpxDom.getElementsByTagName('gpx')[0];
 
 	var waypointTemplate =
 		'  <wpt xmlns="http://www.topografix.com/GPX/1/0" lat="##LAT##" lon="##LON##">' +
@@ -304,10 +335,10 @@ function getGPXNew(){
 		'  <type>##LOGTYPE##</type>' +
 		'  <text>##LOGTEXT##</text>' +
 		'</log>';
-		
+
 	for ( i = 0; i < currentTour.geocaches.length; i++){
 
-		// if the cancel-button is pressed 
+		// if the cancel-button is pressed
 		if(GM_getValue("stopTask",false)){
 			GM_setValue("stopTask",false);
 			return "canceled"; // then return!
@@ -333,7 +364,7 @@ function getGPXNew(){
 						['LOGTYPE',    logs[ii].type],
 						['LOGTEXT',    encodeHtml($("<div/>").html(logs[ii].content.br2space()).text().trimAll())]
 					];
-					
+
 					var cacheWaypointLog = waypointLogTemplate;
 
 					for( iii = 0 ; iii < geocacheLogMapping.length ; iii++){
@@ -374,11 +405,11 @@ function getGPXNew(){
 
 				if(GM_getValue('gpxwpts',true)){
 					for( iii = 0;iii<geocache.additionalWaypoints.length;iii++){
-						
+
 						if(geocache.additionalWaypoints[iii].coordinates != "???"){
 							dom = parseXml(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache),"text/xml");
 							waypoint = dom.getElementsByTagName('wpt')[0];
-							gpxElement.appendChild(waypoint);	
+							gpxElement.appendChild(waypoint);
 						}
 					}
 				}
@@ -387,11 +418,11 @@ function getGPXNew(){
 		} else { // costum marker check
 			dom = parseXml(getGPXfromMarker(currentTour.geocaches[i]),"text/xml");
 			waypoint = dom.getElementsByTagName('wpt')[0];
-			gpxElement.appendChild(waypoint);	
+			gpxElement.appendChild(waypoint);
 		}
 	setProgress(i,currentTour.geocaches.length,document);
 
-	} // itertion end 
+	} // itertion end
 
 	var str = new XMLSerializer().serializeToString(gpxDom);
 	return str;
@@ -401,7 +432,7 @@ function getGPXNew(){
 function getGPX(){
 	var i, ii, iii;  // for ()
 
-	var gpxHeader = 
+	var gpxHeader =
 		'<?xml version="1.0" encoding="utf-8"?>\n' +
 		'<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" creator="GCTour" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.groundspeak.com/cache/1/0/1 http://www.groundspeak.com/cache/1/0/1/cache.xsd" xmlns="http://www.topografix.com/GPX/1/0">\n' +
 		'  <name>' +currentTour.name+'</name>\n' +
@@ -460,7 +491,7 @@ function getGPX(){
 
 	for ( i = 0; i < currentTour.geocaches.length; i++){
 
-		// iff the cancelbutton is presssed 
+		// iff the cancelbutton is presssed
 		if(GM_getValue("stopTask",false)){
 			GM_setValue("stopTask",false);
 			return "canceled"; // then return!
@@ -494,7 +525,7 @@ function getGPX(){
 					for ( iii = 0 ; iii<geocacheLogMapping.length ; iii++){
 						cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[iii][0]+"##","g"),geocacheLogMapping[iii][1]);
 					}
-					
+
 					logsStringArray.push(cacheWaypointLog);
 					*/
 				//}
@@ -576,7 +607,7 @@ function getGPX(){
 							//~ cacheWaypoint
 							//~ var dom = parseXml(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache),"text/xml");
 							//~ var waypoint = dom.getElementsByTagName('wpt')[0];
-							//~ gpxElement.appendChild(waypoint);	
+							//~ gpxElement.appendChild(waypoint);
 						}
 					}
 				}
@@ -587,11 +618,11 @@ function getGPX(){
 
 			//~ var dom = parseXml(getGPXfromMarker(currentTour.geocaches[i]),"text/xml");
 			//~ var waypoint = dom.getElementsByTagName('wpt')[0];
-			//~ gpxElement.appendChild(waypoint);	
+			//~ gpxElement.appendChild(waypoint);
 		}
 		setProgress(i,currentTour.geocaches.length,document);
 
-	} // itertion end 
+	} // itertion end
 	//~ var str = new XMLSerializer().serializeToString(gpxDom);
 
 	var str = gpxHeader;
@@ -606,31 +637,3 @@ function getGPX(){
 	return str;
 }
 
-function getAttributeXML(attribute_a){
-	return "        <groundspeak:attribute id='"+attribute_a[0]+"' inc='"+attribute_a[3]+"'>"+attribute_a[2]+"</groundspeak:attribute>\n";
-}
-
-function getGPXfromMarker(marker){
-  var gpx = '';
-	gpx += '<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="' + marker.latitude +'" lon="' + marker.longitude +'">\n';
-	gpx += '  <time>' + xsdDateTime(new Date())    + '</time>\n';
-	gpx += '  <name>' + encodeHtml(marker.name)    + '</name>\n';
-	gpx += '  <cmt>'  + encodeHtml(marker.content) + '</cmt>\n';
-	gpx += '  <sym>'  + marker.symbol              + '</sym>\n';
-	gpx += '</wpt>\n';
-	return gpx;
-}
-
-function getWaypointsGPXFromGeocache(waypoint,geocache){
-	var waypointName = waypoint.prefix+geocache.gcid.replace(/GC/,'');
-	var gpx = '';
-	gpx += '<wpt xmlns="http://www.topografix.com/GPX/1/0" lat="' + waypoint.latitude +'" lon="' + waypoint.longitude +'">\n';
-	gpx += '  <time>' + xsdDateTime(geocache.dateHidden) + '</time>\n';
-	gpx += '  <name>' + encodeHtml(waypointName)         + '</name>\n';
-	gpx += '  <cmt>'  + encodeHtml(waypoint.note)        + '</cmt>\n';
-	gpx += '  <desc>' + encodeHtml(waypoint.name)        + '</desc>\n';
-	gpx += '  <sym>'  + waypoint.symbol_groundspeak      + '</sym>\n';
-	gpx += '  <type>' + waypoint.type_groundspeak        + '</type>\n';
-	gpx += '</wpt>\n';
-	return gpx;
-}

@@ -1,23 +1,24 @@
 // usefull snippet to escape HTML
 /*  String.prototype.escapeHTML = function() {
     return this.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }*/
+  }
+*/
 
 // setting hashcode to all strings
 String.prototype.hashCode = function(){
 	var hash = 0;
-	if (this.length == 0) return code;
+	if (this.length === 0) { return code; }
 	for (i = 0; i < this.length; i++) {
 		character = this.charCodeAt(i);
 		hash = 31 * hash + character;
 		hash = hash & hash; // Convert to 32bit integer
 	}
 	return hash;
-}
+};
 
 String.prototype.endsWith = function(str){
 	return (this.match(str+"$")==str);
-}
+};
 
 // Convert HTML breaks to spaces
 String.prototype.br2space = function() {
@@ -29,9 +30,6 @@ String.prototype.br2space = function() {
 String.prototype.trimAll = function() {
 	return this.replace(/^\s+|(\s+(?!\S))/mg,"");
 };
-
-
-
 
 (function () {
 
@@ -56,22 +54,21 @@ String.prototype.trimAll = function() {
 	// init the whole script - started with dojo
 	initDojo();
 
-	if(isOpera){
+	if (isOpera) {
 		//wait until document is loaded and init the core components (first tour, current tour)
-		window.addEventListener('DOMContentLoaded',function(){		
+		window.addEventListener('DOMContentLoaded',function(){
 			initCore();
 		},true);
-	}
-	else
-	{
+	} else {
 		// init the core components (first tour, current tour)
-		initCore();	
+		initCore();
 	}
 
 	//Opera has an autoupdate function
-	if(!isOpera){
+	if (!isOpera) {
 		// check for updates
 		update();
 	}
 
 })();
+

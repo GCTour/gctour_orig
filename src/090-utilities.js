@@ -1,5 +1,17 @@
 /* ----- utilities ------*/
 
+// Read a GET URL variables and return them as an associative array.
+function getUrlVars(url) {
+	var vars = [], hash;
+	var hashes = url.slice( url.indexOf('?') + 1 ).split('&');
+	for(var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0]] = hash[1];
+	}
+	return vars;
+}
+
 /* USAGE: createElement('table',{style:"border-collapse:seperate;"});append(image_table,dummy_images); */
 function createElement(type, attributes) {
 	var node = document.createElement(type), attr;

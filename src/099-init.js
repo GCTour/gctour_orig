@@ -67,7 +67,7 @@ function init(){
 		return;
 	}
 
-	
+
 	// start sepcial script on send-to-gps page
 	if(document.URL.search("http://www.geocaching.com/seek/sendtogps.aspx")>=0) {
 		    	// show the GPX box, if the option is set
@@ -221,13 +221,13 @@ function init(){
 							tq_caches.push(entry);
 						}
 
-						debug(entry.id + " " + entry.name + 
-							"\n\tvalue:" + type + " filter:" + tq_typeFilter[type] + 
-							"\n\tvalue:" + size + " filter:" + tq_sizeFilter[size] + 
-							"\n\tvalue:" + difficulty + " filter:" + tq_dFilter[difficulty+""] + 
-							"\n\tvalue:" + terrain + " filter:" + tq_tFilter[terrain+""] + 
-							"\n\tavailable:" + entry.available + 
-							"\n\tpm only:" + pm_only + 
+						debug(entry.id + " " + entry.name +
+							"\n\tvalue:" + type + " filter:" + tq_typeFilter[type] +
+							"\n\tvalue:" + size + " filter:" + tq_sizeFilter[size] +
+							"\n\tvalue:" + difficulty + " filter:" + tq_dFilter[difficulty+""] +
+							"\n\tvalue:" + terrain + " filter:" + tq_tFilter[terrain+""] +
+							"\n\tavailable:" + entry.available +
+							"\n\tpm only:" + pm_only +
 							"\n\t ==> Add to tour: " + addBool);
 
 					} // END for each cache
@@ -370,10 +370,10 @@ function init(){
 		var bookmarkLines = $('tr[id$="Row"]'); // id muss mit Row enden
 
 		debug("bookmarkLines.length = " + bookmarkLines.length);
-		
+
 		for(k = 0; k < bookmarkLines.length; k++){
-		  var bookmarkLine = $("td", bookmarkLines[k]);
-      var entry = getEntryFromBookmarkTd(bookmarkLine);
+			var bookmarkLine = $("td", bookmarkLines[k]);
+			var entry = getEntryFromBookmarkTd(bookmarkLine);
 
 			$("<img>", {
 				"alt": $.gctour.lang('addToTour'),
@@ -391,67 +391,57 @@ function init(){
 
 		}
 
-		// button to add all caches in list to current tour
-		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].innerHTML = $.gctour.lang('showCaches');
-
-		var addBookmarkButton = createElement('button',{style:"margin:10px"});
-		addBookmarkButton.setAttribute('onclick','return false;');
-		addBookmarkButton.innerHTML ="<img src='"+addToTourImageString+"'/>&nbsp;"+$.gctour.lang('addShownBookmarks');
-		addBookmarkButton.addEventListener('click', function () {
-			for(k = 0; k<bookmarkLines.length ; k++){
-				var bookmarkLine = dojo.query("td", bookmarkLines[k]);
+		// helper function
+		var addEntryFromBookmark = function(e) {
+		  var ck = e.data.checkedOnly || false;
+			for(var k = 0; k < e.data.bLs.length; k++){
+				var bookmarkLine = $("td", e.data.bLs[k]);
 				var entry = getEntryFromBookmarkTd(bookmarkLine);
-
-				if(entry){
-					addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+				if ( (entry) && (!ck || (ck && entry.checked)) ){
+					addElementFunction(entry.id, entry.guid, entry.name, entry.image)();
 				}
 			}
-		},false);
-		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].appendChild(addBookmarkButton);
+		};
+
+		// button to add all caches in list to current tour
+		var $divAbuseReport = $('div#ctl00_ContentBody_ListInfo_uxAbuseReport');
+		$divAbuseReport.html($.gctour.lang('showCaches'));
+		$("<button>", {
+			id: "gctour_button_to_current_tour",
+			"css": { "margin": 10 },
+			"html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarks')
+		})
+		.bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
+		  e.preventDefault();
+			addEntryFromBookmark(e);
+		})
+		.appendTo($divAbuseReport);
 
 		// button to add all caches in list to a new tour
-		var newBookmarkButton = createElement('button',{style:"margin:10px"});
-		newBookmarkButton.setAttribute('onclick','return false;');
-		newBookmarkButton.innerHTML ="<img src='"+newImageString+"'/>&nbsp;+&nbsp;<img src='"+addToTourImageString+"'/>&nbsp;"+$.gctour.lang('addShownBookmarksToNewTour');
-		newBookmarkButton.addEventListener('click', function () {
-					var listName = dojo.query('span[id="ctl00_ContentBody_lbHeading"]')[0].textContent;
-					if(newTourFunction(listName)()){
-						for(k = 0; k<bookmarkLines.length ; k++){
-							var bookmarkLine = dojo.query("td", bookmarkLines[k]);
-							var entry = getEntryFromBookmarkTd(bookmarkLine);
-
-							if(entry){
-								addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-							}
-						}
-					}
-				},false);
-		dojo.query('div[id="ctl00_ContentBody_ListInfo_uxAbuseReport"]')[0].appendChild(newBookmarkButton);
-
-
-		var newButton = document.createElement("input");
-		newButton.name = 'addAll';
-		newButton.type = 'submit';
-		newButton.value = $.gctour.lang('addMarkedToTour');
-		newButton.id = 'addAll';
-		newButton.setAttribute('onclick','return false;');
-		newButton.style.cssFloat = 'right';
-
-		// on click add checked caches in bookmark table
-		newButton.addEventListener('click',  function(){
-			for(k = 0; k<bookmarkLines.length ; k++){
-				var bookmarkLine = dojo.query("td", bookmarkLines[k]);
-				var entry = getEntryFromBookmarkTd(bookmarkLine);
-
-				if(entry){
-					if(entry.checked){
-					addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-					}
-				}
+		$("<button>", {
+			"css": { "margin": 10 },
+			"html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarksToNewTour')
+		})
+		.bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
+			e.preventDefault();
+			var listName = $("span#ctl00_ContentBody_lbHeading").text();
+			if (newTourFunction(listName)() ){
+				addEntryFromBookmark(e);
 			}
-		}, false);
-		//add the button to the website
-		dojo.query('input[id="ctl00_ContentBody_ListInfo_btnDownload"]')[0].parentNode.appendChild(newButton);
+		})
+		.appendTo($divAbuseReport);
+
+		// button to add all checked caches in list to current tour
+		$("<button>", {
+			"html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addMarkedToTour'),
+			"css": { "float": "right" }
+		})
+		.bind('click', {bLs: bookmarkLines, checkedOnly: true}, function(e){
+			e.preventDefault();
+			addEntryFromBookmark(e);
+		})
+		.insertAfter($("input#ctl00_ContentBody_ListInfo_btnDownload"));
+
 	}
 
 

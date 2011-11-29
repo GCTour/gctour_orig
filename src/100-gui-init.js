@@ -366,7 +366,8 @@ function initComponents(){
 			title:  $.gctour.lang('autoTour'),
 			alt :   $.gctour.lang('autoTour'),
 			click: function(){
-				showAutoTourDialog();
+				var gooMap = getMapCenterAndRadius();
+				showAutoTourDialog(gooMap.center, gooMap.radius);
 			}
 		}),
 

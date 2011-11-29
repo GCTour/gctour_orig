@@ -46,6 +46,23 @@ function initCore(){
 
 function init(){
   var i;
+	
+	// helper for map old and map beta
+	// googleMap center and radius: return object center and radius
+	var getMapCenterAndRadius = function(){ 
+		var googleMap = unsafeWindow.map,
+				bounds = googleMap.getBounds(),
+				center = googleMap.getCenter(),
+				radius = Math.floor(
+					distanceBetween(
+						center.lat(), center.lng(),
+						bounds.getNorthEast().lat(),
+						bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
+					)
+				) / 1000;
+		return {"center": center, "radius": radius};
+	};
+
 
 	// set Styles (GM_addStyle)
 	initStyle();
@@ -108,10 +125,10 @@ function init(){
 		}
 	});
 
-    // process autoTour
+	// process autoTour
 	if(GM_getValue('tq_url')){
 
-		// iff the cancelbutton is presssed
+		// if the cancelbutton is presssed
 		if(GM_getValue("stopTask",false)){
 			GM_deleteValue('tq_url');
 			GM_deleteValue('tq_caches');
@@ -126,13 +143,12 @@ function init(){
 
 			addProgressbar({caption:$.gctour.lang('autoTourWait')});
 
-			var tq_caches = loadValue('tq_caches', []);
- 			var tq_typeFilter = JSON.parse(GM_getValue('tq_typeFilter'));
- 			var tq_sizeFilter = JSON.parse(GM_getValue('tq_sizeFilter'));
- 			var tq_dFilter = JSON.parse(GM_getValue('tq_dFilter'));
- 			var tq_tFilter = JSON.parse(GM_getValue('tq_tFilter'));
- 			var tq_specialFilter = JSON.parse(GM_getValue('tq_specialFilter'));
-
+			var tq_caches        = loadValue('tq_caches', []),
+					tq_typeFilter    = JSON.parse(GM_getValue('tq_typeFilter')),
+					tq_sizeFilter    = JSON.parse(GM_getValue('tq_sizeFilter')),
+					tq_dFilter       = JSON.parse(GM_getValue('tq_dFilter')),
+					tq_tFilter       = JSON.parse(GM_getValue('tq_tFilter')),
+					tq_specialFilter = JSON.parse(GM_getValue('tq_specialFilter'));
 
 			var pagesSpan = dojo.query("td[class='PageBuilderWidget']> span")[0];
 
@@ -298,18 +314,10 @@ function init(){
 				'cursor': 'pointer'
 			},
 			"html": $("<h1>", {
+				"css": {'padding': 0},
 				click: function(e) {
-					var googleMap = unsafeWindow.map,
-					bounds = googleMap.getBounds(),
-					center = googleMap.getCenter(),
-					radius = Math.floor(
-						distanceBetween(
-							center.lat(), center.lng(),
-							bounds.getNorthEast().lat(),
-							bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
-						)
-					) / 1000;
-					showAutoTourDialog(center, radius);
+					var gooMap = getMapCenterAndRadius();
+					showAutoTourDialog(gooMap.center, gooMap.radius);
 				},
 				"html": $("<img>", {
 					"src": mapToAutoTour
@@ -449,34 +457,38 @@ function init(){
 	//~ var searchResultTable = document.getElementById('ctl00_ContentBody_dlResults');
 	//~ if(searchResultTable){
 	if(document.URL.search("\/seek\/nearest\.aspx")>=0) {
-
+		var entry_i, entry;
 		var entries = getEntriesFromSearchpage();
 
-		for(var entry_i = 0; entry_i < entries.length; entry_i++){
-			var entry = entries[entry_i];
-			var addToTourButton = document.createElement('img');
-			addToTourButton.alt = $.gctour.lang('addToTour');
-			addToTourButton.title = $.gctour.lang('addToTour');
-			addToTourButton.src = addToTourImageString;
-			addToTourButton.style.cursor = 'pointer';
-			addToTourButton.style.marginRight = '5px';
+		for(entry_i = 0; entry_i < entries.length; entry_i++){
+			entry = entries[entry_i];
 
-			addToTourButton.addEventListener('click', addElementFunction(entry.id,entry.guid,entry.name,entry.image), false);
+			$("<img>", {
+				"alt": $.gctour.lang('addToTour'),
+				"title": $.gctour.lang('addToTour'),
+				"src": addToTourImageString,
+				"css": {
+					"cursor": "pointer",
+					"margin": "0 5px 0 0"
+				}
+			})
+			.bind('click', {entry: entry}, function(e){
+				addElementFunction(e.data.entry.id, e.data.entry.guid, e.data.entry.name, e.data.entry.image)();
+			})
+			.appendTo(entry.position);
 
-			entry.position.appendChild(addToTourButton);
 		}
 
 		// add all checked to tour
 		$("<input>", {
 			type: 'button',
-			"css": {
-				'margin': 10
-			},
+			"css": { 'margin': 10 },
 			value: $.gctour.lang('addMarkedToTour'),
 			click: function(){
+				var entry_i, entry;
 				var entries = getEntriesFromSearchpage();
-				for(var entry_i = 0; entry_i < entries.length; entry_i++){
-					var entry = entries[entry_i];
+				for(entry_i = 0; entry_i < entries.length; entry_i++){
+					entry = entries[entry_i];
 					if(entry.checked){
 						addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
 					}
@@ -506,33 +518,38 @@ function init(){
 	}
 
 
-	// map to autotour button
+	// map to autotour button // old map
 	var cacheListBounding = document.getElementById('cacheListBounding');
 	if (cacheListBounding) {
-		var autoTourDiv = createElement('div');
-		autoTourDiv.align = 'center';
-		autoTourDiv.style.padding = '10px';
-		autoTourDiv.style.cursor = 'pointer';
-		autoTourDiv.addEventListener('click',  function(e){
 
-		        // get center of current viewport and pass it to autoTour
-				var googleMap = unsafeWindow.map;
-				var bounds = googleMap.getBounds();
-				var center = googleMap.getCenter();
-				var topCenter = unsafeWindow.GLatLng.fromUrlValue(bounds.getNorthEast().lat()+","+(bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng())/2));
-
-				var radius = Math.floor(topCenter.distanceFrom(center)) / 1000;
-
-				showAutoTourDialog(center,radius);
-				},false);
-		addHoverEffects(autoTourDiv);
-
-		var autoTourButton = createElement('img');
-		autoTourButton.src=mapToAutoTour;
-
-
-		append(autoTourButton,autoTourDiv);
-		append(autoTourDiv,dojo.query('div[id="uxPremiumFeatures"]')[0]);
+		 $("<div>",{
+			"class": "header",
+			"css": {
+				'width': 100,
+				'height': 30,
+				'margin': "0 auto",
+				'overflow': "hidden",
+				'border-radius': 5,
+				'background-color': "#FFF",
+				'border': "1px solid #999",
+				'cursor': 'pointer'
+			},
+			"html": $("<h1>", {
+				"css": {'padding': 0},
+				click: function(e) {
+					var gooMap = getMapCenterAndRadius();
+					showAutoTourDialog(gooMap.center, gooMap.radius);
+				},
+				"html": $("<img>", {
+					"src": mapToAutoTour
+				})
+			})
+			.hover(
+				function(){ $(this).css({'backgroundColor': 'orange'}); },
+				function(){ $(this).css({'backgroundColor': '#B2D4F3'}); }
+			)
+		})
+		.appendTo($('div#uxPremiumFeatures'));
 
 	}
 }

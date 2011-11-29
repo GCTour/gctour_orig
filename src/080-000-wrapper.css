@@ -31,7 +31,7 @@
 
 #gctourContainer img.tourImage {
 	cursor: pointer;
-	margin-right: 5px;
+	margin: 0 2px 0 2px;
 }
 
 /* Styling the placeholder for when the user starts dragging an item */

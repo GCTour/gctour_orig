@@ -47,23 +47,6 @@ function initCore(){
 function init(){
   var i;
 	
-	// helper for map old and map beta
-	// googleMap center and radius: return object center and radius
-	var getMapCenterAndRadius = function(){ 
-		var googleMap = unsafeWindow.map,
-				bounds = googleMap.getBounds(),
-				center = googleMap.getCenter(),
-				radius = Math.floor(
-					distanceBetween(
-						center.lat(), center.lng(),
-						bounds.getNorthEast().lat(),
-						bounds.getNorthEast().lng() - (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) / 2
-					)
-				) / 1000;
-		return {"center": center, "radius": radius};
-	};
-
-
 	// set Styles (GM_addStyle)
 	initStyle();
 

@@ -200,70 +200,6 @@ function initComponents(){
 	geocacheListContainer.style.width = '100%';
 	geocacheListContainer.appendChild(geocacheList);
 
-
-	var newButton = document.createElement('img');
-	newButton.alt = $.gctour.lang('newList');
-	newButton.title = $.gctour.lang('newList');
-	newButton.src = newImageString;
-	newButton.style.cursor = 'pointer';
-	newButton.style.marginRight = '5px';
-	newButton.addEventListener('click', newTourFunction(), false);
-	addHoverEffects(newButton);
-
-	var downloadButton = document.createElement('img');
-	downloadButton.alt = $.gctour.lang('onlineTour');
-	downloadButton.title = $.gctour.lang('onlineTour');
-	downloadButton.src = downloadImageString;
-	downloadButton.style.cursor = 'pointer';
-	downloadButton.style.marginRight = '5px';
-	downloadButton.addEventListener('click', downloadTourDialog, false);
-	//~ downloadButton.addEventListener('click',
-			//~ function(){
-				//~ var webcode = window.prompt($.gctour.lang('webcodePrompt'));
-				//~ if(webcode && trim(webcode) != ""){
-					//~ downloadTourFunction(webcode);
-				//~ }
-			//~ },false);
-	addHoverEffects(downloadButton);
-
-
-	var toggleSettingsButton = document.createElement('img');
-	toggleSettingsButton.alt = $.gctour.lang('showSettings');
-	toggleSettingsButton.title = $.gctour.lang('showSettings');
-	toggleSettingsButton.src = settingsImageString;
-	toggleSettingsButton.style.cursor = 'pointer';
-	toggleSettingsButton.style.marginRight = '5px';
-	toggleSettingsButton.addEventListener('click', openSettingsDialog, false);
-	addHoverEffects(toggleSettingsButton);
-
-
-	var toggleTourListButton = document.createElement('img');
-	toggleTourListButton.alt = $.gctour.lang('openTour');
-	toggleTourListButton.title = $.gctour.lang('openTour');
-	toggleTourListButton.src = openTourImageString;
-	toggleTourListButton.style.cursor = 'pointer';
-	toggleTourListButton.style.marginRight = '5px';
-	toggleTourListButton.addEventListener('click', openTourDialog, false);
-	addHoverEffects(toggleTourListButton);
-
-	var sendMessageButton = document.createElement('img');
-	sendMessageButton.alt = $.gctour.lang('sendMessageTitle');
-	sendMessageButton.title = $.gctour.lang('sendMessageTitle');
-	sendMessageButton.src = sendMessageImage;
-	sendMessageButton.style.cursor = 'pointer';
-	sendMessageButton.style.marginRight = '5px';
-	sendMessageButton.addEventListener('click', sendMessageDialog, false);
-	addHoverEffects(sendMessageButton);
-
-	var autoTourButton = document.createElement('img');
-	autoTourButton.alt = $.gctour.lang('autoTour');
-	autoTourButton.title = $.gctour.lang('autoTour');
-	autoTourButton.src = autoTourImage;
-	autoTourButton.style.cursor = 'pointer';
-	autoTourButton.style.marginRight = '5px';
-	autoTourButton.addEventListener('click', showAutoTourDialog, false);
-	addHoverEffects(autoTourButton);
-
 	// if the webcode is visable - the menu must be 20px higher
 	var tourHeaderDiv = createElement('div');
 	tourHeaderDiv.style.height = ((currentTour.webcode)?55:35)+"px";
@@ -279,160 +215,233 @@ function initComponents(){
 
 	$(tourHeaderDiv).append(
 
-			// rename
-			$('<img>', {
-			  'class': 'tourImage',
-				src:    editImageString,
-				title:  $.gctour.lang('rename'),
-				alt :   $.gctour.lang('rename'),
-				click: function(){
-					var newTourName = prompt($.gctour.lang('newTourDialog'), currentTour.name);
-					if(!newTourName) { return; }
-					currentTour.name = newTourName;
-					saveCurrentTour();
-					updateTour();
-				}
-			}),
+		// rename
+		$('<img>', {
+			'class': 'tourImage',
+			src:    editImageString,
+			title:  $.gctour.lang('rename'),
+			alt :   $.gctour.lang('rename'),
+			click: function(){
+				var newTourName = prompt($.gctour.lang('newTourDialog'), currentTour.name);
+				if(!newTourName) { return; }
+				currentTour.name = newTourName;
+				saveCurrentTour();
+				updateTour();
+			}
+		}),
 
-			// print
-			$('<img>', {
-				'class': 'tourImage',
-				src:    printerImageString,
-				title:  $.gctour.lang('printview'),
-				alt :   $.gctour.lang('printview'),
-				click: function(){
-					printPageFunction(currentTour)();
-				}
-			}),
+		// print
+		$('<img>', {
+			'class': 'tourImage',
+			src:    printerImageString,
+			title:  $.gctour.lang('printview'),
+			alt :   $.gctour.lang('printview'),
+			click: function(){
+				printPageFunction(currentTour)();
+			}
+		}),
 
-			// sendGPS
-			$('<img>', {
-				'class': 'tourImage',
-				src:    sensGPSImageString,
-				title:  $.gctour.lang('sendToGps'),
-				alt :   $.gctour.lang('sendToGps'),
-				click: function(){
-					openSend2GpsDialog();
-				}
-			}),
+		// sendGPS
+		$('<img>', {
+			'class': 'tourImage',
+			src:    sensGPSImageString,
+			title:  $.gctour.lang('sendToGps'),
+			alt :   $.gctour.lang('sendToGps'),
+			click: function(){
+				openSend2GpsDialog();
+			}
+		}),
 
-			// downloadGPX
-			$('<img>', {
-				'class': 'tourImage',
-				src:    downloadGPXImageString,
-				title:  $.gctour.lang('downloadGpx'),
-				alt :   $.gctour.lang('downloadGpx'),
-				click: function(){
-					downloadGPXFunction()();
-				}
-			}),
+		// downloadGPX
+		$('<img>', {
+			'class': 'tourImage',
+			src:    downloadGPXImageString,
+			title:  $.gctour.lang('downloadGpx'),
+			alt :   $.gctour.lang('downloadGpx'),
+			click: function(){
+				downloadGPXFunction()();
+			}
+		}),
 
-			// makeMap
-			$('<img>', {
-				'class': 'tourImage',
-				src:    mapImageString,
-				title:  $.gctour.lang('makeMap'),
-				alt :   $.gctour.lang('makeMap'),
-				click: function(){
-					makeMapFunction();
-				}
-			}),
+		// makeMap
+		$('<img>', {
+			'class': 'tourImage',
+			src:    mapImageString,
+			title:  $.gctour.lang('makeMap'),
+			alt :   $.gctour.lang('makeMap'),
+			click: function(){
+				makeMapFunction();
+			}
+		}),
 
-			// uploadTour
-			$('<img>', {
-				'class': 'tourImage',
-				src:    uploadImageString,
-				title:  $.gctour.lang('upload'),
-				alt :   $.gctour.lang('upload'),
-				click: function(){
-					uploadTourFunction(currentTour.id)();
-				}
-			}),
+		// uploadTour
+		$('<img>', {
+			'class': 'tourImage',
+			src:    uploadImageString,
+			title:  $.gctour.lang('upload'),
+			alt :   $.gctour.lang('upload'),
+			click: function(){
+				uploadTourFunction(currentTour.id)();
+			}
+		}),
 
-			// addWaypoint
-			$('<img>', {
-				'class': 'tourImage',
-				src:    plusImageString,
-				title:  $.gctour.lang('addOwnWaypoint'),
-				alt :   $.gctour.lang('addOwnWaypoint'),
-				click: function(){
-					showNewMarkerDialog();
-				}
-			}),
+		// addWaypoint
+		$('<img>', {
+			'class': 'tourImage',
+			src:    plusImageString,
+			title:  $.gctour.lang('addOwnWaypoint'),
+			alt :   $.gctour.lang('addOwnWaypoint'),
+			click: function(){
+				showNewMarkerDialog();
+			}
+		}),
 
-			// deleteTour
-			$('<img>', {
-				id:      'gctourDeleteButton',
-				'class': 'tourImage',
-				src:     deleteImageString,
-				title:   $.gctour.lang('removeTour'),
-				alt :    $.gctour.lang('removeTour'),
-				css: {'display' : (tours.length  <= 1) ? 'none' : 'inline'},
-				click: function(){
-					deleteCurrentTour();
-				}
-			})
+		// deleteTour
+		$('<img>', {
+			id:      'gctourDeleteButton',
+			'class': 'tourImage',
+			src:     deleteImageString,
+			title:   $.gctour.lang('removeTour'),
+			alt :    $.gctour.lang('removeTour'),
+			css: {'display' : (tours.length  <= 1) ? 'none' : 'inline'},
+			click: function(){
+				deleteCurrentTour();
+			}
+		})
 
 	).find("img.tourImage").addShadowEffect().addOpacityEffect();
 
-			var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
+	/*
+	var buttonsDiv = $('<div>',{
+		"css": {
+			"height":20,
+			"-moz-user-select":"none"
+		}
+	});
+	*/
+	var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
 
-			buttonsDiv.appendChild(newButton);
-			buttonsDiv.appendChild(toggleTourListButton);
-			buttonsDiv.appendChild(downloadButton);
-			buttonsDiv.appendChild(autoTourButton);
-			buttonsDiv.appendChild(toggleSettingsButton);
-			buttonsDiv.appendChild(sendMessageButton);
-
-
-			var header = createElement('div',{style:"height:40px;cursor:pointer;-moz-user-select:none;'"});
-			header.className= "header";
-
-			header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/><img style='float:right' src='"+pin_image+"'></h1";
-
-			if(sticky){
-				dojo.query("h1",header)[0].style.backgroundColor = "orange";
-				dojo.query("img",header)[1].src = pinned_image;
+	$(buttonsDiv).append(
+		// newTourButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    newImageString,
+			title:  $.gctour.lang('newList'),
+			alt :   $.gctour.lang('newList'),
+			click: function(){
+				newTourFunction()();
 			}
+		}),
 
-			//~ header.style.backgroundImage = "url("+gctourLogoImage+")";
-			//~ header.style.backgroundPosition = "center left";
-			//~ header.style.backgroundRepeat = "no-repeat";
-			//~ header.style.cursor = "pointer";
-			//~ header.style.height = "30px";
-
-			dojo.query("h1",header)
-				.onmouseover(function(e){
-					this.style.backgroundColor = "orange";
-				})
-				.onmouseout(function(e){
-					this.style.backgroundColor = (sticky) ? "orange" : "#B2D4F3";
-				})
-				.onclick(function(e){
-					sticky = !sticky;GM_setValue('sticky',sticky);
-					dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;
-				});
-
-			var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
-			footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ VERSION + "." + BUILD + "</div>";
-
-			append(header, thisDiv);
-			append(buttonsDiv, thisDiv);
-			append(tourHeaderDiv, thisDiv);
-			append(geocacheListContainer, thisDiv);
-			append(footerDiv, thisDiv);
-
-			// popultate the current list on load
-			for (var i = 0; i < currentTour.geocaches.length; i++){
-				addNewTableCell(currentTour.geocaches[i],false);
+		// toggleTourListButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    openTourImageString,
+			title:  $.gctour.lang('openTour'),
+			alt :   $.gctour.lang('openTour'),
+			click: function(){
+				openTourDialog();
 			}
+		}),
 
-			if(currentTour.geocaches.length <= 0){
-				var table = document.getElementById('cacheList');
-				table.innerHTML = $.gctour.lang('emptyList');
+		// downloadButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    downloadImageString,
+			title:  $.gctour.lang('onlineTour'),
+			alt :   $.gctour.lang('onlineTour'),
+			click: function(){
+				downloadTourDialog();
+				//~ var webcode = window.prompt($.gctour.lang('webcodePrompt'));
+				//~ if(webcode && trim(webcode) != ""){
+					//~ downloadTourFunction(webcode);
+				//~ }
 			}
+		}),
 
-			//finally: set new heights and layout!
-			handleResize();
+		// autoTourButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    autoTourImage,
+			title:  $.gctour.lang('autoTour'),
+			alt :   $.gctour.lang('autoTour'),
+			click: function(){
+				showAutoTourDialog();
+			}
+		}),
+
+		// toggleSettingsButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    settingsImageString,
+			title:  $.gctour.lang('showSettings'),
+			alt :   $.gctour.lang('showSettings'),
+			click: function(){
+				openSettingsDialog();
+			}
+		}),
+
+		// sendMessageButton
+		$('<img>', {
+			'class': 'tourImage',
+			src:    sendMessageImage,
+			title:  $.gctour.lang('sendMessageTitle'),
+			alt :   $.gctour.lang('sendMessageTitle'),
+			click: function(){
+				sendMessageDialog();
+			}
+		})
+
+	);
+
+	var header = createElement('div',{style:"height:40px;cursor:pointer;-moz-user-select:none;'"});
+	header.className= "header";
+
+	header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/><img style='float:right' src='"+pin_image+"'></h1";
+
+	if(sticky){
+		dojo.query("h1",header)[0].style.backgroundColor = "orange";
+		dojo.query("img",header)[1].src = pinned_image;
+	}
+
+	//~ header.style.backgroundImage = "url("+gctourLogoImage+")";
+	//~ header.style.backgroundPosition = "center left";
+	//~ header.style.backgroundRepeat = "no-repeat";
+	//~ header.style.cursor = "pointer";
+	//~ header.style.height = "30px";
+
+	dojo.query("h1",header)
+		.onmouseover(function(e){
+			this.style.backgroundColor = "orange";
+		})
+		.onmouseout(function(e){
+			this.style.backgroundColor = (sticky) ? "orange" : "#B2D4F3";
+		})
+		.onclick(function(e){
+			sticky = !sticky;GM_setValue('sticky',sticky);
+			dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;
+		});
+
+	var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
+	footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ VERSION + "." + BUILD + "</div>";
+
+	append(header, thisDiv);
+	append(buttonsDiv, thisDiv);
+	append(tourHeaderDiv, thisDiv);
+	append(geocacheListContainer, thisDiv);
+	append(footerDiv, thisDiv);
+
+	// popultate the current list on load
+	for (var i = 0; i < currentTour.geocaches.length; i++){
+		addNewTableCell(currentTour.geocaches[i],false);
+	}
+
+	if(currentTour.geocaches.length <= 0){
+		var table = document.getElementById('cacheList');
+		table.innerHTML = $.gctour.lang('emptyList');
+	}
+
+	//finally: set new heights and layout!
+	handleResize();
+
 }
-

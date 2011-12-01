@@ -215,12 +215,8 @@ function addProgressbar(options){
 }
 
 function setProgress(i,count,theDocument){
-	var width, progresBar;
-
-	width = ((208 * (i+1))/count);
-
-	progressBar = dojo.query("div[id='progressbar']",theDocument)[0];
-	progressBar.style.width = width+'px';
-	progressBar.innerHTML = "<b>"+(i+1)+"/"+count+"</b>";
+	var width = ( (208 * (i+1) ) / count);
+	$("#progressbar", theDocument)
+		.css('width', width)
+		.html("<b>" + (i+1) + "/" + count + "</b>");
 }
-

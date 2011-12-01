@@ -46,7 +46,7 @@ function initCore(){
 
 function init(){
   var i;
-	
+
 	// set Styles (GM_addStyle)
 	initStyle();
 
@@ -109,22 +109,22 @@ function init(){
 	});
 
 	// process autoTour
-	if(GM_getValue('tq_url')){
+	if ( GM_getValue('tq_url') ) {
 
 		// if the cancelbutton is presssed
-		if(GM_getValue("stopTask",false)){
+		if( GM_getValue("stopTask", false) ) {
 			GM_deleteValue('tq_url');
 			GM_deleteValue('tq_caches');
-			GM_setValue('stopTask',false);
-			document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+			GM_setValue('stopTask', false);
+			document.location.href = GM_getValue('tq_StartUrl', 'http://www.geocaching.com');
 			return; // then return!
 		}
 
 		var tq_url = GM_getValue('tq_url');
 
-		if(tq_url == document.location.href){
+		if ( tq_url == document.location.href ) {
 
-			addProgressbar({caption:$.gctour.lang('autoTourWait')});
+			addProgressbar( { caption: $.gctour.lang('autoTourWait') } );
 
 			var tq_caches        = loadValue('tq_caches', []),
 					tq_typeFilter    = JSON.parse(GM_getValue('tq_typeFilter')),
@@ -133,33 +133,36 @@ function init(){
 					tq_tFilter       = JSON.parse(GM_getValue('tq_tFilter')),
 					tq_specialFilter = JSON.parse(GM_getValue('tq_specialFilter'));
 
-			var pagesSpan = dojo.query("td[class='PageBuilderWidget']> span")[0];
+			var pagesSpan = $("td.PageBuilderWidget > span:first");
 
-			if(!pagesSpan){
+			if ( pagesSpan.length <= 0 ) {
 				alert("no caches here :-( pagesSpan missing");
 				GM_deleteValue('tq_url');
 				GM_deleteValue('tq_caches');
-				document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+				document.location.href = GM_getValue('tq_StartUrl','http://www.geocaching.com');
 				return;
 			}
 
-			setProgress(parseFloat(pagesSpan.getElementsByTagName('b')[1].innerHTML)-1,parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML),document);
-
-			// locate the table
-
-			var images_array = dojo.query("img[id *= 'uxDTCacheTypeImage']");
+			var pagesSpanBolds = $('b', pagesSpan);
+			setProgress(
+				parseFloat(pagesSpanBolds.eq(1).text()) - 1,
+				parseFloat(pagesSpanBolds.eq(2).text()),
+				document
+			);
 
 			// find all dtsize images and extract the temporary code
-			var dtImageQuery = "";
-			for(i = 0; i < images_array.length;i++){
-				dtImageQuery += images_array[i].getAttribute('src').split("=")[1];
-				dtImageQuery = (i!=images_array.length-1)?dtImageQuery+"-":dtImageQuery;
-			}
+			var images_array = $.map($('img[id$="uxDTCacheTypeImage"]'), function(e, i) { 
+				return $(e).attr("src").split("=")[1].split("&")[0];
+			});
+
+			var dtImageQuery = images_array.join("-");
+
+			debug('http://geocaching-ocr.appspot.com/geocachingocr?il=' + dtImageQuery);
 
 			// use the geocaching OCR in the google cloud to find difficulty,terrain and size
 			GM_xmlhttpRequest({
 				method: 'GET',
-				url: 'http://geocaching-ocr.appspot.com/geocachingocr?il='+dtImageQuery,
+				url: 'http://geocaching-ocr.appspot.com/geocachingocr?il=' + dtImageQuery,
 				onload: function(responseDetails) {
 					var dtsize_details = JSON.parse(responseDetails.responseText);
 

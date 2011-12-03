@@ -1,0 +1,56 @@
+
+.dojoDndAvatar {
+  font-size: 75%;
+  color: black;
+  min-width:130px;
+  z-index: 100003 !important;
+  width:180px
+}
+
+.dojoDndAvatar .controls {
+  display:none;
+}
+
+.dojoDndAvatarHeader td {
+  padding-left: 20px;
+  padding-right: 4px;
+}
+
+.dojoDndAvatarHeader {
+  background: #ccc;
+}
+.dojoDndAvatarItem {
+  background: #eee;
+}
+
+.dojoDndItemBefore {
+  border-top:3px solid gray !important;
+}
+
+.dojoDndItemAfter {
+  border-bottom:3px solid gray !important;
+}
+
+.dojoDndItemOver {
+  background-color:#edf1f8
+}
+
+.dojoDndMove .dojoDndAvatarHeader {
+  background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoMove.png);
+  background-repeat: no-repeat;
+}
+
+.dojoDndCopy .dojoDndAvatarHeader {
+  background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndNoCopy.png);
+  background-repeat: no-repeat;
+}
+
+.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader {
+  background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndMove.png);
+  background-repeat: no-repeat;
+}
+
+.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader {
+  background-image: url(http://ajax.googleapis.com/ajax/libs/dojo/1.2.0/dojo/resources/images/dndCopy.png);
+  background-repeat: no-repeat;
+}

@@ -1,0 +1,43 @@
+/*
+* GCTour - Container
+*/
+
+#gctourContainer .cachelist li {
+  color:#000000;
+  margin:0.5em;
+  padding:3px;
+  width:120px;
+  min-height:44px;
+  list-style-position:inside;
+  border:1pt dashed gray;
+  background-color:#FFFFFF;
+  -moz-background-clip:border;
+  -moz-background-inline-policy:continuous;
+  -moz-background-origin:padding;
+  -moz-border-radius:8px 0 8px 0;
+  border-radius:8px 0 8px 0;
+}
+
+#gctourContainer .cachelist {
+  padding:0;
+  font-size:80%;
+  list-style-type:none; 
+};
+
+#gctourContainer img.imgShadow {
+  -moz-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+#gctourContainer img.tourImage {
+  cursor: pointer;
+  margin: 0 2px 0 2px;
+}
+
+/* Styling the placeholder for when the user starts dragging an item */
+#gctourContainer li.ui-sortable-placeholder {
+  min-height:50px;
+  max-height:80px;
+  width: 88%;
+  background-color: rgba(0, 0, 0, 0.03);
+}

@@ -151,7 +151,7 @@ function init(){
 			);
 
 			// find all dtsize images and extract the temporary code
-			var images_array = $.map($('img[id$="uxDTCacheTypeImage"]'), function(e, i) { 
+			var images_array = $.map($('img[id$="uxDTCacheTypeImage"]'), function(e, i) {
 				return $(e).attr("src").split("=")[1].split("&")[0];
 			});
 
@@ -167,6 +167,9 @@ function init(){
 					var dtsize_details = JSON.parse(responseDetails.responseText);
 
 					var resultTable = dojo.query("table[class = 'SearchResultsTable Table'] > tbody > tr");
+					//var resultTablejq = $("table.SearchResultsTable > tbody > tr");
+					//alert(resultTable.length + " = " + resultTablejq.length);
+
 					var j = 0;
 					for(i = 0; i < resultTable.length-1;i++){ // iterate over each cache
 
@@ -226,52 +229,57 @@ function init(){
 						debug(entry.id + " " + entry.name +
 							"\n\tvalue:" + type + " filter:" + tq_typeFilter[type] +
 							"\n\tvalue:" + size + " filter:" + tq_sizeFilter[size] +
-							"\n\tvalue:" + difficulty + " filter:" + tq_dFilter[difficulty+""] +
-							"\n\tvalue:" + terrain + " filter:" + tq_tFilter[terrain+""] +
+							"\n\tvalue:" + difficulty + " filter:" + tq_dFilter[difficulty + ""] +
+							"\n\tvalue:" + terrain + " filter:" + tq_tFilter[terrain + ""] +
 							"\n\tavailable:" + entry.available +
 							"\n\tpm only:" + pm_only +
 							"\n\t ==> Add to tour: " + addBool);
 
 					} // END for each cache
 
-					GM_setValue('tq_caches',JSON.stringify(tq_caches));
+					GM_setValue('tq_caches', JSON.stringify(tq_caches));
 
-					var gcComLinks = document.getElementsByTagName("a");
-					var nextLink;
-					for(i = 0; i<gcComLinks.length;i++){
-						if(gcComLinks[i].innerHTML == "<b>&gt;&gt;</b>"){
-							nextLink = gcComLinks[i+1];
-							break;
+					var gcComLinks = $("td.PageBuilderWidget > a", document),
+							nextLink   = false;
+
+					// next Link finden
+					gcComLinks.each(function(index) {
+						if($(this).html() == "<b>&gt;&gt;</b>") {
+							nextLink = gcComLinks.eq(index + 1);
+							return false; // each schleife verlassen
 						}
-					}
+					});
 
 					// check if there are some caches on this page (next link is not there)
 					if(!nextLink){
 						alert("no caches here :-(");
 						GM_deleteValue('tq_url');
 						GM_deleteValue('tq_caches');
-						document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+						document.location.href = GM_getValue('tq_StartUrl', "http://www.geocaching.com");
 						return;
 					}
 
-					var action = nextLink.href.split("'")[1];
+					// action finden aus next link
+					var action = (nextLink.attr("href")) ? nextLink.attr("href").split("'")[1] : false;
 					if(action){
-						var u = 500;
-						var l = 2000;
-						var waitingTime = Math.floor((Math.random() * (u-l+1))+l);
+						var u = 500,
+								l = 2000,
+								waitingTime = Math.floor( ( Math.random() * (u - l + 1) ) + l);
 						// wait between 0.5 -> 2 seconds to do the next request
-						window.setTimeout(function(){unsafeWindow.__doPostBack(action,'');},waitingTime);
+						window.setTimeout(function(){
+							unsafeWindow.__doPostBack(action, '');
+						}, waitingTime);
 					} else {
 
 						currentTour = {};
 						currentTour.id = getNewTourId();
-						currentTour.name = "autoTour "+currentTour.id;
-						currentTour.geocaches =tq_caches;
+						currentTour.name = "autoTour " + currentTour.id;
+						currentTour.geocaches = tq_caches;
 						tours.push(currentTour);
-						log("autoTour done - create new Tour: "+currentTour.id +" ; "+ currentTour.name);
+						log("autoTour done - create new Tour: " + currentTour.id + " ; " + currentTour.name);
 						saveCurrentTour();
 
-						document.location.href = GM_getValue('tq_StartUrl',"http://www.geocaching.com");
+						document.location.href = GM_getValue('tq_StartUrl', "http://www.geocaching.com");
 					}
 
 				} // end ONLOAD

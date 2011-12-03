@@ -6,10 +6,10 @@
 
   var str = "";
   str += "jQuery und UI geladen = " + isjQuery;
-	if (isjQuery) {
+  if (isjQuery) {
     str += "\n\tjQuery Version    = " + $.fn.jquery;
     str += "\n\tjQueryUI Version  = " + $.ui.version;
-	}
+  }
 
 //  str += "\n\tisunsafeWindow.jQuery = " + isjQueryWindow;
 //  str += "\n\tunsafeWindow.jQuery Version = " + ((isjQueryWindow) ? unsafeWindow.jQuery.fn.jquery : "");

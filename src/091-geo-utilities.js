@@ -9,33 +9,33 @@ var Geo = {}; // Geo namespace, representing static class
  * @returns {Number} deg: Degrees
  */
 Geo.parseDMS = function(dmsStr){
-	// entferne alle nicht Zahlen (Regex:[^\d.\s]) und teile den String an den verbleibenden Leerzeichen (Regex:[^0-9.,])
-	var dms = dmsStr.replace(/[^\d.\s]/g,' ').trim().split(/[^0-9.,]+/);
-	var deg;
+  // entferne alle nicht Zahlen (Regex:[^\d.\s]) und teile den String an den verbleibenden Leerzeichen (Regex:[^0-9.,])
+  var dms = dmsStr.replace(/[^\d.\s]/g,' ').trim().split(/[^0-9.,]+/);
+  var deg;
 
-	// wenn nix mehr übrig bleibt -> keine Koordinate
-	if (dms == '') { return NaN; }
+  // wenn nix mehr übrig bleibt -> keine Koordinate
+  if (dms == '') { return NaN; }
 
-	// Anhand der Länge von dms wird ermittelt im welchem Format die Koordinaten vorliegen
-	switch (dms.length) {
-		case 3:  // interpret 3-part result as d/m/s
-			deg = dms[0]/1 + dms[1]/60 + dms[2]/3600;
-			break;
-		case 2:  // interpret 2-part result as d/m
-			deg = dms[0]/1 + dms[1]/60;
-			break;
-		case 1:  // just d (possibly decimal) or non-separated dddmmss
-			deg = dms[0];
-			break;
-		default:
-			return NaN;
-	}
+  // Anhand der Länge von dms wird ermittelt im welchem Format die Koordinaten vorliegen
+  switch (dms.length) {
+    case 3:  // interpret 3-part result as d/m/s
+      deg = dms[0]/1 + dms[1]/60 + dms[2]/3600;
+      break;
+    case 2:  // interpret 2-part result as d/m
+      deg = dms[0]/1 + dms[1]/60;
+      break;
+    case 1:  // just d (possibly decimal) or non-separated dddmmss
+      deg = dms[0];
+      break;
+    default:
+      return NaN;
+  }
 
-	// anschließend negiere Wert wenn der String ein S oder W beinhaltet
-	if (/^-|^[WS]/i.test(dmsStr.trim())) {
-		deg = -deg;
-	}
-	return deg;
+  // anschließend negiere Wert wenn der String ein S oder W beinhaltet
+  if (/^-|^[WS]/i.test(dmsStr.trim())) {
+    deg = -deg;
+  }
+  return deg;
 };
 
 
@@ -81,12 +81,12 @@ Geo.toDMS = function(deg, format) {
   if (typeof format == 'undefined') { format = 'dm'; }
   deg = Math.abs(deg);  // (unsigned result ready for appending NS|WE)
 
-	var dms, d, m, s, min, sec, tmpD, tmpM;
+  var dms, d, m, s, min, sec, tmpD, tmpM;
 
   switch (format) {
     case 'd':
       d = deg.toFixed(8);     // round degrees
-			tmpD = d;
+      tmpD = d;
       if (d<100) { tmpD = '0' + tmpD; } // pad with leading zeros
       if (d<10)  { tmpD = '0' + tmpD; }
       dms = tmpD;      // add ° symbol
@@ -95,8 +95,8 @@ Geo.toDMS = function(deg, format) {
       min = (deg*60).toFixed(8);  // convert degrees to minutes & round
       d = Math.floor(min / 60);    // get component deg/min
       m = (min % 60).toFixed(3);  // pad with trailing zeros
-			tmpD = d;
-			tmpM = m;
+      tmpD = d;
+      tmpM = m;
       if (d<100) { tmpD = '0' + tmpD; }         // pad with leading zeros
       if (d<10)  { tmpD = '0' + tmpD; }
       if (m<10)  { tmpM = '0' + tmpM; }
@@ -155,67 +155,67 @@ LatLon.prototype.toString = function(format) {
 
 function parseCoordinates(coord_string,force_Geocoding){
 
-	// entferne alle "," in Koordinaten String
-	if(typeof coord_string == "string") {
-		coord_string = coord_string.replace(/,/g,".");
-	}
+  // entferne alle "," in Koordinaten String
+  if(typeof coord_string == "string") {
+    coord_string = coord_string.replace(/,/g,".");
+  }
 
-	var lat, lon;
+  var lat, lon;
 
-	// regex for N51° 12.123 E12° 34.123
-	var regex_coord_ns = new RegExp(/(N|S)\s*(\d{0,2})\s*°\s*(\d{0,2}[\.,]\d+)/);
-	var regex_coord_ew = new RegExp(/(E|W)\s*(\d{0,3})\s*°\s*(\d{0,2}[\.,]\d+)/);
+  // regex for N51° 12.123 E12° 34.123
+  var regex_coord_ns = new RegExp(/(N|S)\s*(\d{0,2})\s*°\s*(\d{0,2}[\.,]\d+)/);
+  var regex_coord_ew = new RegExp(/(E|W)\s*(\d{0,3})\s*°\s*(\d{0,2}[\.,]\d+)/);
 
-	//regex for 51.123 12.123
-	var regex_coord_dec = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)\s*(-{0,1}\d{0,3}[\.,]\d+)/);
+  //regex for 51.123 12.123
+  var regex_coord_dec = new RegExp(/(-{0,1}\d{0,2}[\.,]\d+)\s*(-{0,1}\d{0,3}[\.,]\d+)/);
 
-	var result_coord_ns = regex_coord_ns.exec(coord_string);
-	var result_coord_ew = regex_coord_ew.exec(coord_string);
-	var result_coord_dec = regex_coord_dec.exec(coord_string);
+  var result_coord_ns = regex_coord_ns.exec(coord_string);
+  var result_coord_ew = regex_coord_ew.exec(coord_string);
+  var result_coord_dec = regex_coord_dec.exec(coord_string);
 
-	// Koordinate ist keins der beiden numerischen Formate
-	if (!(result_coord_ns && result_coord_ew) && !result_coord_dec) {
+  // Koordinate ist keins der beiden numerischen Formate
+  if (!(result_coord_ns && result_coord_ew) && !result_coord_dec) {
 
-		// ... jetzt hilft nur noch Google ...
-		if(force_Geocoding){
-			var geocoding_obj = JSON.parse(GM_xmlhttpRequest({ // sende einen synchronen request an die geocoding api von google - Doc: http://code.google.com/apis/maps/documentation/javascript/services.html#GeocodingRequests
-			  method: "GET",
-			  synchronous: true,
-			  url: "http://maps.googleapis.com/maps/api/geocode/json?address="+coord_string+"&sensor=false"
-			}).responseText);
+    // ... jetzt hilft nur noch Google ...
+    if(force_Geocoding){
+      var geocoding_obj = JSON.parse(GM_xmlhttpRequest({ // sende einen synchronen request an die geocoding api von google - Doc: http://code.google.com/apis/maps/documentation/javascript/services.html#GeocodingRequests
+        method: "GET",
+        synchronous: true,
+        url: "http://maps.googleapis.com/maps/api/geocode/json?address="+coord_string+"&sensor=false"
+      }).responseText);
 
-			if(geocoding_obj.status === "ZERO_RESULTS"){ // noch nicht einmal Google kann mit der eingabe etwas anfangen
-				return false;
-			}
+      if(geocoding_obj.status === "ZERO_RESULTS"){ // noch nicht einmal Google kann mit der eingabe etwas anfangen
+        return false;
+      }
 
-			lat = geocoding_obj.results[0].geometry.location.lat;
-			lon = geocoding_obj.results[0].geometry.location.lng;
-			return new LatLon(lat, lon);
-		} else {
-			return false;
-		}
-	} else if (result_coord_ns && result_coord_ew) {
-		// result_coord_ns[0] = "N51° 12.123"
-		// result_coord_ew[0] = "E010° 23.123"
-		lat = Geo.parseDMS(result_coord_ns[0]);
-		lon = Geo.parseDMS(result_coord_ew[0]);
-		return new LatLon(lat,lon);
+      lat = geocoding_obj.results[0].geometry.location.lat;
+      lon = geocoding_obj.results[0].geometry.location.lng;
+      return new LatLon(lat, lon);
+    } else {
+      return false;
+    }
+  } else if (result_coord_ns && result_coord_ew) {
+    // result_coord_ns[0] = "N51° 12.123"
+    // result_coord_ew[0] = "E010° 23.123"
+    lat = Geo.parseDMS(result_coord_ns[0]);
+    lon = Geo.parseDMS(result_coord_ew[0]);
+    return new LatLon(lat,lon);
 
-	} else {
-		// result enthält beide Teile der Koordinate
-		lat = Geo.parseDMS(result_coord_dec[1]);
-		lon = Geo.parseDMS(result_coord_dec[2]);
+  } else {
+    // result enthält beide Teile der Koordinate
+    lat = Geo.parseDMS(result_coord_dec[1]);
+    lon = Geo.parseDMS(result_coord_dec[2]);
 
-		return new LatLon(lat,lon);
-	}
+    return new LatLon(lat,lon);
+  }
 }
 
 function distanceBetween(lat1,lon1, lat2,lon2) {
-	var R = 6371000; // meters (change this constant to get miles)
-	var dLat = (lat2-lat1) * Math.PI / 180;
-	var dLon = (lon2-lon1) * Math.PI / 180;
-	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	var d = R * c;
-	return d;
+  var R = 6371000; // meters (change this constant to get miles)
+  var dLat = (lat2-lat1) * Math.PI / 180;
+  var dLon = (lon2-lon1) * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) * Math.sin(dLon/2) * Math.sin(dLon/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c;
+  return d;
 }

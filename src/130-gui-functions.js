@@ -713,17 +713,29 @@ function openTourDialog(){
 }
 
 function downloadTourFunction(webcode){
-  var details;
+  var details = {};
+  var onlineTour;
 
+  // 30c097a6, b5c082e3
+  
   // add the overlay while loading
   addProgressbar();
 
-  details = {};
   details.method = 'GET';
   //~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
-  details.url = API_HOST+'/tour/'+trim(webcode)+'/json';
+  details.url = API_HOST + '/tour/' + trim(webcode) + '/json';
+
   details.onload = function(response) {
-    var onlineTour;
+    
+    responseInfo(response);
+
+    // only status 200
+    if (response.status != 200) {
+      alert("webcode '" + webcode + "' could not be loaded.\n" + response.status + ", " + response.statusText);
+      closeOverlay();
+      return false;
+    }
+
     try{
       var responseObject = JSON.parse(response.responseText);
 
@@ -733,13 +745,12 @@ function downloadTourFunction(webcode){
       } else if (responseObject.type == "oldtour"){
         onlineTour = JSON.parse(responseObject.message);
         onlineTour.id = getNewTourId();
+
         tours.push(onlineTour);
         saveCurrentTour();
 
-        log("Download of an old online tour successfull: "+onlineTour.id +" ; "+ onlineTour.name);
-
-        alert("'"+onlineTour.name+"'"+$.gctour.lang('webcodesuccess') +"\n"+ $.gctour.lang('webcodeOld')+"\n\n");
-
+        log("Download of an old online tour successfull: " + onlineTour.id + " ; " + onlineTour.name);
+        alert("tour '" + onlineTour.name + "'\n" + $.gctour.lang('webcodesuccess') + "\n" + $.gctour.lang('webcodeOld'));
         loadTour(onlineTour.id)();
 
       } else {
@@ -749,8 +760,7 @@ function downloadTourFunction(webcode){
         tours.push(onlineTour);
         saveCurrentTour();
 
-        alert("'"+onlineTour.name+"'\n"+$.gctour.lang('webcodesuccess'));
-
+        alert("tour '" + onlineTour.name + "'\n" + $.gctour.lang('webcodesuccess'));
         loadTour(onlineTour.id)();
       }
 

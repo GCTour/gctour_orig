@@ -18,12 +18,6 @@ var
     (typeof $.fn === "object") && (typeof $.ui === "object")
   ),
 
-  isJSON = (
-    (typeof JSON === "object") &&
-    (typeof JSON.parse === "function") &&
-    (typeof JSON.stringify === "function")
-  ),
-
   // const isFF = (((isjQuery === true) && $.browser.mozilla) || (typeof ???? !== "undefined")),
   isOpera = (((isjQuery === true) && $.browser.opera) || (typeof opera !== "undefined")),
 

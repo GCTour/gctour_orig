@@ -25,3 +25,13 @@ var getMapCenterAndRadius = function(){
 
   return ret;
 };
+
+// is string json, isJSON(response.responseText)
+// fn from js-Framework prototype v1.7
+var isJSON = function (str) {
+  if (str.length === 0) { return false; }
+  str = str.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@');
+  str = str.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']');
+  str = str.replace(/(?:^|:|,)(?:\s*\[)+/g, '');
+  return (/^[\],:{}\s]*$/).test(str);
+};

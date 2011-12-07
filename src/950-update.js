@@ -22,8 +22,8 @@ function update(force) {
         var update_obj = JSON.parse(text);
         log("update check: returns "+text);
         if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
-          log("update check: version "+VERSION+" build:"+BUILD);
-          log("update check: result from GAE:"+update_obj.changes[0]);
+          log("update check: version " + VERSION + " build: " + BUILD + "\n" +
+              "update check: result from GAE: " + update_obj.changes[0]);
 
           if (force === true) {
             alert($.gctour.lang('updateCurrently'));

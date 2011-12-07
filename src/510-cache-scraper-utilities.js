@@ -97,7 +97,7 @@ function getMinimalGeocacheDetails(detailsPage){
 }
 
 function getAllLogs(userToken){
-
+/* ToDo: alle Logs sind meistens zu viele = auf User max. setzen !? */
   var i;
   var totalPages = 1;
   var logs = [];

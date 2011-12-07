@@ -2,6 +2,10 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: exception SyntaxError JSON.parse unexpected character by download tour
+ *   - FIXED: exception TypeError progressBar is undefined
+ *
+ * version 2.1.11313
  *   - FIXED: GPX Download bug "...ctl00_hlSignOut... is undefined"
  *   - FIXED: Issue 18
  *   - FIXED: Update bug

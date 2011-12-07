@@ -197,8 +197,8 @@ function init(){
             var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
             debug("##### 1: "+addBool);
             if(tq_specialFilter['is Active']){
-              log("Check if "+entry.name+" is active:");
-              log("available:"+entry.available);
+              log("Check if " + entry.name + " is active:\n" + 
+                  "available: " + entry.available);
               addBool = addBool && (entry.available);// only add if active!
             }
             debug("##### 2: "+addBool);

@@ -717,7 +717,7 @@ function downloadTourFunction(webcode){
   var onlineTour;
 
   // 30c097a6, b5c082e3
-  
+
   // add the overlay while loading
   addProgressbar();
 
@@ -726,18 +726,22 @@ function downloadTourFunction(webcode){
   details.url = API_HOST + '/tour/' + trim(webcode) + '/json';
 
   details.onload = function(response) {
-    
+
     responseInfo(response);
 
-    // only status 200
-    if (response.status != 200) {
-      alert("webcode '" + webcode + "' could not be loaded.\n" + response.status + ", " + response.statusText);
+    var responseObject;
+    var booResponse = (response.status === 200);     // only status 200
+    var booIsJson   = isJSON(response.responseText); // is response json ?
+
+    if (!booResponse || !booIsJson) {
+      alert("webcode '" + webcode + "' could not be loaded.\n" + 
+        response.status + ", " + response.statusText + ((booIsJson) ? "" :  ", format is not valid"));
       closeOverlay();
       return false;
     }
 
     try{
-      var responseObject = JSON.parse(response.responseText);
+      responseObject = JSON.parse(response.responseText);
 
       if (responseObject.type == "error" && responseObject.message == "no tour"){
         alert($.gctour.lang('webcodeerror'));

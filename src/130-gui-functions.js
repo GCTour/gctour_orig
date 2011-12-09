@@ -532,7 +532,7 @@ function sendMessageDialog(){
   if(isLogedIn()){
     var overLay = getOverlay({caption:$.gctour.lang('sendMessageTitle'),minimized:true});
 
-    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact">'+
+    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/mail/gccom">'+
       $.gctour.lang('sendMessage')+'<br/>'+
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+

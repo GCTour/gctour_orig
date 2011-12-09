@@ -1,0 +1,48 @@
+{if $error}
+<div class='error'>Sorry but there is an error occurred. Please be sure that you fill out the complete form.</div>
+{/if}
+
+{if $success}
+<div class='success'>Thank you! Your email was sent.</div>
+{/if}
+
+	<form method="POST" action="/mail/website">
+		<div class="ebene">
+			<span class="label">What's your message about?</span>
+
+			<span>
+				<select name="type" size="1">
+					<option  value="request">I have a Feature-Request.</option>
+					<option  value="error">I have found a bug!</option>
+					<option  value="opinion">I want to give a comment.</option>	
+					</select>
+
+			</span>
+
+		</div>
+		<div class="ebene">
+			<span class="label">Your Name</span>
+			<span>
+				<input class = "feldbreite" type="text" name="name" size="5" value="">						
+			</span>
+		</div>
+		<div class="ebene">
+
+			<span class="label">Your Email</span>
+			<span>
+				<input class = "feldbreite" type="text" name="email" size="5" value="">					</span>
+		</div>
+		<div class="ebene">
+			<span class="label">Your Message</span>
+			<span><textarea class = "feldbreite" name="content" cols="50" rows="10"></textarea>						
+			</span>
+
+		</div>
+		<div class="submit">
+			<button name="submit">Send!</button>
+
+		</div>		
+	</form>
+
+			
+

@@ -1,21 +1,53 @@
 <?php
-  /*
- * @namespace GCTour\Map\Show
+
+/**
+ * @namespace GCTour\Tour\Save
  * @uri /tour/save
  */
 class TourSaveResource extends Resource {
    
+   
     function post($request) {
-   $response = new Response($request);
+		$response = new Response($request);
 		
 		if (isset($_POST['tour'])) {
-            $tour = $_POST['tour'];
+			
+			
+			// Remove those slashes
+			if(get_magic_quotes_gpc())
+				   $tour = stripslashes($_POST['tour']);
+			else
+				   $tour = $_POST['tour'];
+	
+			
+         
+            
          
             $tour_obj = json_decode($tour);
-
+               print_r($_POST);
+            echo "geht das so??\n";
+            print_r($tour_obj);
+            
+            
+            $entitymanager = GeocacheManager::getInstance();
+             //~ print_r($tour_obj);
+    
+            $data = array();
+            $data['name'] =  $tour_obj->name;
+            $data['webcode'] =  (isset($tour_obj->webcode))?$tour_obj->webcode:$this->get_new_webcode();
+            $data['geocaches'] =  $entitymanager->parseGeocaches($tour_obj->geocaches);
+            $data['ownWaypoints'] =  $entitymanager->parseOwnWaypoints($tour_obj->costumMarkers);
+            
+            
+            
+            $tour = new Tour($data);
+            $tour->save();
+            
+           
+            
             $response->code = Response::OK;
             $response->addHeader('Content-type', 'text/plain');
-            $response->body = "tour saved";
+            $response->body = $tour->__toJSON();
         } else {
             $response->code = Response::BADREQUEST;
 		}

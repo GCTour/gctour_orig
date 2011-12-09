@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <head>
 	<title>{$title}</title>
-	<link href="/gctour/css/map/map.css" rel="stylesheet" type="text/css" />
+	<link href="/css/map/map.css" rel="stylesheet" type="text/css" />
 
 	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
 	
@@ -21,12 +21,13 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>	
-	<script src="/gctour/js/map/GeocacheMap.js"></script>	
-	<script src="/gctour/js/map/GeocacheLabel.js"></script>	
-	<script src="/gctour/js/map/MapControl.js"></script>	
-	<script src="/gctour/js/map/Settings.js"></script>
+	<script src="/js/map/GeocacheMap.js"></script>	
+	<script src="/js/map/GeocacheLabel.js"></script>	
+	<script src="/js/map/MapControl.js"></script>	
+	<script src="/js/map/Settings.js"></script>
+	<script src="/js/map/BpTspSolver.js"></script>
 
-	<script src="/gctour/js/CSSClassTools.js"></script>
+	<script src="/js/CSSClassTools.js"></script>
 	
 	<script type="text/javascript">	
 		var geocaches =  [{$geocaches}];
@@ -48,6 +49,8 @@
   <div id="svError">
   	Sorry, but street view isn't available near this geocache.
   </div>
+  <div id="tsp_textual_div"> </div>
+  
 
   
   

@@ -18,7 +18,7 @@ class ErrorSendResource extends Resource {
 	
 			$sql="SELECT * FROM `".TABLE_ERRORS."` WHERE `exception`='".$exception."'";
 			$row = $db->query_first($sql);
-			if(empty($row['id'])){
+			if(empty($row['id'])){ // first error report!
 				$data = array();
 				
 				// save version with the appereance
@@ -51,7 +51,7 @@ class ErrorSendResource extends Resource {
 				$post = $primary_id;
 			
 
-			} else {
+			} else { // an aditional error report
 				
 				$data = array();
 				

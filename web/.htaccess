@@ -1,3 +1,7 @@
+#wichtig für madd.in
+#AddHandler php53-cgi .php
+
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_URI} !dispatch\.php$

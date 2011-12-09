@@ -1,0 +1,65 @@
+<form method="post" action="/tour">
+	<b>Webcode:</b>
+	<input type="text" name="webcode">
+	<input type="submit" value="Show Tour" name="Submit">
+</form>
+
+{if isset($tour)}
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+			$("#geocaches").tablesorter(); 
+		}); 
+	</script>
+
+	<ol class="cachelist typelist">
+	{foreach $tour->getTypes() as $type => $count}
+	{strip}
+		<li class="cache{$type}"> {$count} </li>
+	{/strip}
+	{/foreach}
+	</ol>
+	
+	
+	<b>{$tour->name}</b> - link to this page:<b><a href="/tour/{$tour->webcode}">{$tour->webcode}</a></b> or add to <b><a href="http://www.geocaching.com/webcode/{$tour->webcode}">GCTour</a></b>
+	
+
+
+	<iframe width="100%" height="500px" frameborder="0" src="/map/show/tour/{$tour->webcode}"></iframe>
+	<table id="geocaches" class="tablesorter" style="border-collapse:collapse;width:100%">
+	<thead> 
+	<tr> 
+		<th>No.</th> 
+		<th>Type</th> 
+		<th>Difficulty</th> 
+		<th>Terrain</th> 
+		<th>GCCode</th> 
+		<th>Name</th> 
+	</tr> 
+	</thead>	
+		
+		
+	{foreach $markers as $index => $marker}
+	{strip}
+	   <tr bgcolor="{cycle values='#FFF,#F3F3F3'}" style="border:1px solid black;">
+			<td><b>{$index+1}</b></td>
+		   
+			{if isset($marker->gcid)}			
+			  <td><img src="/i/WptTypes/{$marker->typeNo()}.gif"  alt="Type {$marker->typeNo()}"/><span style="display:none">Type{$marker->typeNo()}</span></td>
+			  <td><img src="/i/stars/{$marker->difficulty}.gif"  alt="Difficulty {$marker->difficulty}"/><span style="display:none">Difficulty {$marker->difficulty}</span></td>
+			  <td><img src="/i/stars/{$marker->terrain}.gif"  alt="Terrain {$marker->terrain}"/><span style="display:none">Terrain {$marker->terrain}</span></td>
+			  <td><a target="_blank" href="http://coord.info/{$marker->gcid}">{$marker->gcid}</a></td>
+			  <td>{$marker->name}</td>
+			{else}
+			  <td><img src="{$marker->image}"/></td>
+			  <td/>
+			  <td/>
+			  <td>OwnWaypoint</td>
+			  <td>{$marker->name}</td>
+			{/if}
+	   </tr>
+	{/strip}
+	{/foreach}
+	</table>
+{/if} 
+			
+

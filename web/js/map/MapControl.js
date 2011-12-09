@@ -39,6 +39,9 @@ MapControl.prototype.createMenu= function(text,items){
 				var item_div = document.createElement('div');
 	
 				item_div.innerHTML = item.name;
+				if(item.id){
+					item_div.id = item.id;
+				}
 				
 				if(item.enabled != true){
 					addClass(item_div, "disabled");

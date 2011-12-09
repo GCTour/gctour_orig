@@ -1,5 +1,63 @@
 <?php
 
+ // TemplateManager ist Singleton-Klasse
+ final class TemplateManager {
+ 
+   // Anlegen der Instanz
+   private static $instance = NULL;
+ 
+	public $smarty;
+ 
+   // Konstruktor private, damit die Klasse nur aus sich selbst heraus instanziiert werden kann.
+   private function __construct() {
+        $this->smarty = new Smarty();
+        $this->smarty->template_dir = './representations';
+        $this->smarty->compile_dir = sys_get_temp_dir();
+	}
+ 
+   // Diese statische Methode gibt die Instanz zurueck.
+   public static function getInstance() {
+ 
+       if (NULL === self::$instance) {
+           self::$instance = new self;
+       }
+       return self::$instance;
+   }
+   // Klonen per 'clone()' von außen verbieten.
+   private function __clone() {}
+   
+   
+       
+    public function render($view, $format = 'html', $useShell = TRUE) {
+        
+        
+        
+        if ($format == 'html' && $useShell) {
+			
+			// fetch meta data
+			$stats_data = Utilities::getStats();
+			//~ print_r($stats_data);
+			//~ 
+			 $this->smarty->assign('version', $stats_data['version']);
+			 $this->smarty->assign('build', $stats_data['build']);
+			 $this->smarty->assign('release_date', $stats_data['release_date']->format("d M Y"));
+			 $this->smarty->assign('installs', $stats_data['installs']);
+			 $this->smarty->assign('bugfixes', $stats_data['bugfixes']);
+			 $this->smarty->assign('view', $view);
+			
+            $this->smarty->assign('body', $this->smarty->fetch($view.'.'.$format));
+            return $this->smarty->fetch('shell.'.$format);
+        } else {
+            return $this->smarty->fetch($view.'.'.$format);
+        }
+        
+    }
+   
+    
+   
+}
+
+
 
  // GeocacheManager ist Singleton-Klasse
  final class GeocacheManager {
@@ -27,16 +85,14 @@
 		$db = Database::obtain();
 		$sql="SELECT * FROM `".TABLE_GEOCACHES."` WHERE `gcid`='".$gcid."'";
 		$row = $db->query_first($sql);
-		if(!empty($row['gcid'])){
-			
 		
+		if(!empty($row['gcid'])){		
 			
-			
-			 $hex='';
-			for ($i=0; $i < strlen($row['name']); $i++)
-			{
-				$hex .= $row['name'][$i].":".dechex(ord($row['name'][$i]))."\n";
-			}
+			 //~ $hex='';
+			//~ for ($i=0; $i < strlen($row['name']); $i++)
+			//~ {
+				//~ $hex .= $row['name'][$i].":".dechex(ord($row['name'][$i]))."\n";
+			//~ }
 			
 			$geocache = new Geocache($row);
 			$geocache->setWaypoints($this->fetchWaypoints($geocache->getGCCode()));
@@ -47,9 +103,61 @@
 	}
 	
 	
+	function fetchTour($webcode){
+		$webcode = strtoupper($webcode);
+		$db = Database::obtain();
+		$sql="SELECT * FROM `".TABLE_TOURS."` WHERE `webcode`='".$webcode."'";
+		$row = $db->query_first($sql);
+		if(!empty($row['webcode'])){
+			$sql="SELECT * FROM `".TABLE_GEOCACHESINTOUR."` WHERE `webcode`='".$webcode."'";
+			$gcids = $db->fetch_array($sql);
+			
+			$geocaches = array();
+			foreach($gcids as $gcid){
+				$geocaches[] = $this->fetchGeocache($gcid['gcid']);
+			}
+			
+			
+			$sql="SELECT * FROM `".TABLE_OWNWAYPOINTSINTOUR."` WHERE `webcode`='".$webcode."'";
+			$ownWaypointsLine = $db->fetch_array($sql);	
+			
+			$ownWaypoints = array();
+			foreach($ownWaypointsLine as $ownWaypointCode){
+				$ownWaypoints[] = $this->fetchOwnWaypoints($ownWaypointCode['wptcode']);
+			}
+			
+			$sql="SELECT name FROM `".TABLE_TOURS."` WHERE `webcode`='".$webcode."'";
+			$tour_line = $db->query_first($sql);
+				
+			$data = array();
+			$data["geocaches"] = $geocaches;
+			$data["ownWaypoints"] = $ownWaypoints;
+			$data["name"] = $tour_line["name"];
+			$data["webcode"] = $webcode;
+			
+			return new Tour($data);
+		
+		
+			
+			
+			 //~ $hex='';
+			//~ for ($i=0; $i < strlen($row['name']); $i++)
+			//~ {
+				//~ $hex .= $row['name'][$i].":".dechex(ord($row['name'][$i]))."\n";
+			//~ }
+			//~ 
+			//~ $geocache = new Geocache($row);
+			//~ $geocache->setWaypoints($this->fetchWaypoints($geocache->getGCCode()));
+			//~ return $geocache;
+		} else {
+			return;
+		}
+	}
+	
+	
 	function fetchOwnWaypoints($wptcode){
 		$db = Database::obtain();
-		$sql="SELECT * FROM `".TABLE_OWNWAYPOINTS."` WHERE `wptcode`='".$wptcode."'";
+		$sql="SELECT * FROM `".TABLE_OWNWAYPOINTS."` WHERE `wptcode`='".$wptcode."' ORDER BY `index`";
 		$row = $db->query_first($sql);
 		if(!empty($row['wptcode'])){
 			$ownWaypoint = new OwnWaypoint($row);
@@ -81,8 +189,6 @@
     function parseGeocaches($geocacheArray) {
 		$geocaches = array();
 		foreach ($geocacheArray as $geocache){
-			
-			echo "name:".$geocache->{"name"};
 			$geocacheObject = new Geocache(array(
 				'gcid' => $geocache->{"gcid"},
 				'guid' => $geocache->{"guid"},
@@ -102,7 +208,7 @@
 	 function parseWaypoints($waypointArray) {
 		$waypoints = array();
 		foreach ($waypointArray as $waypoint){
-			$waypointObject = new Waypoint(array(
+			@$waypointObject = new Waypoint(array(
 				'symbol' => $waypoint->{"symbol"},
 				'prefix' => $waypoint->{"prefix"},
 				'lookup' => $waypoint->{"lookup"},
@@ -198,6 +304,133 @@ class OwnWaypoint{
 	
 }
 
+
+class Tour{	
+	public $name;
+	public $webcode;
+	public $geocaches;
+	public $ownWaypoints;
+	
+	function __construct($properties){
+		foreach($properties as $key => $value){
+			$this->$key = $value;
+		}
+	}
+	
+	function merge(){
+		$merged = $this->geocaches;
+		
+		foreach($this->ownWaypoints as $ownWaypoint){
+			array_insert($merged, $ownWaypoint, $ownWaypoint->index);
+		}
+		
+		return $merged;
+		
+	}
+	
+	function getTypes(){
+		$types = array();
+		
+		foreach($this->geocaches as $geocache){
+			@$types[$geocache->typeNo()] = $types[$geocache->typeNo()]+1;
+		}
+		
+		if(sizeof($this->ownWaypoints) > 0){
+			$types['owpt'] = sizeof($this->ownWaypoints);
+		}
+		return $types;
+	}
+	
+	function __toJSON(){
+		$merged_tour = $this->merge();
+		
+		
+		$data = array();
+		$data['name'] = $this->name;
+		$data['webcode'] = $this->webcode;
+		$data['geocaches'] = array();
+		
+		// create geocache and waypoint objects!!
+		foreach($merged_tour as $marker){
+			$marker_obj = array();
+			if(get_class($marker) === 'Geocache'){
+				$marker_obj['id'] = $marker->gcid;
+				$marker_obj['guid'] = $marker->guid;
+				$marker_obj['name'] = $marker->name;
+				$marker_obj['image'] = 'http://www.geocaching.com/images/WptTypes/sm/'.$marker->typeNo().'.gif';
+				
+				$data['geocaches'][] = (object) $marker_obj;
+				
+			} else if (get_class($marker) === 'OwnWaypoint'){				
+				//~ $ownWaypoints_json[] = json_encode($marker);
+				$marker_obj['wptcode'] = $marker->wptcode;
+				$marker_obj['name'] = $marker->name;
+				$marker_obj['latitude'] = $marker->latitude;
+				$marker_obj['longitude'] = $marker->longitude;
+				$marker_obj['image'] = $marker->image;
+				$marker_obj['content'] = $marker->content;
+				$marker_obj['symbol'] = $marker->symbol;
+				
+				$data['geocaches'][] = (object) $marker_obj;
+				
+			} else {
+				die("kein datentyp:".get_class($marker));
+			}
+		}
+		
+		return json_encode((object)$data);
+	}
+		
+	
+	function save(){
+		
+		
+		$db = Database::obtain();
+		
+		// delete the old tour
+		$sql ="DELETE FROM ".TABLE_GEOCACHESINTOUR." WHERE `webcode` = '".$this->webcode."'";
+		$db->query($sql);
+		
+		$sql ="DELETE FROM ".TABLE_OWNWAYPOINTSINTOUR." WHERE `webcode` = '".$this->webcode."'";
+		$db->query($sql);
+		
+		$data = array();
+		$data["webcode"] = $this->webcode;
+		
+		foreach($this->geocaches as $geocache){
+			$geocache->save();
+				
+			$data["gcid"] = $geocache->gcid;			
+			$db->insert(TABLE_GEOCACHESINTOUR, $data);
+			
+		}
+		
+		$data = array();
+		$data["webcode"] = $this->webcode;
+		foreach($this->ownWaypoints as $ownWaypoint){
+			
+			$ownWaypoint->save();
+				
+			$data["wptcode"] = $ownWaypoint->wptcode;			
+			$db->insert(TABLE_OWNWAYPOINTSINTOUR, $data);
+			
+		}
+		
+		
+		$data = array();
+		$data["webcode"] = $this->webcode;
+		$data["name"] = $this->name;
+		$db->replace(TABLE_TOURS, $data);
+		
+		
+	}
+	
+	function __toString(){
+		return print_r($this,true);
+	}
+	
+}
+
 /**
  * Model the data of the Geocaching Object
  * @namespace GCTour\Lib
@@ -246,11 +479,166 @@ class Geocache
 		return $this->gcid;
 	}	
 	
+	function typeNo(){
+		
+		$type = explode('/',$this->type);
+		$type = array_pop($type);
+		$type = explode('.',$type);
+		$type = $type[0];
+		
+		return $type;
+	}	
+	
 	function __toString(){
 		return "(".$this->gcid.") - ".$this->name."\n";
 	}
     
 }
+
+
+final class Utilities {
+	
+	public static function getStats(){
+		
+		$db = Database::obtain();
+		$sql="SELECT * FROM `".TABLE_DLSTATS."` ORDER BY stats_date DESC";
+		$row = $db->query_first($sql);
+		
+		
+		$last_date = new DateTime($row['stats_date']);
+		$current_date = new DateTime();
+		$interval = date_diff($current_date, $last_date);
+
+		$installs = $row["installs"];
+		
+		
+		
+		if($interval->format('%a') !== "0"){ //this happens if the last update is more than a day ago
+		//~ if(true){ //this happens if the last update is more than a day ago
+		
+		
+		// fetch metadata to get installs
+			$meta_data_string = file_get_contents('http://userscripts.org/scripts/source/36273.meta.js');
+			$meta_data = array();
+			foreach(preg_split("/(\r?\n)/",	$meta_data_string) as $line){
+				$lines[] = $line;
+				
+				
+				$pattern = "/.*@(.[^\\s]*)\\s*(.*)/";
+				preg_match($pattern, $line, $matches);
+				if(!empty($matches)){
+					$meta_data[$matches[1]] = $matches[2];
+				}
+				
+			}
+			
+			
+			$data = array();
+			$data["installs"] = $meta_data["uso:installs"];
+			$data["stats_date"] = $current_date->format('Y-m-d H:i');
+			
+			$db->insert(TABLE_DLSTATS, $data);
+			
+			$installs = $data["installs"];
+		}
+		
+		
+		
+		$sql="SELECT * FROM `".TABLE_VERSIONS."` ORDER BY build DESC";
+		$row = $db->query_first($sql);
+		
+		
+		
+		
+		
+		$stats_data = array();
+		
+		$stats_data["installs"] = $installs-$row["installs_till"];
+		$stats_data["release_date"] = new Datetime($row["release_date"]);
+		$stats_data["version"] = $row["version"];
+		$stats_data["build"] = $row["build"];
+		$stats_data["bugfixes"] = $row["bugfixes"];
+		
+
+		return $stats_data;
+	}
+
+}
+
+final class Updates {
+
+  public static function getVersions(){
+    $db = Database::obtain();
+    $sql = "SELECT * FROM `".TABLE_VERSIONS."` ORDER BY `build` DESC";
+    $rows = $db->fetch_array($sql);
+    
+    return $rows;
+  }
+
+  public static function getUpdates($version, $build){
+    $db = Database::obtain();
+    $sql = "SELECT * FROM `".TABLE_VERSIONS."` WHERE `build`>'".$build."' ORDER BY `build` DESC";
+    
+//    
+
+
+    $version_array = array();
+    $version_array['changes'] = array();
+    
+    $rows = $db->fetch_array($sql);
+
+    if(empty($rows)){
+      $message = array();
+      $message['message'] = "no updates";
+      return (object) $message;      
+      
+    } else {          
+      $version_array['version'] = $rows[0]['version'];
+      $version_array['build'] = $rows[0]['build'];
+      $version_array['update'] = "http://userscripts.org/scripts/source/36273.user.js";
+      foreach ($rows as $record) {
+        $version = array();
+        $version['version'] = $record['version'];
+        $version['build'] = $record['build'];
+        $version['changes'] = preg_split("/(\r?\n)/", $record['bugfixes']);
+        $version_array['changes'][] = (object) $version;
+      }
+      return (  object) $version_array;
+    }    
+  } 
+}
+
+
+
+// Global Helper functions
+
+function startsWith($haystack, $needle){
+	$length = strlen($needle);
+	return (substr($haystack, 0, $length) === $needle);
+}
+
+function array_insert(&$array, $insert, $position = -1) {
+     $position = ($position == -1) ? (count($array)) : $position ;
+     if($position != (count($array))) {
+          $ta = $array;
+          for($i = $position; $i < (count($array)); $i++) {
+               if(!isset($array[$i])) {
+                    die(print_r($array, 1)."\r\nInvalid array: All keys must be numerical and in sequence.");
+               }
+               $tmp[$i+1] = $array[$i];
+               unset($ta[$i]);
+          }
+          $ta[$position] = $insert;
+          $array = $ta + $tmp;
+          //print_r($array);
+     } else {
+          $array[$position] = $insert;
+     }
+
+     ksort($array);
+     return true;
+}
+
 
 
 

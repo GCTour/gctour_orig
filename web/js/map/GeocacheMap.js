@@ -4,6 +4,9 @@ var ownWaypointsArray = [];
 
 var bounds;
 
+function onProgressCallback(tsp) {
+}
+
 function initialize() {
 	bounds = new google.maps.LatLngBounds();
 	
@@ -77,7 +80,13 @@ function initialize() {
 
 	var map = new google.maps.Map(document.getElementById("map_canvas"),
 							 options);
+							 
+	directionsPanel = document.getElementById("directions_div");
+
+	// Create the tsp object
+	tsp = new BpTspSolver(map, directionsPanel);
 	
+
 	
 	map.overlayMapTypes.push(null); // create empty overlay entry
 	
@@ -120,9 +129,9 @@ function initialize() {
 	});
 
 
-	setGeocaches(map, geocaches);
-	setOwnWaypoints(map, ownWaypoints);
-	
+	setGeocaches(map, tsp, geocaches);
+	setOwnWaypoints(map, tsp, ownWaypoints);
+		
 
 //	setupPolyline(map);// nice feature 
   
@@ -163,6 +172,114 @@ function initialize() {
 	items.push(item);
 	
 	gcdeControl.createMenu("Label transparency:",items);
+	
+	items = [];
+	
+	item = {};
+	item.name = "Walking";
+	item.func = function() {
+		
+		
+		switch (this.innerHTML){
+			//~ case "Walking":
+				//~ this.innerHTML = "Bicycling";
+				//~ break;
+			case "Walking":
+				this.innerHTML = "Driving";
+				break;
+			case "Driving":
+				this.innerHTML = "Walking";
+				break;
+				
+		}
+	};
+	item.enabled = true;
+	item.id = "tspmode";
+	items.push(item);
+
+	
+	item = {};
+	item.name = "Rounttrip";
+	item.func = function() {
+		// Set your preferences
+		tsp.setAvoidHighways(true);
+		
+		var mode;
+		switch (document.getElementById('tspmode').innerHTML) {
+		  //~ case "Bicycling":
+			//~ mode = google.maps.DirectionsTravelMode.BICYCLING;
+			//~ break;
+		  case "Driving":
+			mode = google.maps.DirectionsTravelMode.DRIVING;
+			break;
+		  case "Walking":
+			mode = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		}
+
+		tsp.setTravelMode(mode);
+		tsp.setOnProgressCallback(onProgressCallback);
+		
+		tsp.solveRoundTrip(function(tsp){
+			var dirRes = tsp.getGDirections();
+			
+			
+						
+			var dirRender = new google.maps.DirectionsRenderer({
+				directions: dirRes,
+				hideRouteList: true,
+				map: map,
+				panel: null,
+				preserveViewport: false,
+				suppressInfoWindows: true,
+				suppressMarkers: true });
+
+		});
+	};
+	item.enabled = true;
+	items.push(item);
+	
+	item = {};
+	item.name = "Oneway";
+	item.func = function() {
+	// Set your preferences
+		tsp.setAvoidHighways(true);
+		
+		var mode;
+		switch (document.getElementById('tspmode').innerHTML) {
+		  //~ case "Bicycling":
+			//~ mode = google.maps.DirectionsTravelMode.BICYCLING;
+			//~ break;
+		  case "Driving":
+			mode = google.maps.DirectionsTravelMode.DRIVING;
+			break;
+		  case "Walking":
+			mode = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		}
+
+		tsp.setTravelMode(mode);
+		tsp.setOnProgressCallback(onProgressCallback);
+		
+		tsp.solveAtoZ(function(tsp){
+			var dirRes = tsp.getGDirections();
+			
+			var dirRender = new google.maps.DirectionsRenderer({
+				directions: dirRes,
+				hideRouteList: true,
+				map: map,
+				panel: null,
+				preserveViewport: false,
+				suppressInfoWindows: true,
+				suppressMarkers: true });
+
+		});
+		
+	};
+	item.enabled =  true;
+	items.push(item);
+	
+	gcdeControl.createMenu("Route",items);
 	
 	
 	
@@ -369,7 +486,7 @@ function initialize() {
 	
 }
 
-function setGeocaches(map, geocaches){
+function setGeocaches(map, tsp, geocaches){
 	for (var i = 0; i < geocaches.length; i++) {
 		var geocache = geocaches[i];
 		var label = new Geocache2Label({
@@ -380,7 +497,12 @@ function setGeocaches(map, geocaches){
 				name:geocache.name,
 				index:geocache.i+1
 			}, map);
-		setWaypoints(map, geocache.additional_waypoints);
+		setWaypoints(map, tsp, geocache.additional_waypoints);
+		
+		
+		
+		tsp.addWaypoint(label.getLatLng(), function(latlng){});
+		
 		
 		geocacheArray.push(label);
 		bounds.extend(label.getLatLng())
@@ -389,25 +511,30 @@ function setGeocaches(map, geocaches){
 }
 
 
-function setWaypoints(map, waypoints){
+function setWaypoints(map, tsp, waypoints){
 	for (var i = 0; i < waypoints.length; i++) {
 		var waypoint = waypoints[i];
-		var label = new WaypointLabel({
-				latitude:waypoint.latitude,
-				longitude:waypoint.longitude,
-				icon:waypoint.symbol,
-				name:waypoint.name,
-				//~ prefix:waypoint.prefix
-			}, map);
-		
-		
-		waypointsArray.push(label);
-		bounds.extend(label.getLatLng());
+		if(waypoint.latitude!= 0){ // hide waypoints WITHOUT coordinates
+			var label = new WaypointLabel({
+					latitude:waypoint.latitude,
+					longitude:waypoint.longitude,
+					icon:waypoint.symbol,
+					name:waypoint.name,
+					//~ prefix:waypoint.prefix
+				}, map);
+			
+			
+			waypointsArray.push(label);
+			
+			
+		tsp.addWaypoint(label.getLatLng(), function(latlng){});
+			bounds.extend(label.getLatLng());
+		}
 	}
 	map.fitBounds(bounds);
 }
 
-function setOwnWaypoints(map, waypoints){
+function setOwnWaypoints(map, tsp, waypoints){
 	for (var i = 0; i < waypoints.length; i++) {
 		var waypoint = waypoints[i];
 		var label = new WaypointLabel({
@@ -419,6 +546,9 @@ function setOwnWaypoints(map, waypoints){
 			}, map);
 		
 		ownWaypointsArray.push(label);
+		
+		tsp.addWaypoint(label.getLatLng(), function(latlng){});
+		
 		bounds.extend(label.getLatLng());
 	}
 	map.fitBounds(bounds);

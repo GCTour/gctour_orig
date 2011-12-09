@@ -220,6 +220,7 @@ public function replace($table, $data){
 	$q="REPLACE INTO `$table` ";
 	$v=''; $n='';
 
+
 	foreach($data as $key=>$val){
 		$n.="`$key`, ";
 		if(strtolower($val)=='null') $v.="NULL, ";
@@ -229,7 +230,6 @@ public function replace($table, $data){
 	}
 
 	$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
-
 
 
 	if($this->query($q)){

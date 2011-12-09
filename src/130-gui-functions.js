@@ -532,7 +532,7 @@ function sendMessageDialog(){
   if(isLogedIn()){
     var overLay = getOverlay({caption:$.gctour.lang('sendMessageTitle'),minimized:true});
 
-    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/mail/gccom">'+
+    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact">'+
       $.gctour.lang('sendMessage')+'<br/>'+
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+
@@ -713,19 +713,35 @@ function openTourDialog(){
 }
 
 function downloadTourFunction(webcode){
-  var details;
+  var details = {};
+  var onlineTour;
+
+  // 30c097a6, b5c082e3
 
   // add the overlay while loading
   addProgressbar();
 
-  details = {};
   details.method = 'GET';
   //~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
-  details.url = GCTOUR_HOST+'/tour/'+trim(webcode)+'/json';
+  details.url = GCTOUR_HOST + '/tour/' + trim(webcode) + '/json';
+
   details.onload = function(response) {
-    var onlineTour;
+
+    responseInfo(response);
+
+    var responseObject;
+    var booResponse = (response.status === 200);     // only status 200
+    var booIsJson   = isJSON(response.responseText); // is response json ?
+
+    if (!booResponse || !booIsJson) {
+      alert("webcode '" + webcode + "' could not be loaded.\n" + 
+        response.status + ", " + response.statusText + ((booIsJson) ? "" :  ", format is not valid"));
+      closeOverlay();
+      return false;
+    }
+
     try{
-      var responseObject = JSON.parse(response.responseText);
+      responseObject = JSON.parse(response.responseText);
 
       if (responseObject.type == "error" && responseObject.message == "no tour"){
         alert($.gctour.lang('webcodeerror'));
@@ -733,13 +749,12 @@ function downloadTourFunction(webcode){
       } else if (responseObject.type == "oldtour"){
         onlineTour = JSON.parse(responseObject.message);
         onlineTour.id = getNewTourId();
+
         tours.push(onlineTour);
         saveCurrentTour();
 
-        log("Download of an old online tour successfull: "+onlineTour.id +" ; "+ onlineTour.name);
-
-        alert("'"+onlineTour.name+"'"+$.gctour.lang('webcodesuccess') +"\n"+ $.gctour.lang('webcodeOld')+"\n\n");
-
+        log("Download of an old online tour successfull: " + onlineTour.id + " ; " + onlineTour.name);
+        alert("tour '" + onlineTour.name + "'\n" + $.gctour.lang('webcodesuccess') + "\n" + $.gctour.lang('webcodeOld'));
         loadTour(onlineTour.id)();
 
       } else {
@@ -749,8 +764,7 @@ function downloadTourFunction(webcode){
         tours.push(onlineTour);
         saveCurrentTour();
 
-        alert("'"+onlineTour.name+"'\n"+$.gctour.lang('webcodesuccess'));
-
+        alert("tour '" + onlineTour.name + "'\n" + $.gctour.lang('webcodesuccess'));
         loadTour(onlineTour.id)();
       }
 

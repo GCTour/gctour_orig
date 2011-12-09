@@ -11,6 +11,7 @@ function toLog(typ,msg) {
 function log(msg) {
   toLog("Log",msg);
 }
+
 function debug(msg) {
   toLog("DEBUG",msg);
 }
@@ -28,10 +29,10 @@ function saveValue(name, value){
   return (GM_setValue(name,JSON.stringify(value)));
 }
 
-function loadValue(name, defaultValue){  
-  
+function loadValue(name, defaultValue){
+
   debug("loadValue: '"+name+"', with default '"+defaultValue+"' (typeof "+(typeof defaultValue)+")");
-  
+
   //~ alert(GM_getValue(name, defaultValue));
   var result = GM_getValue(name, "");
   debug("loadValue: result -> '"+result.substr(0,20)+"...'");
@@ -41,4 +42,18 @@ function loadValue(name, defaultValue){
     debug("loadValue: FALLBACK :-(");
     return eval(result);
   }
+}
+
+// GM_xmlhttpRequest response info
+function responseInfo(r){
+  debug([
+    "",
+    "finalUrl: \t\t"        + (r.finalUrl        || "-"),
+    "status: \t\t"          + (r.status          || "-"),
+    "statusText: \t\t"      + (r.statusText      || "-"),
+    "readyState: \t\t"      + (r.readyState      || "-"),
+    "responseHeaders: \n\t" + (r.responseHeaders || "-"),
+    "responseXML: \t\t"     + (r.responseXML     || "-"),
+    "responseText: \t\t"    + (r.responseText    || "-")
+  ].join("\n"));
 }

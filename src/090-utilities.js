@@ -6,7 +6,7 @@ function getUrlVars(url) {
   var hashes = url.slice( url.indexOf('?') + 1 ).split('&');
   for(var i = 0; i < hashes.length; i++) {
     hash = hashes[i].split('=');
-    vars.push(hash[0]);
+    vars.push(hash[0]);		
     vars[hash[0]] = hash[1];
   }
   return vars;
@@ -188,6 +188,21 @@ function get(url, cb) {
     headers:{'Content-type':'application/x-www-form-urlencoded'},
     onload: function(xhr) { cb(xhr.responseText); }
   });
+}
+
+
+function postSync(url, data){
+
+  var result = GM_xmlhttpRequest({
+    method: "POST",
+    url: url,
+    headers:{'Content-type':'application/x-www-form-urlencoded'},
+    data:encodeURI(data),
+    synchronous:true
+  }).responseText;
+  
+  return result;
+
 }
 
 function post(url, data, cb) {

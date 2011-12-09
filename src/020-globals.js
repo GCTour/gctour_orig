@@ -4,10 +4,8 @@ var
   BUILD      = "@build@",      // will be checked once the day
   SCRIPTID   = 'gctour',
   DEBUG_MODE = true,
-  API_HOST = 'http://localhost/gctour',
-  GCTOUR_HOST = 'http://localhost',
-  //~ API_HOST = 'http://gctour-spot.appspot.com/api',
-  //~ GCTOUR_HOST = 'http://gctour-spot.appspot.com',
+  GCTOUR_HOST = 'http://gctourdev.madd.in',
+  //~ GCTOUR_HOST = 'http://localhost',
 
   // setze $ mit jQuery local (Greasemonkey)
   $ = window.jQuery,

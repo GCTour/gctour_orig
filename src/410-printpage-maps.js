@@ -23,7 +23,7 @@ function updateMapSize(newDocument, mapId,factor){
 }
 
 function getMapType(){
-  return "m="+GM_getValue('printOutlineMapType','roadmap');
+  return GM_getValue('printOutlineMapType','roadmap');
 }
 
 function getMapSettings(){
@@ -49,11 +49,14 @@ function getMapSettings(){
   settings.push(GM_getValue('settings_map_gcde',false));
   settings.push(GM_getValue('settings_map_geocacheindex',true));
 
-  return "s="+settings.join("").replace(/true/g,"1").replace(/false/g,"0");
+  return settings.join("").replace(/true/g,"1").replace(/false/g,"0");
 }
 
 function getMapUrl(mapQuery){
-  return GCTOUR_HOST+"/map.jsp?i="+mapQuery+"&"+getMapSettings()+"&"+getMapType();
+  
+  var hash_value = postSync(GCTOUR_HOST+"/map/make", "ids="+mapQuery);
+  debug("Hash '"+hash_value+"' for this query '"+mapQuery+"'");  
+  return GCTOUR_HOST+"/map/show/h/"+hash_value+"/"+getMapSettings()+"/"+getMapType();
 }
 
 function getMap(mapQuery){

@@ -537,7 +537,7 @@ function printPageFunction(currentTour){
           cacheObject.geocaches = geocaches;
           cacheObject.costumMarkers = costumMarkers;
           uploadMap(cacheObject,
-            function(){
+            function(result){
               try{
                 var overviewMapQuery = "";
                 var geocacheCodes = [];

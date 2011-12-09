@@ -16,15 +16,14 @@ function update(force) {
     GM_setValue('updateDate', currentDate.toString());
     var update_request = {'script':SCRIPTID,'version':VERSION,'build':BUILD};
 
-    post(API_HOST+'/update', 'update='+JSON.stringify(update_request),
+    post(GCTOUR_HOST+'/update', 'update='+JSON.stringify(update_request),
       function(text){
-        //alert(text);
+//        alert(text);
         var update_obj = JSON.parse(text);
         log("update check: returns "+text);
-        if(update_obj.changes[0] == "none" || update_obj.changes[0] == "error"){
-          log("update check: version "+VERSION+" build:"+BUILD);
-          log("update check: result from GAE:"+update_obj.changes[0]);
-
+        
+        if(update_obj.message === "no updates"){
+          log("update check: version "+VERSION+" build:"+BUILD+" is up to date");
           if (force === true) {
             alert($.gctour.lang('updateCurrently'));
           }

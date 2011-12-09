@@ -325,7 +325,7 @@ function getMapMarker(markerId){
 
 function uploadMap(markerObj,callback){
   var jsonMap = JSON.stringify(markerObj).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
-  post(API_HOST+'/map/save', "map="+jsonMap,callback);
+  post(GCTOUR_HOST+'/map/save', "map="+jsonMap,callback);
 }
 
 function makeMapFunction(){
@@ -349,9 +349,9 @@ function makeMapFunction(){
         break;
       }
     }
-    debug("Map request:"+API_HOST+'/map/check/'+markerQuery.join(","));
+    debug("Map request:"+GCTOUR_HOST+'/map/check/'+markerQuery.join(","));
 
-    get(API_HOST+'/map/check/'+markerQuery.join(","),
+    get(GCTOUR_HOST+'/map/check/'+markerQuery.join(","),
       function(text){
 
         var result = JSON.parse(text);
@@ -408,7 +408,7 @@ function upload(tour){
     // maybe there are more CHARS than only '&'!
     var jsonTour = JSON.stringify(tour).replace(/&/g," and ");// IMPORTANT! prevents critical errors in webapplication
 
-    post(API_HOST+'/tour/save', "tour="+jsonTour,
+    post(GCTOUR_HOST+'/tour/save', "tour="+jsonTour,
       function(text){
 
         var tourServer = JSON.parse(text);
@@ -532,7 +532,7 @@ function sendMessageDialog(){
   if(isLogedIn()){
     var overLay = getOverlay({caption:$.gctour.lang('sendMessageTitle'),minimized:true});
 
-    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/contact">'+
+    overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/mail/gccom">'+
       $.gctour.lang('sendMessage')+'<br/>'+
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+
@@ -721,7 +721,7 @@ function downloadTourFunction(webcode){
   details = {};
   details.method = 'GET';
   //~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
-  details.url = API_HOST+'/tour/'+trim(webcode)+'/json';
+  details.url = GCTOUR_HOST+'/tour/'+trim(webcode)+'/json';
   details.onload = function(response) {
     var onlineTour;
     try{

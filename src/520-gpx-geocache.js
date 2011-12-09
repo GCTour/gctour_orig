@@ -239,7 +239,7 @@ function getGPXGeoCache(gcid){
 
     }
 */
-    debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
+    //debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
     logObj.foundDate = parseDate(gc_log.Created);
     logObj.content   = gc_log.LogText;
     logObj.id        = gc_log.LogID;
@@ -254,26 +254,26 @@ function getGPXGeoCache(gcid){
   geocache.latitude  = geocache_obj.lat;
   geocache.longitude = geocache_obj.lon;
 
-  log("--------------[START "+geocache.gcid+"]-------------");
-  log("gcid:"       + geocache.gcid);
-  log("cacheName:"  + geocache.cacheName);
-  log("cacheOwner:" + geocache.cacheOwner);
-  log("dateHidden:" + geocache.dateHidden);
-  log("cacheType:"  + geocache.cacheType);
-  log("cacheSize:"  + geocache.cacheSize);
-
-  log("difficulty:" + geocache.difficulty);
-  log("terrain:"    + geocache.terrain);
-  log("longDescription:"  + geocache.longDescription);
-  log("shortDescription:" + geocache.shortDescription);
-  //~ log("latLon:"    + geocache.latLon.innerHTML);
-  log("latitude:"   + geocache.latitude);
-  log("longitude:"  + geocache.longitude);
-  log("state:"      + geocache.state);
-  log("country:"    + geocache.country);
-
-  //~ log("logs:"      + geocache.logs.length);
-  log("--------------[END "+geocache.gcid+"]--------------");
+  log([
+    "--------------[START " + geocache.gcid + "]-------------",
+    "gcid: \t\t"      + geocache.gcid,
+    "cacheName:\t"  + geocache.cacheName,
+    "cacheOwner:\t" + geocache.cacheOwner,
+    "dateHidden:\t" + geocache.dateHidden,
+    "cacheType:\t"  + geocache.cacheType,
+    "cacheSize:\t"  + geocache.cacheSize,
+    "difficulty:\t" + geocache.difficulty,
+    "terrain:\t"    + geocache.terrain,
+    //~ "latLon:\t"    + geocache.latLon.innerHTML,
+    "latitude:\t"   + geocache.latitude,
+    "longitude:\t"  + geocache.longitude,
+    "state:\t\t"      + geocache.state,
+    "country:\t"    + geocache.country,
+    "shortDescription:\n\n" + geocache.shortDescription,
+    "longDescription:\n\n"  + geocache.longDescription,
+    //~ "logs:"      + geocache.logs.length,
+    "--------------[END " + geocache.gcid + "]--------------"
+  ].join("\n"));
 
   return geocache;
 }
@@ -507,10 +507,12 @@ function getGPX(){
         // create log with attributes!
         // if(true){  ??????
 
-          for ( ii = 0; (ii < geocache.attributes_array.length); ii++){
-            attribute_a = geocache.attributes_array[ii];
-            GM_log(" id='"+attribute_a[0]+"' inc='"+attribute_a[3]+"' > "+attribute_a[2]);
-          }
+          log("geocache.attributes_array:\n" + 
+            $.map(geocache.attributes_array, function(row, i){
+              return i + ". id='" + row[0] + "' inc='" + row[3] + "' > " + row[2];
+            }).join("\n")
+          );
+
           /*
           var geocacheLogMapping = [
             ['LOGID',geocache.id], // Issue3

@@ -178,15 +178,20 @@ function xsdDateTime(date) {
 }
 
 function get(url, cb) {
-  log("---GET---");
-  log(url);
-  log("---/GET/---");
+  log([
+    "---GET---",
+    "\turl: " + url,
+    "---/GET/---"
+  ].join("\n"));
 
   GM_xmlhttpRequest({
     method: "GET",
     url: url,
     headers:{'Content-type':'application/x-www-form-urlencoded'},
-    onload: function(xhr) { cb(xhr.responseText); }
+    onload: function(xhr) {
+      responseInfo(xhr);
+      cb(xhr.responseText);
+    }
   });
 }
 
@@ -206,17 +211,22 @@ function postSync(url, data){
 }
 
 function post(url, data, cb) {
-  log("---POST---");
-  log(url);
-  log(data);
-  log("---/POST/---");
+  log([
+    "---POST---",
+    "\turl: " + url,
+    "\tdata: " + data,
+    "---/POST/---"
+  ].join("\n"));
 
   GM_xmlhttpRequest({
     method: "POST",
     url: url,
     headers:{'Content-type':'application/x-www-form-urlencoded'},
     data:encodeURI(data),
-    onload: function(xhr) { cb(xhr.responseText); }
+    onload: function(xhr) {
+      responseInfo(xhr);
+      cb(xhr.responseText); 
+    }
   });
 }
 
@@ -318,7 +328,6 @@ function parseDate(date_string){
   }
 
   debug("Parse Datestring: '"+date_string+"' -> Date: '"+date+"'");
-
   return date;
 }
 

@@ -102,7 +102,16 @@ var
     ['56','hike_med','Medium Hike'],
     ['57','hike_long','Long Hike'],
     ['58','fuel','Fuel nearby'],
-    ['59','food','Food nearby']
+    ['59','food','Food nearby'],
+    // zweite Spalte (image) noch nicht bestätigt! Werte reine Spekulation! (ab 60)
+    // liste von http://forums.groundspeak.com/GC/index.php?s=5a098c310648d9f536ab03a85432e70d&showtopic=282652&view=findpost&p=4855718
+    ['60','wireless','Wireless Beacon'],
+    ['61','partner','Partnership cache'],
+    ['62','seasonal','Seasonal Access'],
+    ['63','tourist','Tourist Friendly'],
+    ['64','tree','Tree Climbing'],
+    ['65','private','Front Yard (Private Residence)'],
+    ['66','teamwrok','Teamwork Required'],
   ];
 
 /*

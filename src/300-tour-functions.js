@@ -337,26 +337,17 @@ function saveNewCache(entry){
 }
 
 function updateCacheCount(count){
-  dojo.query("span[id='cachecount']")[0].innerHTML = '('+count+')';
 
-  dojo.animateProperty(
-    {
-      node: "cachecount",duration: 1000,
-      properties: {
-        //~ color:         { start: "black", end: "white" },
-        backgroundColor:   { start: "#FFE000", end: "#FFF" }
-      }
-    }).play();
+  $("#cachecount")
+    .html('(' + count + ')')
+    .animate({backgroundColor: '#ffe000'}, 800)
+    .animate({backgroundColor: '#ffffff'}, 700);
 
-    dojo.animateProperty(
-    {
-      node: "gctourButton",duration: 1000,
-      properties: {
-        //~ color:         { start: "black", end: "white" },
-        backgroundColor:   { start: "#FF0000", end: "#B2D4F3" }
-      }
-    }).play();
-
+  if (!sticky) { // nur wenn sichtbar
+    $("#gctourButtonWrapper")
+      .toggleClass( "grand-highlight", 300 )
+      .toggleClass( "grand-highlight", 1200 );
+  }
 }
 
 function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,wptcode){

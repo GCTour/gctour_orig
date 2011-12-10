@@ -79,139 +79,107 @@ function initButton(){
 
 // the tour list under main navigation
 function initComponents(){
-  //~ var thisDiv = getElementsByAttribute('class','widget-navigation')[0];
 
-  var menuButton = createElement('div',{
-    style:'height: 30px !important;'+
-      'padding: 0 !important;'+
-      'position: fixed !important;'+
-      'top: 30px !important;'+
-      'width: 35px !important;'+
-      'background-color:#fff;'+
-      'z-index: 100001 !important;'+
-      'border: 1px solid #333333;border-width: 1px 1px 1px 0;border-radius:0 5px 5px 0;'+
-      '-moz-user-select:none;'
+  // gcTour Button +++++++++++++++++++++++++++++++++++
+  $("<div>",{
+    id: "gctourButtonWrapper",
+    "class": "header grand-default",
+    "html":
+      $("<img>", {
+        "src": gctourLogoSmall
+      })
+  })
+  .hover(
+    function(){
+      $(this).addClass('grand-hover');
+      $("#gctourContainer").animate({
+          left: 0
+        }, 500 );
+    },
+    function(){ $(this).removeClass('grand-hover'); }
+  )
+  .appendTo("body");
+
+  // gcTour Container +++++++++++++++++++++++++++++++++++
+  $("<div>", {
+    id: "gctourContainer",
+    "css": {
+      left: (sticky) ? 0 : -210
     }
-  );
-  menuButton.className = "header";
-
-  menuButton.innerHTML = "<h1 style='height: 16px;border-radius: 0 5px 5px 0;'><img src='"+gctourLogoSmall+"'></h1>";
-
-  dojo.query("h1",menuButton)[0].id = "gctourButton";
-  dojo.query("h1",menuButton).onmouseover(function(e){
-    dojo.animateProperty(
-    {
-    node: "gctourContainer",
-    duration: 250,
-    properties: {
-      left:   { start: "-210", end: "0" }
-     }
-    }).play();
-
-  });
-
-  dojo.body().appendChild(menuButton);
-
-
-
-
-  var thisDiv = createElement('div',{
-    style:'background-color: #fff;'+
-      'overflow: hidden;'+
-      'left:-210px;'+
-      'padding: 0 !important;'+
-      'position: fixed !important;'+
-      'top: 30px !important;'+
-      'width: 200px;'+
-      'z-index: 100002 !important;'+
-      'border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;',
-    id:"gctourContainer"}
-  );
-
-  if(sticky){
-    thisDiv.style.left = "0px";
-  }
-
-      //~ border-color: #C1CAA8 #C1CAA8 #C1CAA8 -moz-use-text-color;border-style: outset outset outset none;border-width: 1px 1px 1px medium;'});
-  dojo.body().appendChild(thisDiv);
-
-
-  dojo.query(thisDiv).onmouseenter(function(e){ clearTimeout(timeout);});
-  dojo.query(thisDiv).onmouseleave(function(e){
-    if(!sticky){
-      timeout = setTimeout(function(){
-        if(dojo.byId("gctourContainer").style.left == "0px"){
-          dojo.animateProperty({
-            node: "gctourContainer",
-            duration: 1000,
-            properties: { left:   { start: "0", end: "-210" } }
-          }).play();
-        }
-      }, 1000);
-    }
-  });
-
-
-  var geocacheList = document.createElement('ul');
-  geocacheList.id ="cacheList";
-  geocacheList.className = 'cachelist';
-  geocacheList.style.width = '100%';
-
-
-  $(geocacheList).sortable({
-    axis: 'y',
-    placeholder: 'ui-sortable-placeholder',
-    opacity: 0.8,
-    revert: true,
-    stop: function(event, ui){
-
-      // TODO: Geht vielleicht schneller ;-)
-      //~ var geocache_code = ui.item.attr('id');
-
-      // save the current sortation
-      var idList = [];
-
-      $("#cacheList").find("li").each(function(i){idList.push(this.id);});
-      // make an geocache array with the new sort
-
-      debug("Drag n Drop in progress:");
-      var tempCaches = [];
-      for(var i = 0; i < idList.length;i++){ // for each id
-        var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
-        var geocache = currentTour.geocaches[position];
-        tempCaches.push(geocache); // and add it to the temporary array
-        debug("\tMove "+geocache.id+" from '"+position+"' to '"+i+"'.");
+  })
+  .hover(
+    function(){
+      clearTimeout(timeout);
+    },
+    function(){
+      if(!sticky){
+        timeout = setTimeout(function(){
+          $("#gctourContainer").animate({
+            left: -210
+          }, 500 );
+        }, 1000);
       }
-
-      // Overwrite the old sortation
-      currentTour.geocaches = tempCaches;
-      // ... and save the new tour object
-      setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
-        saveCurrentTour();
-      },0);
-
-      return;
     }
-  }).disableSelection();
+  )
+  .appendTo("body");
 
-  var geocacheListContainer = document.createElement('div');
-  geocacheListContainer.style.overflow = 'auto';
-  geocacheListContainer.style.height = '80%';
-  geocacheListContainer.style.width = '100%';
-  geocacheListContainer.appendChild(geocacheList);
+  var geocacheList = $('<div>',{
 
-  // if the webcode is visable - the menu must be 20px higher
-  var tourHeaderDiv = createElement('div');
-  tourHeaderDiv.style.height = ((currentTour.webcode)?55:35)+"px";
+    "css": {
+      overflow: 'auto',
+      height: '80%',
+      width: '100%'
+    },
+    "html":
+      $('<ul>',{
+        id: "cacheList",
+        'class': 'cachelist',
+      })
+      .sortable({
+        axis: 'y',
+        placeholder: 'ui-sortable-placeholder',
+        opacity: 0.8,
+        revert: true,
+        stop: function(event, ui){
 
-  tourHeaderDiv.innerHTML = '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>';
-  tourHeaderDiv.innerHTML+="<span id='webcode'><br/>Webcode:<b>"+currentTour.webcode+"</b>&nbsp;</span>";
-  // show the webcode if it is available
-  if(!currentTour.webcode){
-    dojo.query("span[id='webcode']",tourHeaderDiv)[0].style.display = 'none';
-  }
+          // TODO: Geht vielleicht schneller ;-)
+          //~ var geocache_code = ui.item.attr('id');
 
-  append(createElement('br'),tourHeaderDiv);
+          // save the current sortation
+          var idList = [];
+
+          $("#cacheList").find("li").each(function(i){idList.push(this.id);});
+          // make an geocache array with the new sort
+
+          debug("Drag n Drop in progress:");
+          var tempCaches = [];
+          for(var i = 0; i < idList.length;i++){ // for each id
+            var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
+            var geocache = currentTour.geocaches[position];
+            tempCaches.push(geocache); // and add it to the temporary array
+            debug("\tMove "+geocache.id+" from '"+position+"' to '"+i+"'.");
+          }
+
+          // Overwrite the old sortation
+          currentTour.geocaches = tempCaches;
+          // ... and save the new tour object
+          setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
+            saveCurrentTour();
+          },0);
+
+          return;
+        }
+      })
+      .disableSelection()
+  });
+
+  var tourHeaderDiv = $("<div>",{
+    "css": {
+      height: ((currentTour.webcode) ? 55 : 35)
+    },
+    // ToDo no string
+    "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span><span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline")+';"><br/>Webcode: <b>'+currentTour.webcode+'</b>&nbsp;</span><br/>'
+  });
 
   $(tourHeaderDiv).append(
 
@@ -311,15 +279,12 @@ function initComponents(){
 
   ).find("img.tourImage").addShadowEffect().addOpacityEffect();
 
-  /*
-  var buttonsDiv = $('<div>',{
+  var buttonsDiv = $("<div>", {
     "css": {
-      "height":20,
-      "-moz-user-select":"none"
+      height: 20,
+      '-moz-user-select': "none"
     }
   });
-  */
-  var buttonsDiv = createElement('div',{style:"height:20px;-moz-user-select:none;'"});
 
   $(buttonsDiv).append(
     // newTourButton
@@ -395,42 +360,44 @@ function initComponents(){
 
   );
 
-  var header = createElement('div',{style:"height:40px;cursor:pointer;-moz-user-select:none;'"});
-  header.className= "header";
-
-  header.innerHTML = "<h1><img src='"+gctourLogoImage+"'/><img style='float:right' src='"+pin_image+"'></h1";
-
-  if(sticky){
-    dojo.query("h1",header)[0].style.backgroundColor = "orange";
-    dojo.query("img",header)[1].src = pinned_image;
-  }
-
-  //~ header.style.backgroundImage = "url("+gctourLogoImage+")";
-  //~ header.style.backgroundPosition = "center left";
-  //~ header.style.backgroundRepeat = "no-repeat";
-  //~ header.style.cursor = "pointer";
-  //~ header.style.height = "30px";
-
-  dojo.query("h1",header)
-    .onmouseover(function(e){
-      this.style.backgroundColor = "orange";
+  var header = $("<div>",{
+    "class": "header",
+    "css": {
+      height: 40,
+      'cursor': "pointer",
+      '-moz-user-select': "none"
+    },
+    "html": $("<h1>",{
+      "css": {
+        "background-color": ((sticky) ? "orange" : "#b2d4f3")
+      },
+      "html": "<img src='"+gctourLogoImage+"'/><img id='gcTourPin' style='float:right' src='" + ((sticky) ? pinned_image : pin_image) + "'>",
+      click: function(e) {
+        sticky = !sticky;
+        GM_setValue('sticky', sticky);
+        $("img#gcTourPin").attr("src", ((sticky) ? pinned_image : pin_image) );
+      }
     })
-    .onmouseout(function(e){
-      this.style.backgroundColor = (sticky) ? "orange" : "#B2D4F3";
-    })
-    .onclick(function(e){
-      sticky = !sticky;GM_setValue('sticky',sticky);
-      dojo.query("img",header)[1].src = (sticky)?pinned_image:pin_image;
-    });
+    .hover(
+      function(e){
+        $(this).css("backgroundColor", "orange");
+      },
+      function(e){
+        $(this).css("backgroundColor", ((sticky) ? "orange" : "#B2D4F3") );
+      }
+    )
+  });
 
   var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
   footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ VERSION + "." + BUILD + "</div>";
 
-  append(header, thisDiv);
-  append(buttonsDiv, thisDiv);
-  append(tourHeaderDiv, thisDiv);
-  append(geocacheListContainer, thisDiv);
-  append(footerDiv, thisDiv);
+  $("#gctourContainer").append(
+    header,
+    buttonsDiv,
+    tourHeaderDiv,
+    geocacheList,
+    footerDiv
+  );
 
   // popultate the current list on load
   for (var i = 0; i < currentTour.geocaches.length; i++){

@@ -106,7 +106,9 @@ function getListOverlay(options){
 }
 
 function addErrorDialog(options){
-  var body, localDocument, overLayContent, overLayTitle, errorDiv, errorReport, buttons;
+  var body, localDocument, overLayContent, overLayTitle, errorDiv, errorReport, buttons,
+      /* report vars */
+      version, exception, gccode, errorSource, username, uAgent, lastTour;
 
   localDocument = options._document || document;
 
@@ -116,6 +118,7 @@ function addErrorDialog(options){
 
   var overlay = getOverlay(options);
 
+    
 
     // expects a post with this fields:
     //    - redir: url to redirectory after sending
@@ -127,7 +130,66 @@ function addErrorDialog(options){
     //    - userAgent: Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
     //    - lastTour:  {"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im Strütbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"Strütbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - Nähe Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
 
-
+    redir = "";
+    version = VERSION+'.'+BUILD;
+    exception = options._exception;
+    gccode = GM_getValue("debug_lastgcid","");
+    errorSource = options.caption;
+    username = userName;
+    uAgent = unsafeWindow.navigator.userAgent;
+    lastTour = encodeURI(JSON.stringify(currentTour));
+    
+    
+    $(overlay).append(
+      $('<div/>')
+        .css('border','1px dashed red')
+        .css('clear','both')
+        .css('margin','3px').css('padding','5px')
+        .html(GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b>'),
+      $('<div/>')
+        .html($.gctour.lang('ERROR_DIALOG')),
+       $('<div>')
+        .addClass('dialogFooter')
+        .append(
+          $('<input>')
+            .attr('onclick','return false;')
+            .attr('type','button')
+            .attr('value', $.gctour.lang('close'))
+            .css('background-image','url('+closebuttonImage+')')
+            .bind('click',function(){
+             
+              if(localDocument == document){
+                closeOverlayRemote(localDocument)();
+              } else { // if we are on the printview - close the whole window
+                localDocument.defaultView.close();
+              }
+          }),
+          $('<input>')
+            .attr('onclick','return false;')
+            .attr('type','button')
+            .attr('value', $.gctour.lang('save')) // TODO: richtige Übersetztung!!!
+            .css('background-image','url('+sendMessageImage+')')
+            .bind('click',function(){
+              alert("hier schicke ich den Fehlerbericht ab!");          
+            })
+          )      
+        
+//        <input onclick='return false;' type='button' value='schließen' style='background-image:url("+closebuttonImage+")'>"+
+    ).find("#gctour_update_error_dialog").bind('click', function() {update(true);});
+    /*
+      'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten:<br/>"+
+    "##ERROR##<br/>"+
+    "Versuch es einfach noch einmal oder suche nach einem <a href='#' id='gctour_update_error_dialog'>Update</a>!<br/>"+
+    "Wenn dieser Fehler öfter auftritt, dann schicke mir bitte einen Fehlerbericht.<br/>"+
+    "<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
+    "<form action='"+GCTOUR_HOST+"/errors/send' accept-charset='UTF-8' method='post'>"+
+    "<input type='hidden' name='redir' value='##LOCATION##'>"+
+    "##ERRORREPORT##"+
+    "<div style='text-align:left;'>Notizen</div>"+
+    "<textarea name='userNote' rows='4' style='width:99%'></textarea>"+
+    "<input onclick='return false;' type='button' value='schließen' style='background-image:url("+closebuttonImage+")'>"+
+    "<input type='submit' value='Fehlerbericht senden' style='background-image:url("+sendMessageImage+")'></form></div>",
+*/
     errorReport =
       '<input type="hidden" name="version" value="'+VERSION+'.'+BUILD+'" >'+
       '<input type="hidden" name="exception" value="'+options._exception+'" >'+
@@ -155,12 +217,12 @@ function addErrorDialog(options){
     buttons[buttons.length-2].addEventListener('click',function(){localDocument.defaultView.close();},false);
   }
 
-  overlay.appendChild(errorDiv);
+//  overlay.appendChild(errorDiv);
 
   // bind update check with link
-  $("#gctour_update_error_dialog").bind('click', function() {
+/*  $("#gctour_update_error_dialog").bind('click', function() {
     update(true);
-  });
+  });*/
 
 }
 

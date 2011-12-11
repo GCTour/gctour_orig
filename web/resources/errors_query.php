@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @namespace GCTour\Error\Query
- * @uri /error/query
+ * @namespace GCTour\Errors\Query
+ * @uri /errors/query
  */
-class ErrorQueryResource extends Resource {
+class ErrorsQueryResource extends Resource {
    
    
 	function post($request) {

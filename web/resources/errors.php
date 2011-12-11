@@ -4,10 +4,10 @@
 
 
 /**
- * @namespace GCTour\Error
- * @uri /error
+ * @namespace GCTour\Errors
+ * @uri /errors
  */
-class ErrorResource extends Resource {
+class ErrorsResource extends Resource {
 	
 	private $tm;
 	
@@ -22,9 +22,7 @@ class ErrorResource extends Resource {
 		$db = Database::obtain();	
 		$sql = "SELECT * FROM ".TABLE_ERRORS." ORDER BY first_submit";
 		$errors = $db->fetch_array($sql);
-		
-		
-		
+	
 		$error_array = array();
 		foreach($errors as $error){	
 			$error['versions'] = unserialize($error['versions']);
@@ -39,7 +37,7 @@ class ErrorResource extends Resource {
 		$response->code = Response::OK;
 		$response->addHeader('Content-type', 'text/html');
 		$response->addHeader('charset', 'utf-8');
-		$response->body = $this->tm->render('error');;
+		$response->body = $this->tm->render('errors');;
 		
         return $response;        
     }

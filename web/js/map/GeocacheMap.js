@@ -131,7 +131,12 @@ function initialize() {
 
 	setGeocaches(map, tsp, geocaches);
 	setOwnWaypoints(map, tsp, ownWaypoints);
-		
+
+  var listener = google.maps.event.addListener(map, "idle", function() { 
+    if (map.getZoom() > 18) map.setZoom(18); 
+    google.maps.event.removeListener(listener); 
+  });		
+
 
 //	setupPolyline(map);// nice feature 
   

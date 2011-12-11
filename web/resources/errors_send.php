@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @namespace GCTour\Error\Send
- * @uri /error/send
+ * @namespace GCTour\Errors\Send
+ * @uri /errors/send
  */
-class ErrorSendResource extends Resource {
+class ErrorsSendResource extends Resource {
    
    
 	function post($request) {
@@ -92,6 +92,7 @@ class ErrorSendResource extends Resource {
 				
 				$post = print_r($data,true);
 				
+				// update vs replace: update unterstützt INCREMENT(1)!
 				$db->update(TABLE_ERRORS, $data, "id = '".$row['id']."'");
 				
 			}

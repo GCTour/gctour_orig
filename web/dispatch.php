@@ -17,9 +17,9 @@ require_once 'resources/map_check.php';
 require_once 'resources/map_show.php';
 require_once 'resources/map_make.php';
 
-require_once 'resources/error.php';
-require_once 'resources/error_send.php';
-require_once 'resources/error_query.php';
+require_once 'resources/errors.php';
+require_once 'resources/errors_send.php';
+require_once 'resources/errors_query.php';
 
 require_once 'resources/update.php';
 

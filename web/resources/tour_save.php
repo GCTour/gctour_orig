@@ -23,11 +23,7 @@ class TourSaveResource extends Resource {
          
             
          
-            $tour_obj = json_decode($tour);
-               print_r($_POST);
-            echo "geht das so??\n";
-            print_r($tour_obj);
-            
+            $tour_obj = json_decode($tour);            
             
             $entitymanager = GeocacheManager::getInstance();
              //~ print_r($tour_obj);

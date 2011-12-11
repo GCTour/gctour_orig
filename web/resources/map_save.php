@@ -15,8 +15,11 @@ class MapSaveResource extends Resource {
 		$response = new Response($request);
 		
 		if (isset($_POST['map'])) {
-            $map = stripslashes($_POST['map']);
-            
+            // Remove those slashes
+            if(get_magic_quotes_gpc())
+				      $map = stripslashes($_POST['map']);
+            else
+				      $map = $_POST['map'];
          
             $map_obj = json_decode($map);
             $geocacheManager = GeocacheManager::getInstance();

@@ -410,50 +410,50 @@ function upload(tour){
 
     post(GCTOUR_HOST+'/tour/save', "tour="+jsonTour,
       function(text){
-
-        var tourServer = JSON.parse(text);
-        // after an error you get this result, eg:
-        // {"message":"wrong password","type":"error"}
-
-        // only if the result is a message
-        if(tourServer.message && tourServer.type == "error"){
-            var pw = prompt("falsches Passwort - bitte richtiges eingeben");   // TODO !!! LANGUAGES!!
-
-            //if pw is empty or dialog closed
-            if(!pw){
-              closeOverlay();
-              return;
-            }
-            tour.password = pw;
-            upload(tour);
-        } else if (tourServer.message && tourServer.type == "info"){
-          alert(tourServer.message);
-          closeOverlay();
-        } else {   // result is a tour and could be saved  - all done
-
-
-          // remaind to local id!!
-          tourServer.id = tour.id;
-
-          // and the password
-          tourServer.password = tour.password;
-
-
-          currentTour = tourServer;
-          saveCurrentTour();
-
-          checkOnlineConsistent(currentTour);
-
-
-          updateTour();
-
-          closeOverlay();
-
-
-          var codeString = $.gctour.lang('tourUploaded1')+currentTour.webcode+$.gctour.lang('tourUploaded2');
-          alert(codeString);
-        }
-
+        try{
+          var tourServer = JSON.parse(text);
+          // after an error you get this result, eg:
+          // {"message":"wrong password","type":"error"}
+  
+          // only if the result is a message
+          if(tourServer.message && tourServer.type == "error"){
+              var pw = prompt("falsches Passwort - bitte richtiges eingeben");   // TODO !!! LANGUAGES!!
+  
+              //if pw is empty or dialog closed
+              if(!pw){
+                closeOverlay();
+                return;
+              }
+              tour.password = pw;
+              upload(tour);
+          } else if (tourServer.message && tourServer.type == "info"){
+            alert(tourServer.message);
+            closeOverlay();
+          } else {   // result is a tour and could be saved  - all done
+  
+  
+            // remaind to local id!!
+            tourServer.id = tour.id;
+  
+            // and the password
+            tourServer.password = tour.password;
+  
+  
+            currentTour = tourServer;
+            saveCurrentTour();
+  
+            checkOnlineConsistent(currentTour);
+  
+  
+            updateTour();
+  
+            closeOverlay();
+  
+  
+            var codeString = $.gctour.lang('tourUploaded1')+currentTour.webcode+$.gctour.lang('tourUploaded2');
+            alert(codeString);
+          }
+        }catch(e){addErrorDialog({caption:"Upload online tour error", _exception:e});}
       }
       );
   }

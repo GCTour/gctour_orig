@@ -6,6 +6,7 @@
  *   - FIXED: exception TypeError progressBar is undefined
  *   - FIXED: Map issues
  *   - FIXED: Upload Tour
+ *   - UPDATED: French translation - thanks pascal
  *
  * version 2.1.11313
  *   - FIXED: GPX Download bug "...ctl00_hlSignOut... is undefined"

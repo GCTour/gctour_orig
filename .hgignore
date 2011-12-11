@@ -1,0 +1,5 @@
+syntax: glob
+build/*
+tmp/*
+_*
+build.prop

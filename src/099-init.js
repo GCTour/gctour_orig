@@ -101,7 +101,7 @@ function init(){
   $(window).bind({
     // update the complete gui if the tab gets focus
     'focus': function(e) {
-      updateTour(e);
+      updateTour();
     },
     'resize': function(e) {
       handleResize(e);

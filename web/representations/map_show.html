@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+	<title>{$title}</title>
+	<link href="/css/map/map.css" rel="stylesheet" type="text/css" />
+
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	
+	
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>	
+	<script src="/js/map/GeocacheMap.js"></script>	
+	<script src="/js/map/GeocacheLabel.js"></script>	
+	<script src="/js/map/MapControl.js"></script>	
+	<script src="/js/map/Settings.js"></script>
+	<script src="/js/map/BpTspSolver.js"></script>
+
+	<script src="/js/CSSClassTools.js"></script>
+	
+	<script type="text/javascript">	
+		var geocaches =  [{$geocaches}];
+		var ownWaypoints = [{$ownWaypoints}];
+		var defaultMapt = "{$maptype}";
+		var settings = new Settings("{$settings}");
+
+	</script>
+
+	
+</head>
+
+
+<body onload="initialize()">
+	<div id="map_canvas"></div>
+  
+ 
+  
+  <div id="svError">
+  	Sorry, but street view isn't available near this geocache.
+  </div>
+  <div id="tsp_textual_div"> </div>
+  
+
+  
+  
+  
+</body>
+</html>
+
+

@@ -1,0 +1,39 @@
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+			$("#errors").tablesorter(); 
+		}); 
+	</script>
+
+	
+	<table id="errors" class="tablesorter" style="border-collapse:collapse;width:100%">
+	<thead> 
+	<tr> 
+		<th>Exception</th> 
+		<th>Version</th> 
+		<th>#</th> 
+		<th>total #</th> 
+		<th>first submit</th> 
+	</tr> 
+	</thead>	
+		
+		
+	{foreach $errors as $error}
+	{strip}
+	   <tr bgcolor="{cycle values='#FFF,#F3F3F3'}" style="border:1px solid black;">
+			<td rowspan="{sizeof($error['versions'])}"><b>{$error['exception']}</b></td>
+		{foreach $error['versions'] as $version => $count}
+			<td>{$version}</td>
+			<td>{$count}</td>
+		{/foreach}
+			<td rowspan="{sizeof($error['versions'])}"><b>{$error['appearance']}</b></td>
+			<td rowspan="{sizeof($error['versions'])}">{$error['first_submit']}</td>
+		
+		
+		
+	   </tr>
+	{/strip}
+	{/foreach}
+	</table>
+
+			
+

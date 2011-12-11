@@ -96,25 +96,28 @@ function getMinimalGeocacheDetails(detailsPage){
 
 }
 
-function getAllLogs(userToken){
-/* ToDo: alle Logs sind meistens zu viele = auf User max. setzen !? */
-  var i;
-  var totalPages = 1;
-  var logs = [];
+function getLogs(userToken, maxLogsCount){
+  maxLogsCount = maxLogsCount || 25; // optionaler Parameter default = 25 
+  var i = 1,
+      numLogsPages = (maxLogsCount < 100) ? 25 : 100,
+      logs = [],
+      urlTemplate = 'http://www.geocaching.com/seek/geocache.logbook?tkn='+userToken+'&idx=#PAGE#&num=#NUM#&decrypt=false',
+      url, n,
+      log_obj = {},
+      req = new XMLHttpRequest(), 
+      booA, booB;
 
-  for(i = 1; i <= totalPages; i++) {
-    var req = new XMLHttpRequest();
-    var myUrl = 'http://www.geocaching.com/seek/geocache.logbook?tkn='+userToken+'&idx='+i+'&num=100&decrypt=false';
+  do {
+    url = urlTemplate.replace("#PAGE#", i).replace("#NUM#", numLogsPages);
 
-    req.open("GET", myUrl, false);
+    req.open("GET", url, false);
     // execute the request synchron
     req.send(null);
     // after execution parse the result
-    var log_obj =  JSON.parse(req.responseText);
+    log_obj = JSON.parse(req.responseText);
 
     // füge alle ankommenden logs an das bestehende Array einfach hinten dran!
     logs = logs.concat(log_obj.data);
-
 
     // ein Log Obj sieht wir folgt aus:
     //~ LogID  189964204
@@ -143,8 +146,17 @@ function getAllLogs(userToken){
     //~ GroupImageUrl  "/images/icons/reg_user.gif"
     //~ Images  []
     //~ debug(logs[0].UserName);
-
-    totalPages = log_obj.pageInfo.totalPages;
+  
+    i++;
+    booA = (i <= log_obj.pageInfo.totalPages); // gibt es noch eine Seite danach ?
+    booB = (logs.length < maxLogsCount);       // maximale gewünschte Anzahl Logs noch nicht erreicht ?
+  
+  } while (booA && booB); // nächster Request ?
+    
+  // LogArray ggf. kürzen
+  if (logs.length > maxLogsCount) {
+      n = maxLogsCount - logs.length;
+      logs = logs.slice(0, n);
   }
 
   return logs;

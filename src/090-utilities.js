@@ -238,7 +238,7 @@ function dumpProps(obj, parent) {
     // build the message. Message includes i (the object's property name)
     // then the object's property value on a new line
     if (parent) {msg = parent + "." + i + "\n" + obj[i]; } else {msg = i + "\n" + obj[i]; }
-    GM_log(msg);
+    info(msg);
     //~ if (!confirm(msg)) { return; }
     // If this property (i) is an object, then recursively process the object
     //~ if (typeof obj[i] == "object") {

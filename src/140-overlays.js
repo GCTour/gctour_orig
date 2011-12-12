@@ -116,6 +116,10 @@ function addErrorDialog(options){
   options.minimized = true;
   options.color  = "#f00";
 
+  //log the exception:
+  log_exception(options._exception);
+
+
   var overlay = getOverlay(options);
 
     

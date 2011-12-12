@@ -8,8 +8,7 @@
 	<table id="errors" class="tablesorter" style="border-collapse:collapse;width:100%">
 	<thead> 
 	<tr> 
-		<th>Exception</th> 
-		<th>Versions</th> 
+		<th>Exception</th>
 		<th>total #</th> 
 		<th>first submit</th> 
 	</tr> 
@@ -19,12 +18,7 @@
 	{foreach $errors as $error}
 	{strip}
 	   <tr bgcolor="{cycle values='#FFF,#F3F3F3'}" style="border:1px solid black;">
-			<td><b>{$error['exception']}</b></td>
-      <td>
-        {foreach $error['versions'] as $version => $count}
-        	{$version}&nbsp;<i>({$count})</i><br/>
-        {/foreach}
-      </td>
+			<td><b><a href="/errors/show/{$error['id']}">{$error['exception']}</a></b></td>
 			<td><b>{$error['appearance']}</b></td>
 			<td>{$error['first_submit']}</td>
 	   </tr>

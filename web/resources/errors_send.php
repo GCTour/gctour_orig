@@ -10,6 +10,8 @@ class ErrorsSendResource extends Resource {
 	function post($request) {
 		$response = new Response($request);
 		
+		
+		
 		if (isset($_POST['exception'])) {
 			$db = Database::obtain();
 			
@@ -31,17 +33,22 @@ class ErrorsSendResource extends Resource {
 					$_POST['username'] => $_POST['gccode']
 				);
 				
+				
+				$lastTours = array(
+				  $_POST['username'] => $_POST['lastTour']
+				);
+				
+				$notes = array();
 				if(!empty($_POST['userNote'])){
-					$notes = array(
-						$_POST['username'] => $_POST['userNote']
-					);
-					$data['usernotes'] = serialize($notes);
+					$notes[$_POST['username']." (".date('d.m.Y G:i:s').")"] = $_POST['userNote'];
 				}
 				
 				$data['exception'] = $_POST['exception'];
 				$data['versions'] = serialize($versions);
 				$data['useragents'] = serialize($useragents);
 				$data['gccodes'] = serialize($gccodes);
+				$data['lasttours'] = serialize($lastTours);				
+			  $data['usernotes'] = serialize($notes);
 				$data['appearance'] = "1";
 				
 				
@@ -57,8 +64,12 @@ class ErrorsSendResource extends Resource {
 				
 				$versions = unserialize($row['versions']);
 				
+				if(isset($versions[$_POST['version']])){
+				  $versions[$_POST['version']] = $versions[$_POST['version']]+1;
+				} else {
+				  $versions[$_POST['version']] = 1;
+				}
 				
-				$versions[$_POST['version']] = $versions[$_POST['version']]+1;
 				
 				$versions = array_unique($versions); // make version unique to prevent
 				
@@ -69,10 +80,15 @@ class ErrorsSendResource extends Resource {
 				$gccodes = unserialize($row['gccodes']);
 				$gccodes[$_POST['username'] ] = $_POST['gccode'];
 				
+			  $lastTours = unserialize($row['lasttours']);
+				$lastTours[$_POST['username'] ] = $_POST['lastTour'];
 
 				if(!empty($_POST['userNote'])){
 					$notes = unserialize($row['usernotes']);
-					$notes[$_POST['username'] ] = $_POST['userNote'];
+					if(!is_array($notes))
+					  $notes = array();
+					  
+					$notes[$_POST['username']." (".date('d.m.Y G:i:s').")"] = $_POST['userNote'];
 					$data['usernotes'] = serialize($notes);
 				}
 				
@@ -80,14 +96,15 @@ class ErrorsSendResource extends Resource {
 				if(sizeof($gccodes) >10){
 					$gccodes = array_slice($gccodes,-10); // offset is negative, the sequence will start that far from the end of the array
 					$useragents = array_slice($useragents,-10);
+					$lastTours = array_slice($lastTours,-10);
 				}
 				
 				
 				$data['id'] = $row['id'];
 				$data['versions'] = serialize($versions);
 				$data['useragents'] = serialize($useragents);
-				$data['gccodes'] = serialize($gccodes);
-				
+				$data['gccodes'] = serialize($gccodes);				
+				$data['lasttours'] = serialize($lastTours);
 				$data['appearance'] = "INCREMENT(1)";
 				
 				$post = print_r($data,true);
@@ -129,12 +146,12 @@ Array
             
             $response->code = Response::OK;
             $response->addHeader('Content-type', 'text/plain');
-            $response->body = $post;
+            $response->body = "ok";
         } else {
             $response->code = Response::BADREQUEST;
-		}
-		
-        return $response;
+            
+    		}
+      return $response;
         
     }
 }

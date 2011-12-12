@@ -106,10 +106,7 @@ function getListOverlay(options){
 }
 
 function addErrorDialog(options){
-  var body, localDocument, overLayContent, overLayTitle, errorDiv, errorReport, buttons,
-      /* report vars */
-      version, exception, gccode, errorSource, username, uAgent, lastTour;
-
+  var localDocument, post_data;
   localDocument = options._document || document;
 
   closeOverlay();
@@ -163,7 +160,7 @@ function addErrorDialog(options){
             .attr('value', $.gctour.lang('save')) // TODO: richtige Übersetztung!!!
             .css('background-image','url('+sendMessageImage+')')
             .bind('click',function(){
-              var post_data = [
+              post_data = [
                 "version="              + VERSION+'.'+BUILD,
                 "exception="            + options._exception,
                 "username="             + userName,

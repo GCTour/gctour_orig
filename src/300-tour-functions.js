@@ -29,12 +29,14 @@ function isIdInTable(gcId){
 }
 
 function getPositionsOfId(theId){
-  for (var i = 0; i < currentTour.geocaches.length; i++){
-    if(currentTour.geocaches[i].id == theId || currentTour.geocaches[i].wptcode == theId){
-      return i;
+  var id = -1;
+  $.each(currentTour.geocaches, function(i, obj) {
+    if(obj.id == theId || obj.wptcode == theId){
+      id = i;
+      return false; // break each
     }
-  }
-  return -1;
+  });
+  return id;
 }
 
 function checkOnlineConsistent(t){

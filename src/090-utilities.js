@@ -197,6 +197,12 @@ function get(url, cb) {
 
 
 function postSync(url, data){
+    log([
+    "---POST SYNCHRON---",
+    "\turl: " + url,
+    "\tdata: " + data,
+    "---/POST SYNCHRON/---"
+  ].join("\n"));
 
   var result = GM_xmlhttpRequest({
     method: "POST",

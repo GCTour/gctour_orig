@@ -431,6 +431,22 @@ li.cacheowpt, .cacheowpt span.cacheowpt, .cacheowpt a { /* */
     padding: 3px 3px 8px;
 }
 
+/* error-detail table */
+.error_table_f {
+    background-color: #FFF;
+    color: #000000;
+    font-weight: bold;
+}
 
+.error_table_v {
+    background-color: #F3F3F3;
+    color: #000000;
+}
+
+.error_table_v pre{
+  width:90%;
+  margin:0px 30px 15px; 
+  box-shadow:8px 8px 8px #666; 
+}
 
 

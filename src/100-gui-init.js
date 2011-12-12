@@ -141,24 +141,21 @@ function initComponents(){
         opacity: 0.8,
         revert: true,
         stop: function(event, ui){
+          debug("Drag n Drop in progress:");
 
           // TODO: Geht vielleicht schneller ;-)
           //~ var geocache_code = ui.item.attr('id');
 
-          // save the current sortation
-          var idList = [];
+          // current sortation
+          var idList = $("#cacheList").sortable( "toArray" );
 
-          $("#cacheList").find("li").each(function(i){idList.push(this.id);});
           // make an geocache array with the new sort
-
-          debug("Drag n Drop in progress:");
-          var tempCaches = [];
-          for(var i = 0; i < idList.length;i++){ // for each id
-            var position = getPositionsOfId(idList[i]); // find the position in the currentTour obj
+          var tempCaches = $.map(idList, function(v, i){
+            var position = getPositionsOfId(v); // find the position in the currentTour obj
             var geocache = currentTour.geocaches[position];
-            tempCaches.push(geocache); // and add it to the temporary array
-            debug("\tMove "+geocache.id+" from '"+position+"' to '"+i+"'.");
-          }
+            debug("\tMove " + geocache.id + " from '" + position + "' to '" + i + "'");
+            return geocache; // and add it to the temporary array
+          });
 
           // Overwrite the old sortation
           currentTour.geocaches = tempCaches;

@@ -133,7 +133,9 @@ function initialize() {
 	setOwnWaypoints(map, tsp, ownWaypoints);
 
   var listener = google.maps.event.addListener(map, "idle", function() { 
-    if (map.getZoom() > 18) map.setZoom(18); 
+    var currentMaxZoom = map.mapTypes.get(map.getMapTypeId()).maxZoom;   
+    
+    if (map.getZoom() > currentMaxZoom-3) map.setZoom(currentMaxZoom-3); 
     google.maps.event.removeListener(listener); 
   });		
 

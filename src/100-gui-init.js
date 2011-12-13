@@ -140,29 +140,35 @@ function initComponents(){
         placeholder: 'ui-sortable-placeholder',
         opacity: 0.8,
         revert: true,
-        stop: function(event, ui){
-          debug("Drag n Drop in progress:");
+        start: function(e, ui) {
+          // save old position
+          $(this).data('old-pos', ui.item.index());
+        },
+        stop: function(e, ui){
 
-          // TODO: Geht vielleicht schneller ;-)
-          //~ var geocache_code = ui.item.attr('id');
+          // init
+          var newPos = ui.item.index();
+          var oldPos = $(this).data('old-pos');
+          $(this).removeData('old-pos');
 
-          // current sortation
-          var idList = $("#cacheList").sortable( "toArray" );
+          debug("Drag n Drop in progress:\n" +
+            "\tMove " + currentTour.geocaches[oldPos].id + "(=" + ui.item.attr('id') + ") from '" + oldPos + "' to '" + newPos + "'");
 
-          // make an geocache array with the new sort
-          var tempCaches = $.map(idList, function(v, i){
-            var position = getPositionsOfId(v); // find the position in the currentTour obj
-            var geocache = currentTour.geocaches[position];
-            debug("\tMove " + geocache.id + " from '" + position + "' to '" + i + "'");
-            return geocache; // and add it to the temporary array
-          });
+          // ignore the same position
+          if (oldPos === newPos) { return; }
 
-          // Overwrite the old sortation
-          currentTour.geocaches = tempCaches;
+          // determine positions
+          var insertPos = (oldPos > newPos) ? newPos : newPos + 1;
+          var removePos = (oldPos < newPos) ? oldPos : oldPos + 1;
+
+          // changing the position
+          currentTour.geocaches.splice(insertPos, 0, currentTour.geocaches[oldPos]);
+          currentTour.geocaches.splice(removePos, 1);
+
           // ... and save the new tour object
           setTimeout(function() { // hack to prevent "access violation" from Greasemonkey
             saveCurrentTour();
-          },0);
+          }, 0);
 
           return;
         }

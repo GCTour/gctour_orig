@@ -1,0 +1,22 @@
+<?php
+//database server
+define('DB_SERVER', "localhost");
+
+//database login name
+define('DB_USER', "root");
+//database login password
+define('DB_PASS', "");
+
+//database name
+define('DB_DATABASE', "gctour");
+
+define('TABLE_PREFIX', "gct_");
+
+//smart to define your table names also
+define('TABLE_GEOCACHES', TABLE_PREFIX."geocaches");
+define('TABLE_WAYPOINTS', TABLE_PREFIX."waypoints");
+define('TABLE_OWNWAYPOINTS', TABLE_PREFIX."ownwaypoints");
+define('TABLE_TOURS', TABLE_PREFIX."tours");
+define('TABLE_ERRORS', TABLE_PREFIX."errors");
+
+?>

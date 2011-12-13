@@ -1,0 +1,107 @@
+	<table id="error" class="tablesorter" style="border-collapse:collapse;width:100%">
+	<thead> 
+	<tr> 
+		<th colspan="2"><b>{$error['exception']}</b></th> 
+	</tr> 
+	</thead>	
+	
+	<tr>
+    <td class="error_table_f">
+     First appearence
+    </td>  
+    <td class="error_table_v">
+      {$error['first_submit']}
+    </td> 
+  </tr>
+  	
+	
+	<tr>
+    <td class="error_table_f">
+      Total no.    
+    </td>  
+    <td class="error_table_v">
+      {$error['appearance']}
+    </td> 
+  </tr>
+  
+  
+  <tr>
+    <td class="error_table_f">
+      Versions    
+    </td>  
+    <td class="error_table_v">
+    {foreach $error['versions'] as $version => $count}
+	  {strip}
+      <b>{$version}</b>&nbsp;<i>({$count})</i><br/>		   
+	  {/strip}
+   	{/foreach}
+    </td> 
+  </tr>
+
+
+  <tr>
+    <td class="error_table_f">
+      Useragents   
+    </td>  
+    <td class="error_table_v">
+    {foreach $error['useragents'] as $username => $useragent}
+	  {strip}
+      <b>{$username}</b>:{$useragent}<br/>		   
+	  {/strip}
+   	{/foreach}
+    </td> 
+  </tr>
+
+  <tr>
+    <td class="error_table_f">
+      GCCodes   
+    </td>  
+    <td class="error_table_v">
+    {foreach $error['gccodes'] as $username => $gccodes}
+	  {strip}
+      <b>{$username}</b>:{$gccodes}<br/>		   
+	  {/strip}
+   	{/foreach}
+    </td> 
+  </tr>
+
+  <tr>
+    <td class="error_table_f">
+      Tours   
+    </td>  
+    <td class="error_table_v">
+    {foreach $error['lasttours'] as $username => $tour}
+	  {strip}
+      <b>{$username}</b>:
+      <pre>{print_r(json_decode($tour),true)}</pre>	   
+	  {/strip}
+   	{/foreach}
+    </td> 
+  </tr>
+
+
+
+  <tr>
+    <td class="error_table_f">
+      Usernotes   
+    </td>  
+    <td class="error_table_v">
+    {foreach $error['usernotes'] as $username => $note}
+	  {strip}
+      <b>{$username}</b>:{$note}<br/>
+    {/strip}
+   	{/foreach}
+    </td> 
+  </tr>
+
+
+
+
+
+
+
+
+	</table>
+
+			
+

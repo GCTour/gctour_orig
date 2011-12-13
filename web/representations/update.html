@@ -1,0 +1,11 @@
+{foreach $versions as $version}
+{strip}
+  <b>GCTour {$version["version"]}.{$version["build"]}</b> (released {$version["release_date"]})<br>
+  <ul>
+  {foreach  preg_split("/(\r?\n)/", $version["bugfixes"]) as $change}
+    <li>{$change}</li>
+  {/foreach}    
+  </ul>
+
+{/strip}
+{/foreach}

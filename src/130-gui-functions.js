@@ -318,8 +318,10 @@ function getMapGeocache(gcid){
 }
 
 function getMapMarker(markerId){
-  var marker = currentTour.geocaches[getPositionsOfId(markerId)];
-  marker.index = cache_i;
+  var marker, position;
+  position = getPositionsOfId(markerId)
+  var marker = currentTour.geocaches[position];
+  marker.index = position;
   return marker;
 }
 
@@ -329,29 +331,74 @@ function uploadMap(markerObj,callback){
 }
 
 function makeMapFunction(){
+  var gcIds = [], wptIds = [], allIds = [], cache_i, result;
 
   if(isLogedIn() && isNotEmptyList()){
-
     // add the overlay while loading
     addProgressbar({caption:$.gctour.lang('makeMapWait')});
-
-    var markerQuery = [];
+   
 
     for (cache_i = 0; cache_i < currentTour.geocaches.length; ++cache_i){
       var marker = currentTour.geocaches[cache_i];
-
+             
       if(marker.id){
-        markerQuery.push(marker.id);
+        gcIds.push(marker.id);
+        allIds.push(marker.id);
       } else if(marker.wptcode){
-        markerQuery.push(marker.wptcode);
-      } else{
-        markerQuery =  [];
-        break;
+        wptIds.push(marker.wptcode);
+        allIds.push(marker.wptcode);
       }
     }
-    debug("Map request:"+GCTOUR_HOST+'/map/check/'+markerQuery.join(","));
-
-    get(GCTOUR_HOST+'/map/check/'+markerQuery.join(","),
+    debug("Map request (POST):"+GCTOUR_HOST+'/map/check');
+    post(GCTOUR_HOST+'/map/check/',"gcIds="+gcIds.join(",")+"&wptIds="+wptIds.join(","),function(response){
+      try{
+        result = JSON.parse(response);
+        
+        if(result.missing_wptIds.length == 0 && result.missing_gcIds.length == 0){ // map is completly available in appengine
+          GM_openInTab(getMapUrl(allIds.join(","))+"#gui");
+          closeOverlay();
+        } else {
+            var geocaches = [];
+            var costumMarkers = [];
+            
+            if(result.missing_gcIds.length > 0){
+              for (cache_i= 0; cache_i < result.missing_gcIds.length; cache_i++){
+                var temp =  getMapGeocache(result.missing_gcIds[cache_i]);            
+                if(temp){
+                  geocaches.push(temp);
+                }
+                
+                setProgress(cache_i,result.missing_gcIds.length+result.missing_wptIds.length-1,document);
+              }
+            }
+            
+            
+            if(result.missing_wptIds.length > 0){
+alert("hier sollte ich nicht sein!")
+;
+              for (cache_i = 0; cache_i < result.missing_wptIds.length; cache_i++){
+                costumMarkers.push(getMapMarker(result.missing_wptIds[cache_i]));
+                
+                setProgress(cache_i+result.missing_gcIds.length
+                  ,result.missing_gcIds.length+result.missing_wptIds.length-1,document);
+              }
+            }
+            
+            var cacheObject = {};
+            cacheObject.geocaches = geocaches;
+            cacheObject.costumMarkers = costumMarkers;
+           
+            
+            uploadMap(cacheObject, makeMapFunction);
+          
+        }
+        
+        
+      } catch(e){addErrorDialog({caption:"Temporary map error", _exception:e});}
+   
+    });
+/*
+    get(GCTOUR_HOST+'/map/check/'+,
       function(text){
 
         var result = JSON.parse(text);
@@ -389,7 +436,7 @@ function makeMapFunction(){
         }
 
       }
-    );
+    );*/
   }
 }
 

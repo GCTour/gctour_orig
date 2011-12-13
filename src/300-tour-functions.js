@@ -106,7 +106,7 @@ function addNewTableCell(theEntry,effects){
   // if this is a cosutm marker user other id
   var theId = (!costumMarker)?theEntry.id:theEntry.wptcode;
 
-  var entryLi = createElement('li', {id: theId, style: "position:relative;opacity:0;width:88%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});
+  var entryLi = createElement('li', {id: theId, style: "position:relative;opacity:0;width:90%;list-style-image='url('"+theEntry.image+"');background-color:pink;"});
 
   // set the background image
   //~ entryLi.style.background = "transparent url(http://stats.madd.in/counter/digit.php?digit="+(getPositionsOfId(theEntry.id || theEntry.wptcode)+1)+") fixed no-repeat bottom right";

@@ -180,8 +180,9 @@ function initComponents(){
     "css": {
       height: ((currentTour.webcode) ? 55 : 35)
     },
-    // ToDo no string
-    "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/><u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span><span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline")+';"><br/>Webcode: <b>'+currentTour.webcode+'</b>&nbsp;</span><br/>'
+    "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/>' +
+              '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +  
+              '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>Webcode: <b>' + currentTour.webcode + '</b>&nbsp;</span><br/>'
   });
 
   $(tourHeaderDiv).append(
@@ -391,8 +392,38 @@ function initComponents(){
     )
   });
 
-  var footerDiv = createElement('div',{style:"font-size: 70%;height:13px;"});
-  footerDiv.innerHTML = "<div style='float:left;margin-left: 5px;'><a href='http://gctour.madd.in'>http://gctour.madd.in</a></div><div style='float:right;margin-right: 5px;'>v"+ VERSION + "." + BUILD + "</div>";
+  var footerDiv = $('<div>',{
+    "css":{
+      "font-size": "6.4pt",
+      height: 13
+    },
+    "html": $("<div>",{
+                "css": {
+                  'width': '100%'
+                }
+              }).append(
+                $("<a>",{
+                  "css": {
+                    'padding-left': 5
+                  },
+                  href: 'http://gctour.madd.in',
+                  title: 'http://gctour.madd.in',
+                  text: 'http://gctour.madd.in'
+                })
+                .click(function(){
+                  window.open(this.href);
+                  return false;
+                })
+              ).append(
+                $("<div>", {
+                  "css": {
+                    'float': 'right',
+                    'margin-right': 5
+                  },
+                  "html": "v "+ VERSION + "." + BUILD
+                })
+              )
+  });
 
   $("#gctourContainer").append(
     header,

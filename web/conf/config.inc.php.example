@@ -18,5 +18,13 @@ define('TABLE_WAYPOINTS', TABLE_PREFIX."waypoints");
 define('TABLE_OWNWAYPOINTS', TABLE_PREFIX."ownwaypoints");
 define('TABLE_TOURS', TABLE_PREFIX."tours");
 define('TABLE_ERRORS', TABLE_PREFIX."errors");
+define('TABLE_DLSTATS', TABLE_PREFIX."downloadstats");
+define('TABLE_VERSIONS', TABLE_PREFIX."versions");
+define('TABLE_GEOCACHESINTOUR', TABLE_PREFIX."geocaches_in_tour");
+define('TABLE_OWNWAYPOINTSINTOUR', TABLE_PREFIX."ownwaypoints_in_tour");
+define('TABLE_MAPTEMP', TABLE_PREFIX."map_temp");
 
+
+define('ADMIN_USER', "");
+define('ADMIN_PASS', "");
 ?>

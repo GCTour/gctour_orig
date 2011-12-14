@@ -1,0 +1,115 @@
+/*
+* GCTour - Container
+*/
+
+#gctourButtonWrapper {
+  height: 32px !important;
+  padding: 0 !important;
+  position: fixed !important;
+  top: 30px !important;
+  width: 35px !important;
+  background-color: #fff;
+  z-index: 100001 !important;
+  border: 1px solid #333333;
+  border-width: 1px 1px 1px 0;
+  border-radius: 0 5px 5px 0;
+  -moz-user-select: none;
+}
+
+#gctourButtonWrapper.grand-default {
+  /* http://www.colorzilla.com/gradient-editor/#b2d4f3+0,ffffff+25,ffffff+100;gctourButtonWrapper-default
+  *  http://css3please.com/
+  */
+  background: #b2d4f3; /* Old browsers */
+  background: -moz-linear-gradient(top,  #b2d4f3 0%, #ffffff 30%, #ffffff 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  #b2d4f3 0%,#ffffff 30%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #b2d4f3 0%,#ffffff 30%,#ffffff 100%); /* Opera 11.10+ */
+  background: linear-gradient(top,  #b2d4f3 0%,#ffffff 30%,#ffffff 100%); /* W3C */
+}
+
+#gctourButtonWrapper.grand-hover {
+  /* http://www.colorzilla.com/gradient-editor/#ffa500+0,ffffff+25,ffffff+100;gctourButtonWrapper-hover */
+  background: #ffa500; /* Old browsers */
+  background: -moz-linear-gradient(top,  #ffa500 0%, #ffffff 25%, #ffffff 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  #ffa500 0%,#ffffff 25%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #ffa500 0%,#ffffff 25%,#ffffff 100%); /* Opera 11.10+ */
+  background: linear-gradient(top,  #ffa500 0%,#ffffff 25%,#ffffff 100%); /* W3C */
+}
+
+#gctourButtonWrapper.grand-highlight {
+  /* Rot: http://www.colorzilla.com/gradient-editor/#ff0000+0,ffffff+25,ffffff+100&0.65+0,1+100;gctourButtonWrapper-highlight */
+  /* Grün http://www.colorzilla.com/gradient-editor/#0cff00+0,ffffff+25,ffffff+100&0.65+0,1+100;gctourButtonWrapper-highlight */
+  background: -moz-linear-gradient(top,  rgba(255,0,0,0.65) 0%, rgba(255,255,255,0.74) 25%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top,  rgba(255,0,0,0.65) 0%,rgba(255,255,255,0.74) 25%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(255,0,0,0.65) 0%,rgba(255,255,255,0.74) 25%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+  background: linear-gradient(top,  rgba(255,0,0,0.65) 0%,rgba(255,255,255,0.74) 25%,rgba(255,255,255,1) 100%); /* W3C */
+}
+
+#gctourButtonWrapper img {
+  position: relative;
+  top: 8px;
+  left: 8px;
+}
+/*
+#gctourButton {
+  height: 16;
+  border-radius: 0 5px 5px 0;
+  -moz-user-select: none;
+}
+*/
+#gctourContainer {
+  background-color: #fff;
+  overflow: hidden;
+  left: -210px;
+  padding: 0 !important;
+  position: fixed !important;
+  top: 30px !important;
+  width: 200px;
+  z-index: 100002 !important;
+  border: 1px solid #333333;border-left:0px;border-radius:0 5px 5px 0;
+}
+
+#gctourContainer .cachelist {
+  width: 100%;
+}
+
+#gctourContainer .cachelist li {
+  color:#000000;
+  margin:0.5em;
+  padding:3px;
+  width:120px;
+  min-height:44px;
+  list-style-position:inside;
+  border:1pt dashed gray;
+  background-color:#FFFFFF;
+  -moz-background-clip:border;
+  -moz-background-inline-policy:continuous;
+  -moz-background-origin:padding;
+  -moz-border-radius:8px 0 8px 0;
+  border-radius:8px 0 8px 0;
+}
+
+#gctourContainer .cachelist {
+  padding:0;
+  font-size:80%;
+  list-style-type:none;
+}
+
+#gctourContainer img.imgShadow {
+  -moz-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+  background-color: lightgray;
+}
+
+#gctourContainer img.tourImage {
+  cursor: pointer;
+  margin: 0 2px 0 2px;
+}
+
+/* Styling the placeholder for when the user starts dragging an item */
+#gctourContainer li.ui-sortable-placeholder {
+  min-height:50px;
+  max-height:80px;
+  width: 90%;
+  background-color: rgba(0, 0, 0, 0.03);
+}

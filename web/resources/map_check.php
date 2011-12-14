@@ -23,14 +23,14 @@ class MapCheckResource extends Resource {
             
             $missing_gcids = array();
             $missing_waypoints = array();       
-            
+     
             $db = Database::obtain();     
             
             // create the tempoaray table            
             $db->query("CREATE TEMPORARY TABLE mapcheck_memory(ids varchar(128)) ENGINE=MEMORY;");
             
             // insert all gcids
-            if(!empty($gcIds)){           
+            if(!empty($_POST['gcIds'])){           
               $values = implode(",", array_map(array($this, "add_braces"), $gcids));                      
               $db->query("INSERT INTO `mapcheck_memory` VALUES ".$values.";");       
               // and get all ids which are not in the geocaches table
@@ -42,7 +42,7 @@ class MapCheckResource extends Resource {
             $db->query("TRUNCATE mapcheck_memory;");   
                    
             // .. and to the same as above for the waypoints:
-            if(!empty($wptIds)){
+            if(!empty($_POST['wptIds'])){
               $values = implode(",", array_map(array($this, "add_braces"), $wptIds));                      
               $db->query("INSERT INTO `mapcheck_memory` VALUES ".$values.";");                     
               // and get all ids which are not in the ownwaypoints table

@@ -330,6 +330,8 @@ function uploadMap(markerObj,callback){
   post(GCTOUR_HOST+'/map/save', "map="+jsonMap,callback);
 }
 
+
+//BUG: Entlossschleife, wenn PMO-Cache in Tour ist und der Cache noch nicht auf Server liegt!
 function makeMapFunction(){
   var gcIds = [], wptIds = [], allIds = [], cache_i, result;
 
@@ -374,8 +376,6 @@ function makeMapFunction(){
             
             
             if(result.missing_wptIds.length > 0){
-alert("hier sollte ich nicht sein!")
-;
               for (cache_i = 0; cache_i < result.missing_wptIds.length; cache_i++){
                 costumMarkers.push(getMapMarker(result.missing_wptIds[cache_i]));
                 

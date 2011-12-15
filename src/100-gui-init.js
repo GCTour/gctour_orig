@@ -83,7 +83,7 @@ function initComponents(){
   // gcTour Button +++++++++++++++++++++++++++++++++++
   $("<div>",{
     id: "gctourButtonWrapper",
-    "class": "header grand-default",
+    "class": "header gctour-grand-default",
     "html":
       $("<img>", {
         "src": gctourLogoSmall
@@ -91,12 +91,12 @@ function initComponents(){
   })
   .hover(
     function(){
-      $(this).addClass('grand-hover');
+      $(this).addClass('gctour-grand-hover');
       $("#gctourContainer").animate({
           left: 0
         }, 500 );
     },
-    function(){ $(this).removeClass('grand-hover'); }
+    function(){ $(this).removeClass('gctour-grand-hover'); }
   )
   .appendTo("body");
 
@@ -181,7 +181,7 @@ function initComponents(){
       height: ((currentTour.webcode) ? 55 : 35)
     },
     "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/>' +
-              '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +  
+              '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +
               '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>Webcode: <b>' + currentTour.webcode + '</b>&nbsp;</span><br/>'
   });
 
@@ -365,32 +365,28 @@ function initComponents(){
   );
 
   var header = $("<div>",{
-    "class": "header",
+    "class": "header gctour-grand-default" + ((sticky) ? " gctour-grand-hover" : ""),
     "css": {
       height: 40,
       'cursor': "pointer",
       '-moz-user-select': "none"
     },
-    "html": $("<h1>",{
-      "css": {
-        "background-color": ((sticky) ? "orange" : "#b2d4f3")
-      },
-      "html": "<img src='"+gctourLogoImage+"'/><img id='gcTourPin' style='float:right' src='" + ((sticky) ? pinned_image : pin_image) + "'>",
-      click: function(e) {
-        sticky = !sticky;
-        GM_setValue('sticky', sticky);
-        $("img#gcTourPin").attr("src", ((sticky) ? pinned_image : pin_image) );
+    "html": "<img src='"+gctourLogoImage+"' style='margin: 6px 0 0 6px;'/>" +
+            "<img id='gcTourPin' style='float:right;margin: 6px 2px 0 0;' src='" + ((sticky) ? pinned_image : pin_image) + "'>",
+    click: function(e) {
+      sticky = !sticky;
+      GM_setValue('sticky', sticky);
+      $("img#gcTourPin").attr("src", ((sticky) ? pinned_image : pin_image) );
+    }
+  })
+  .hover(
+    function(){ $(this).addClass('gctour-grand-hover'); },
+    function(){
+      if (!sticky) {
+        $(this).removeClass('gctour-grand-hover');
       }
-    })
-    .hover(
-      function(e){
-        $(this).css("backgroundColor", "orange");
-      },
-      function(e){
-        $(this).css("backgroundColor", ((sticky) ? "orange" : "#B2D4F3") );
-      }
-    )
-  });
+    }
+  );
 
   var footerDiv = $('<div>',{
     "css":{

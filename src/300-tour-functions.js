@@ -347,8 +347,8 @@ function updateCacheCount(count){
 
   if (!sticky) { // nur wenn sichtbar
     $("#gctourButtonWrapper")
-      .toggleClass( "grand-highlight", 300 )
-      .toggleClass( "grand-highlight", 1200 );
+      .toggleClass( "gctour-grand-highlight", 300 )
+      .toggleClass( "gctour-grand-highlight", 1200 );
   }
 }
 

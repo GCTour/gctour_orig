@@ -497,6 +497,17 @@ class Geocache
 
 
 final class Utilities {
+  
+  
+  public static function isAdmin() {
+    if (
+      isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == ADMIN_USER &&
+      isset($_SERVER['PHP_AUTH_PW']) && $_SERVER['PHP_AUTH_PW'] == ADMIN_PASS
+    ) {
+     return;
+    }
+    throw new ResponseException('Incorrect username and password', Response::UNAUTHORIZED);  
+  }
 	
 	public static function getStats(){
 		

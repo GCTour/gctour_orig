@@ -14,6 +14,9 @@ class ErrorsResource extends Resource {
    
    
 	function get($request) {
+    // make this only available to the admin
+    Utilities::isAdmin();	  
+	  
 		$response = new Response($request);
 		
 		$db = Database::obtain();	
@@ -59,6 +62,9 @@ class ErrorsShowResource extends Resource {
    
    
 	function get($request) {
+    // make this only available to the admin
+    Utilities::isAdmin();	  
+	  
 		$response = new Response($request);
 		
 		

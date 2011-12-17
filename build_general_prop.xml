@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="GcTour general properties" basedir="." >
+          
+  <property name="tmp.file.cssall" value="tmp-allcss.css" description="temporary file for concat css files" />
+  <property name="file.css.js" value="080-style.js" description="script file for the css" />
+
+  <property name="url.jquery"    value="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"       description="url to jQuery" />
+  <property name="url.jquery-ui" value="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" description="url to jQuery ui" />
+
+  <!-- timestamp -->
+  <tstamp>
+    <format property="GcTour.Build" pattern="yyDDD" />
+    <format property="date" pattern="dd MMM yyyy HH:mm" locale="de_DE" />
+  </tstamp>
+
+  <!-- taskdefs -->
+  <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="lib/ant-googlecode-0.0.3.jar" name="gcupload"/>
+
+</project>

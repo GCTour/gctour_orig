@@ -166,44 +166,52 @@ function init(){
         onload: function(responseDetails) {
           var dtsize_details = JSON.parse(responseDetails.responseText);
 
-          var resultTable = dojo.query("table[class = 'SearchResultsTable Table'] > tbody > tr");
-          //var resultTablejq = $("table.SearchResultsTable > tbody > tr");
-          //alert(resultTable.length + " = " + resultTablejq.length);
+          var $resultTable = $("table.SearchResultsTable tbody tr:not(:first)");  // without header
 
-          var j = 0;
-          for(i = 0; i < resultTable.length-1;i++){ // iterate over each cache
+           // BEGIN for each cache
+          $resultTable.each(function(i, val) {
 
-            var entryTds = resultTable[i+1].getElementsByTagName('td');
-            var entry = {}; // gather informations line-by-line
+            var entryTds = $(this).find('td');
+            var entry = {};
+            var lnk, type, size, difficulty, terrain, pm_only, addBool;
 
-            dojo.query('span',entryTds[5])[1].textContent.search(/\|\s*GC(\S{2,9})\s*\|/);
-            entry.id = "GC"+RegExp.$1;
-            entry.name = trim(dojo.query('span',entryTds[5])[0].textContent);
-            entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
-            entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').replace(/wpttypes\//, "WptTypes/sm/");
-            entry.available = entryTds[5].getElementsByTagName('a')[0].getAttribute('class') == 'lnk  ';
+            // RegEx gc-id
+            entryTds.eq(5).find("span").eq(1).text().search(/\|\s*GC(\S{2,9})\s*\|/);
+            entry.id = "GC" + RegExp.$1;
 
-            var type = entry.image.split("/")[6].split(".")[0];
+            lnk = entryTds.eq(5).find("a.lnk:first");
+            entry.name = $.trim(lnk.text());
+
+            entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
+            entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
+
+            entry.available = (lnk.css('text-decoration') !== "line-through");
+            //~ alternativ:   entry.available = (lnk.attr('class') == 'lnk  ');
+            //~ alternativ:   entry.available = (!(lnk.hasClass('Strike')));
+
+            type = entry.image.split("/")[6].split(".")[0];
             type = (type == "earthcache") ? 137 : type;
 
-            var size = dtsize_details[i].size;
+            size = dtsize_details[i].size;
 
-            var difficulty = dtsize_details[i].difficulty;
-            var terrain = dtsize_details[i].terrain;
-            var pm_only;
+            difficulty = dtsize_details[i].difficulty;
+            terrain = dtsize_details[i].terrain;
+            pm_only;
 
             // autoTour magic starts here
             // check whether the caches match against the given D/T values
-            var addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
+            addBool = tq_typeFilter[type] && tq_sizeFilter[size] && tq_dFilter[difficulty+""] && tq_tFilter[terrain+""];
+
             debug("##### 1: "+addBool);
             if(tq_specialFilter['is Active']){
-              log("Check if " + entry.name + " is active:\n" + 
+              log("Check if " + entry.name + " is active:\n" +
                   "available: " + entry.available);
               addBool = addBool && (entry.available);// only add if active!
             }
+
             debug("##### 2: "+addBool);
             if(tq_specialFilter['is not a PM cache']){
-              pm_only = entryTds[6].innerHTML.indexOf('small_profile.gif') < 0;
+              pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length >= 0);
               addBool = addBool && pm_only;
             }
               debug("##### 3: "+addBool);
@@ -235,7 +243,7 @@ function init(){
               "\n\tpm only:" + pm_only +
               "\n\t ==> Add to tour: " + addBool);
 
-          } // END for each cache
+          }); // END for each cache
 
           GM_setValue('tq_caches', JSON.stringify(tq_caches));
 

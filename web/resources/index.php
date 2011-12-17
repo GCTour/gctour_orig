@@ -20,9 +20,8 @@ class IndexResource extends Resource {
         $response = new Response($request);
         
         
-        
-        $this->tm->smarty->assign('test', "bin im index");
-        $this->tm->smarty->assign('title', '');
+       
+        $this->tm->smarty->assign('title', 'GCTour');
         
         
         

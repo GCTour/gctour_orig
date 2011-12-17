@@ -24,6 +24,7 @@ require_once 'resources/errors_query.php';
 require_once 'resources/update.php';
 
 require_once 'resources/mail.php';
+require_once 'resources/admin.php';
 
 require_once 'resources/index.php';
 require_once 'resources/install.php';
@@ -58,7 +59,7 @@ try {
     switch ($e->getCode()) {
     case Response::UNAUTHORIZED:
         $response = $e->response($request);
-        $response->addHeader('WWW-Authenticate', 'Basic realm="Tonic"');
+        $response->addHeader('WWW-Authenticate', 'Basic realm="GCTour Admin"');
         break;
     default:
         $response = $e->response($request);

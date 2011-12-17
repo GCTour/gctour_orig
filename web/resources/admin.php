@@ -62,7 +62,7 @@ class AdminInfoResource extends Resource {
     
     
     
-    $body = $this->tm->render('admin');
+    $body = $this->tm->render('admin_info_tour');
     
     $response->code = Response::OK;
     $response->addHeader('Content-type', 'text/html');
@@ -83,6 +83,7 @@ class AdminInfoTourResource extends Resource {
     
   protected $tm;
   private $page = 1;
+  private $rows = 10;
  
   function __construct($parameter) {
     
@@ -102,11 +103,34 @@ class AdminInfoTourResource extends Resource {
         
     $this->tm->smarty->assign('title', 'Admin Infos Tours');
     
-  $this->tm->smarty->assign('page', $this->page);
-    
+
+     
     $no_tours = $db->query_first("SELECT count(*) AS no FROM ".TABLE_TOURS);
+    $no_tours = $no_tours['no'];    
     
-        
+    $last_page = ceil($no_tours / $this->rows);
+    
+    //this makes sure the page number isn't below one, or more than our maximum pages 
+    if ($this->page < 1){ 
+      $this->page = 1;
+    } elseif ($this->page > $last_page) { 
+      $this->page = $last_page; 
+    }    
+    
+    $max = 'LIMIT ' .($this->page - 1) * $this->rows .',' .$this->rows;
+    $tours = $db->fetch_array("SELECT * FROM `gct_tours` ".$max);
+    
+    $this->tm->smarty->assign('lastpage',$last_page);
+    $this->tm->smarty->assign('pagenum',$this->page);
+    
+    
+    $em = GeocacheManager::getInstance();
+    $tours_obj = array();    
+    foreach($tours as $tour){
+      $tours_obj[] = $geocacheManager = $em->fetchTour($tour['webcode']);
+    } 
+    
+    $this->tm->smarty->assign('tours',  $tours_obj);  
     
     $body = $this->tm->render('admin_info_tour');
     

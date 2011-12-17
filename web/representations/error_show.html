@@ -38,49 +38,6 @@
     </td> 
   </tr>
 
-
-  <tr>
-    <td class="error_table_f">
-      Useragents   
-    </td>  
-    <td class="error_table_v">
-    {foreach $error['useragents'] as $username => $useragent}
-	  {strip}
-      <b>{$username}</b>:{$useragent}<br/>		   
-	  {/strip}
-   	{/foreach}
-    </td> 
-  </tr>
-
-  <tr>
-    <td class="error_table_f">
-      GCCodes   
-    </td>  
-    <td class="error_table_v">
-    {foreach $error['gccodes'] as $username => $gccodes}
-	  {strip}
-      <b>{$username}</b>:{$gccodes}<br/>		   
-	  {/strip}
-   	{/foreach}
-    </td> 
-  </tr>
-
-  <tr>
-    <td class="error_table_f">
-      Tours   
-    </td>  
-    <td class="error_table_v">
-    {foreach $error['lasttours'] as $username => $tour}
-	  {strip}
-      <b>{$username}</b>:
-      <pre>{print_r(json_decode($tour),true)}</pre>	   
-	  {/strip}
-   	{/foreach}
-    </td> 
-  </tr>
-
-
-
   <tr>
     <td class="error_table_f">
       Usernotes   
@@ -93,14 +50,39 @@
    	{/foreach}
     </td> 
   </tr>
-
-
-
-
-
-
-
-
+  
+  <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+  
+  {foreach $error['useragents'] as $username => $useragent}
+	{strip}
+	<tr>
+	  <td class="error_table_f">
+	    <b>{$username}</b>:
+	  </td>
+	  <td class="error_table_v">
+      {$useragent}	  
+	  </td>
+	</tr>
+	<tr>
+    <td class="error_table_f" align="center">
+	    <b>GCCode</b>:
+	  </td>
+	  <td class="error_table_v">
+	     {$error['gccodes'][$username]}
+	  </td>
+	</tr>
+	<tr>
+    <td class="error_table_f" align="center">
+	    <b>Lasttour</b>:
+	  </td>
+	  <td class="error_table_v">
+	     <pre>{print_r(json_decode($error['lasttours'][$username]),true)}</pre>
+	  </td>
+	</tr>
+	
+	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>       
+	{/strip}
+  {/foreach}
 	</table>
 
 			

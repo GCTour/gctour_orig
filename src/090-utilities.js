@@ -6,7 +6,7 @@ function getUrlVars(url) {
   var hashes = url.slice( url.indexOf('?') + 1 ).split('&');
   for(var i = 0; i < hashes.length; i++) {
     hash = hashes[i].split('=');
-    vars.push(hash[0]);		
+    vars.push(hash[0]);
     vars[hash[0]] = hash[1];
   }
   return vars;
@@ -27,7 +27,7 @@ function append(thisElement, toThis) {
   return toThis.appendChild(thisElement);
 }
 
-function createElementIn(type, attributes, toThis){  
+function createElementIn(type, attributes, toThis){
   var node = createElement(type, attributes);
   if (toThis){
     append(node, toThis);
@@ -59,9 +59,9 @@ function trim (zeichenkette) {
 
 // rot13.js from gc.com
 function createROT13array() {
-  var A = 0, 
-      C = [], 
-      D = "abcdefghijklmnopqrstuvwxyz", 
+  var A = 0,
+      C = [],
+      D = "abcdefghijklmnopqrstuvwxyz",
       B = D.length;
   for (A = 0; A < B; A++) {
     C[D.charAt(A)] = D.charAt((A + 13) % 26);
@@ -77,8 +77,8 @@ function convertROT13Char(A) {
 }
 
 function convertROT13String(C) {
-  var A = 0, 
-      B = C.length, 
+  var A = 0,
+      B = C.length,
       D = "";
   if (!rot13array) {
     rot13array = createROT13array();
@@ -90,10 +90,10 @@ function convertROT13String(C) {
 }
 
 function convertROTStringWithBrackets(C) {
-  var F = "", 
-      D = "", 
-      E = true, 
-      A = 0, 
+  var F = "",
+      D = "",
+      E = true,
+      A = 0,
       B = C.length;
 
   if (!rot13array) {
@@ -135,13 +135,13 @@ function convertROTStringWithBrackets(C) {
 function getElementsByAttribute(the_attribute, the_value, the_node) {
   var node_tags, results, i, j;
 
-  the_node  = ( the_node == null ) ? document : the_node;            
+  the_node  = ( the_node == null ) ? document : the_node;
   node_tags = the_node.getElementsByTagName('*');
   results   = [];
 
   for (i=0, j=0; i<node_tags.length;i++) {
     if (node_tags[i].hasAttribute(the_attribute)) {
-      if (node_tags[i].getAttribute(the_attribute) == the_value) {      
+      if (node_tags[i].getAttribute(the_attribute) == the_value) {
         results[j] = node_tags[i];
         j++;
       }
@@ -159,7 +159,7 @@ function insertAfter( referenceNode, newNode ) {
 /* Replace all  &,< and > with there HTML tag */
 function encodeHtml(htmlString) {
   return (!htmlString) ? "" : htmlString.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-} 
+}
 
 function xsdDateTime(date) {
   function pad(n) {
@@ -211,7 +211,7 @@ function postSync(url, data){
     data:encodeURI(data),
     synchronous:true
   }).responseText;
-  
+
   return result;
 
 }
@@ -231,7 +231,7 @@ function post(url, data, cb) {
     data:encodeURI(data),
     onload: function(xhr) {
       responseInfo(xhr);
-      cb(xhr.responseText); 
+      cb(xhr.responseText);
     }
   });
 }
@@ -297,17 +297,19 @@ function appendScript(href, domNode) {
 
 */
 
+
 function getDateFormat(force){
   var date_format_update = new Date(GM_getValue('date_format_update')),
       current_date = new Date(),
       req = new XMLHttpRequest(),
       myUrl = 'http://www.geocaching.com/account/ManagePreferences.aspx',
-      response_div;
+      response_div,
+      date_format;
 
   // get date format every 30 minutes
   if (force || !date_format_update || dojo.date.difference(date_format_update, current_date, "minute") > 30) {
     //replace updatedate
-    GM_setValue('date_format_update',current_date.toString());
+    GM_setValue('date_format_update', current_date.toString());
 
     // load prefences page
     req.open("GET", myUrl, false);
@@ -316,8 +318,14 @@ function getDateFormat(force){
     // after execution parse the result
     response_div = createElement('div');
     response_div.innerHTML = req.responseText;
-    // and save the selected option
-    GM_setValue('date_format',dojo.query('select[id="ctl00_ContentBody_uxDateTimeFormat"] > option[selected="selected"]',response_div)[0].value);
+    // parse date format
+    date_format = $('select#ctl00_ContentBody_uxDateTimeFormat option:selected').val();
+    if (date_format !== "undefined") {
+      // and save the selected option
+      GM_setValue('date_format', date_format);
+    } else {
+      error("fn getDateFormat - select#ctl00_ContentBody_uxDateTimeFormat is undefined");
+    }
   }
 
   // allways set! otherwise something went wrong...
@@ -340,9 +348,9 @@ function parseDate(date_string){
 function formatDate(date){
   var date_format = getDateFormat(),
       date_string = dojo.date.locale.format(date, {datePattern: date_format, selector: "date",locale: "en"});
-  
+
   debug("Format Date: '"+date+"' -> Datestring: '"+date_string+"'");
-  
+
   return date_string;
 }
 

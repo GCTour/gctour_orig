@@ -26,39 +26,50 @@ class TourResource extends Resource {
 	
         
         
-        if(isset($this->webcode)){
-			$tour = $this->em->fetchTour($this->webcode);			
-			
-			$format = $request->mostAcceptable(array(
-				'json', 'html'
-			));
-					
-			switch ($format) {
-				case 'json':
-					$response->addHeader('Content-type', 'application/json');
-					$response->body = $tour->__toJSON();
-					break;
-				case 'html':
-					$this->tm->smarty->assign('title', 'Tour Query');
-				
-					$this->tm->smarty->assign('tour', $tour);
-					$this->tm->smarty->assign('markers', $tour->merge());
-					
-					$response->code = Response::OK;
-					$response->addHeader('Content-type', 'text/html');
-					$response->body = $this->tm->render('tour');
-        
-			}
-		} else {
-			$this->tm->smarty->assign('title', 'Tour Query');
-			
-			$response->code = Response::OK;
-			$response->addHeader('Content-type', 'text/html');
-			$response->body = $this->tm->render('tour');	
-		}
+      if(isset($this->webcode)){
+  			$tour = $this->em->fetchTour($this->webcode);			
+  		 			echo 
+  			$format = $request->mostAcceptable(array(
+  				'json', 'html'
+  			));
+  					
+  			switch ($format) {
+  				case 'json':
+  					$response->addHeader('Content-type', 'application/json');
+  					$response->body = $tour->__toJSON();
+  					break;
+  				case 'html':
+  					$this->tm->smarty->assign('title', 'Tour Query');
+  					if(get_class($tour) === "JSONMessage"){
+  					  
+             	$this->tm->smarty->assign('notour', "Tour '".$this->webcode."' does not exists!");
+  					  
+  					} elseif (get_class($tour) === "OldTour") {
+  					  	$this->tm->smarty->assign('oldtour', $tour);
+  					  
+  					} elseif (get_class($tour) === "Tour") {
+             	$this->tm->smarty->assign('tour', $tour);
+  					  $this->tm->smarty->assign('markers', $tour->merge());
+  					}
+//  					if()
+  				
+  					
+  					
+  					$response->code = Response::OK;
+  					$response->addHeader('Content-type', 'text/html');
+  					$response->body = $this->tm->render('tour');
+          
+  			}
+  		} else {
+  			$this->tm->smarty->assign('title', 'Tour Query');
+  			
+  			$response->code = Response::OK;
+  			$response->addHeader('Content-type', 'text/html');
+  			$response->body = $this->tm->render('tour');	
+  		}
 		
 
-        return $response;
+      return $response;
         
     }
     
@@ -69,17 +80,14 @@ class TourResource extends Resource {
 		$response = new Response($request);
 		
 		if (isset($_POST['webcode'])) {
-            $this->webcode = $_POST['webcode'];
+      $this->webcode = $_POST['webcode'];
 			$response =  $this->get($request);
-				
-            
-        } else {
+	  } else {
             $response->code = Response::BADREQUEST;
 		}
-		
-        return $response;
+		return $response;
         
-    }
+  }
 
     
 }

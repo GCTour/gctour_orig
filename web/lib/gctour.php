@@ -136,20 +136,32 @@
 			$data["webcode"] = $webcode;
 			
 			return new Tour($data);
+		} else { // tour is not in database
 		
+	    $jsonurl = "http://gctour-spot.appspot.com/api/tour/".$webcode."/json";	  
+      $json = @file_get_contents($jsonurl,0,null,null);
+      if($json !== false){ // no internal server error etc.
+        $json_output = json_decode($json);		
+        if(@$json_output->webcode === $webcode){ // tour not on server
+          return OldTour(array(
+            'webcode' => $webcode,
+            'json_rep' => $json
+          ));     
+        
+    		  $body = json_encode($json_output);
+    		} else { // weder in db von madd.in noch GAE eine tour zum Webcode gefunden!
+          return new JSONMessage(array(
+            'type' => 'error',  
+            'message' => 'no tour'
+          ));  
+    		}
+      } else { // appengine throws some error
+        return new JSONMessage(array(
+            'type' => 'error',  
+            'message' => 'no tour'
+        ));
+      }
 		
-			
-			
-			 //~ $hex='';
-			//~ for ($i=0; $i < strlen($row['name']); $i++)
-			//~ {
-				//~ $hex .= $row['name'][$i].":".dechex(ord($row['name'][$i]))."\n";
-			//~ }
-			//~ 
-			//~ $geocache = new Geocache($row);
-			//~ $geocache->setWaypoints($this->fetchWaypoints($geocache->getGCCode()));
-			//~ return $geocache;
-		} else {
 			return;
 		}
 	}
@@ -245,6 +257,21 @@
  }
 
 
+class JSONMessage{
+  public $type;
+  public $message;  
+  
+  function __construct($properties){
+  	foreach($properties as $key => $value){
+			$this->$key = $value;
+		}
+  }  
+  
+  function __toJSON(){
+    return json_encode($this);  
+  }
+   
+}
 
 class Waypoint{
 	public $symbol;
@@ -304,6 +331,23 @@ class OwnWaypoint{
 	
 }
 
+
+class OldTour{
+
+  public $webcode;
+  public $json_rep;  
+  
+  function __construct($properties){
+		foreach($properties as $key => $value){
+			$this->$key = $value;
+		}
+	}
+  
+  function __toJSON(){
+    return $this->json_rep;  
+  }
+  
+}
 
 class Tour{	
 	public $name;

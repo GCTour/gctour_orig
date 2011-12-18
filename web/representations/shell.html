@@ -41,7 +41,7 @@ GCTour - {$title}
 {function name=menu level=0}
   <ul>
   {foreach $data as $url=>$name}
-	{if strstr($url,$view) }
+ 	{if (preg_replace("/[^a-zA-Z0-9\s]/", "", $url) === $view) }
 		{$class = "sel"}
 	{else}
 		{$class = ""}

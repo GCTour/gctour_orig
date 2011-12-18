@@ -4,7 +4,16 @@
 	<input type="submit" value="Show Tour" name="Submit">
 </form>
 
-{if isset($tour)}
+
+{if isset($notour)}
+{$notour}
+
+{else if isset($oldtour)}
+
+<b>{$oldtour->webcode}</b><br>
+This tour is only available as download to your GCTour! <a href="http://www.geocaching.com/webcode/{$oldtour->webcode}">click here</a>
+
+{else if isset($tour)}
 	<script type="text/javascript">
 		$(document).ready(function(){ 
 			$("#geocaches").tablesorter(); 

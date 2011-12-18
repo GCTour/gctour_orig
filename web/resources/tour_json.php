@@ -25,8 +25,8 @@ class TourJSONResource extends Resource {
 		
 		$entitymanager = GeocacheManager::getInstance();
 		$tour = $entitymanager->fetchTour($this->webcode); 
-		
-  		
+	  $body = $tour->__toJSON();
+  /*		
 		
 		if(!isset($tour)){ // tour nicht in DB enthalten -> Frage bei appengine an.
 //		  $jsonurl = "http://192.168.178.10:8888/api/tour/".$this->webcode."/json";	
@@ -52,7 +52,7 @@ class TourJSONResource extends Resource {
       }
   	} else {
   	  $body = $tour->__toJSON();
-  	}
+  	}*/
   	
   	$response->code = Response::OK;
 		$response->addHeader('Content-type', 'text/html');

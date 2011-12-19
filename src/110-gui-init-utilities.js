@@ -21,19 +21,17 @@ function addCacheToTourFromMap(cacheUrl){
   };
 }
 
-function getEntryFromBookmarkTd(bookmarkLine){
-    var entry = {};
-    entry.id = trim(bookmarkLine[2].textContent);
+function getEntryFromBookmarkTd(bmLine){
+  var entry = {};
+  var nameSpan = $("span", bmLine.eq(2)).eq(0);
 
-  var nameSpan = dojo.query("span",bookmarkLine[3])[0];
-  var name = (nameSpan)?nameSpan.parentNode.innerHTML.replace(/<img.*?>/,""):trim(bookmarkLine[3].textContent);
+  entry.id = $.trim(bmLine.eq(2).text());
+  entry.name = (nameSpan.length > 0) ? nameSpan.parent().html().replace(/<img.*?>/,"") : $.trim(bmLine.eq(3).text());
+  entry.guid = bmLine.eq(3).find('a:first').attr("href").split('guid=')[1];
+  entry.image = bmLine.eq(3).find('img:first').attr('src').split("/")[6];
+  entry.checked = bmLine.eq(0).find("input:checkbox:first").is(':checked');
 
-    entry.name = name;
-    entry.guid = bookmarkLine[2].getElementsByTagName('a')[0].href.split('guid=')[1];
-    entry.image = bookmarkLine[3].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
-    entry.checked = bookmarkLine[0].childNodes[0].checked;
-
-    return entry;
+  return entry;
 }
 
 function getEntryFromSearchTr(cache_row){

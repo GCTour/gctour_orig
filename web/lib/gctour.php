@@ -138,13 +138,14 @@
 			return new Tour($data);
 		} else { // tour is not in database
 		
-	    $jsonurl = "http://gctour-spot.appspot.com/api/tour/".$webcode."/json";	  
-      $json = @file_get_contents($jsonurl,0,null,null);
+	    $jsonurl = "http://gctour-spot.appspot.com/api/tour/".strtolower($webcode)."/json";	
+	    $json = @file_get_contents($jsonurl,0,null,null);
+      
       if($json !== false){ // no internal server error etc.
         $json_output = json_decode($json);		
-        if(@$json_output->webcode === $webcode){ // tour not on server
-          return OldTour(array(
-            'webcode' => $webcode,
+        if(@$json_output->webcode === strtolower($webcode)){ // tour not on server
+          return new OldTour(array(
+            'webcode' => $json_output->webcode,
             'json_rep' => $json
           ));     
         

@@ -69,8 +69,6 @@ CREATE TABLE IF NOT EXISTS `gct_geocaches_in_tour` (
   `gcid` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `gct_geocaches_in_tour` (`webcode`, `gcid`) VALUES
-
 
 DROP TABLE IF EXISTS `gct_map_temp`;
 CREATE TABLE IF NOT EXISTS `gct_map_temp` (
@@ -80,8 +78,6 @@ CREATE TABLE IF NOT EXISTS `gct_map_temp` (
   PRIMARY KEY (`hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `gct_map_temp` (`hash`, `entities`, `created`) VALUES
-('8e1c87fd02dfc0d28c5be304a616f899', '1314268f604,13144617d6c,1314855c45d,131425f2bbd,13149c3bdf3,1314bf7d2fc,1314260a0c6,1314265b32c,1314261fbe2,GC2P00H,1314e8a5a75,1314e9a3e23,1314eedfebd,13152561807,131526d78a9,131527c827e,13152be1288,13152cce2c5,13153164121,13153421d11,131539fd0cb,13153b2c9e5,13153e70891,13153fb1cd6', '2011-12-19 12:39:55');
 
 DROP TABLE IF EXISTS `gct_ownwaypoints`;
 CREATE TABLE IF NOT EXISTS `gct_ownwaypoints` (

@@ -1,0 +1,452 @@
+.gctourHeader {
+    background: url("../i/bg.png") no-repeat scroll right top #FFFFFF;
+    height: 149px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#wrap {
+	background:none repeat scroll 0 0 #fff;
+	padding:12px;
+	position:relative;
+	margin:150px 0 10px;
+	border:1px solid black;
+}
+
+
+body {
+	color:#fff;
+	margin:0 auto;
+	max-width:100%;
+	padding:0;
+	width:56em;
+}
+
+body, html {
+	font-family:"Trebuchet MS", Georgia, Verdana, serif;
+	color:#000;
+	background:url("../i/gradient.jpg") repeat-x scroll 0 0 #4a96df;
+}
+
+
+
+#header {
+	color:#fff;
+	height:80px;
+	margin:30px;
+}
+
+#nav {
+	clear:both;
+	padding-top:3px;
+	line-height:2;
+}
+
+#content {
+	clear:both;
+	padding:15px 12px;
+}
+
+#footer {
+	border-color:#336799;
+	border-style:solid;
+	border-width:2px 0;
+	clear:both;
+	padding:6px 0;
+	height: 20px;
+}
+
+#footer span {
+	color:#000;
+}
+
+#nav .sel a {
+	background-color:#f65d27;
+	font-weight:bold;
+}
+
+#nav ul {
+	background:none repeat scroll 0 0 #336799;
+	float:left;
+	list-style:none outside none;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+
+#nav a,span {
+	color:#fff;
+	display:block;
+	float:left;
+	padding:0 12px;
+	text-decoration:none;
+	
+	border-right:1px solid #1c3853;
+}
+
+#nav a:hover {
+	background-color:#4a96df;
+}
+
+
+
+h1 {
+	font-size:1.4em;
+	text-align:center;
+	padding-top:5px;
+	margin:0px;
+}
+
+.smaller {
+	font-size:70%;	
+}
+
+/* banner CSS */
+
+#banner {
+	color:#000;
+	max-width:40em;
+	position:absolute;
+	right:180px;
+	top:10px;
+	z-index:6;
+}
+
+
+cite {
+	font-family:monospace;
+	font-size:12px;
+	padding-right:20px;
+}
+
+
+#banner div {
+	font-size:10px;
+	text-align:right;
+	width:100%;
+}
+
+/* -banner CSS */
+
+/* links */
+
+a:link {
+	color:#1C3853;
+	padding:0px 3px;
+}
+a:visited {
+	color:#1C3853;
+	padding:0px 3px;
+}
+a:hover, a:focus, a:active {
+	color:#4A96DF;
+}
+
+a[href^="http://coord"] {
+    -moz-background-inline-policy: continuous;
+    background: url("../i/external.png") no-repeat scroll right center transparent;
+    padding-right: 13px;
+}
+
+/* buzz box entry */
+.buzz-box > .entry {
+    border: 2px solid #336799;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+/* instal button / box */
+
+.installbox{
+	font-size:12px;
+	border:1px solid pink;
+	float:right;
+}
+
+.installeng:hover {
+  background-position: 0 -21px;
+}
+
+.installeng {
+  background-image: url("../i/install_eng.png");
+  border: medium none;
+  cursor: pointer;
+  height: 21px;
+  width: 108px;
+  margin:10px;
+}
+
+
+/* donate button */
+#donate{
+    background-image: url("../i/donate-bg.gif");
+    background-position: right center;
+    background-repeat: no-repeat;
+    height: 110px;
+    left: 0;
+    margin-left: -180px;
+    position: fixed;
+    top: 60px;
+    width: 200px;
+    z-index: 1;		
+}
+
+#donate div{
+	margin: 3px;
+	margin-right:20px;	
+}
+
+
+/* cache list and overview */
+
+.cachelist {
+  -moz-background-clip: border;
+  -moz-background-inline-policy: continuous;
+  -moz-background-origin: padding;
+  clear: both;
+  list-style-position: inside;
+  margin: 0 10px 0 0;
+  padding: 0;
+}
+
+.cachelist li {
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-topleft: 10px;
+  color: #FFFFFF;
+  margin: 0.5em;
+  padding: 3px;
+  width: 120px;
+}
+
+.typelist {
+	float:right;
+}
+.typelist li {
+	-moz-border-radius-bottomright:10px;
+	-moz-border-radius-topleft:10px;
+	color:#FFFFFF;
+	float:left;
+	margin:0.2em;
+	padding:3px 3px 3px;
+	width:60px;	
+}
+
+
+/* cache types */
+
+tr.cachetable2 { /* Traditional */
+	background:#00751B none repeat scroll 0 0;
+	color:#ffffff;
+}
+
+tr.cachetable137{ /* Earth */
+	color: #000000;
+	background:#87F4A6 none repeat scroll 0 0;
+}
+
+tr.cachetable3{ /* Multi */
+	color: #383838;
+	background:#F4DE00 none repeat scroll 0 0;
+}
+
+tr.cachetable4{ /* virtual */
+	color:#ffffff;
+	background:#8F8F8F none repeat scroll 0 0;
+}
+tr.cachetable11{ /* Webcam */
+	background:#DA9D9D none repeat scroll 0 0;
+}
+
+tr.cachetable5{ /* Letterbox */
+	background:#8F5BFF none repeat scroll 0 0;
+}
+tr.cachetable8{ /* Mystery */
+	color:#ffffff;
+	background:#6474FF none repeat scroll 0 0;
+}
+tr.cachetable6{ /* Event */
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+tr.cachetable3653{ /* L&F Event */
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+tr.cachetable13{ /* CITO */
+	color: #000000;
+	background:#B5CFAB none repeat scroll 0 0;
+}
+
+tr.cachetable453{ /* MEGA Event */
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+tr.cachetable1858{ /* */
+	background:#000369 none repeat scroll 0 0;
+}
+
+
+
+li.cache2, .cache2 a { /* Traditional */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/2.gif);
+	background:#00751B none repeat scroll 0 0;
+	color:#ffffff;
+}
+
+li.cache137, .cache137 span.cache137, .cache137 a{ /* Earth */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/137.gif);
+	color: #000000;
+	background:#87F4A6 none repeat scroll 0 0;
+}
+
+li.cache3, .cache3 span.cache3, .cache3 a{ /* Multi */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/3.gif);
+	color: #000000;
+	background:#F4DE00 none repeat scroll 0 0;
+}
+
+li.cache4, .cache4 span.cache4, .cache4 a { /* virtual */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/4.gif);
+	color:#ffffff;
+	background:#8F8F8F none repeat scroll 0 0;
+}
+li.cache11, .cache11 span.cache11, .cache11 a{ /* Webcam */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/11.gif);
+
+	background:#DA9D9D none repeat scroll 0 0;
+}
+
+li.cache5, .cache5 span.cache5, .cache5 a { /* Letterbox */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/5.gif);
+
+	background:#8F5BFF none repeat scroll 0 0;
+}
+li.cache8, .cache8 span.cache8, .cache8 a{ /* Mystery */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/8.gif);
+	color:#ffffff;
+	background:#6474FF none repeat scroll 0 0;
+}
+li.cache6, .cache6 span.cache6, .cache6 a{ /* Event */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/6.gif);
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+li.cache3653, .cache3653 span.cache3653, .cache3653 a{ /* L&F Event */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/3653.gif);
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+li.cache13, .cache13 span.cache13, .cache13 a{ /* CITO */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/13.gif);
+	color: #000000;
+	background:#B5CFAB none repeat scroll 0 0;
+}
+
+li.cache453, .cache453 span.cache453, .cache453 a { /* MEGA Event */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/453.gif);
+	color: #000000;
+	background:#BBBBBB none repeat scroll 0 0;
+}
+
+li.cache1858, .cache1858 span.cache1858, .cache1858 a{ /* */
+	list-style-image: url(http://www.geocaching.com/images/WptTypes/sm/1858.gif);
+	background:#000369 none repeat scroll 0 0;
+}
+
+li.cacheowpt, .cacheowpt span.cacheowpt, .cacheowpt a { /* */
+	color: #000000;
+	background:#FF9A00 none repeat scroll 0 0;
+	list-style-type:none;
+	text-align:center;
+}
+
+/* status boxes */
+
+ .error {
+ 	border:2px solid #FF4D00;	
+ 	background-color: #FF7A67;
+	padding:10px;
+	overflow: auto;
+ }
+ .success {
+ 	border:2px solid #37CE00;
+ 	background-color: #9AFF75;
+	padding:10px;
+	overflow: auto;
+ }
+
+
+/* contact page styles */
+
+.ebene {
+	clear:both;
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+
+.ebene span{
+	border:none;
+}
+.label {
+	float:left;
+	padding:3px 0 0;
+	width:15em;
+	color:#000;
+}
+
+.feldbreite {
+	background:#EEEEEE none repeat scroll 0 0;
+	border:1px solid #CCCCCC;
+	font-family:"trebuchet ms",arial,sans-serif;
+	font-size:1em;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+	overflow:auto;
+	width:30em;
+}
+.submit {
+	clear:both;
+	margin:0 0 0 16em;
+}
+
+
+#gallery div {
+    background-color: #336598;
+    border: 1px solid #2A2A2A;
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 3px 3px 8px;
+}
+
+/* error-detail table */
+.error_table_f {
+    background-color: #FFF;
+    color: #000000;
+    font-weight: bold;
+}
+
+.error_table_v {
+    background-color: #F3F3F3;
+    color: #000000;
+}
+
+.error_table_v pre{
+  width:90%;
+  margin:0px 30px 15px; 
+  box-shadow:8px 8px 8px #666; 
+}
+
+

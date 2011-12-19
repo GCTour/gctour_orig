@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>
+GCTour - {$title}
+</title>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/donate.js"></script>
+<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/global.css">
+<link rel="stylesheet" type="text/css" href="/css/tablesorter.css">
+<link rel='stylesheet' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css' type='text/css' />
+
+
+</head>
+<body>
+	
+<!--
+<div id='donate'>
+<img style='float:right;margin-right: 25px;margin-top: 5px' id='smilie' src='/i/signal_smile.gif'><div align='center'><b>Do you like GCTour?</b></div><div style='font-size:90%'>You can support me with a small donation.</div>
+<div align='center' style='margin-top: 10px;'>
+	<form action='https://www.paypal.com/cgi-bin/webscr' method='post'><input name='cmd' value='_s-xclick' type='hidden'><input name='hosted_button_id' value='5886960' type='hidden'><input id='donate_button' src='/i/donate-button.gif' name='submit' alt='PayPal - The safer, easier way to pay online!' border='0' type='image'></form>
+</div>
+</div>
+-->
+
+	<div class="gctourHeader">
+		<div id="header">
+			<div id="banner"></div>
+			<img src="/i/icon.png"/>
+		</div>
+	</div>
+	
+	<div id="wrap">
+		<div id="nav">	
+{* define the function *}
+{function name=menu level=0}
+  <ul>
+  {foreach $data as $url=>$name}
+ 	{if (preg_replace("/[^a-zA-Z0-9\s]/", "", $url) === $view) }
+		{$class = "sel"}
+	{else}
+		{$class = ""}
+	{/if}  
+	<li class="{$class}"><a href="{$url}">{$name}</a></li>
+  {/foreach}
+  </ul>
+{/function}
+{$menu = ['/index'=>'GCTour',
+		  '/tour' => 'Query tour',
+		  '/update' => 'Changelog',
+		  '/install' => 'Installation',
+		  '/contact' => 'Contact',
+		  'http://code.google.com/p/gctour/' => 'Developers']
+		  }
+		  
+		  
+{call menu data=$menu}		  
+		</div>	
+		<div id="nav" class='smaller'>		
+			<ul>
+				<li><span><b>Version</b> {$version}.{$build}</span></li>
+				<li><span><b>Last update</b> {$release_date}</span></li>
+				<li><span><b>Installed</b> {$installs} <b>times</b></span></li>
+				<li>
+					<a href="http://userscripts.org/scripts/source/36273.user.js">Install<img src="/i/script_icon.png" border="0"/></a>
+				</li>
+			</ul>
+		</div>
+		<div id="content">
+			{$body}
+		</div>	
+		<div id="footer">
+			<span>2008-2011 <a href="contact">Martin Georgi</a></span>
+			<span><a href='/admin'>&#9732;</a> </span>
+			<span>Powered by PHP and Tonic</span>
+		</div>
+	
+	</div>	
+
+
+
+
+</body>
+</html>
+
+	

@@ -339,14 +339,15 @@ function saveNewCache(entry){
 }
 
 function updateCacheCount(count){
-
   $("#cachecount")
     .html('(' + count + ')')
+    .stop(true, true)
     .animate({backgroundColor: '#ffe000'}, 800)
     .animate({backgroundColor: '#ffffff'}, 700);
 
   if (!sticky) { // nur wenn sichtbar
     $("#gctourButtonWrapper")
+      .stop(true, true)
       .toggleClass( "gctour-grand-highlight", 300 )
       .toggleClass( "gctour-grand-highlight", 1200 );
   }

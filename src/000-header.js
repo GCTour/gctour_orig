@@ -10,6 +10,7 @@
 // @exclude      /^https?://www\.geocaching\.com/(login|about|articles|map/beta/comingsoon.aspx)/
 // @copyright    2008, 2009, 2010, 2011 Martin Georgi
 // @author       madd.in
+// @co-developer jens
 // @icon         http://www.madd.in/geocaching/gm/gctourextension/icon.png
 // @require      @url_require_jquery@
 // @require      @url_require_ui@

@@ -2,16 +2,21 @@ function initButton(){
 
    // if we are on a cache page the buttonGroup != null - so add the 'to tour'-button
 
-  var cacheControl = dojo.query("div[class='CacheInformationTable']")[0];
-  if (cacheControl != null){
+  var cacheControl = $("div.CacheInformationTable:first");
+  if (cacheControl.length > 0){
 
-    var div_element = createElement('div',{style:"border-top: 1px solid rgb(192, 206, 227);"});append(div_element,cacheControl);
+    var div_element = createElement('div',{style:"border-top: 1px solid rgb(192, 206, 227);"});
+    cacheControl.append(div_element);
 
-    var gcTourFieldset = createElement('fieldset',{style:"background-color: #EFF4F9;border-color: #C0CEE3 !important;margin-top:0;padding: 0.5em;"});append(gcTourFieldset,div_element);
+    var gcTourFieldset = createElement('fieldset',{style:"background-color: #EFF4F9;border-color: #C0CEE3 !important;margin-top:0;padding: 0.5em;"});
+    append(gcTourFieldset,div_element);
+    
     gcTourFieldset.setAttribute('class','dialogFooter');
     gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
 
-    var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+addToTourImageString+")"});append(newButton,gcTourFieldset);
+    var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+addToTourImageString+")"});
+    append(newButton,gcTourFieldset);
+    
     newButton.setAttribute('onclick','return false;');
 
     //~ var newButton = document.createElement("button");

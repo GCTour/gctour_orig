@@ -10,7 +10,7 @@
   width: 35px !important;
   background-color: #fff;
   z-index: 100001 !important;
-  border: 1px solid #333333;
+  border: 1px solid #333;
   border-width: 1px 1px 1px 0;
   border-radius: 0 5px 5px 0;
   -moz-user-select: none;
@@ -31,35 +31,35 @@
   top: 30px !important;
   width: 200px;
   z-index: 100002 !important;
-  border: 1px solid #333333;
+  border: 1px solid #333;
   border-left: 0px;
   border-radius: 0 5px 5px 0;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 #gctourContainer .cachelist {
   width: 100%;
+  margin: 0;
+  padding:0;
+  font-size:80%;
+  list-style-type:none;
 }
 
 #gctourContainer .cachelist li {
-  color:#000000;
+  color:#000;
   margin:0.5em;
   padding:3px;
   width:120px;
   min-height:44px;
   list-style-position:inside;
   border:1pt dashed gray;
-  background-color:#FFFFFF;
+  background-color:#FFF;
   -moz-background-clip:border;
   -moz-background-inline-policy:continuous;
   -moz-background-origin:padding;
   -moz-border-radius:8px 0 8px 0;
   border-radius:8px 0 8px 0;
-}
-
-#gctourContainer .cachelist {
-  padding:0;
-  font-size:80%;
-  list-style-type:none;
 }
 
 #gctourContainer img.imgShadow {

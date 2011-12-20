@@ -18,30 +18,28 @@ function isNotEmptyList(){
   }
 }
 
-function handleResize(event) {
-  //~ var win_height = window.innerHeight;
-  var win_height = dojo.window.getBox().h;
-
-  var container_height = win_height - 60;
-
-  // set the max height of the container
-  dojo.byId('gctourContainer').style.height = container_height+"px";
-
-  // change the height of the tour header
-
+function handleResize(e) {
+  var container_height = $(window).height() - 55;
   var tourheader_height;
   var list_height;
-  if(currentTour.webcode){
-    tourheader_height = 55;
-    list_height = container_height - 128;
-  } else {
-    tourheader_height = 35;
-    list_height = container_height - 108;
-  }
+  
+  // const
+  var header_height  = 40;
+  var toolbar_height = 20;
+  var footer_height  = 14;
+  var minus_height   = header_height + toolbar_height + footer_height;
+
+  // set the max height of the container
+  $('#gctourContainer').css("height", container_height );
+
+  // change the height of the tour header
+  tourheader_height = (currentTour.webcode) ? 55 : 35;
+
+  list_height = container_height - minus_height - tourheader_height;
 
   //now handle the max height of the list and the header
-  dojo.byId('webcode').parentNode.style.height = tourheader_height+"px";
-  dojo.byId('cacheList').parentNode.style.height = list_height+"px";
+  $('#webcode').parent().css("height", tourheader_height );
+  $('#cacheList').parent().css("height", list_height );
 }
 
 function toggleSettingsFunction(){

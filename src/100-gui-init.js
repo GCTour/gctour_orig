@@ -390,8 +390,8 @@ function initComponents(){
 
   var footerDiv = $('<div>',{
     "css":{
-      "font-size": "6.4pt",
-      height: 13
+      "font-size": "75%",
+      height: 14
     },
     "html": $("<div>",{
                 "css": {

@@ -164,7 +164,7 @@ $.gctour.i18n.de = {
      {"caption":"Google Gelände","value":"terrain"},
      {"caption":"Topo Deutschland","value":"oda"}, 
      {"caption":"OSM Mapnik","value":"mapnik"}, 
-     {"caption":"OSM Osma","value":"osma"}, 
+     {"caption":"OSM DE","value":"osmde"}, 
      {"caption":"OSM Fahrrad","value":"osmaC"},
      {"caption":"OSM ÖPNV","value":"osmaP"}],
   'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>Es ist eine neue Version von &nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;verf&uuml;gbar.</p><p>Du benutzt die Version <b>###VERSION_OLD###</b>. Die aktuellste Version ist <b>###VERSION_NEW###</b></p><p><b>Versions Historie:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",

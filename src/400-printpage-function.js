@@ -584,7 +584,6 @@ function printPageFunction(currentTour){
 
             }
           );
-
         } catch (e) {
           addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
         }

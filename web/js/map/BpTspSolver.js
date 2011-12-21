@@ -750,23 +750,23 @@ var currQueueNum = 0;
     };
 
     BpTspSolver.prototype.addWaypointWithLabel = function(latLng, label, callback) {
-	++requestNum;
-	tsp.addWaypointAgain(latLng, label, callback, requestNum - 1);
+    	++requestNum;
+    	tsp.addWaypointAgain(latLng, label, callback, requestNum - 1);
     };
 
     BpTspSolver.prototype.addWaypoint = function(latLng, callback) {
-	tsp.addWaypointWithLabel(latLng, null, callback);
+	    tsp.addWaypointWithLabel(latLng, null, callback);
     };
 
     BpTspSolver.prototype.addWaypointAgain = function(latLng, label, callback, queueNum) {
-        if (addressProcessing || queueNum > currQueueNum) {
-	    setTimeout(function(){ tsp.addWaypointAgain(latLng, label, callback, queueNum) }, 100);
-	    return;
-	}
-	addWaypoint(latLng, label);
-	++currQueueNum;
+      if (addressProcessing || queueNum > currQueueNum) {
+    	    setTimeout(function(){ tsp.addWaypointAgain(latLng, label, callback, queueNum) }, 100);
+    	    return;
+    	}
+	     addWaypoint(latLng, label);
+     	++currQueueNum;     
 	if (typeof(callback) == 'function') {
-	    callback(latLng);
+	     callback(latLng);     
 	}
     }
 
@@ -911,17 +911,17 @@ var currQueueNum = 0;
 	directions(0);
     };
     
-    BpTspSolver.prototype.isAborted = function(){
-      return abort;
+     BpTspSolver.prototype.isAborted = function(){
+     return  abor;;
     }
     BpTspSolver.prototype.abort = function(){
       abort=true;
-    }
+    
     
     BpTspSolver.prototype.reset = function(){
       abort=false;
     }
-    
+    }
 
     BpTspSolver.prototype.solveAtoZ = function(callback) {
 	if (doNotContinue) {

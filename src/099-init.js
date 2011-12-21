@@ -196,7 +196,6 @@ function init(){
 
             difficulty = dtsize_details[i].difficulty;
             terrain = dtsize_details[i].terrain;
-            pm_only;
 
             // autoTour magic starts here
             // check whether the caches match against the given D/T values

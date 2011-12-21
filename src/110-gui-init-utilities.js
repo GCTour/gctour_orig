@@ -34,42 +34,36 @@ function getEntryFromBookmarkTd(bmLine){
   return entry;
 }
 
-function getEntryFromSearchTr(cache_row){
-  var information_cell = dojo.query("td:nth-child(6)",cache_row)[0];
-  var type_cell = dojo.query("td:nth-child(5)",cache_row)[0];
-  var spans = dojo.query('span',information_cell);
-
-  var entry = {};
-  //~ alert(spans[1].textContent.search(/|\s*GC(\S{3,9}\s*|)/g));
-
-  spans[1].textContent.search(/\|\s*GC(\S{3,9})\s*\|/);
-  entry.id = "GC"+RegExp.$1;
-  //~ entry.id = trim(spans[1].textContent.split('|')[1]);
-  entry.name = trim(spans[0].textContent);
-  entry.guid = information_cell.getElementsByTagName('a')[0].href.split('guid=')[1];
-  entry.image = type_cell.getElementsByTagName('img')[0].getAttribute('src').split("/")[5];//.replace(/WptTypes\//, "WptTypes/sm/");
-  entry.position = cache_row.getElementsByTagName('td')[10];
-
-
-  var check = dojo.query("td",cache_row)[0].childNodes[1];
-  if(check){
-      entry.checked = check.checked;
-  }
-
-  return entry;
-}
-
 function getEntriesFromSearchpage(){
-  var q = dojo.query('table[class = "SearchResultsTable Table"] > tbody > tr');
+  var q = $("table.SearchResultsTable tbody tr:not(:first)");  // without header
   var entries = [];
 
-  for(var j = 1 ; j < q.length; j++){
-    var cache_row = q[j];
+  entries = q.map(function() {
+    // ToDo: in 099... bei process autoTour ~ Zeile 172 fast gleich ~~ beide zusammenlegen ?!
 
-    var entry = getEntryFromSearchTr(cache_row);
-    debug("cache row - id:'"+entry.id+"' Name:'"+entry.name+"' Guid:'"+entry.guid+"' image:'"+entry.image+"' checked:'"+entry.checked+"'");
-    entries.push(entry);
-  }
+    var entryTds = $(this).find('td');
+    var entry = {};
+    var lnk, checkbox;
+
+    // RegEx gc-id
+    entryTds.eq(5).find("span").eq(1).text().search(/\|\s*GC(\S{2,9})\s*\|/);
+    entry.id = "GC" + RegExp.$1;
+
+    lnk = entryTds.eq(5).find("a.lnk:first");
+    entry.name = $.trim(lnk.text());
+
+    entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
+    entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
+
+    entry.position = entryTds.eq(10);
+
+    entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
+
+    debug("cache row - id:'" + entry.id + "' Name:'" + entry.name + "' Guid:'" + entry.guid +
+          "' image:'" + entry.image + "' checked:'" + entry.checked + "'");
+
+    return entry;
+  }).get();
 
   return entries;
 }

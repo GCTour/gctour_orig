@@ -80,6 +80,7 @@ var currQueueNum = 0;
     var originalOnFatalErrorCallback = function(tsp, errMsg) { alert("Request failed: " + errMsg); }
     var onFatalErrorCallback = originalOnFatalErrorCallback;
     var doNotContinue = false;
+    var abort = false;
     var onLoadListener = null;
     var onFatalErrorListener = null;
 
@@ -474,8 +475,7 @@ var currQueueNum = 0;
     }
 
     function nextChunk(mode) {
-	//  alert("nextChunk");
-	if (chunkNode < wayArr.length) {
+	if (chunkNode < wayArr.length && abort !== true) {
 	    var wayArrChunk = new Array();
 	    for (var i = 0; i < maxSize && i + chunkNode < wayArr.length; ++i) {
 		wayArrChunk.push(wayArr[chunkNode+i]);
@@ -910,6 +910,18 @@ var currQueueNum = 0;
 
 	directions(0);
     };
+    
+    BpTspSolver.prototype.isAborted = function(){
+      return abort;
+    }
+    BpTspSolver.prototype.abort = function(){
+      abort=true;
+    }
+    
+    BpTspSolver.prototype.reset = function(){
+      abort=false;
+    }
+    
 
     BpTspSolver.prototype.solveAtoZ = function(callback) {
 	if (doNotContinue) {

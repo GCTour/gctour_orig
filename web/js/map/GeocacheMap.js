@@ -4,8 +4,6 @@ var ownWaypointsArray = [];
 
 var bounds;
 
-function onProgressCallback(tsp) {
-}
 
 function initialize() {
 	bounds = new google.maps.LatLngBounds();
@@ -78,11 +76,10 @@ function initialize() {
 	}
 
 
-	var map = new google.maps.Map(document.getElementById("map_canvas"),
+	map = new google.maps.Map(document.getElementById("map_canvas"),
 							 options);
 							 
 	directionsPanel = document.getElementById("directions_div");
-
 	// Create the tsp object
 	tsp = new BpTspSolver(map, directionsPanel);
 	
@@ -94,11 +91,6 @@ function initialize() {
 	if(settings.showOGC()){ // set it only if wanted
 		map.overlayMapTypes.setAt("0",gcdeMap); // set the overlay, 0 index
 	}
-
-
-
-
-
 
 	 /**
 	 * set mapTypes 
@@ -208,40 +200,7 @@ function initialize() {
 	item = {};
 	item.name = "Rounttrip";
 	item.func = function() {
-		// Set your preferences
-		tsp.setAvoidHighways(true);
-		
-		var mode;
-		switch (document.getElementById('tspmode').innerHTML) {
-		  //~ case "Bicycling":
-			//~ mode = google.maps.DirectionsTravelMode.BICYCLING;
-			//~ break;
-		  case "Driving":
-			mode = google.maps.DirectionsTravelMode.DRIVING;
-			break;
-		  case "Walking":
-			mode = google.maps.DirectionsTravelMode.WALKING;
-			break;
-		}
-
-		tsp.setTravelMode(mode);
-		tsp.setOnProgressCallback(onProgressCallback);
-		
-		tsp.solveRoundTrip(function(tsp){
-			var dirRes = tsp.getGDirections();
-			
-			
-						
-			var dirRender = new google.maps.DirectionsRenderer({
-				directions: dirRes,
-				hideRouteList: true,
-				map: map,
-				panel: null,
-				preserveViewport: false,
-				suppressInfoWindows: true,
-				suppressMarkers: true });
-
-		});
+    calculateTSP('round');	  
 	};
 	item.enabled = true;
 	items.push(item);
@@ -249,39 +208,7 @@ function initialize() {
 	item = {};
 	item.name = "Oneway";
 	item.func = function() {
-	// Set your preferences
-		tsp.setAvoidHighways(true);
-		
-		var mode;
-		switch (document.getElementById('tspmode').innerHTML) {
-		  //~ case "Bicycling":
-			//~ mode = google.maps.DirectionsTravelMode.BICYCLING;
-			//~ break;
-		  case "Driving":
-			mode = google.maps.DirectionsTravelMode.DRIVING;
-			break;
-		  case "Walking":
-			mode = google.maps.DirectionsTravelMode.WALKING;
-			break;
-		}
-
-		tsp.setTravelMode(mode);
-		tsp.setOnProgressCallback(onProgressCallback);
-		
-		tsp.solveAtoZ(function(tsp){
-			var dirRes = tsp.getGDirections();
-			
-			var dirRender = new google.maps.DirectionsRenderer({
-				directions: dirRes,
-				hideRouteList: true,
-				map: map,
-				panel: null,
-				preserveViewport: false,
-				suppressInfoWindows: true,
-				suppressMarkers: true });
-
-		});
-		
+	  calculateTSP('atoz');
 	};
 	item.enabled =  true;
 	items.push(item);
@@ -491,6 +418,109 @@ function initialize() {
 	
 */
 	
+}
+
+
+function calculateTSP(tsptype){
+    if(tsp.isAborted() === true){
+      alert("Sorry but an canceled calculation is blocked until you reload this page!");
+  	  return; 
+    }  
+  
+    // Set your preferences
+		tsp.setAvoidHighways(true);
+		
+		var mode;
+		switch (document.getElementById('tspmode').innerHTML) {
+		  //~ case "Bicycling":
+			//~ mode = google.maps.DirectionsTravelMode.BICYCLING;
+			//~ break;
+		  case "Driving":
+			mode = google.maps.DirectionsTravelMode.DRIVING;
+			break;
+		  case "Walking":
+			mode = google.maps.DirectionsTravelMode.WALKING;
+			break;
+		}
+
+		tsp.setTravelMode(mode);
+		tsp.setOnProgressCallback(onProgressCallback);
+		
+    showProgressdialog();
+    
+		var callback = function(tsp){			
+		
+      $('#progressbarDialog').dialog('close');
+      
+      if(tsp.isAborted() !== true){
+       	var dirRes = tsp.getGDirections();
+       	
+       	if(window.dirRender !== undefined){
+          dirRender.setMap(null);    	
+       	}
+  			dirRender = new google.maps.DirectionsRenderer({
+  				directions: dirRes,
+  				hideRouteList: true,
+  				map: map,
+  				panel: null,
+  				preserveViewport: false,
+  				suppressInfoWindows: true,
+  				suppressMarkers: true });
+  	  } 
+		};  
+  
+  
+
+  if(tsptype === "round"){    
+    tsp.solveRoundTrip(callback);
+  } else if(tsptype === "atoz"){
+    tsp.solveAtoZ(callback);
+  }
+  
+}
+
+
+function onProgressCallback(tsp) {
+  $("#progressbar").progressbar({value:(100*tsp.getNumDirectionsComputed())/tsp.getNumDirectionsNeeded()});
+  $(".ui-progressbar-text").html(tsp.getNumDirectionsComputed() + " out of " + tsp.getNumDirectionsNeeded());
+}
+
+
+function showProgressdialog(){
+  
+  $("#progressbar").progressbar({value:15});
+  
+  $("#progressbarDialog").dialog({
+    bgiframe: true,
+    autoOpen: true,
+    resizable: false,
+    closeOnEscape: true,
+    modal: true,
+    position: 'center',
+    // ['left','bottom'] // [100,100]
+    height: 200,
+    width: 420,
+   /* minHeight: 200,
+    minWidth: 300,
+    maxHeight: 600,
+    maxWidth: 800,*/
+    dialogClass: 'gct_dialog',
+    title: 'calculating routes - please wait',
+   // show: 'drop',
+    // blind, drop, scale
+    zIndex: 2000,
+    buttons:{
+        'Close': {
+            text: 'Cancel',
+            disabled: false,
+            click: function() {
+              tsp.abort();
+              $(this).dialog('close');
+            }
+        }
+     }
+});
+
 }
 
 function setGeocaches(map, tsp, geocaches){

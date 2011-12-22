@@ -24,7 +24,7 @@ $.gctour.i18n.en = {
   'pleaseWait' : 'Please wait - loading data ...',
   'newList' : 'New Tour',
   'sendToGps' : 'Send to GPS',
-  'makeMap' : 'Make map',  
+  'makeMap' : 'View on map',  
   'makeMapWait' : 'Testing availablity of this map',
   'printview' : 'Printview',
   'downloadGpx' : 'Download GPX',

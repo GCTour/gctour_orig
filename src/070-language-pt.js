@@ -24,7 +24,7 @@ $.gctour.i18n.pt = {
   'pleaseWait' : 'Por favor aguarde - a carregar conte&#250;do ...',
   'newList' : 'Nova Rota',
   'sendToGps' : 'Enviar para o GPS',
-  'makeMap' : 'Criar mapa',  
+  'makeMap' : 'Visualizar no mapa',  
   'makeMapWait' : 'A testar disponibilidade deste mapa',
   'printview' : 'Modo de impress&#227;o',
   'downloadGpx' : 'Transferir GPX',

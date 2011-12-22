@@ -24,7 +24,7 @@ $.gctour.i18n.nl = {
   'pleaseWait' : 'Even geduld  - gegevens worden geladen ...',
   'newList' : 'Nieuwe toer',
   'sendToGps' : 'Naar GPS versturen',
-  'makeMap' : 'Kaart aanmaken',  
+  'makeMap' : 'Bekijk op de kaart',  
   'makeMapWait' : 'Beschikbaarheid kaart wordt getest',
   'printview' : 'Afdrukweergave',
   'downloadGpx' : 'GPX downloaden',

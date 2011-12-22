@@ -12,20 +12,12 @@ getOverlay(options);
 
 */
 
-function removeNode(id,theDocument){
-  try{
-    var node = theDocument.getElementById(id);
-     dojo.destroy(node);
-
-    //node.parentNode.removeChild(node);
-  } catch(e){} // prevent error if id doesn't exist
-}
-
 function closeOverlayRemote(theDocument){
   return function(){
-    removeNode("dialogMask",theDocument);
-    removeNode("dialogBody",theDocument);
-    removeNode("progressOverlay",theDocument);
+    $(theDocument)
+      .find("#dialogMask").remove().end()
+      .find("#dialogBody").remove().end()
+      .find("#progressOverlay").remove();
   };
 }
 

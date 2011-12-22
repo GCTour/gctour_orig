@@ -24,7 +24,7 @@ $.gctour.i18n.de = {
   'pleaseWait' : 'Bitte warten - Daten werden geladen...',
   'newList' : 'neue Tour erstellen',
   'sendToGps' : 'an GPS senden',
-  'makeMap' : 'Karte erzeugen',
+  'makeMap' : 'Auf Karte anzeigen',
   'makeMapWait' : 'Verfügbarkeit der Karte wird getestet.',
   'printview' : 'Druckansicht',
   'downloadGpx' : 'GPX downloaden',  

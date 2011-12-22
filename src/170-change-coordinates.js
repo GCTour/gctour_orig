@@ -128,30 +128,42 @@ StaticMap.prototype.build = function(){
 };
 
 function changeCoordinates(coordinates){
-  var coordinates_org;
-  var coordinates_ele = dojo.byId('uxLatLon');
-  try{
-    coordinates_org = coordinates_ele.textContent.split("(")[1].split(")")[0];
+  var coordinates_org, showLink;
+  var coordinates_ele = $('#uxLatLon');
+
+  try {
+    coordinates_org = coordinates_ele.text().split("(")[1].split(")")[0];
   } catch(e){
-    coordinates_org = coordinates_ele.textContent;
+    coordinates_org = coordinates_ele.text();
   }
 
-  if(!coordinates){
-    coordinates_ele.innerHTML = coordinates_org;
+  if (!coordinates) {
+    coordinates_ele.html(coordinates_org);
   } else {
-    coordinates_ele.innerHTML = "<div style='font-weight:bold;'>"+coordinates+"&nbsp;&nbsp;-&nbsp;&nbsp;changed by GCTour <small><a style='cursor:pointer'>"+$.gctour.lang('makeMap')+"</a></small></div><small>("+coordinates_org+")</small>";
-    var showLink = coordinates_ele.getElementsByTagName('a')[0];
+    coordinates_ele.html("<div style='font-weight:bold;'>" + coordinates +
+      "&nbsp;&nbsp;-&nbsp;&nbsp;changed by GCTour <small><a style='cursor:pointer'>" + $.gctour.lang('makeMap') +
+      "</a></small></div><small>("+coordinates_org+")</small>");
 
-    showLink.addEventListener('click', function(){
+    showLink = coordinates_ele.find('a:first');
+
+    showLink.bind('click', function(){
       var overlay = getOverlay({caption:$.gctour.lang('settings_map'),minimized:true});
 
-      var originalCoordinates = parseCoordinates(coordinates_org);
-      var newCoordinates = parseCoordinates(coordinates);
+      var origCoordinates = parseCoordinates(coordinates_org);
+      var newCoordinates  = parseCoordinates(coordinates);
 
-      var gc_type = dojo.query('a[href="/about/cache_types.aspx"] > img')[0].src.split("/")[5].split(".")[0];
-      var staticMap = new StaticMap(overlay,{lat:originalCoordinates._lat,lon:originalCoordinates._lon,newLat:newCoordinates._lat,newLon:newCoordinates._lon,width:475,height:300,geocache_type:gc_type});
-
-    }, false);
+      var srcArr = $("img:first", "a[href='/about/cache_types.aspx']").attr("src").split("/");
+      var gc_type = srcArr[srcArr.length-1].split(".")[0];
+      var staticMap = new StaticMap(overlay, {
+        lat: origCoordinates._lat,
+        lon: origCoordinates._lon,
+        newLat: newCoordinates._lat,
+        newLon: newCoordinates._lon,
+        width: 475,
+        height: 300,
+        geocache_type: gc_type
+      });
+    });
   }
 }
 
@@ -178,7 +190,7 @@ function openChangeCoordinates(){
   td.style.width = '20%';
   td.textContent = $.gctour.lang('originalCoordinates');
 
-  var coordinates = dojo.byId('uxLatLon').textContent;
+  var coordinates = $('#uxLatLon').text();
 
   try{
     coordinates = coordinates.split("(")[1].split(")")[0];

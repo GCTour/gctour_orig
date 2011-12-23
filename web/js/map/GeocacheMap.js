@@ -423,7 +423,7 @@ function initialize() {
 
 function calculateTSP(tsptype){
     if(tsp.isAborted() === true){
-      alert("Sorry but an canceled calculation is blocked until you reload this page!");
+      alert("Sorry but a canceled calculation is blocked until you reload this page!");
   	  return; 
     }  
   
@@ -494,11 +494,12 @@ function showProgressdialog(){
     bgiframe: true,
     autoOpen: true,
     resizable: false,
-    closeOnEscape: true,
+    closeOnEscape: false,
+    open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
     modal: true,
     position: 'center',
     // ['left','bottom'] // [100,100]
-    height: 200,
+    height: 160,
     width: 420,
    /* minHeight: 200,
     minWidth: 300,

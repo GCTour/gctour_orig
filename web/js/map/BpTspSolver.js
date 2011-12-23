@@ -912,7 +912,7 @@ var currQueueNum = 0;
     };
     
      BpTspSolver.prototype.isAborted = function(){
-     return  abor;;
+     return  abort;
     }
     BpTspSolver.prototype.abort = function(){
       abort=true;

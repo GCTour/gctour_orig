@@ -1,23 +1,26 @@
-function extendCacheTableRow(info){
+function extendCacheTableRow(info){ // old Map only
 
-  var row = dojo.byId('ctRow'+info.mrkrIndex);
-  var tds =  dojo.query('td',row);
-  var lastTd = tds[2];
+  var row = $('#ctRow' + info.mrkrIndex);
+  var tds =  $('td', row);
+  var lastTd = tds.eq(3);
 
-  var addToTourButton = document.createElement('img');
-    addToTourButton.src = addToTourImageString;
-    addToTourButton.style.cursor = 'pointer';
-    addToTourButton.style.cssFloat = 'right';
-    addToTourButton.addEventListener('click',addCacheToTourFromMap('http://www.geocaching.com/seek/cache_details.aspx?wp='+info.waypointId),false);
-    addToTourButton.title = $.gctour.lang('addToTour');
-    addHoverEffects(addToTourButton);
+  var addToTourButton = $('<img>', {
+    "src": addToTourImageString,
+    "title": $.gctour.lang('addToTour'),
+    "css": {
+      "cursor": "hand", //pointer
+      "float": "left"
+    },
+    click: function(e) {
+      e.stopPropagation();
+      addCacheToTourFromMap('http://www.geocaching.com/seek/cache_details.aspx?wp=' + info.waypointId);
+    }
+  });
 
-  lastTd.insertBefore(addToTourButton,lastTd.firstChild);
-
-  //append(addToTourButton,lastTd);
+  lastTd.prepend(addToTourButton);
 }
 
-function gctourMapFunction(){
+function gctourMapFunction(){ // old Map only
   // check if completly loaded
   if (unsafeWindow.isLoaded === false) { return; }
 
@@ -40,10 +43,10 @@ function gctourMapFunction(){
     }
   }
 //  unsafeWindow.$('spanCacheCount').update(cnt);
-  unsafeWindow.setMapLabelDisplay(dojo.byId('chkShowNumbers').checked);
+  unsafeWindow.setMapLabelDisplay($('#chkShowNumbers').is(':checked'));
 
   //With opera GCTour breaks the GCVote script (no stars on the map) -> let us fix this!
-  if(isOpera)  {
+  if (isOpera) {
     //For GCVote Map-Compatibility
     var cb=document.getElementById("autoupdatemapinput");
     if(cb) {
@@ -62,7 +65,6 @@ function evaluateTemplate(obj,template){
   for (i in obj) {
     template = template.replace(new RegExp("#{"+i+"}","g"),obj[i]);
   }
-
   return template;
 }
 
@@ -112,23 +114,40 @@ function gctourBuildCDPage(id) {
       cdr_template += '<div class="links"><a href="../bookmarks/mark.aspx?guid=#{cg}&WptTypeID=#{ci}" target="_blank" class="lnk"><img src="../images/silk/book_add.png" align="absmiddle" border="0"> <span>Bookmark It</span></a> | <a href="javascript:void(0);" onclick="send2gps(\'#{cg}\');return false;" class="lnk"><img src="../images/sendtogps/sendtogps_icon.png" align="absmiddle" border="0"> <span>Send to GPS</span></a> | <a href="../seek/log.aspx?guid=#{cg}" target="_blank" class="lnk"><img src="../images/silk/comment_add.png" align="absmiddle" border="0"> <span>Log Visit</span></a></div>';
     }
 
-    var detailsHtml = dojo._toDom(evaluateTemplate(jsonData.cs,cdr_template));
+    //alert($(evaluateTemplate(jsonData.cs,cdr_template)).html());
+    var detailsHtml = $(evaluateTemplate(jsonData.cs,cdr_template));
 
-    var addToTourLink = document.createElement('a');
-    addToTourLink.style.cursor = 'pointer';
-    addToTourLink.style.cssFloat = 'right';
+    var addToTourLink = $('<a>', {
+      id: "oldMap_AddToTourLink_" + jsonData.cs.cg, // mit guid
+      "src": addToTourImageString,
+      "title": $.gctour.lang('addToTour'),
+      "css": {
+        "cursor": "pointer",
+        "float": "right"
+      },
+      "html": "&nbsp;<span style='text-decoration:underline'>" + $.gctour.lang('addToTour') + "</span>"
+    });
 
-    var addToTourButton = document.createElement('img');
-    addToTourButton.src = addToTourImageString;
-    addToTourButton.title = $.gctour.lang('addToTour');
-    append(addToTourButton,addToTourLink);
+    var addToTourButton = $('<img>', {
+      "src": addToTourImageString,
+      "title": $.gctour.lang('addToTour'),
+      "css": {
+        "cursor": "hand", //pointer
+        "float": "left"
+      }
+    });
 
-    addToTourLink.innerHTML = addToTourLink.innerHTML +"&nbsp;<span style='text-decoration:underline'>"+ $.gctour.lang('addToTour')+"</span>";
-    addToTourLink.addEventListener('click', addElementFunction(jsonData.cs.cgc,jsonData.cs.cg,jsonData.cs.cn,jsonData.cs.ci+".gif"), false);
-    append(addToTourLink,dojo.query("div[id='mapAddButton']",detailsHtml)[0]);
+    addToTourLink.prepend(addToTourButton);
+    $("div#mapAddButton", detailsHtml).eq(0).append(addToTourLink);
 
-    unsafeWindow.mrker.openInfoWindowHtml(detailsHtml);
+    unsafeWindow.mrker.openInfoWindowHtml(detailsHtml.html());
     unsafeWindow.dlgStatusBar.hide();
+
+    // nachträglich click event setzen zu dem jeweiligem Cache
+    $("#oldMap_AddToTourLink_" + jsonData.cs.cg).live("click", {jsonData: jsonData}, function(e) {
+      e.stopPropagation();
+      addElementFunction(jsonData.cs.cgc, jsonData.cs.cg, jsonData.cs.cn, jsonData.cs.ci + ".gif")();
+    });
 
   });
 

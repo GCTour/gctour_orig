@@ -1,24 +1,20 @@
-function addCacheToTourFromMap(cacheUrl){
-  return function(e)
-  {
-    e.stopPropagation();
-    var req = new XMLHttpRequest();
+function addCacheToTourFromMap(cacheUrl){ // old Map only
+  var req = new XMLHttpRequest();
 
-    var myUrl = cacheUrl;
-    //var myUrl = 'http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[i].guid;
-    req.open("GET", myUrl, false);
-    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    // execute the request synchron
-    req.send(null);
-    // after execution parse the result
-    var responseDetails = req;
+  var myUrl = cacheUrl;
+  //var myUrl = 'http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[i].guid;
+  req.open("GET", myUrl, false);
+  req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+  // execute the request synchron
+  req.send(null);
+  // after execution parse the result
+  var responseDetails = req;
 
-    var cacheDetails = document.createElement('div');
-    cacheDetails.innerHTML = responseDetails.responseText;
+  var cacheDetails = document.createElement('div');
+  cacheDetails.innerHTML = responseDetails.responseText;
 
-    var minimal_geocache = getMinimalGeocacheDetails(cacheDetails);
-    addElementFunction(minimal_geocache.gccode,minimal_geocache.guid,minimal_geocache.name,minimal_geocache.type)();
-  };
+  var minimal_geocache = getMinimalGeocacheDetails(cacheDetails);
+  addElementFunction(minimal_geocache.gccode,minimal_geocache.guid,minimal_geocache.name,minimal_geocache.type)();
 }
 
 function getEntryFromBookmarkTd(bmLine){

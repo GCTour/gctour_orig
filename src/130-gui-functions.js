@@ -22,7 +22,7 @@ function handleResize(e) {
   var container_height = $(window).height() - 55;
   var tourheader_height;
   var list_height;
-  
+
   // const
   var header_height  = 40;
   var toolbar_height = 20;
@@ -42,90 +42,46 @@ function handleResize(e) {
   $('#cacheList').parent().css("height", list_height );
 }
 
-function toggleSettingsFunction(){
-  return function(){
-    var tourSettingsDiv = dojo.byId('tourSettingsDiv');
-    if (tourSettingsDiv.style.display == 'none'){
-      dojo.fx.wipeIn({
-        node: tourSettingsDiv,
-        duration: 400
-      }).play();
-       } else {
-      dojo.fx.wipeOut({
-        node: tourSettingsDiv,
-        duration: 400
-      }).play();
-    }
-  };
-}
-
-function toggleTourListFunction(){
-  return function(){
-    var tourlistDiv = dojo.byId('tourlistDiv');
-    if (tourlistDiv.style.display == 'none'){
-      dojo.fx.wipeIn({
-        node: tourlistDiv,
-        duration: 400
-      }).play();
-       } else {
-      dojo.fx.wipeOut({
-        node: tourlistDiv,
-        duration: 400
-      }).play();
-    }
-  };
-}
-
 function updateGUI(){
-    var cacheList, i, table;
+  var cacheList, i, table;
 
   // update the cache count
   updateCacheCount(currentTour.geocaches.length);
   // update tourName
-  dojo.byId("tourName").innerHTML = currentTour.name;
+  $("#tourName").html(currentTour.name);
 
   // update webcode
-  var webcodeSpan = dojo.byId("webcode");
+  var webcode = $("#webcode");
 
   if(currentTour.webcode){
-    webcodeSpan.innerHTML = "<br/>Webcode:<b>"+currentTour.webcode+"</b></span>";
-    webcodeSpan.style.display = "inline";
+    webcode
+      .html("<br/>Webcode:<b>" + currentTour.webcode + "</b></span>")
+      .show();
   } else {
-    webcodeSpan.style.display = "none";
+    webcode.hide();
   }
 
-  cacheList = document.getElementById('cacheList');
-  cacheList.innerHTML = "";
+  cacheList = $('#cacheList');
+  cacheList.html("");
+
   // popultate the current list on load
   for (i = 0; i < currentTour.geocaches.length; i++){
-    addNewTableCell(currentTour.geocaches[i],false);
+    addNewTableCell( currentTour.geocaches[i], false );
   }
 
-  table = dojo.byId('cacheList');
   if(currentTour.geocaches.length <= 0){
-    table.innerHTML = $.gctour.lang('emptyList');
+    cacheList.html($.gctour.lang('emptyList'));
   }
 
   handleResize();
 
-  var deleteButton = dojo.byId('gctourDeleteButton');
+  var deleteButton = $('#gctourDeleteButton');
   if(tours.length == 1 && deleteButton){
-    deleteButton.style.display = "none";
+    deleteButton.hide();
   } else {
-    deleteButton.style.display = "inline";
+    deleteButton.show();
   }
 
-  // make the gectour menu sticky if it is set
-/*  sticky = GM_getValue('sticky',false);
-  if(sticky){
-    dojo.byId('gctourContainer').style.left = "0px";
-  } else {
-    dojo.byId('gctourContainer').style.left = "-210px";
-  }
-  *
-  *
-  * TODO need more work - maybe in the next version
-  */
 }
 
 // ToDo: switch to $.fn.addOpacityEffects
@@ -238,14 +194,16 @@ function downloadGPXFunction(){
 }
 
 function sendToGPS(){
-  var dataStringElement, tourName, currentDate, currentDateString;
+  var dataStringElement, tourName, d, currentDateString;
 
   // add the overlay while loading
   addProgressbar();
-  // fix width and height of the header
-  dojo.query('div[id="dialogBody"] > h1')[0].style.width = "486px";
-  dojo.query('div[id="dialogBody"] > h1')[0].style.height = "14px";
 
+  // fix width and height of the header
+  $("div#dialogBody").find("h1").css({
+    width:  486,
+    height: 14
+  });
 
   // first time send to GPS is clicked: Accept the License
   var accept_input = document.getElementById('chkAccept');
@@ -262,8 +220,8 @@ function sendToGPS(){
     return;
   }
 
-  dojo.byId('uxGPSProviderTabs').innerHTML = "<tbody><tr><td>GCTOUR: GARMIN ONLY</td></tr></tbody>";
-  dojo.destroy('premiumUpsellMessage');
+  $('#uxGPSProviderTabs').html("<tbody><tr><td>GCTOUR: GARMIN ONLY</td></tr></tbody>");
+  $('#premiumUpsellMessage').remove();
 
   try{
     dataStringElement = document.getElementById('dataString');
@@ -276,10 +234,11 @@ function sendToGPS(){
 
     tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
 
-    currentDate =  new Date();
-    currentDateString =  currentDate.getFullYear()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getDate()+"_"+currentDate.getHours()+"-"+currentDate.getMinutes()+"-"+currentDate.getSeconds();
+    d = new Date();
+    currentDateString = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() +
+                        "_" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
 
-    dojo.byId('cacheID').value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
+    $('#cacheID').val('GCTour.' + tourName + '.' + currentDateString + '.gpx');
 
     // all done - remove the overlay
     closeOverlay();
@@ -336,11 +295,11 @@ function makeMapFunction(){
   if(isLogedIn() && isNotEmptyList()){
     // add the overlay while loading
     addProgressbar({caption:$.gctour.lang('makeMapWait')});
-   
+
 
     for (cache_i = 0; cache_i < currentTour.geocaches.length; ++cache_i){
       var marker = currentTour.geocaches[cache_i];
-             
+
       if(marker.id){
         gcIds.push(marker.id);
         allIds.push(marker.id);
@@ -353,47 +312,47 @@ function makeMapFunction(){
     post(GCTOUR_HOST+'/map/check/',"gcIds="+gcIds.join(",")+"&wptIds="+wptIds.join(","),function(response){
       try{
         result = JSON.parse(response);
-        
+
         if(result.missing_wptIds.length == 0 && result.missing_gcIds.length == 0){ // map is completly available in appengine
           GM_openInTab(getMapUrl(allIds.join(","))+"#gui");
           closeOverlay();
         } else {
             var geocaches = [];
             var costumMarkers = [];
-            
+
             if(result.missing_gcIds.length > 0){
               for (cache_i= 0; cache_i < result.missing_gcIds.length; cache_i++){
-                var temp =  getMapGeocache(result.missing_gcIds[cache_i]);            
+                var temp =  getMapGeocache(result.missing_gcIds[cache_i]);
                 if(temp){
                   geocaches.push(temp);
                 }
-                
+
                 setProgress(cache_i,result.missing_gcIds.length+result.missing_wptIds.length-1,document);
               }
             }
-            
-            
+
+
             if(result.missing_wptIds.length > 0){
               for (cache_i = 0; cache_i < result.missing_wptIds.length; cache_i++){
                 costumMarkers.push(getMapMarker(result.missing_wptIds[cache_i]));
-                
+
                 setProgress(cache_i+result.missing_gcIds.length
                   ,result.missing_gcIds.length+result.missing_wptIds.length-1,document);
               }
             }
-            
+
             var cacheObject = {};
             cacheObject.geocaches = geocaches;
             cacheObject.costumMarkers = costumMarkers;
-           
-            
+
+
             uploadMap(cacheObject, makeMapFunction);
-          
+
         }
-        
-        
+
+
       } catch(e){addErrorDialog({caption:"Temporary map error", _exception:e});}
-   
+
     });
 /*
     get(GCTOUR_HOST+'/map/check/'+,
@@ -459,11 +418,11 @@ function upload(tour){
           var tourServer = JSON.parse(text);
           // after an error you get this result, eg:
           // {"message":"wrong password","type":"error"}
-  
+
           // only if the result is a message
           if(tourServer.message && tourServer.type == "error"){
               var pw = prompt("falsches Passwort - bitte richtiges eingeben");   // TODO !!! LANGUAGES!!
-  
+
               //if pw is empty or dialog closed
               if(!pw){
                 closeOverlay();
@@ -475,26 +434,26 @@ function upload(tour){
             alert(tourServer.message);
             closeOverlay();
           } else {   // result is a tour and could be saved  - all done
-  
-  
+
+
             // remaind to local id!!
             tourServer.id = tour.id;
-  
+
             // and the password
             tourServer.password = tour.password;
-  
-  
+
+
             currentTour = tourServer;
             saveCurrentTour();
-  
+
             checkOnlineConsistent(currentTour);
-  
-  
+
+
             updateTour();
-  
+
             closeOverlay();
-  
-  
+
+
             var codeString = $.gctour.lang('tourUploaded1')+currentTour.webcode+$.gctour.lang('tourUploaded2');
             alert(codeString);
           }
@@ -779,7 +738,7 @@ function downloadTourFunction(webcode){
     var booIsJson   = isJSON(response.responseText); // is response json ?
 
     if (!booResponse || !booIsJson) {
-      alert("webcode '" + webcode + "' could not be loaded.\n" + 
+      alert("webcode '" + webcode + "' could not be loaded.\n" +
         response.status + ", " + response.statusText + ((booIsJson) ? "" :  ", format is not valid"));
       closeOverlay();
       return false;

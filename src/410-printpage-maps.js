@@ -231,6 +231,118 @@ function getMapControl(mapQuery,map_frame){
   //~ return map_container;
 }
 
+(function( $ ){
+
+    var methods = { 
+      init : function( options ) {
+        var settings = $.extend( {
+              'min'         : '0',
+              'max' : '100'
+            }, options),
+            scroller_element = $("<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>")
+              .appendTo( this ),
+            dragged = false,
+            slider_width = 0,
+            slider_offset = 0,
+            percentage = 0,
+            self = this;
+                  
+        scroller_element
+          .click(function( event ) {  
+            event.preventDefault();
+          })
+          .hover(
+            function() { $( this ).addClass( "ui-state-hover" );},
+            function() { $( this ).removeClass( "ui-state-hover" );})
+          .focus(function() {
+            $( ".ui-slider .ui-state-focus" ).removeClass( "ui-state-focus" );
+            $( this ).addClass( "ui-state-focus" );
+          })
+          .blur(function() {
+            $( this ).removeClass( "ui-state-focus" );
+          })
+          .mousedown(function(e){	
+            e.preventDefault();
+            dragged = true;
+            
+        		slider_width = parseInt(self.css("width"));        
+        		slider_offset = parseInt(self.offset().left);
+              
+        		scroller_element.addClass( "ui-state-active" );
+        		methods["trigger"].apply( self, ["start", methods["calculate"].apply( self, [percentage])]);       		
+        	});   
+        
+        this.addClass('ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all')
+          .append(scroller_element);
+       
+       	$('*').mousemove(function(e){	
+      	  if(dragged){
+      	    e.preventDefault();
+      	    percentage = (100*(e.pageX-slider_offset))/(slider_width);
+            percentage = (percentage<0)?0:percentage;
+            percentage = (percentage>100)?100:percentage;
+                    
+//            debug("MousePos:"+e.pageX+"\tSliderWidth:"+slider_width+"\tSliderOffset:"+slider_offset+"\tMove to:"+percentage);
+            
+           
+            scroller_element.css("left", (percentage)+"%");
+            
+            methods["trigger"].apply( self, ["slide", methods["calculate"].apply( self, [percentage])]);  
+      	  }
+      	});
+      	
+      	
+        $('*').mouseup(function(){
+          if(dragged){
+    			  dragged = false;
+    			  scroller_element.removeClass( "ui-state-active" );
+    			  methods["trigger"].apply( self, ["stop", methods["calculate"].apply( self, [percentage])]);    
+//    			  methods["trigger"].apply( self, {value:percentage});
+    			}
+    		}); 
+      	
+      	     
+        this.data('gct_slider', {
+          target : $(this),
+          settings : settings
+        });  
+        
+     
+        return this;    
+      },
+      calculate : function(percentage) {
+       var $data = $(this).data('gct_slider'),
+           max = $data.settings.max,
+           min = $data.settings.min,
+           relative_value = (percentage*(max-min))/100,
+           value = min + relative_value;
+//       log("relative_value"+ relative_value+ "\tvalue:"+value);
+       return {percentage:percentage,value:value};
+      },
+      trigger : function(type,data){
+        var $data = $(this).data('gct_slider');
+            callback = $data.settings[type],
+            data = data || {};
+          
+            
+         return !($.isFunction( callback ) &&
+                    callback.apply(this, [ data ]) === false)
+     }   
+   }
+   
+   $.fn.gct_slider = function( method ) {
+     if ( methods[method] ) {
+       return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+     } else if ( typeof method === 'object' || ! method ) {
+       return methods.init.apply( this, arguments );
+     } else {
+       $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+     }  
+   };
+ 
+})( $ );
+
+
 function getMapElement(mapQuery) {
 
   var map_container = createElement('div',{style:"text-align: center; margin-left: auto; margin-right: auto;"});

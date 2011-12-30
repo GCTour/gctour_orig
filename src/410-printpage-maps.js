@@ -109,6 +109,13 @@ function getMapControl(mapQuery,map_frame){
         $('<input type="radio" name="mapsize" value="0.5">small</input>')   
           .click(resizeFunction)  
       ),
+      $('<li/>').text("Mapheight super slider:").append(
+        $("<div/>").gct_slider({
+          min:100,
+          max:700,
+          slide:function(values){map_frame.style.height=values.value+"px";}         
+          })
+      ),
       $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')   
         .css('background','url("'+deleteImageString+'") top left no-repeat')  
         .css('padding-left','18px')
@@ -275,7 +282,7 @@ function getMapControl(mapQuery,map_frame){
         this.addClass('ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all')
           .append(scroller_element);
        
-       	$('*').mousemove(function(e){	
+       	this.mousemove(function(e){	
       	  if(dragged){
       	    e.preventDefault();
       	    percentage = (100*(e.pageX-slider_offset))/(slider_width);
@@ -292,7 +299,7 @@ function getMapControl(mapQuery,map_frame){
       	});
       	
       	
-        $('*').mouseup(function(){
+        this.mouseup(function(){
           if(dragged){
     			  dragged = false;
     			  scroller_element.removeClass( "ui-state-active" );

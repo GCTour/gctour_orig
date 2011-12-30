@@ -547,49 +547,70 @@ function sendMessageDialog(){
 }
 
 function populateTours(){
-  var tourList = dojo.byId('dialogListContainer');
-  tourList.innerHTML = "";
+  var tour, tourListLi, tourLink, tourIt;
 
-  var tourListUl = createElement('ul');
-  tourListUl.setAttribute("class", "dialogList");
-  append(tourListUl,tourList);
+  var tourList = $('#dialogListContainer');
+  tourList.html("");
 
-  //construct tour list
-  for (var tourIt = 0; tourIt<tours.length; tourIt++){
-    var tour = tours[tourIt];
-    var tourListLi = createElement('li',{id:"tour"+tour.id});append(tourListLi,tourListUl);
-    var tourLink;
+  var tourListUl = $('<ul>', {
+    "class": "dialogList"
+  });
+  tourList.append(tourListUl);
+
+  // construct tour list
+  for (tourIt = 0; tourIt < tours.length; tourIt++){
+    tour = tours[tourIt];
+    tourListLi = $('<li>', {
+      id: "tour" + tour.id
+    });
+    tourListUl.append(tourListLi);
+
+    tourLink = $('<a>',{
+      "css":{
+        "cursor": "pointer",
+        "font-size": 10,
+        "color": "#003399"
+      },
+      html: tour.name + "&nbsp;<small>(" + tour.geocaches.length + ")</small>"
+    })
+    .bind('click', {tour: tour}, function(e){
+      showCacheList(e.data.tour)();
+    });
+
     // make the current Tour not clickable nor deletable!
-
-    tourLink = createElement('a',{style:"cursor:pointer;font-size:10px;color:#003399"});
-    tourLink.innerHTML = tour.name+"&nbsp;<small>("+tour.geocaches.length+")</small>";
-
-    if(tour.id == currentTour.id){
+    if (tour.id == currentTour.id) {
       //~ tourListLi.setAttribute("class", "activeTour");
-      tourLink.innerHTML = "<b>"+tourLink.innerHTML+"</b>";
+      tourLink.css({'font-weight' : 'bolder'});
     } else {
-      //~ var deleteButton = document.createElement('img',{title:$.gctour.lang('removeTour'),src:""+deleteImageString,style:"cursor:pointer;margin-right:5px:float:right;"});
+      var deleteButton = $('<img>',{
+        title: $.gctour.lang('removeTour'),
+        src: deleteImageString,
+        "css": {
+          "cursor": 'pointer',
+          "margin-right": 3,
+          "float": 'right'
+        }
+      })
+      .bind('click', {tour: tour}, function(e){
+        alert(e.data.tour.id);
+        deleteTourFunction(e.data.tour.id)();
+      });
 
-      var deleteButton = document.createElement('img');
-      deleteButton.title = $.gctour.lang('removeTour');
-      deleteButton.src = deleteImageString;
-      deleteButton.style.cursor = 'pointer';
-      deleteButton.style.marginRight = '5px';
-      deleteButton.style.cssFloat = 'right';
-
-      deleteButton.addEventListener('click',deleteTourFunction(tours[tourIt].id), false);
-      append(deleteButton,tourListLi);
-
+      tourListLi.append(deleteButton);
     }
 
-    if(tour.webcode){
-      var webImage = createElement('img',{src:globeImage,style:"float:left;margin-right:3px;"});
-      tourLink.appendChild(webImage);
+    if (tour.webcode) {
+      var webImage = $('<img>',{
+        src: globeImage,
+        "css": {
+          "float": "left",
+          "margin-right": 3
+        }
+      });
+      tourLink.append(webImage);
     }
 
-    tourLink.addEventListener('click', showCacheList(tour),false);
-    append(tourLink,tourListLi);
-
+    tourListLi.append(tourLink);
   }
 }
 
@@ -682,9 +703,9 @@ function showCacheList(tour){
     loadButton.removeAttribute('disabled');
 
     // first remove all active tour css classes
-    dojo.query("ul[class='dialogList'] > li").removeClass("activeTour");
+    $("ul.dialogList > li").removeClass("activeTour");
     //and then set it to the clicked
-    document.getElementById('tour'+tour.id).setAttribute("class", "activeTour");
+    $('#tour' + tour.id).addClass("activeTour");
   };
 }
 
@@ -704,7 +725,7 @@ function openTourDialog(){
 
   var loadButton = createElement('input',{type:"button",value:$.gctour.lang('load'),disabled:"",id:"loadButton",style:"background-image:url("+openTourImageString+")"});append(loadButton,buttonsDiv);
     loadButton.addEventListener('click', function(){
-      var id = dojo.byId("dialogDetails").getAttribute("tourid");
+      var id = $("#dialogDetails").attr("tourid"); // ToDo: to $().data
       loadTour(id)();
       closeOverlay();
     }, false);
@@ -713,7 +734,6 @@ function openTourDialog(){
   showCacheList(currentTour)();
 
   loadButton.setAttribute("disabled","disabled");
-
 }
 
 function downloadTourFunction(webcode){
@@ -792,8 +812,8 @@ function downloadTourDialog(){
 
   var downloadButton = createElement('input',{type:"button",value:$.gctour.lang('webcodeDownloadButton'),style:"background-image:url("+downloadImageString+")"});append(downloadButton,divEbene);
   downloadButton.addEventListener('click',function(){
-    var webcode = trim(dojo.byId('webcodeInput').value);
-    if(webcode == "") {return; }
+    var webcode = $.trim($('#webcodeInput').val());
+    if (webcode == "") { return; }
     downloadTourFunction(webcode);
   },false);
 

@@ -48,3 +48,25 @@
   background: -o-linear-gradient(top,  rgba(255,50,50,1) 0%,rgba(255,153,153,1) 3px,rgba(255,255,255,1) 10px); /* Opera 11.10+ */
   background: linear-gradient(top,  rgba(255,50,50,1) 0%,rgba(255,153,153,1) 3px,rgba(255,255,255,1) 10px); /* W3C */
 }
+
+/*
+* GCTour Slider
+*/
+
+.gct_scrollbar {
+    background-color:pink;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.gct_scroller{
+    background-color:lime;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20px;  
+}

@@ -414,8 +414,8 @@ function addElementFunction(theId, theGuId, theName, theTypeImage){
 
       // split the src an take only x.gif
       //~ var typeGif = theTypeImage.getAttribute('src').split("/")[3];
-      var typeGif = theTypeImage;
-      entry.image = 'http://www.geocaching.com/images/WptTypes/sm/'+typeGif;
+      var typeGif = theTypeImage.replace("http://www.geocaching.com/images/WptTypes/sm/", ""); // ggf. schon komplette url kürzen
+      entry.image = 'http://www.geocaching.com/images/WptTypes/sm/' + typeGif;
 
       // add the newbie
       addNewTableCell(entry,true);

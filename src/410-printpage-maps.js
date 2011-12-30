@@ -82,7 +82,7 @@ function getMap(mapQuery){
   return map_frame;
 }
 
-function getMapControl(mapQuery,map_frame){
+function getMapControl(mapQuery,map_frame,newDocument){
   
   
 
@@ -113,6 +113,7 @@ function getMapControl(mapQuery,map_frame){
         $("<div/>").gct_slider({
           min:100,
           max:700,
+          document: newDocument,
           slide:function(values){map_frame.style.height=values.value+"px";}         
           })
       ),
@@ -244,7 +245,9 @@ function getMapControl(mapQuery,map_frame){
       init : function( options ) {
         var settings = $.extend( {
               'min'         : '0',
-              'max' : '100'
+              'max' : '100',
+              'document': document,
+              'value' : 0
             }, options),
             scroller_element = $("<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>")
               .appendTo( this ),
@@ -282,7 +285,7 @@ function getMapControl(mapQuery,map_frame){
         this.addClass('ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all')
           .append(scroller_element);
        
-       	this.mousemove(function(e){	
+       $('*',settings.document).mousemove(function(e){	
       	  if(dragged){
       	    e.preventDefault();
       	    percentage = (100*(e.pageX-slider_offset))/(slider_width);
@@ -299,7 +302,7 @@ function getMapControl(mapQuery,map_frame){
       	});
       	
       	
-        this.mouseup(function(){
+        $('*',settings.document).mouseup(function(){
           if(dragged){
     			  dragged = false;
     			  scroller_element.removeClass( "ui-state-active" );
@@ -313,6 +316,8 @@ function getMapControl(mapQuery,map_frame){
           target : $(this),
           settings : settings
         });  
+        
+     
         
      
         return this;    
@@ -350,12 +355,12 @@ function getMapControl(mapQuery,map_frame){
 })( $ );
 
 
-function getMapElement(mapQuery) {
+function getMapElement(mapQuery,newDocument) {
 
   var map_container = createElement('div',{style:"text-align: center; margin-left: auto; margin-right: auto;"});
 
   var map_frame = getMap(mapQuery);
-  map_container.appendChild(getMapControl(mapQuery,map_frame));
+  map_container.appendChild(getMapControl(mapQuery,map_frame,newDocument));
   map_container.appendChild(map_frame);
 
   return map_container;

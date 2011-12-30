@@ -561,7 +561,7 @@ function printPageFunction(currentTour){
                 mapCount += (GM_getValue('printOutlineMapSingle',true))?geocacheCodes.length:0;
 
                 if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false)){
-                  dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery));
+                  dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery,newwindow2.document));
                   setProgress(1,mapCount,newwindow2.document);
                 }
 
@@ -572,7 +572,7 @@ function printPageFunction(currentTour){
                     var mapElement = dojo.query("div[id='MAP_"+geocacheCode+"']",newwindow2.document)[0];
 
                     if(mapElement){
-                      mapElement.appendChild(getMapElement(geocacheCode));
+                      mapElement.appendChild(getMapElement(geocacheCode,newwindow2.document));
                     }
                     setProgress(i+2,mapCount,newwindow2.document);
                   }

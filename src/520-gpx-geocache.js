@@ -591,7 +591,7 @@ function getGPX(){
         maxLat = (maxLat < geocache.latitude)  ? geocache.latitude  : maxLat;
         maxLon = (maxLon < geocache.longitude) ? geocache.longitude : maxLon;
         minLon = (minLon > geocache.longitude) ? geocache.longitude : minLon;
-        minLat = (minLat > geocache.latitude)  ? geocache.latitude  : minLon;
+        minLat = (minLat > geocache.latitude)  ? geocache.latitude  : minLat;
 
         var cacheWaypoint = geocacheTemplate;
         for( ii = 0 ; ii < geocacheMapping.length ; ii++){

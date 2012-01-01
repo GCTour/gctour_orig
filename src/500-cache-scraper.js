@@ -1,6 +1,7 @@
 // source of all evil asking groundspeak
 function getGeocacheFromElement(element){
-  var coordinates;
+  var coordinates, logLink, upper_tables, minimal_geocache;
+  var geocache = {};
 
   /*~
   geocache
@@ -36,26 +37,30 @@ function getGeocacheFromElement(element){
 
   // first check if really logged in
   // default, Challenges + Account + Membership ,Login
-  var logLink = $(element).find('a.SignedInProfileLink, a.CommonUsername, .LoginUsername');
+  logLink = $(element).find('a.SignedInProfileLink, a.CommonUsername, .LoginUsername');
   if (logLink.length === 0) {
     throw $.gctour.lang('notLogedIn');
   }
 
-  var upper_tables = dojo.query('table[id="cacheDetails"] table',element);
+  upper_tables = dojo.query('table[id="cacheDetails"] table',element);
 
-  if(dojo.query('input[id="ctl00_ContentBody_uxPremiumSubmitBottom"]',element)[0]){
+  if (dojo.query('input[id="ctl00_ContentBody_uxPremiumSubmitBottom"]',element)[0]) {
     return "pm only";
   }
 
-  var minimal_geocache = getMinimalGeocacheDetails(element);
+  minimal_geocache = getMinimalGeocacheDetails(element);
 
-  var geocache = {};
   geocache.gcid = minimal_geocache.gccode;
   geocache.cacheid = minimal_geocache.cacheid;
   geocache.guid = minimal_geocache.guid;
   geocache.name = minimal_geocache.name;
   geocache.type =  minimal_geocache.type.split(".")[0];
   geocache.image = "http://www.geocaching.com/images/WptTypes/"+geocache.type+".gif";
+
+  geocache.sym = "Geocache";
+	if ( $('a#ctl00_ContentBody_hlFoundItLog').length >= 1 ) {
+    geocache.sym = "Geocache Found";
+	}
 
   geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
 
@@ -257,7 +262,7 @@ function getGeocacheFromElement(element){
   // hole den UserToken und benutze ihn um die Logs einzusammeln
   var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
   geocache.logs = getLogs(userToken);
-  
+
   log("fn getGeocacheFromElement - geocache.logs.length: " + geocache.logs.length);
 
   return geocache;

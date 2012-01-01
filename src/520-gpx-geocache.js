@@ -29,12 +29,11 @@ function getWaypointsGPXFromGeocache(waypoint,geocache){
 
 function getGPXGeoCache(gcid){
   var i;  // for ()
-
   var geocache      = {},
       geocache_obj  = getGeocache(gcid),
       isGroundspeak = (GM_getValue("gpxschema",0) === 0);
 
-  if(geocache_obj === "pm only"){
+  if (geocache_obj === "pm only") {
     return geocache_obj;
   }
 
@@ -68,7 +67,7 @@ function getGPXGeoCache(gcid){
   */
 
   geocache.gcid = geocache_obj.gcid;
-  if(GM_getValue('gpxstripgc',false)){
+  if (GM_getValue('gpxstripgc', false)) {
     geocache.gcid = geocache.gcid.replace(/GC/,'');
   }
 
@@ -80,17 +79,18 @@ function getGPXGeoCache(gcid){
   geocache.cacheOwner = geocache_obj.owner;
   geocache.cacheType  = geocache_obj.type;
   geocache.cacheSize  = geocache_obj.size;
+  geocache.cacheSym   = geocache_obj.sym;
 
   if(isGroundspeak){
     switch (geocache_obj.type) {
-      case "micro":      geocache.cacheSize = "Micro";break;
-      case "small":      geocache.cacheSize = "Small";break;
-      case "regular":    geocache.cacheSize = "Regular";break;
-      case "large":      geocache.cacheSize = "Large";break;
-      case "other":      geocache.cacheSize = "Other";break;
-      case "not_chosen": geocache.cacheSize = "Not chosen";break;
-      case "virtual":    geocache.cacheSize = "Virtual";break;
-      default:           geocache.cacheType = "";break;
+      case "micro":      geocache.cacheSize = "Micro";      break;
+      case "small":      geocache.cacheSize = "Small";      break;
+      case "regular":    geocache.cacheSize = "Regular";    break;
+      case "large":      geocache.cacheSize = "Large";      break;
+      case "other":      geocache.cacheSize = "Other";      break;
+      case "not_chosen": geocache.cacheSize = "Not chosen"; break;
+      case "virtual":    geocache.cacheSize = "Virtual";    break;
+      default:           geocache.cacheType = "";           break;
     }
   } else {
     // if "Not chosen" is the Cachesize - REMOVE IT!
@@ -256,19 +256,20 @@ function getGPXGeoCache(gcid){
 
   log([
     "--------------[START " + geocache.gcid + "]-------------",
-    "gcid: \t\t"      + geocache.gcid,
-    "cacheName:\t"  + geocache.cacheName,
-    "cacheOwner:\t" + geocache.cacheOwner,
-    "dateHidden:\t" + geocache.dateHidden,
-    "cacheType:\t"  + geocache.cacheType,
-    "cacheSize:\t"  + geocache.cacheSize,
-    "difficulty:\t" + geocache.difficulty,
-    "terrain:\t"    + geocache.terrain,
-    //~ "latLon:\t"    + geocache.latLon.innerHTML,
-    "latitude:\t"   + geocache.latitude,
-    "longitude:\t"  + geocache.longitude,
-    "state:\t\t"      + geocache.state,
-    "country:\t"    + geocache.country,
+    "gcid: \t\t"        + geocache.gcid,
+    "cacheName:\t"      + geocache.cacheName,
+    "cacheSym (GPX):\t" + geocache.cacheSym,
+    "cacheOwner:\t"     + geocache.cacheOwner,
+    "dateHidden:\t"     + geocache.dateHidden,
+    "cacheType:\t"      + geocache.cacheType,
+    "cacheSize:\t"      + geocache.cacheSize,
+    "difficulty:\t"     + geocache.difficulty,
+    "terrain:\t"        + geocache.terrain,
+    //~ "latLon:\t"       + geocache.latLon.innerHTML,
+    "latitude:\t"       + geocache.latitude,
+    "longitude:\t"      + geocache.longitude,
+    "state:\t\t"        + geocache.state,
+    "country:\t"        + geocache.country,
     "shortDescription:\n\n" + geocache.shortDescription,
     "longDescription:\n\n"  + geocache.longDescription,
     //~ "logs:"      + geocache.logs.length,
@@ -308,7 +309,7 @@ function getGPXNew(){
     '    <src>www.geocaching.com</src>' +
     '    <url>http://www.geocaching.com/seek/cache_details.aspx?wp=##GCID##</url>' +
     '    <urlname>##CACHENAME##</urlname>' +
-    '    <sym>Geocache</sym>' +
+    '    <sym>##CACHESYM##</sym>' +
     '    <type>Geocache</type>' +
     '    <geocache status="Available" xmlns="http://geocaching.com.au/geocache/1">' +
     '      <name>##CACHENAME##</name>' +
@@ -456,7 +457,7 @@ function getGPX(){
     '  <src>www.geocaching.com</src>\n' +
     '  <url>http://www.geocaching.com/seek/cache_details.aspx?wp=##GCID##</url>\n' +
     '  <urlname>##CACHENAME##</urlname>\n' +
-    '  <sym>Geocache</sym>\n' +
+    '  <sym>##CACHESYM##</sym>\n' +
     '  <type>Geocache|##TYPE##</type>\n' +
     '  <groundspeak:cache id="##CACHEID##" available="##AVAILABLE##" archived="##ARCHIVED##" xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">\n' +
     '    <groundspeak:name>##CACHENAME##</groundspeak:name>\n' +
@@ -567,6 +568,7 @@ function getGPX(){
           ['AVAILABLE',   geocache.available],
           ['ARCHIVED',    geocache.archived],
           ['CACHENAME',   encodeHtml(geocache.cacheName)],
+          ['CACHESYM',    geocache.cacheSym],
           ['OWNER',       encodeHtml(geocache.cacheOwner)],
           ['STATE',       encodeHtml(geocache.state)],
           ['COUNTRY',     encodeHtml(geocache.country)],

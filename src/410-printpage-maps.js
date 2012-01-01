@@ -60,23 +60,26 @@ function getMapUrl(mapQuery){
 }
 
 function getMap(mapQuery){
-  var factor = 1;
-  var map_size = GM_getValue('defaultMapSize', 'large');
-  if(map_size == "large"){
-    factor = 1;
-  } else if(map_size == "medium"){
-    factor = 0.75;
-  } else if(map_size == "small"){
-    factor = 0.5;
+  var map_size_px,
+      mapId = mapQuery.replace(/,/g,""),
+      map_frame = document.createElement('iframe');
+  
+  switch (GM_getValue('defaultMapSize', 'large')) {
+    case "medium":
+      map_size_px = 375;
+      break;
+    case "small":
+      map_size_px = 250;
+      break;
+    default:
+      map_size_px = 500;
+      break;
   }
-
-  var mapId = mapQuery.replace(/,/g,"");
-
-  var map_frame = document.createElement('iframe');
+    
   map_frame.className = 'cacheMap';
   map_frame.id = mapId;
-  map_frame.style.width = (1 * 20) + "cm";
-  map_frame.style.height = (factor * 500) + 'px';
+  map_frame.style.width = "20cm";
+  map_frame.style.height = map_size_px + 'px';
   map_frame.style.border = '1px solid lightgray';
   map_frame.src = getMapUrl(mapQuery);
   return map_frame;
@@ -86,33 +89,32 @@ function getMapControl(mapQuery,map_frame,newDocument){
   
   
 
-  var mapId = mapQuery.replace(/,/g,"");
-  var control_container = createElement('div',{style:"float:right;"});
+  var mapId = mapQuery.replace(/,/g,""),
+      control_container = createElement('div',{style:"float:right;"}),
+      map_size_px;
+      
   control_container.className = 'noprint';
   
-  
-  var resizeFunction = function(){
-    map_frame.style.height=(this.value*500)+"px";
+  switch (GM_getValue('defaultMapSize', 'large')) {
+    case "medium":
+      map_size_px = 375;
+      break;
+    case "small":
+      map_size_px = 250;
+      break;
+    default:
+      map_size_px = 500;
+      break;
   }
-  
+    
   // todo - default noch selektieren! und alten code löschen
   $(control_container).append(
     $('<ul/>').append(
-      $('<li>'+$.gctour.lang('settingsMapSize')+'</li>').append(
-        $('<br/>'),
-        $('<input type="radio" name="mapsize" value="1">large</input>')
-          .click(resizeFunction),
-        $('<br/>'),
-        $('<input type="radio" name="mapsize" value="0.75">medium</input>')
-          .click(resizeFunction),
-        $('<br/>'),
-        $('<input type="radio" name="mapsize" value="0.5">small</input>')   
-          .click(resizeFunction)  
-      ),
-      $('<li/>').text("Mapheight super slider:").append(
+      $('<li/>').text($.gctour.lang('settingsMapSize')).append(
         $("<div/>").gct_slider({
           min:100,
           max:700,
+          value:map_size_px,
           document: newDocument,
           slide:function(values){map_frame.style.height=values.value+"px";}         
           })
@@ -256,8 +258,12 @@ function getMapControl(mapQuery,map_frame,newDocument){
             slider_offset = 0,
             percentage = 0,
             self = this;
-                  
+            
+        // set start value
+        percentage = (100 * settings.value)/settings.max;
+                                   
         scroller_element
+          .css("left", (percentage)+"%")
           .click(function( event ) {  
             event.preventDefault();
           })

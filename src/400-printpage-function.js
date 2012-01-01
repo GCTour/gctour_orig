@@ -202,6 +202,7 @@ function printPageFunction(currentTour){
                 td = document.createElement('td');tr.appendChild(td);
                 td.style.verticalAlign = "middle";
                 //~ td.style.border = '1px solid lightgray';
+                // ToDo: if "Found" is (GPX)sym = "Geocache Found" => Print Found = true, or Property = ignore my founds by print
                 td.innerHTML = "<div style='margin-left:auto;margin-right:auto;width:10px;height:10px;border:1px solid lightgray;'>&nbsp;</div>";
 
                 td = createElement('td',{style:"border-bottom:1px solid lightgray;"});tr.appendChild(td);
@@ -437,6 +438,7 @@ function printPageFunction(currentTour){
                   ['GUID',geocache.guid],
                   ['TYPE',geocache.type],
                   ['CACHENAME',(geocache.available)?geocache.name:"<span style='text-decoration: line-through !important;'>"+geocache.name+"</span>"],
+                  ['CACHESYM',geocache.cacheSym],
                   ['OWNER',geocache.owner],
                   ['HIDDEN',formatDate(geocache.hidden)],
                   ['ATTRIBUTES',attributes.innerHTML],

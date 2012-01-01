@@ -7,6 +7,7 @@
  *   - FIXED: exception SyntaxError JSON.parse unexpected character by download tour
  *   - FIXED: exception TypeError progressBar is undefined
  *   - FIXED: function getlogs
+ *   - FIXED: GPX found Caches from "<sym>Geocache</sym>" to "<sym>Geocache Found</sym>" (big thanks to Vasek)
  *   - UPDATED: French translation - thanks pascal
  *   - UPDATED: css adjustments
  *   - NEW: Map height is now variable

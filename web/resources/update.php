@@ -104,7 +104,13 @@ class UpdateResource extends Resource {
 */
 		
       if (isset($_POST['update'])) {
-        $update_obj = json_decode($_POST['update']);
+        // Remove those slashes
+        if(get_magic_quotes_gpc())
+          $upd = stripslashes($_POST['update']);
+        else
+          $upd = $_POST['update'];        
+        
+        $update_obj = json_decode($upd);
         
         $updates = Updates::getUpdates($update_obj->{'version'},$update_obj->{'build'});
          

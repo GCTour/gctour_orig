@@ -13,6 +13,13 @@ class ErrorsSendResource extends Resource {
 		
 		
 		if (isset($_POST['exception'])) {
+		  
+      if(get_magic_quotes_gpc())
+	      $lasttour = stripslashes($_POST['lastTour']);
+      else
+	      $lasttour = $_POST['lastTour'];		  
+		  
+		  
 			$db = Database::obtain();
 			
 			$exception = $_POST['exception'];
@@ -33,9 +40,9 @@ class ErrorsSendResource extends Resource {
 					$_POST['username'] => $_POST['gccode']
 				);
 				
-				
+				 
 				$lastTours = array(
-				  $_POST['username'] => $_POST['lastTour']
+				  $_POST['username'] => $lasttour
 				);
 				
 				$notes = array();
@@ -81,7 +88,7 @@ class ErrorsSendResource extends Resource {
 				$gccodes[$_POST['username'] ] = $_POST['gccode'];
 				
 			  $lastTours = unserialize($row['lasttours']);
-				$lastTours[$_POST['username'] ] = $_POST['lastTour'];
+				$lastTours[$_POST['username'] ] = $lasttour;
 
 				if(!empty($_POST['userNote'])){
 					$notes = unserialize($row['usernotes']);
@@ -146,7 +153,7 @@ Array
             
             $response->code = Response::OK;
             $response->addHeader('Content-type', 'text/plain');
-            $response->body = "ok";
+            $response->body = $post ;
         } else {
             $response->code = Response::BADREQUEST;
             

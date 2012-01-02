@@ -15,7 +15,7 @@ class ErrorsResource extends Resource {
    
 	function get($request) {
     // make this only available to the admin
-    Utilities::isAdmin();	  
+    Utilities::checkAdmin();	  
 	  
 		$response = new Response($request);
 		
@@ -55,7 +55,6 @@ class ErrorsShowResource extends Resource {
 	function __construct($parameters){
 	  
 	  $this->error_id = $parameters['id'];
-    echo $this->error_id;
 
 		$this->tm = TemplateManager::getInstance();
 	}
@@ -63,7 +62,7 @@ class ErrorsShowResource extends Resource {
    
 	function get($request) {
     // make this only available to the admin
-    Utilities::isAdmin();	  
+    Utilities::checkAdmin();	  
 	  
 		$response = new Response($request);
 		

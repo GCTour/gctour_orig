@@ -59,7 +59,7 @@ try {
     switch ($e->getCode()) {
     case Response::UNAUTHORIZED:
         $response = $e->response($request);
-        $response->addHeader('WWW-Authenticate', 'Basic realm="GCTour Admin"');
+//        $response->addHeader('WWW-Authenticate', 'Basic realm="GCTour Admin"');
         break;
     default:
         $response = $e->response($request);

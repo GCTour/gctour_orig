@@ -16,14 +16,10 @@ class AdminResource extends Resource {
     }
     
     function get($request) {
-        // admin Only
-        Utilities::isAdmin();
-        
-        
         $response = new Response($request);
         
         $this->tm->smarty->assign('title', 'Admin');
-        
+        $this->tm->smarty->assign('isAdmin', Utilities::isAdmin());
         
         
         $body = $this->tm->render('admin');
@@ -33,6 +29,28 @@ class AdminResource extends Resource {
         $response->body = $body;
     
         return $response;
+        
+   }
+   
+   function post($request) {
+     session_start(); 
+     $response = new Response($request);
+     
+     $user = $_POST['USER'];
+     $pass = $_POST['PASS'];
+     
+     
+    if (
+      isset($user) && $user == ADMIN_USER &&
+      isset($pass) && $pass == ADMIN_PASS
+    ) {
+      $_SESSION['USER'] = $user;
+      $_SESSION['PASS'] = $pass;
+      
+    } 
+    
+    header('Location: /admin');
+     
         
    }
 }
@@ -51,7 +69,7 @@ class AdminInfoResource extends Resource {
   
   function get($request) {
     // admin Only
-    Utilities::isAdmin();    
+    Utilities::checkAdmin();    
     
     $response = new Response($request);
     
@@ -96,7 +114,7 @@ class AdminInfoTourResource extends Resource {
   
   function get($request) {
     // admin Only
-    Utilities::isAdmin();    
+    Utilities::checkAdmin();    
  
     $db = Database::obtain();    
     $response = new Response($request);
@@ -118,7 +136,7 @@ class AdminInfoTourResource extends Resource {
     }    
     
     $max = 'LIMIT ' .($this->page - 1) * $this->rows .',' .$this->rows;
-    $tours = $db->fetch_array("SELECT * FROM `gct_tours` ".$max);
+    $tours = $db->fetch_array("SELECT * FROM `".TABLE_TOURS."` ".$max);
     
     $this->tm->smarty->assign('lastpage',$last_page);
     $this->tm->smarty->assign('pagenum',$this->page);
@@ -144,70 +162,5 @@ class AdminInfoTourResource extends Resource {
     
 }
 
-
-
-/**
- * Display and process a HTML form via a HTTP POST request
- *
- * This example outputs a simple HTML form and gathers the POSTed data
- *
- * @namespace Tonic\Examples\HTMLForm
- * @uri /htmlform
- */
-class HTMLForm extends Resource {
-    
-    /**
-     * Handle a GET request for this resource
-     * @param Request request
-     * @return Response
-     */
-    function get($request, $name) {
-        
-        $response = new Response($request);
-        
-        if ($name) {
-            $welcome = "<p>Hello $name.</p>".
-                "<p>Raw POST data:</p>".
-                "<blockquote>$request->data</blockquote>";
-        } else {
-            $welcome = "<p>Enter your name.</p>";
-        }
-        
-        $response->addHeader('Content-type', 'text/html');
-        $response->body = <<<EOF
-<!DOCTYPE html>
-<html>
-    <body>
-        <form action="htmlform" method="post">
-            <label>Name: <input type="text" name="name"></label>
-            <input type="submit">
-        </form>
-        $welcome
-    </body>
-</html>
-EOF;
-        
-        return $response;
-        
-    }
-    
-    /**
-     * Handle a POST request for this resource
-     * @param Request request
-     * @return Response
-     */
-    function post($request) {
-        
-        if (isset($_POST['name'])) {
-            $name = htmlspecialchars($_POST['name']);
-        } else {
-            $name = '';
-        }
-        
-        return $this->get($request, $name);
-        
-    }
-    
-}
 
 

@@ -545,14 +545,35 @@ final class Utilities {
   
   
   public static function isAdmin() {
+    
+    session_start();
+    
+    
     if (
-      isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == ADMIN_USER &&
-      isset($_SERVER['PHP_AUTH_PW']) && $_SERVER['PHP_AUTH_PW'] == ADMIN_PASS
+      isset($_SESSION['USER']) && $_SESSION['USER'] == ADMIN_USER &&
+      isset($_SESSION['PASS']) && $_SESSION['PASS'] == ADMIN_PASS
     ) {
-     return;
+      return TRUE;
+    } else {
+      return FALSE;
     }
-    throw new ResponseException('Incorrect username and password', Response::UNAUTHORIZED);  
   }
+  
+  public static function checkAdmin() {
+    
+    session_start();   
+    
+    if (
+      isset($_SESSION['USER']) && $_SESSION['USER'] == ADMIN_USER &&
+      isset($_SESSION['PASS']) && $_SESSION['PASS'] == ADMIN_PASS
+    ) {
+      return;
+    } else {
+      throw new ResponseException('ACCESS DENIED!', Response::UNAUTHORIZED);  
+    }
+    
+  }
+	
 	
 	public static function getStats(){
 		

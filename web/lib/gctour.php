@@ -655,9 +655,6 @@ final class Updates {
   public static function getUpdates($version, $build){
     $db = Database::obtain();
     $sql = "SELECT * FROM `".TABLE_VERSIONS."` WHERE `build`>'".$build."' ORDER BY `build` DESC";
-    echo $sql;
-//    
-
 
     $version_array = array();
     $version_array['changes'] = array();

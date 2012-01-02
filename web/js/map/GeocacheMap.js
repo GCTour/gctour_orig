@@ -92,7 +92,7 @@ function initialize() {
 		map.overlayMapTypes.setAt("0",gcdeMap); // set the overlay, 0 index
 	}
 
-	 /**
+	 	 /**
 	 * set mapTypes 
 	 */
 	map.mapTypes.set('mapnik', mapnik);
@@ -101,11 +101,9 @@ function initialize() {
 	map.mapTypes.set('osmaP', osmPublic);
 	map.mapTypes.set('oda', oda);
 
-	map.setMapTypeId(defaultMapt); // value is set in map.jsp!
-
-	map.setOptions({
-	  mapTypeControlOptions: {
-		mapTypeIds: [
+	
+	
+	var mapTypeIds = [
 		  'mapnik',
 		  'osmde',
 		  'osmaC',
@@ -115,7 +113,16 @@ function initialize() {
 		  google.maps.MapTypeId.TERRAIN,
 		  google.maps.MapTypeId.SATELLITE,
 		  google.maps.MapTypeId.HYBRID
-		],
+		];
+	
+	if($.inArray(defaultMapt, mapTypeIds) < 0){
+		defaultMapt = "mapnik";
+	}
+	map.setMapTypeId(defaultMapt); // value is set in map.jsp!
+	
+	map.setOptions({
+	  mapTypeControlOptions: {
+		mapTypeIds: mapTypeIds,
 		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
 	  }
 	});

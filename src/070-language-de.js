@@ -145,6 +145,7 @@ $.gctour.i18n.de = {
   "example" : "Beispiel:",
   "exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i>",  
   "dontPrintHint" : "<b>Hinweis:</b><br/>Elemente in einem solchen Kasten werden <u>nicht</u> mit gedruckt!",
+  'ERROR_DIALOG_SEND' : "Fehlerbericht abschicken",
   'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten!<br/>\
               Versuch es einfach noch einmal oder suche nach einem <a href="#" id="gctour_update_error_dialog">Update</a>!<br/><br/>\
               Wenn dieser Fehler öfter auftritt, dann schicke bitte einen Fehlerbericht.<br/>\

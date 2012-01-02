@@ -130,10 +130,10 @@ function addErrorDialog(options){
         .html(GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b>'),
       $('<div/>')
         .html($.gctour.lang('ERROR_DIALOG')),
-       $('<div>')
+       $('<div/>')
         .addClass('dialogFooter')
         .append(
-          $('<input>')
+          $('<input/>')
             .attr('onclick','return false;')
             .attr('type','button')
             .attr('value', $.gctour.lang('close'))
@@ -146,10 +146,10 @@ function addErrorDialog(options){
                 localDocument.defaultView.close();
               }
           }),
-          $('<input>')
+          $('<input/>')
             .attr('onclick','return false;')
             .attr('type','button')
-            .attr('value', $.gctour.lang('save')) // TODO: richtige Übersetztung!!!
+            .attr('value', $.gctour.lang('ERROR_DIALOG_SEND')) 
             .css('background-image','url('+sendMessageImage+')')
             .bind('click',function(){
               post_data = [

@@ -145,19 +145,12 @@ $.gctour.i18n.fr = {
   "example" : "Ex. ",  
   "exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i>",  
   "dontPrintHint" : "<b>Information :</b><br/>Les éléménts ayant cette apparence ne seront <u>pas</u> imprimés!",
-  'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Désolé une erreur est survenue:<br/>"+
-    "##ERROR##<br/>"+
-    "Réessayez SVP, ou vérifier les <a href='#' id='gctour_update_error_dialog'>mises à jour</a> du script !<br/>"+
-    "Si cette erreur se reproduit, merci d'envoyer le rapport d'erreur.<br/>"+
-    "<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
-    "<form action='"+GCTOUR_HOST+"/error' method='post'>"+
-    "<input type='hidden' name='redir' value='##LOCATION##'>"+
-    "<input type='hidden' name='user' value='##USERNAME##'>"+
-    "<div style='text-align:left;'>Note</div>"+
-    "<textarea name='message' rows='4' style='width:99%'></textarea>"+
-    "<textarea name='report' style='display:none;'>##ERRORREPORT##</textarea>"+
-    "<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
-    "<input type='submit' value='envoi du rapport' style='background-image:url("+sendMessageImage+")'></form></div>",
+  'ERROR_DIALOG_SEND' : 'envoi du rapport',
+  'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>\
+              Réessayez SVP, ou vérifier les <a href="#" id="gctour_update_error_dialog">mises à jour</a> du script !<br/><br/>\
+              Si cette erreur se reproduit, merci d\'envoyer le rapport d\'erreur.<br/>\
+              <u>Notes</u><br/>\
+              <textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "Il semble que des javascripts ne puissent pas s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'aolcdn.com' et 'geocaching.com' à utiliser GCTour de manière permanente!" ,
   'mapTypes' : 
     [{"caption":"Google Plan","value":"roadmap"}, 

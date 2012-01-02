@@ -145,19 +145,12 @@ $.gctour.i18n.pt = {
   "example" : "ex. ",      
   "exampleCoords" : "<i>N51&#186; 12.123 E010&#186; 23.123</i> ou <i>40.597 -75.542</i>",  
   "dontPrintHint" : "<b>Informa&#231;&#227;o :</b><br />Elementos na caixa <u>n&#227;o</u> v&#227;o ser impressos!",
-  'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;Lamento mas ocorreu um erro:<br/>"+
-    "##ERROR##<br/>"+
-    "Por favor tente outra vez, ou procure por uma <a href='#' id='gctour_update_error_dialog'>atualização</a>!<br/>"+
-    "Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br/>"+
-    "<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
-    "<form action='"+GCTOUR_HOST+"/error' method='post'>"+
-    "<input type='hidden' name='redir' value='##LOCATION##'>"+
-    "<input type='hidden' name='user' value='##USERNAME##'>"+
-    "<div style='text-align:left;'>nota</div>"+
-    "<textarea name='message' rows='4' style='width:99%'></textarea>"+
-    "<textarea name='report' style='display:none;' >##ERRORREPORT##</textarea>"+
-    "<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
-    "<input type='submit' value='enviar relat&#243;rio' style='background-image:url("+sendMessageImage+")'></form></div>",
+  "ERROR_DIALOG_SEND" : "enviar relatório",
+  'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Lamento mas ocorreu um erro.<br/>\
+              Por favor tente outra vez, ou procure por uma <a href="#" id="gctour_update_error_dialog">atualização</a>!<br/><br/>\
+              Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br/>\
+              <u>Nota</u><br/>\
+              <textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "Aparenta que est&#225; a bloquear algumas fontes de javascript (ex. NoScript). Por favor permita 'aolcdn.com' e 'geocaching.com' permanentemente para usar GCTour!" ,
   'mapTypes' : 
     [{"caption":"Google Map","value":"roadmap"}, 

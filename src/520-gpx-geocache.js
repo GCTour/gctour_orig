@@ -253,37 +253,23 @@ function getGPX(){
 
       var geocache = getGPXGeoCache(currentTour.geocaches[i].id);
       if(geocache !== "pm only"){
-        var logsStringArray = [];
-        // create log with attributes!
-        // if(true){  ??????
-
-          log("geocache.attributes_array:\n" + 
-            $.map(geocache.attributes_array, function(row, i){
-              return i + ". id='" + row[0] + "' inc='" + row[3] + "' > " + row[2];
-            }).join("\n")
-          );
-
-          /*
-          var geocacheLogMapping = [
-            ['LOGID',geocache.id], // Issue3
-            ['TIME',xsdDateTime(new Date())],
-            ['CACHERNAME',"GCTour"],
-            ['LOGTYPE', "Note"],
-            ['LOGTEXT',encodeHtml($("<div/>").html(logs[ii].content.br2space()).text().trimAll())]
-          ];
-
-          var cacheWaypointLog = waypointLogTemplate;
-
-          for ( iii = 0 ; iii<geocacheLogMapping.length ; iii++){
-            cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[iii][0]+"##","g"),geocacheLogMapping[iii][1]);
-          }
-
-          logsStringArray.push(cacheWaypointLog);
-          */
-        //}
-
         debug("GS GPX: geocache.dateHidden:'"+geocache.dateHidden+"' -> xsd:'"+xsdDateTime(geocache.dateHidden)+"'");
         var logs =  geocache.logs;
+        var logsStringArray = [];
+       
+        // create log with attributes!   
+        var attributeLogtext = $.map(geocache.attributes_array, function(row, i){
+                                 return row[2] + ": "+ ((row[3] === 1)?"yes":"no");
+                               }).join("\n")   
+          
+        var attributeLog = geocacheLogTemplate;
+            attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);   
+            attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));   
+            attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");   
+            attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");   
+            attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);   
+        logsStringArray.push(attributeLog);       
+        
         // just 10 logs in the gpx
         for ( ii = 0; (ii < logs.length && ii < 10); ii++){
           var geocacheLogMapping = [

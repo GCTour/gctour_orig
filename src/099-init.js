@@ -353,6 +353,15 @@ function init(){
         addElementFunction(gccode, guid, name, cacheTypeImage)();
       }, 0);
     };
+    
+    unsafeWindow.google.maps.event.addListener(unsafeWindow.map, "rightclick", function(event) {
+      var lat = event.latLng.lat(),
+          lng = event.latLng.lng();
+          
+      
+      // populate yor box/field with lat, lng
+      // alert("Lat=" + lat + "; Lng=" + lng);
+    });
 
   }
 

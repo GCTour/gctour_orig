@@ -110,7 +110,7 @@ var
     ['63','tourist','Tourist Friendly'],
     ['64','treeclimbing','Tree Climbing'],
     ['65','frontyard','Front Yard (Private Residence)'],
-    ['66','teamwrok','Teamwork Required'],
+    ['66','teamwork','Teamwork Required'],
   ];
 
 /*

@@ -423,7 +423,7 @@ function initialize() {
 
 function calculateTSP(tsptype){
     if(tsp.isAborted() === true){
-      alert("Sorry but a canceled calculation is blocked until you reload this page!");
+      alert("Sorry but a canceled calculation is blocked until you reload this map!");
   	  return; 
     }  
   

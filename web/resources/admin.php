@@ -76,10 +76,6 @@ class AdminInfoResource extends Resource {
     $this->tm->smarty->assign('title', 'Admin Infos');
     
     
-    
-    
-    
-    
     $body = $this->tm->render('admin_info_tour');
     
     $response->code = Response::OK;

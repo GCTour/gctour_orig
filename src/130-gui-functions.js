@@ -132,6 +132,8 @@ function downloadGPXFunction(){
 
       // add progressbar while loading
       addProgressbar();
+      
+      
 
       gpxForm = document.createElement('form');
       gpxForm.setAttribute('style','display:;');
@@ -155,28 +157,14 @@ function downloadGPXFunction(){
       nameInput.value = 'GCTour.'+tourName+'.'+currentDateString+'.gpx';
 
       try {
-        if (GM_getValue('gpxschema',0) === 0){
-          dummyString = getGPX();
-        } else {
-          dummyString = getGPXNew();
-        }
-
+        dummyString = getGPX();
+ 
         //iff the cancel button is pressed the dummyString just contain canceled
         if(dummyString == "canceled"){
           closeOverlay();
           return;
         }
-
-/* dont use this - it cause some serious errors!
-        // pretty print the gpx
-        // remove <?xml version="1.0" encoding="utf-8"?> to prevent error message from E4X
-        dummyString = dummyString.replace(/^<\?xml\s+version\s*=\s*(["'])[^\1]+\1[^?]*\?>/, "");
-        dummyString =  XML(dummyString).toXMLString();
-        // and add it again - to be sure!
-        dummyString = '<?xml version="1.0" encoding="utf-8"?>\n'+dummyString;
-
-*/
-
+        
         contentArea.innerHTML = encodeURIComponent(dummyString);
 
         document.body.appendChild(gpxForm);
@@ -226,11 +214,7 @@ function sendToGPS(){
   try{
     dataStringElement = document.getElementById('dataString');
     dataStringElement.value = $.gctour.lang('pleaseWait');
-    if (GM_getValue('gpxschema',0) === 0){
-      dataStringElement.value = getGPX();
-    } else {
-      dataStringElement.value = getGPXNew();
-    }
+    dataStringElement.value = getGPX();
 
     tourName = currentTour.name.replace(/\s+/g,"_").replace(/[^A-Za-z0-9_]*/g,"");
 

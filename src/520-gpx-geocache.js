@@ -30,8 +30,7 @@ function getWaypointsGPXFromGeocache(waypoint,geocache){
 function getGPXGeoCache(gcid){
   var i;  // for ()
   var geocache      = {},
-      geocache_obj  = getGeocache(gcid),
-      isGroundspeak = (GM_getValue("gpxschema",0) === 0);
+      geocache_obj  = getGeocache(gcid);
 
   if (geocache_obj === "pm only") {
     return geocache_obj;
@@ -81,8 +80,7 @@ function getGPXGeoCache(gcid){
   geocache.cacheSize  = geocache_obj.size;
   geocache.cacheSym   = geocache_obj.sym;
 
-  if(isGroundspeak){
-    switch (geocache_obj.type) {
+  switch (geocache_obj.type) {
       case "micro":      geocache.cacheSize = "Micro";      break;
       case "small":      geocache.cacheSize = "Small";      break;
       case "regular":    geocache.cacheSize = "Regular";    break;
@@ -91,48 +89,17 @@ function getGPXGeoCache(gcid){
       case "not_chosen": geocache.cacheSize = "Not chosen"; break;
       case "virtual":    geocache.cacheSize = "Virtual";    break;
       default:           geocache.cacheType = "";           break;
-    }
-  } else {
-    // if "Not chosen" is the Cachesize - REMOVE IT!
-    geocache.cacheSize = (geocache_obj.size == "Not chosen") ? "Other" : geocache_obj.size;
   }
 
   // define the cache type
   // if the GPX type is Groundspeak - parse type through the wptArr from autotour:
-  if(isGroundspeak){
-    for( i = 0; i < wptArray.length; i++){
-      if(wptArray[i].wptTypeId == geocache_obj.type){
-        geocache.cacheType = wptArray[i].name;
-      }
-    }
-  } else {
-    switch (geocache_obj.type){
-      case "2":
-        geocache.cacheType = "Traditional";
-        break;
-      case "3":
-        geocache.cacheType = "Multi";
-        break;
-      case "4":
-        geocache.cacheType = "Virtual";
-        break;
-      case "11":
-        geocache.cacheType = "Webcam";
-        break;
-      case "6":
-        geocache.cacheType = "Event";
-        break;
-      case "137":
-        geocache.cacheType = "Earthcache";
-        break;
-      case "453":
-        geocache.cacheType = "Event";
-        break;
-      default:
-        geocache.cacheType = "Other";
-        break;
+ 
+  for( i = 0; i < wptArray.length; i++){
+    if(wptArray[i].wptTypeId == geocache_obj.type){
+      geocache.cacheType = wptArray[i].name;
     }
   }
+  
 
   geocache.attributes_array = geocache_obj.attributes_array;
   geocache.difficulty = geocache_obj.difficulty;
@@ -170,76 +137,9 @@ function getGPXGeoCache(gcid){
 
     var gc_log = geocache_obj.logs[i];
     logObj.cacherName = gc_log.UserName;
+    logObj.type = gc_log.LogType;
 
-    if(!isGroundspeak){
-      switch (gc_log.LogType) {
-        case "Found it":
-        logObj.type = "Found";
-        break;
-      case "Didn't find it":
-        logObj.type = "Not Found";
-        break;
-      case "Write note":
-        logObj.type = "Note";
-        break;
-      default:
-        logObj.type ="Other";
-        break;
-      }
-    } else {
-      logObj.type = gc_log.LogType;
-    }
-/*
-    switch (gc_log.LogType) {
-      case "Found it":
-        logObj.type = (isGroundspeak)?"Found it":"Found";
-        break;
-      case "Didn't find it":
-        logObj.type = (isGroundspeak)?"Didn't find it":"Didn't find it";
-        break;
-      case "Needs Maintenance":
-        logObj.type = (isGroundspeak)?"Needs Maintenance":"Note";
-        break;
-      case "Needs Archived":
-        logObj.type = (isGroundspeak)?"Needs Archived":"Note";
-        break;
-      case "Owner Maintenance":
-        logObj.type = (isGroundspeak)?"Owner Maintenance":"Note";
-        break;
-      case "Post Reviewer Note":
-        logObj.type = (isGroundspeak)?"Post Reviewer Note":"Note";
-        break;
-      case "Write note":
-        logObj.type = (isGroundspeak)?"Write note":"Note";
-        break;
-      case "Temporarily Disable Listing":
-        logObj.type = (isGroundspeak)?"Temporarily Disable Listing":"Note";
-        break;
-      case "Enable Listing":
-        logObj.type = (isGroundspeak)?"Enable Listing":"Note";
-        break;
-      case "Unarchive":
-        logObj.type = (isGroundspeak)?"Unarchive":"Note";
-        break;
-      case "Archive":
-        logObj.type = (isGroundspeak)?"Archive":"Note";
-        break;
-      case "Publish Listing":
-        logObj.type = (isGroundspeak)?"Publish Listing":"Note";
-        break;
-      case "Enable Listing":
-        logObj.type = (isGroundspeak)?"Enable Listing":"Note";
-        break;
-      case "Update Coordinates":
-        logObj.type = (isGroundspeak)?"Update Coordinates":"Note";
-        break;
-      default:
-        logObj.type = (isGroundspeak)?"Write note":"Other";
-        break;
-
-    }
-*/
-    //debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
+//    debug("Logtype: "+gc_log.LogType+ " to GPX Type:"+logObj.type);
     logObj.foundDate = parseDate(gc_log.Created);
     logObj.content   = gc_log.LogText;
     logObj.id        = gc_log.LogID;
@@ -272,163 +172,12 @@ function getGPXGeoCache(gcid){
     "country:\t"        + geocache.country,
     "shortDescription:\n\n" + geocache.shortDescription,
     "longDescription:\n\n"  + geocache.longDescription,
-    //~ "logs:"      + geocache.logs.length,
     "--------------[END " + geocache.gcid + "]--------------"
   ].join("\n"));
 
   return geocache;
 }
 
-function getGPXNew(){
-  var i, ii, iii;  // for ()
-  var dom = null,
-      waypoint = null;
-
-  var gpxHeader =
-    '<?xml version="1.0" encoding="utf-8"?>' +
-    '<gpx xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
-    '     xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://geocaching.com.au/geocache/1 http://geocaching.com.au/geocache/1/geocache.xsd"' +
-    '     xmlns="http://www.topografix.com/GPX/1/0"' +
-    '     version="1.0"' +
-    '     creator="gctour.madd.in">' +
-    '  <desc>Geocache</desc>' +
-    '  <author>GCTour</author>' +
-    '  <url>http://gctour.madd.in</url>' +
-    '  <urlname>gctour.madd.in</urlname>' +
-    '  <time>' + xsdDateTime(new Date()) +'</time>' +
-    '</gpx>';
-
-  var gpxDom = parseXml(gpxHeader,"application/xml");
-  var gpxElement = gpxDom.getElementsByTagName('gpx')[0];
-
-  var waypointTemplate =
-    '  <wpt xmlns="http://www.topografix.com/GPX/1/0" lat="##LAT##" lon="##LON##">' +
-    '    <time>##TIME##</time>' +
-    '    <name>##GCID##</name>' +
-    '    <desc>##CACHENAME##</desc>' +
-    '    <src>www.geocaching.com</src>' +
-    '    <url>http://www.geocaching.com/seek/cache_details.aspx?wp=##GCID##</url>' +
-    '    <urlname>##CACHENAME##</urlname>' +
-    '    <sym>##CACHESYM##</sym>' +
-    '    <type>Geocache</type>' +
-    '    <geocache status="Available" xmlns="http://geocaching.com.au/geocache/1">' +
-    '      <name>##CACHENAME##</name>' +
-    '      <owner>##OWNER##</owner>' +
-    '      <locale></locale>' +
-    '      <state>##STATE##</state>' +
-    '      <country>##COUNTRY##</country>' +
-    '      <type>##TYPE##</type>' +
-    '      <container>##CONTAINER##</container>' +
-    '      <difficulty>##DIFFICULTY##</difficulty>' +
-    '      <terrain>##TERRAIN##</terrain>' +
-    '      <summary html="true">##SUMMARY##</summary>' +
-    '      <description html="true">##DESCRIPTION##</description>' +
-    '      <hints>##HINT##</hints>' +
-    '      <licence></licence>' +
-    '      <logs>##LOGS##</logs>' +
-    '    </geocache>' +
-    '  </wpt>';
-
-  var waypointLogTemplate =
-    '<log id="##LOGID##">' +
-    '  <time>##TIME##</time>' +
-    '  <geocacher>##CACHERNAME##</geocacher>' +
-    '  <type>##LOGTYPE##</type>' +
-    '  <text>##LOGTEXT##</text>' +
-    '</log>';
-
-  for ( i = 0; i < currentTour.geocaches.length; i++){
-
-    // if the cancel-button is pressed
-    if(GM_getValue("stopTask",false)){
-      GM_setValue("stopTask",false);
-      return "canceled"; // then return!
-    }
-
-    var costumMarker = (typeof(currentTour.geocaches[i].lat) != "undefined");
-
-    if(!costumMarker){
-
-      var geocache = getGPXGeoCache(currentTour.geocaches[i].id);
-
-      if(geocache !== "pm only"){
-
-        var logsStringArray = [];
-
-        var logs = geocache.logs;
-        // just 10 logs in the gpx
-        for ( ii = 0; (ii < logs.length && ii < 10); ii++){
-          var geocacheLogMapping = [
-            ['LOGID',      logs[ii].id],
-            ['TIME',       xsdDateTime(logs[ii].foundDate)],
-            ['CACHERNAME', encodeHtml(logs[ii].cacherName)],
-            ['LOGTYPE',    logs[ii].type],
-            ['LOGTEXT',    encodeHtml($("<div/>").html(logs[ii].content.br2space()).text().trimAll())]
-          ];
-
-          var cacheWaypointLog = waypointLogTemplate;
-
-          for( iii = 0 ; iii < geocacheLogMapping.length ; iii++){
-            cacheWaypointLog = cacheWaypointLog.replace(new RegExp("##"+geocacheLogMapping[iii][0]+"##","g"),geocacheLogMapping[iii][1]);
-          }
-
-          logsStringArray.push(cacheWaypointLog);
-        }
-
-        var geocacheMapping = [
-          ['LAT',         geocache.latitude],
-          ['LON',         geocache.longitude],
-          ['TIME',        xsdDateTime(geocache.dateHidden)],
-          ['GCID',        geocache.gcid],
-          ['CACHENAME',   encodeHtml(geocache.cacheName)],
-          ['OWNER',       encodeHtml(geocache.cacheOwner)],
-          ['STATE',       encodeHtml(geocache.state)],
-          ['COUNTRY',     encodeHtml(geocache.country)],
-          ['TYPE',        geocache.cacheType],
-          ['CONTAINER',   geocache.cacheSize],
-          ['DIFFICULTY',  geocache.difficulty],
-          ['TERRAIN',     geocache.terrain],
-          ['SUMMARY',     encodeHtml(geocache.shortDescription)],
-          ['DESCRIPTION', encodeHtml(geocache.longDescription)],
-          ['HINT',        encodeHtml(geocache.hint)],
-          ['LOGS',        logsStringArray.join("")]
-        ];
-
-        var cacheWaypoint = waypointTemplate;
-
-        for( ii = 0 ; ii<geocacheMapping.length ; ii++){
-          cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[ii][0]+"##","g"),geocacheMapping[ii][1]);
-        }
-
-        dom = parseXml(cacheWaypoint, "text/xml");
-        waypoint = dom.getElementsByTagName('wpt')[0];
-        gpxElement.appendChild(waypoint);
-
-        if(GM_getValue('gpxwpts',true)){
-          for( iii = 0;iii<geocache.additionalWaypoints.length;iii++){
-
-            if(geocache.additionalWaypoints[iii].coordinates != "???"){
-              dom = parseXml(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache),"text/xml");
-              waypoint = dom.getElementsByTagName('wpt')[0];
-              gpxElement.appendChild(waypoint);
-            }
-          }
-        }
-      } // pm only check
-
-    } else { // costum marker check
-      dom = parseXml(getGPXfromMarker(currentTour.geocaches[i]),"text/xml");
-      waypoint = dom.getElementsByTagName('wpt')[0];
-      gpxElement.appendChild(waypoint);
-    }
-  setProgress(i,currentTour.geocaches.length,document);
-
-  } // itertion end
-
-  var str = new XMLSerializer().serializeToString(gpxDom);
-  return str;
-
-}
 
 function getGPX(){
   var i, ii, iii;  // for ()
@@ -475,7 +224,7 @@ function getGPX(){
     '    <groundspeak:encoded_hints>##HINT##</groundspeak:encoded_hints>\n' +
     '    <groundspeak:logs>\n##LOGS##    </groundspeak:logs>\n' +
     '  </groundspeak:cache>\n' +
-    '  </wpt>';
+    '</wpt>';
 
   var geocacheLogTemplate =
     '      <groundspeak:log id="##LOGID##">\n' +
@@ -604,14 +353,9 @@ function getGPX(){
 
         if(GM_getValue('gpxwpts',true)){
           for( iii = 0;iii<geocache.additionalWaypoints.length;iii++){
-
-            if(geocache.additionalWaypoints[iii].coordinates != "???"){
-
+            // vielleicht sollte man die ??? Wegpunkte in die Nähe des Geocaches legen => Man hätte sie auf dem Gerät!
+            if(geocache.additionalWaypoints[iii].coordinates != "???"){ 
               wptStrArray.push(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache));
-              //~ cacheWaypoint
-              //~ var dom = parseXml(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache),"text/xml");
-              //~ var waypoint = dom.getElementsByTagName('wpt')[0];
-              //~ gpxElement.appendChild(waypoint);
             }
           }
         }

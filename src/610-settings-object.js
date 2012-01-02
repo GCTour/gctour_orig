@@ -42,19 +42,6 @@ Settings.prototype.show = function(){
 Settings.prototype.getGPX = function(){
   var div = createElement('div');
 
-  // schema array
-  var schema_arr = [{value:"0",caption:$.gctour.lang('settingsGPXSchemaGS')},{value:1,caption:$.gctour.lang('settingsGPXSchemaAU')}];
-
-  // schemata
-  var schema_div = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;"});append(schema_div,div);
-  var schema_caption = createElement('span');append(schema_caption,schema_div);
-  schema_caption.innerHTML = "<b>"+$.gctour.lang('settingsGPXSchema')+"</b><br/>";
-  append(this.getSelectbox(schema_arr,'gpxschema',0,setGPXSchema),schema_caption);
-  var description = createElement('div',{style:"margin-left:10px;"});
-  description.innerHTML = $.gctour.lang('settingsGPXSchemaDesc');
-
-  append(description,schema_caption);
-
   append(this.getCheckbox('settingsGPXHtml', 'gpxhtml',true),div);
   append(this.getCheckbox('settingsGPXWpts', 'gpxwpts',true),div);
   append(this.getCheckbox('settingsGPXStripGC', 'gpxstripgc',false),div);

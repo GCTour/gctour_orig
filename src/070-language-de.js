@@ -53,9 +53,6 @@ $.gctour.i18n.de = {
   'settingsUploadTour' : 'Tour upload',
   'settingsGPXStripGC' : 'Entferne "GC" in GC-Code',
   'settingsGPXWpts' : 'Additional-Waypoints exportieren',
-  'settingsGPXSchema' : 'GPX-Version',
-  'settingsGPXSchemaGS' : 'groundspeak',
-  'settingsGPXSchemaAU' : 'geocaching.com.au',
   'settingsFontSize' : 'Schriftgr&ouml;&szlig;e:',
   'settingsPageBreak' : 'Seitenumbruch nach Geocache:',
   'settingsPageBreakAfterMap' : 'Seitenumbruch nach Übersichtskarte:',
@@ -73,9 +70,6 @@ $.gctour.i18n.de = {
   'settingsFrontPageDesc' : 'Es wird eine Titelseite erzeugt mit allen Geocaches, Index und Platz für Notizen.',
   'settingsOutlineMapDesc' : 'Auf der Titelseite wird eine Karte mit allen Geocaches in der Tour angezeigt.',
   'settingsOutlineMapSingeDesc' : 'Unter jedem Geocache erscheint eine Karte mit seinen "Additional Waypoints"',
-  'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> Ist ein Nachbau der Geocaching.com GPX Datei. Beinhaltet alle Information für moderne GPSr von Garmin.</li>"+
-     "<li><li><b>Geocaching.com.au:</b> Implementierung des freien Formats von geocaching.com.au. Leider kann es hier zu einigen Problemen mit GPSr-Geräten kömmen.</li></ul>"+
-  "<b>Bei Fehlern bitte einfach auf \"Groundspeak\"\ stellen und noch einmal versuchen!</b>",
   'settingsGPXHtmlDesc' : 'Manche Geräte/Programme haben Probleme beim Anzeigen eines Geocaches mit HTML-Formatierung. Wenn du nur noch kryptische Beschreibungen siehst, dann Bitte diese Option deaktivieren.',
   'settingsGPXWptsDesc' : 'Additional-Waypoints Werden als extra Wegpunkt mit in die GPX exportiert. Damit hat man jeden Parkplatz direkt auf dem Gerät.',
   'settingsGPXStripGCDesc' : 'Alte Geräte haben Probleme mit Wegpunkten deren Name länger als 8 Zeichen sind. Wenn du so ein altes Garmin hast, dann bitte diese Option anwählen!',  

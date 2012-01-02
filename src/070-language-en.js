@@ -53,9 +53,6 @@ $.gctour.i18n.en = {
   'settingsUploadTour' : 'Tour upload',
   'settingsGPXStripGC' : 'Strip "GC" in GC-Code',
   'settingsGPXWpts' : 'Export additional waypoints',
-  'settingsGPXSchema' : 'GPX-Version',
-  'settingsGPXSchemaGS' : 'groundspeak',
-  'settingsGPXSchemaAU' : 'geocaching.com.au',  
   'settings_map' : 'Map',
   'settings_map_geocacheid' : 'Show geocache id',  
   'settings_map_geocacheindex' : 'Show geocache index',
@@ -110,9 +107,6 @@ $.gctour.i18n.en = {
   'settingsFrontPageDesc' : 'An overview will be generated containing the complete list of geocaches including index and space to take notes. ',
   'settingsOutlineMapDesc' : 'The overview will contain a map with all geocaches.',
   'settingsOutlineMapSingeDesc' : 'After each geocache a map containing the geocache and its "Additional waypoints" will be shown.',
-  'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> a rebuild of the original Groundspeak GPX file containing all information for modern GPSr.</li>"+
-     "<li><b>Geocaching.com.au:</b> Implementation of the free geocaching.com.au format. Unfortunately some GPSr/programms have problems using this format.</li></ul>"+
-     "<b>If you are unable to show some information in your program or on your GPSr be sure that you select \"Groundspeak\"\ and then try it again!</b>",
   'settingsGPXHtmlDesc' : 'Some programs/GPSr have problems to show geocaches when their description is HTML formated. If you only see scrabbled descriptions then please disable this option.',
   'settingsGPXWptsDesc' : 'Additional waypoints will be exported as extra waypoint to the GPX. You will see every parking place on your unit.',
   'settingsGPXStripGCDesc' : 'Older GPSr still have problems with waypoints having their name longer than 8 characters. Please use this option if you own such an unit.',  

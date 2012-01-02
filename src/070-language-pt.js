@@ -53,9 +53,6 @@ $.gctour.i18n.pt = {
   'settingsUploadTour' : 'Enviar Rota',
   'settingsGPXStripGC' : 'Remover "GC" no GC-Code',
   'settingsGPXWpts' : 'Exportar waypoints adicionais',
-  'settingsGPXSchema' : 'Vers&#227;o do GPX',
-  'settingsGPXSchemaGS' : 'groundspeak',
-  'settingsGPXSchemaAU' : 'geocaching.com.au',  
   'settings_map' : 'Mapa',
   'settings_map_geocacheid' : 'Mostrar id da Geocache',  
   'settings_map_geocacheindex' : 'Mostrar ind&#237;ce da Geocache',
@@ -110,9 +107,6 @@ $.gctour.i18n.pt = {
   'settingsFrontPageDesc' : 'Um resumo vai ser gerado incluindo uma lista completa de todas as geocaches com um &#237;ndice e um espa&#231;o para colocar notas. ',
   'settingsOutlineMapDesc' : 'O resumo vai conter um mapa com todas as geocaches.',
   'settingsOutlineMapSingeDesc' : 'Depois de cada geocache est&#225; um mapa contendo a geocache e os seus "Waypoints Adicionais".',
-  'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> &#233; uma reconstru&#231;&#227;o do ficheiro GPX original da Groundspeak com toda a informa&#231;&#227;o para os GPSr modernos.</li>"+
-     "<li><li><b>Geocaching.com.au:</b> Implementa&#231;&#227;o do formato gratuito de geocaching.com.au. Infelizmente, alguns GPSr/programas tem problemas em usar este formato.</li></ul>"+
-  "<b>Se est&#225; impossibilitado de mostrar alguma informa&#231;&#227;o no seu programa ou no GPSr, tenha a certeza que seleccionou \"Groundspeak\"\ e tente outra vez!</b>",
   'settingsGPXHtmlDesc' : 'Alguns programas/GPSr tem problemas em mostrar as geocaches se a descri&#231;&#227;o estiver no formato HTML. Se a descri&#231;&#227;o estiver confusa, desactive este op&#231;&#227;o.',
   'settingsGPXWptsDesc' : 'Os waypoints-adicionais v&#227;o ser exportados como waypoint extra no GPX. Ir&#225; ver cada lugar de estacionamento na sua unidade.',
   'settingsGPXStripGCDesc' : 'GPSr antigos tem problemas com os waypoints com nome maior que 8 caracteres. Use esta op&#231;&#227;o se tem uma unidade destas.',  

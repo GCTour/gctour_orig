@@ -11,6 +11,7 @@
  *   - UPDATED: French translation - thanks pascal
  *   - UPDATED: css adjustments
  *   - NEW: Map height is now variable
+ *   - REMOVED: geocaching.com.au Type -> Groundspeak is now the only GPX Type
  *
  * version 2.1.11313
  *   - FIXED: GPX Download bug "...ctl00_hlSignOut... is undefined"

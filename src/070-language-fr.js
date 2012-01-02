@@ -53,9 +53,6 @@ $.gctour.i18n.fr = {
   'settingsUploadTour' : 'Soumettre un Tour',
   'settingsGPXStripGC' : 'Tronquer le préfixe "GC" dans le GC-Code',
   'settingsGPXWpts' : 'Exporter les Waypoints additionnels',
-  'settingsGPXSchema' : 'Version GPX',
-  'settingsGPXSchemaGS' : 'groundspeak',
-  'settingsGPXSchemaAU' : 'geocaching.com.au',
   'settings_map' : 'Carte',
   'settings_map_geocacheid' : 'Afficher l\'Id de la cache sur la carte',  
   'settings_map_geocacheindex' : 'Afficher les Waypoints des caches sur la vue générale',
@@ -110,9 +107,6 @@ $.gctour.i18n.fr = {
   'settingsFrontPageDesc' : 'Une vue d\'ensemble sera générée et incluera un index avec des cases dédiées à la prise de notes. ',
   'settingsOutlineMapDesc' : 'La vue d\'ensemble incluera une carte avec toutes les caches.',
   'settingsOutlineMapSingeDesc' : 'Après chaque cache, une carte indiquant l\'emplacement de la cache et de ses Waypoints additionnels sera affichée.',
-  'settingsGPXSchemaDesc' : "<ul><li><b>Groundspeak:</b> une regénération du GPX original de Groundspeak contenant toutes les informations destinées aux GPSr modernes.</li>"+
-     "<li><b>Geocaching.com.au:</b> Utilisation du format GPX gratuit veant de geocaching.com.au. Attention, certains GPSr/programmes n'affichent pas correctement ce format.</li></ul>"+
-     "<b>Si vous ne parvenez pas à afficher certaines informations dans votre programme ou GPSr, vérifiez que vous avez sélectionné \"Groundspeak\"\ et recommencez!</b>",
   'settingsGPXHtmlDesc' : 'Certains programmes/GPSr ont des problèmes pour afficher les descriptions au format HTML. Si vous ne voyez qu\'une description tronquée de la cache, désactivez cette option.',
   'settingsGPXWptsDesc' : 'Les Waypoints additionnels seront exportés vers votres GPS. Les parkings conseillés seront visibles sur votre GPS.',
   'settingsGPXStripGCDesc' : 'Les anciens GPSr ont parfois des problèmes avec les noms de Waypoints de plus de 8 caractères. Dans ce cas cochez cette option.',  

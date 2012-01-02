@@ -145,19 +145,12 @@ $.gctour.i18n.en = {
   "example" : "eg. ",
   "exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i>",
   "dontPrintHint" : "<b>Information :</b><br/>Elements in such a box will <u>not</u> be printed!",
-  'ERROR_DIALOG' : "<img src='http://img.groundspeak.com/forums/emoticons/signal/sad.gif'>&nbsp;&nbsp;I'm sorry but an error occurs:<br/>"+
-    "##ERROR##<br/>"+
-    "Please just try again, or look for an <a href='#' id='gctour_update_error_dialog'>update</a>!<br/>"+
-    "If this error comes every time, please send this error report.<br/>"+
-    "<div align='right' class='dialogFooter' style='padding: 5px; margin-bottom: 10px;'>"+
-    "<form action='"+GCTOUR_HOST+"/error' method='post'>"+
-    "<input type='hidden' name='redir' value='##LOCATION##'>"+
-    "<input type='hidden' name='user' value='##USERNAME##'>"+
-    "<div style='text-align:left;'>Note</div>"+
-    "<textarea name='message' rows='4' style='width:99%'></textarea>"+
-    "<textarea name='report' style='display:none;' >##ERRORREPORT##</textarea>"+
-    "<input onclick='return false;' type='button' value='close window' style='background-image:url("+closebuttonImage+")'>"+
-    "<input type='submit' value='send error report' style='background-image:url("+sendMessageImage+")'></form></div>",
+  'ERROR_DIALOG_SEND' : 'Send report',
+  'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;I\'m sorry but an error occurs.<br/>\
+              Please just try again, or look for an <a href="#" id="gctour_update_error_dialog">update</a>!<br/>\
+              If this error comes every time, please send this error report.<br/>\
+              <u>Notes</u><br/>\
+              <textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GCTour!" ,
   'mapTypes' : 
     [{"caption":"Google Map","value":"roadmap"}, 

@@ -29,7 +29,7 @@ class MapMakeResource extends Resource {
 		  $db->replace(TABLE_MAPTEMP, $data);
 		  
 		  // delete hash codes created minimal 1 day ago
-		  $sql = "delete from `gct_map_temp` where `created` < now() - interval 1 day";
+		  $sql = "delete from `".TABLE_MAPTEMP."` where `created` < now() - interval 1 day";
 		  $db->query($sql);
 		  
       $response->code = Response::OK;

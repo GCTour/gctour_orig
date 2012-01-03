@@ -319,7 +319,7 @@ function getDateFormat(force){
     response_div = createElement('div');
     response_div.innerHTML = req.responseText;
     // parse date format
-    date_format = $('select#ctl00_ContentBody_uxDateTimeFormat option:selected').val();
+    date_format = $('select#ctl00_ContentBody_uxDateTimeFormat option:selected', response_div).val();
     if (date_format !== "undefined") {
       // and save the selected option
       GM_setValue('date_format', date_format);

@@ -3,6 +3,7 @@
  *
  * version @version@.@build@
  *   - FIXED: GPX -> ALL caches were either not found or found
+ *   - FIXED: printview -> Unsupported type for GM_setValue (Your Account Details -> Date Format)
  *
  * version 2.2.12002
  *   - FIXED: Map issues

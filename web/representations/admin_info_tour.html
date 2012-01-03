@@ -1,0 +1,36 @@
+{if $pagenum != 1}
+  <a href="/admin/info/tours/page/1"><<</a>&nbsp;<a href="/admin/info/tours/page/{$pagenum-1}"><</a>
+{else}
+  << &nbsp; <
+{/if}
+{$pagenum} / {$lastpage}
+{if $pagenum != $lastpage}
+  <a href="/admin/info/tours/page/{$pagenum+1}">></a>&nbsp;<a href="/admin/info/tours/page/{$lastpage}">>></a>
+{else}
+  > &nbsp; >>
+{/if}
+
+
+<table class="tablesorter" style="border-collapse:collapse;width:100%">
+  <thead>
+  <tr>
+    <th>Webcode</th> 
+    <th>Name</th> 
+    <th>#Geocaches</th> 
+    <th>#Waypoints</th> 
+    <th>Query</th>
+  </tr>  
+  </thead>
+  <tbody>
+  {foreach from=$tours item=tour}
+  <tr bgcolor="{cycle values='#FFF,#F3F3F3'}" style="border:1px solid black;">
+   <td>{$tour->{'webcode'}}</td>
+   <td>{$tour->{'name'}}</td>
+   <td>{sizeof($tour->{'geocaches'})}</td>
+   <td>{sizeof($tour->{'ownWaypoints'})}</td>
+   <td><a href="/tour/{$tour->{'webcode'}}">click</a></td>
+  </tr>
+  {/foreach}
+  
+  </tbody>
+</table>

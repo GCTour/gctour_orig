@@ -58,7 +58,7 @@ function getGeocacheFromElement(element){
   geocache.image = "http://www.geocaching.com/images/WptTypes/"+geocache.type+".gif";
 
   geocache.sym = "Geocache";
-	if ( $('a#ctl00_ContentBody_hlFoundItLog').length >= 1 ) {
+	if ( $('a#ctl00_ContentBody_hlFoundItLog', element).length >= 1 ) {
     geocache.sym = "Geocache Found";
 	}
 

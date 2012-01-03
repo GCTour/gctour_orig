@@ -2,6 +2,9 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: GPX -> ALL caches were either not found or found
+ *
+ * version 2.2.12002
  *   - FIXED: Map issues
  *   - FIXED: Upload Tour
  *   - FIXED: exception SyntaxError JSON.parse unexpected character by download tour

@@ -2,6 +2,9 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: printview -> Bug with GCComment version
+ *
+ * version 2.2.12003
  *   - FIXED: GPX -> ALL caches were either not found or found
  *   - FIXED: printview -> Unsupported type for GM_setValue (Your Account Details -> Date Format)
  *

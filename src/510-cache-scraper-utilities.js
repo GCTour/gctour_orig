@@ -66,7 +66,7 @@ function getMinimalGeocacheDetails(detailsPage){
    */
 
    try{
-     geocache_details.guid = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly5Logs']")[0].href.split("guid=")[1].split("&")[0];
+     geocache_details.guid = dojo.query("a[id='ctl00_ContentBody_lnkPrintFriendly5Logs']",detailsPage)[0].href.split("guid=")[1].split("&")[0];
    } catch(e){
     try{
       var guid_regex = /guid='(.*)'/;

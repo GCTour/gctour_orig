@@ -243,17 +243,23 @@ function addNewTableCell(theEntry,effects){
   counterDiv.className='counter unselectable';
   counterDiv.innerHTML = (getPositionsOfId(theEntry.id || theEntry.wptcode)+1);
   entryLi.appendChild(counterDiv);
+  /*
+  // todo: jquery
+  var counterDiv = $('<div>', {
+    "class": 'counter unselectable',
+    html: (getPositionsOfId(theEntry.id +3|| theEntry.wptcode) + 1)
+  });
+  */
 
-  document.getElementById('cacheList').appendChild(entryLi);
+  $('#cacheList').append(entryLi);
   if(unsafeWindow.draglist){
     unsafeWindow.draglist.sync(); // needed to function properly
   }
 
-  if(effects){
-    dojo.fadeIn({node: entryLi,duration: 1000}).play();
+  if (effects) {
+    $("#" + theId).fadeTo(1000, 1);
   } else {
-    entryLi.style.opacity = "1";
-
+    $("#" + theId).css({opacity: 1});
   }
 
 }
@@ -432,20 +438,18 @@ function addElementFunction(theId, theGuId, theName, theTypeImage){
 
 function deleteElementFunction(theId){
   return function () {
-    var theElement = document.getElementById(theId);
-    //~ var trWithElement = theElement.parentNode.parentNode;
-
-    // cool sliding effect:
-    var elementRemoval = dojo.fadeOut({node: theElement,duration: 500});
-    dojo.connect(elementRemoval,"onEnd",function(){ theElement.parentNode.removeChild(theElement); });
-    elementRemoval.play();
+    // effect
+    $("#" + theId)
+      .fadeOut(500, function() {
+        $(this).remove();
+      });
 
     // locate the element to delete
     for (var i = 0; i < currentTour.geocaches.length; i++){
       if(currentTour.geocaches[i].id == theId || currentTour.geocaches[i].wptcode == theId){
         // array in js are dumb - where is removeAt ??
-        currentTour.geocaches.splice(i,1);
-        log("removing '"+theId +"' from '"+ currentTour.name+"'");
+        currentTour.geocaches.splice(i, 1);
+        log("removing '" + theId +"' from '" + currentTour.name + "'");
         break;
       }
     }
@@ -455,9 +459,8 @@ function deleteElementFunction(theId){
     // update the cache count
     updateCacheCount(currentTour.geocaches.length);
 
-    if(!isNotEmptyList){
-      var table = document.getElementById('cacheList');
-      table.innerHTML = $.gctour.lang('emptyList');
+    if (!isNotEmptyList) {
+      $('#cacheList').html($.gctour.lang('emptyList'));
     }
   };
 }
@@ -521,20 +524,18 @@ function deleteTourFunction(id, force){
     if (force || confirm($.gctour.lang('removeTourDialog'))) {
 
       for (var i = 0; i < tours.length; i++){
-        if(tours[i].id == id){
-          log("removing '"+tours[i].name +"'");
+        if (tours[i].id == id) {
+          log("removing '" + tours[i].name + "'");
           // array in js are dumb - where is removeAt ??
 
-          var cachelist = document.getElementById('dialogDetails');
+          var cachelist = $('#dialogDetails');
 
-          if(cachelist && cachelist.getAttribute("tourid") == tours[i].id){
-
+          if (cachelist.length > 0 && cachelist.attr("tourid") == tours[i].id) {
             showCacheList(currentTour)();
-            var loadButton = document.getElementById('loadButton');
-            loadButton.setAttribute("disabled","disabled");
+            $('#loadButton').attr("disabled", "disabled");
           }
 
-          dojo.destroy(dojo.byId("tour"+id));
+          $("#tour" + id).remove();
 
           tours.splice(i,1);
           saveCurrentTour();

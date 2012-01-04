@@ -576,7 +576,6 @@ function populateTours(){
         }
       })
       .bind('click', {tour: tour}, function(e){
-        alert(e.data.tour.id);
         deleteTourFunction(e.data.tour.id)();
       });
 

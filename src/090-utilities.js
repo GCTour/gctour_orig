@@ -298,7 +298,8 @@ function appendScript(href, domNode) {
 */
 
 // GC dateformat to jQuery ui datepicker dateformat
-function dateFormatConversion(format){
+function dateFormatConversion(format, force){
+  force = force || false;
   var conversions = {
       "yyyy-MM-dd" : "yy-mm-dd",
       "yyyy/MM/dd" : "yy/mm/dd",
@@ -308,14 +309,17 @@ function dateFormatConversion(format){
       "MMM/dd/yyyy": "M/dd/yy",
       "dd MMM yy"  : "dd M y"
   },
-  new_format = conversions[format];
-  
-  if (!new_format) {
-    throw "fn dateFormatConversion: no dateformat found: '" + format + "'";
-    return "";
+  jqui_format = conversions[format];
+
+  if (!jqui_format) {
+    if (force) {
+      return dateFormatConversion(getDateFormat(true));
+    } else {
+      throw "fn dateFormatConversion: no dateformat found: '" + format + "'";
+    }
   }
-  
-  return new_format;
+
+  return jqui_format;
 }
 
 function getDateFormat(force){
@@ -353,25 +357,27 @@ function getDateFormat(force){
 }
 
 function parseDate(date_string){
-  var date_format = getDateFormat(),
-      date = dojo.date.locale.parse(date_string, {datePattern: date_format, selector: "date",locale: "en"});
+  var orig_date_format = getDateFormat(),
+      jqui_date_format = dateFormatConversion(orig_date_format, true),
+      date,
+      debugStr = "Parse Datestring: '" + date_string + "'\nOrig-Format: '" + orig_date_format + "'\njqui-Format: '" + jqui_date_format;
 
-  if(!date){
-    getDateFormat(true);
-    return parseDate(date_string);
+  try {
+    date = $.datepicker.parseDate(jqui_date_format, date_string);
+    debug(debugStr + "'\nDate: " + date + "'");
+  } catch(e) {
+    throw e + ", " + debugStr;
   }
 
-  debug("Parse Datestring: '"+date_string+"' -> Date: '"+date+"'");
   return date;
 }
 
 function formatDate(date){
   var orig_date_format = getDateFormat(),
-      new_date_format = dateFormatConversion(orig_date_format),
-      date_string;
+      jqui_date_format = dateFormatConversion(orig_date_format),
+      date_string      = $.datepicker.formatDate(jqui_date_format, date);
 
-  date_string = $.datepicker.formatDate(new_date_format, date);
-  debug("Date: '" + date + "'\nOrig-Format: '" + orig_date_format + "'\nNew-Format: '" + new_date_format + "'\nDatestring: '" + date_string + "'");
+  debug("format Date: '" + date + "'\nOrig-Format: '" + orig_date_format + "'\njqui-Format: '" + jqui_date_format + "'\nDatestring: '" + date_string + "'");
 
   return date_string;
 }

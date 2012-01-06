@@ -265,38 +265,9 @@ function appendScript(href, domNode) {
   return script;
 }
 
-
-  /* Test code for all date pattern
-    var dates = [
-      {pattern:"yyyy-MM-dd",example:"2011-05-15"},
-      {pattern:"yyyy/MM/dd",example:"2011/05/15"},
-      {pattern:"MM/dd/yyyy",example:"05/15/2011"},
-      {pattern:"dd/MM/yyyy",example:"15/05/2011"},
-      {pattern:"dd/MMM/yyyy",example:"15/May/2011"},
-      {pattern:"MMM/dd/yyyy",example:"May/15/2011"},
-      {pattern:"dd MMM yy",example:"15 May 11"}
-    ];
-
-    for(var monat = 0; monat <= 11 ; monat++){
-      for(var tag = 1; tag <= 31; tag++){
-        var date = new Date(2011,monat,tag);
-        //~ GM_log(date);
-        for (i in dates) {
-          var date_obj = dates[i];
-          var date_string = dojo.date.locale.format(date, {datePattern: date_obj.pattern, selector: "date",locale: "en"});
-          //~ GM_log("\t"+date_string);
-          var paresed_date = dojo.date.locale.parse(date_string, {datePattern: date_obj.pattern, selector: "date",locale: "en"});
-          //~ GM_log("\t"+paresed_date);
-          if(dojo.date.compare(date,paresed_date) != 0){
-            GM_log("Asdasd");
-          }
-          //~ GM_log(date_obj.pattern+": '"+date+"'->'"+dojo.date.locale.parse(date_obj.example, {datePattern: date_obj.pattern, selector: "date",locale: "en"})+"'");
-        }
-      }
-    }
-
+/* Test code for all date pattern
+  http://jsfiddle.net/rmpyL/
 */
-
 // GC dateformat to jQuery ui datepicker dateformat
 function dateFormatConversion(format, force){
   force = force || false;

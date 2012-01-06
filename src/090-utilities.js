@@ -297,6 +297,26 @@ function appendScript(href, domNode) {
 
 */
 
+// GC dateformat to jQuery ui datepicker dateformat
+function dateFormatConversion(format){
+  var conversions = {
+      "yyyy-MM-dd" : "yy-mm-dd",
+      "yyyy/MM/dd" : "yy/mm/dd",
+      "MM/dd/yyyy" : "mm/dd/yy",
+      "dd/MM/yyyy" : "dd/mm/yy",
+      "dd/MMM/yyyy": "dd/M/yy",
+      "MMM/dd/yyyy": "M/dd/yy",
+      "dd MMM yy"  : "dd M y"
+  },
+  new_format = conversions[format];
+  
+  if (!new_format) {
+    throw "fn dateFormatConversion: no dateformat found: '" + format + "'";
+    return "";
+  }
+  
+  return new_format;
+}
 
 function getDateFormat(force){
   var date_format_update = new Date(GM_getValue('date_format_update')),
@@ -346,11 +366,12 @@ function parseDate(date_string){
 }
 
 function formatDate(date){
-  var date_format = getDateFormat(),
-      date_string = dojo.date.locale.format(date, {datePattern: date_format, selector: "date",locale: "en"});
+  var orig_date_format = getDateFormat(),
+      new_date_format = dateFormatConversion(orig_date_format),
+      date_string;
 
-  debug("Format Date: '"+date+"' -> Datestring: '"+date_string+"'");
+  date_string = $.datepicker.formatDate(new_date_format, date);
+  debug("Date: '" + date + "'\nOrig-Format: '" + orig_date_format + "'\nNew-Format: '" + new_date_format + "'\nDatestring: '" + date_string + "'");
 
   return date_string;
 }
-

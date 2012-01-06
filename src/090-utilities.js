@@ -293,6 +293,36 @@ function dateFormatConversion(format, force){
   return jqui_format;
 }
 
+// inspiration: dojo.date.difference
+// http://jsfiddle.net/fr4Na/
+function DateDiff(date1, date2, einheit) {
+  var ms = date1.getTime() - date2.getTime(); // milliseconds
+  var diff;
+
+  switch (einheit) {
+   case "second":
+     diff = ms / 1000;
+     break;
+   case "minute":
+     diff = ms / 60000;     // 1000 * 60
+     break;
+   case "hour":
+     diff = ms / 3600000;   // 1000 * 60 * 60
+     break;
+   case "day":
+     diff = ms / 86400000;  // 1000 * 60 * 60 * 24
+     break;
+   case "week":
+     diff = ms / 604800000; // 1000 * 60 * 60 * 24 * 7
+     break;
+   default:
+     diff = ms;
+     break;
+  }
+
+  return diff;
+}
+
 function getDateFormat(force){
   var date_format_update = new Date(GM_getValue('date_format_update')),
       current_date = new Date(),
@@ -302,7 +332,7 @@ function getDateFormat(force){
       date_format;
 
   // get date format every 30 minutes
-  if (force || !date_format_update || dojo.date.difference(date_format_update, current_date, "minute") > 30) {
+  if (force || !date_format_update || Math.round(DateDiff(current_date, date_format_update, "minute")) > 30) {
     //replace updatedate
     GM_setValue('date_format_update', current_date.toString());
 
@@ -318,6 +348,7 @@ function getDateFormat(force){
     if (date_format !== "undefined") {
       // and save the selected option
       GM_setValue('date_format', date_format);
+      debug("fn getDateFormat - GM_setValue: 'date_format' = " + date_format);
     } else {
       error("fn getDateFormat - select#ctl00_ContentBody_uxDateTimeFormat is undefined");
     }

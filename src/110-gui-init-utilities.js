@@ -31,7 +31,12 @@ function getEntryFromBookmarkTd(bmLine){
 }
 
 function getEntriesFromSearchpage(){
-  var q = $("table.SearchResultsTable tbody tr:not(:first)");  // without header
+
+  // Data Rows without header and without GCVote tr
+  // <tr class="SolidRow Data BorderTop"> and
+  // <tr class="AlternatingRow Data BorderTop">
+  var q = $("table.SearchResultsTable tbody tr.Data");
+
   var entries = [];
 
   entries = q.map(function() {

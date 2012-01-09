@@ -417,19 +417,18 @@ function printPageFunction(currentTour){
                 }
 
                 if(GM_getValue('printFrontpage',true) && !minimal){
-                  // replace placeholder on titlepage with real coordinates
-                  var title_coords = dojo.query("span[id='coords_"+geocache.gcid+"']",newwindow2.document)[0];
-                  title_coords.innerHTML = geocache.coordinates;
 
-                  // setting D, T and size on titlepage
-                   dojo.query("span[id='d_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.difficulty;
-                   dojo.query("span[id='t_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.terrain;
-                   dojo.query("span[id='s_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = geocache.size.substring(0,1);
+                  $(newwindow2.document)
+                    // setting real coordinates on titlepage
+                    .find("span#coords_" + geocache.gcid).html(geocache.coordinates).end()
+                    // setting D, T and size on titlepage
+                    .find("span#d_"+geocache.gcid).html(geocache.difficulty).end()
+                    .find("span#t_"+geocache.gcid).html(geocache.terrain).end()
+                    .find("span#s_"+geocache.gcid).html(geocache.size.substring(0,1)).end();
 
                    // set the last 4 logs icon:
-                   getLast4Logs(geocache.logs, dojo.query("canvas[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0]);
-                  //~ dojo.query("span[id='l4l_"+geocache.gcid+"']",newwindow2.document)[0].innerHTML = getLast4Logs(geocache.logs);
-
+                   getLast4Logs(geocache.logs, $("canvas#l4l_" + geocache.gcid, newwindow2.document));
+                   //~ $("span#l4l_"+geocache.gcid,newwindow2.document)[0].html(getLast4Logs(geocache.logs));
                 }
 
                 var geocacheMapping = [
@@ -617,8 +616,7 @@ function getLast4Logs(logs, canvas_element){
     }
   };
 
-  var canvas = canvas_element;
-  var ctx = canvas.getContext("2d");
+  var ctx = canvas_element.get(0).getContext('2d');
   ctx.fillStyle = "black";
   //~ ctx.fillRect(0,0,17,17);
   ctx.clearRect(1,1,15,15);

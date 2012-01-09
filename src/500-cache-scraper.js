@@ -1,6 +1,6 @@
 // source of all evil asking groundspeak
 function getGeocacheFromElement(element){
-  var coordinates, logLink, upper_tables, minimal_geocache;
+  var coordinates, logLink, minimal_geocache, $divCacheDetails, $lnkConversions;
   var geocache = {};
 
   /*~
@@ -42,8 +42,6 @@ function getGeocacheFromElement(element){
     throw $.gctour.lang('notLogedIn');
   }
 
-  upper_tables = dojo.query('table[id="cacheDetails"] table',element);
-
   if (dojo.query('input[id="ctl00_ContentBody_uxPremiumSubmitBottom"]',element)[0]) {
     return "pm only";
   }
@@ -62,7 +60,7 @@ function getGeocacheFromElement(element){
     geocache.sym = "Geocache Found";
 	}
 
-  geocache.owner = trim(dojo.query('a[href*="http://www.geocaching.com/profile/?guid="]',element)[0].textContent);
+  geocache.owner = $.trim( $('a[href*="www.geocaching.com/profile/?guid="]', element).first().text() );
 
   if(unsafeWindow.getGCComment){
     var comment = unsafeWindow.getGCComment(geocache.guid);
@@ -93,48 +91,26 @@ function getGeocacheFromElement(element){
     geocache.archived = false;
   }
 
-  var ownerDateTable = upper_tables[1];
-  var ownerDateSpans = dojo.query('span',ownerDateTable);
+  $divCacheDetails = $('div#cacheDetails', element).first();
+  geocache.hidden = parseDate(trim($('span', $divCacheDetails).eq(2).text().split(':').pop()));
+  /* (01.2012)
+    event caches =>
+          LogedIn => okay, Example: 01/08/2012
+        notLogedIn => unfortunately has an other format => Example: Wednesday, February 29, 2012
+          solution approach => $.datepicker.parseDate("DD, MM d, yy", date_string)
+          (http://docs.jquery.com/UI/Datepicker/parseDate)
+  */
 
-  var cacheDetails = dojo.query('div[id="cacheDetails"]',element)[0];
+  geocache.difficulty = $.trim( $("span#ctl00_ContentBody_uxLegendScale > img", element).first().attr("alt").split(" out of ")[0] );
+  geocache.terrain    = $.trim( $("span#ctl00_ContentBody_Localize12 > img",    element).first().attr("alt").split(" out of ")[0] );
 
-  //~ geocache.hidden = trim(ownerDateSpans[1].textContent.split(':').pop());
-  geocache.hidden = parseDate(trim(dojo.query('span',cacheDetails)[2].textContent.split(':').pop()));
+  geocache.size       = $.trim( $('img[src*="/images/icons/container/"]',       element).first().attr("alt").split(": ")[1]);
 
-  /* not in the latest version of gc.com
-  // unfortnaly event caches has an other format - parse this also -
-  // may unessesary after latest update - TODO
-  if(geocache.hidden.match(",")){
+  geocache.coordinates = $('span#uxLatLon', element).first().html();
 
-    dateArray = trim(geocache.hidden.split(",")[1]).split(" ");
-    var hiddenDay = dateArray[0];
-    switch(dateArray[1]){
-      case "January": var hiddenMonth = 1;break;
-      case "February": var hiddenMonth = 2;break;
-      case "March": var hiddenMonth = 3;break;
-      case "April": var hiddenMonth = 4;break;
-      case "May": var hiddenMonth = 5;break;
-      case "June": var hiddenMonth = 6;break;
-      case "July": var hiddenMonth = 7;break;
-      case "August": var hiddenMonth = 8;break;
-      case "September": var hiddenMonth = 9;break;
-      case "October": var hiddenMonth = 10;break;
-      case "November": var hiddenMonth = 11;break;
-      case "December": var hiddenMonth = 12;break;
-    }
-    var hiddenYear = dateArray[2];
-
-    geocache.hidden = hiddenMonth+"/"+hiddenDay+"/"+hiddenYear;
-  }*/
-
-  geocache.difficulty = dojo.query('span[id="ctl00_ContentBody_uxLegendScale"] > img',element)[0].alt.split(" out of ")[0];
-  geocache.terrain = dojo.query('span[id="ctl00_ContentBody_Localize12"] > img',element)[0].alt.split(" out of ")[0];
-
-  geocache.size = trim(dojo.query('img[src*="/images/icons/container/"]',element)[0].alt.split(": ")[1]);
-
-  geocache.coordinates = dojo.query('span[id="uxLatLon"]',element)[0].innerHTML;
-  geocache.lat = dojo.query('a[id="ctl00_ContentBody_lnkConversions"]',element)[0].href.split("lat=")[1].split("&")[0];
-  geocache.lon = dojo.query('a[id="ctl00_ContentBody_lnkConversions"]',element)[0].href.split("lon=")[1].split("&")[0];
+  $lnkConversions = $('a#ctl00_ContentBody_lnkConversions', element).first().attr("href");
+  geocache.lat = $lnkConversions.split("lat=")[1].split("&")[0];
+  geocache.lon = $lnkConversions.split("lon=")[1].split("&")[0];
 
   // if the user changed the coordinates of this geocache
   if(GM_getValue('coords_'+geocache.gcid,"null") != "null"){ // use it
@@ -145,7 +121,7 @@ function getGeocacheFromElement(element){
 
   }
 
-  geocache.location = dojo.query("span[id='ctl00_ContentBody_Location']",element)[0].textContent;
+  geocache.location = $("span#ctl00_ContentBody_Location", element).first().text();
 
   // get the country and (if exists) the state!
   if(geocache.location.indexOf(",") < 0){ // if the index of "," < 0 then the state is not given!

@@ -53,9 +53,9 @@ function getMapSettings(){
 }
 
 function getMapUrl(mapQuery){
-  
+
   var hash_value = postSync(GCTOUR_HOST+"/map/make", "ids="+mapQuery);
-  debug("Hash '"+hash_value+"' for this query '"+mapQuery+"'");  
+  debug("Hash '"+hash_value+"' for this query '"+mapQuery+"'");
   return GCTOUR_HOST+"/map/show/h/"+hash_value+"/"+getMapSettings()+"/"+getMapType();
 }
 
@@ -63,7 +63,7 @@ function getMap(mapQuery){
   var map_size_px,
       mapId = mapQuery.replace(/,/g,""),
       map_frame = document.createElement('iframe');
-  
+
   switch (GM_getValue('defaultMapSize', 'large')) {
     case "medium":
       map_size_px = 375;
@@ -75,7 +75,7 @@ function getMap(mapQuery){
       map_size_px = 500;
       break;
   }
-    
+
   map_frame.className = 'cacheMap';
   map_frame.id = mapId;
   map_frame.style.width = "20cm";
@@ -86,15 +86,15 @@ function getMap(mapQuery){
 }
 
 function getMapControl(mapQuery,map_frame,newDocument){
-  
-  
+
+
 
   var mapId = mapQuery.replace(/,/g,""),
       control_container = createElement('div',{style:"float:right;"}),
       map_size_px;
-      
+
   control_container.className = 'noprint';
-  
+
   switch (GM_getValue('defaultMapSize', 'large')) {
     case "medium":
       map_size_px = 375;
@@ -106,7 +106,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
       map_size_px = 500;
       break;
   }
-    
+
   // todo - default noch selektieren! und alten code löschen
   $(control_container).append(
     $('<ul/>').append(
@@ -116,17 +116,17 @@ function getMapControl(mapQuery,map_frame,newDocument){
           max:700,
           value:map_size_px,
           document: newDocument,
-          slide:function(values){map_frame.style.height=values.value+"px";}         
+          slide:function(values){map_frame.style.height=values.value+"px";}
           })
       ),
-      $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')   
-        .css('background','url("'+deleteImageString+'") top left no-repeat')  
+      $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')
+        .css('background','url("'+deleteImageString+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.parentNode.style.display = "none";}),
-      $('<li>Karte neu laden!</li>')   
-        .css('background','url("'+deleteImageString+'") top left no-repeat')  
+      $('<li>Karte neu laden!</li>')
+        .css('background','url("'+deleteImageString+'") top left no-repeat')
         .css('padding-left','18px')
-        .click(function(){map_frame.src = map_frame.src;})  
+        .click(function(){map_frame.src = map_frame.src;})
     )
   ).find("li").addShadowEffect().addOpacityEffect();
 /*
@@ -179,13 +179,13 @@ function getMapControl(mapQuery,map_frame,newDocument){
 
   divElement.appendChild(deleteImage);
   divElement.appendChild(document.createTextNode($.gctour.lang('printviewRemoveMap')));
-  
-   /* var refresh_link = 
-  
+
+   /* var refresh_link =
+
   document.getElementById(FrameID).contentDocument.location.reload(true);
 
-  
-  
+
+
 * /
   control_container.appendChild(createElement('br'));
 
@@ -196,7 +196,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
 //  map_link.addEventListener('click', function(){GM_openInTab(getMapUrl(mapQuery))}, true);
   map_link.innerHTML = "("+$.gctour.lang('printviewZoomMap')+")";
   control_container.appendChild(map_link);
-  
+
 
 */
   return control_container;
@@ -243,7 +243,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
 
 (function( $ ){
 
-    var methods = { 
+    var methods = {
       init : function( options ) {
         var settings = $.extend( {
               'min'         : '0',
@@ -258,13 +258,13 @@ function getMapControl(mapQuery,map_frame,newDocument){
             slider_offset = 0,
             percentage = 0,
             self = this;
-            
+
         // set start value
         percentage = (100 * settings.value)/settings.max;
-                                   
+
         scroller_element
           .css("left", (percentage)+"%")
-          .click(function( event ) {  
+          .click(function( event ) {
             event.preventDefault();
           })
           .hover(
@@ -277,56 +277,56 @@ function getMapControl(mapQuery,map_frame,newDocument){
           .blur(function() {
             $( this ).removeClass( "ui-state-focus" );
           })
-          .mousedown(function(e){	
+          .mousedown(function(e){
             e.preventDefault();
             dragged = true;
-            
-        		slider_width = parseInt(self.css("width"));        
+
+        		slider_width = parseInt(self.css("width"));
         		slider_offset = parseInt(self.offset().left);
-              
+
         		scroller_element.addClass( "ui-state-active" );
-        		methods["trigger"].apply( self, ["start", methods["calculate"].apply( self, [percentage])]);       		
-        	});   
-        
+        		methods["trigger"].apply( self, ["start", methods["calculate"].apply( self, [percentage])]);
+        	});
+
         this.addClass('ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all')
           .append(scroller_element);
-       
-       $('*',settings.document).mousemove(function(e){	
+
+       $('*',settings.document).mousemove(function(e){
       	  if(dragged){
       	    e.preventDefault();
       	    percentage = (100*(e.pageX-slider_offset))/(slider_width);
             percentage = (percentage<0)?0:percentage;
             percentage = (percentage>100)?100:percentage;
-                    
+
 //            debug("MousePos:"+e.pageX+"\tSliderWidth:"+slider_width+"\tSliderOffset:"+slider_offset+"\tMove to:"+percentage);
-            
-           
+
+
             scroller_element.css("left", (percentage)+"%");
-            
-            methods["trigger"].apply( self, ["slide", methods["calculate"].apply( self, [percentage])]);  
+
+            methods["trigger"].apply( self, ["slide", methods["calculate"].apply( self, [percentage])]);
       	  }
       	});
-      	
-      	
+
+
         $('*',settings.document).mouseup(function(){
           if(dragged){
     			  dragged = false;
     			  scroller_element.removeClass( "ui-state-active" );
-    			  methods["trigger"].apply( self, ["stop", methods["calculate"].apply( self, [percentage])]);    
+    			  methods["trigger"].apply( self, ["stop", methods["calculate"].apply( self, [percentage])]);
 //    			  methods["trigger"].apply( self, {value:percentage});
     			}
-    		}); 
-      	
-      	     
+    		});
+
+
         this.data('gct_slider', {
           target : $(this),
           settings : settings
-        });  
-        
-     
-        
-     
-        return this;    
+        });
+
+
+
+
+        return this;
       },
       calculate : function(percentage) {
        var $data = $(this).data('gct_slider'),
@@ -341,13 +341,13 @@ function getMapControl(mapQuery,map_frame,newDocument){
         var $data = $(this).data('gct_slider');
             callback = $data.settings[type],
             data = data || {};
-          
-            
+
+
          return !($.isFunction( callback ) &&
                     callback.apply(this, [ data ]) === false)
-     }   
+     }
    }
-   
+
    $.fn.gct_slider = function( method ) {
      if ( methods[method] ) {
        return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
@@ -355,11 +355,10 @@ function getMapControl(mapQuery,map_frame,newDocument){
        return methods.init.apply( this, arguments );
      } else {
        $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
-     }  
+     }
    };
- 
-})( $ );
 
+})( $ );
 
 function getMapElement(mapQuery,newDocument) {
 
@@ -371,172 +370,3 @@ function getMapElement(mapQuery,newDocument) {
 
   return map_container;
 }
-
-function getOverviewMap(geocaches, newwindow2, theElement){
-    log('POST: http://gctour.madd.in/map/save.php - caches='+JSON.stringify(geocaches));
-    //~ post('http://gctour.madd.in/map/save.php', 'caches='+uneval(geocaches).replace(/&/g,"\\u0026") ,
-    //~ post('http://localhost/martin/map/save.php', 'tour='+JSON.stringify(geocaches).replace(/&/g," und "),
-    post('http://gctour.madd.in/map/save.php', 'tour='+JSON.stringify(geocaches).replace(/&/g," und "),
-      function(text){
-        var mapId = text+ "#" + (new Date()).getTime();
-
-        var cacheMapControl = document.createElement('div');
-        cacheMapControl.className = 'noprint';
-        //~ cacheMapControl.style.width = "20cm";
-        cacheMapControl.style.border = '1px solid #EBEFC2';
-        cacheMapControl.style.backgroundColor = '#FBFFCF';
-
-        cacheMapControl.style.marginLeft = "auto" ;
-        cacheMapControl.style.marginRight = "auto" ;
-
-        cacheMapControl.style.marginBottom = "5px" ;
-        cacheMapControl.style.paddingBottom = "5px" ;
-        cacheMapControl.style.textAlign = "center" ;
-
-        var divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-        divElement.appendChild(document.createTextNode(  $.gctour.lang('printviewAdditionalWaypoint') ));
-
-        divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.border = '1px solid lightgray';
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-
-        var inputElement = document.createElement('input');
-        inputElement.id = 'mapMarker'+mapId;
-        inputElement.checked = 'checked';
-        inputElement.type = 'checkbox';
-        inputElement.addEventListener('click',updateMap(newwindow2.document,mapId), false);
-        divElement.appendChild(inputElement);
-        divElement.appendChild(document.createTextNode($.gctour.lang('settingsLogCountShow')));
-
-        inputElement = document.createElement('input');
-        inputElement.id = 'mapMarkerName'+mapId;
-        inputElement.checked = 'checked';
-        inputElement.type = 'checkbox';
-        inputElement.addEventListener('click',updateMap(newwindow2.document,mapId), false);
-        divElement.appendChild(inputElement);
-        divElement.appendChild(document.createTextNode(  $.gctour.lang('markerCaption')));
-
-        divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-        divElement.appendChild(document.createTextNode('Geocache:'));
-
-         divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.border = '1px solid lightgray';
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-
-        inputElement = document.createElement('input');
-        inputElement.id = 'mapName'+mapId;
-        inputElement.type = 'checkbox';
-        inputElement.addEventListener('click',updateMap(newwindow2.document,mapId), false);
-
-        divElement.appendChild(inputElement);
-        divElement.appendChild(document.createTextNode($.gctour.lang('markerCaption')));
-
-        inputElement = document.createElement('input');
-        inputElement.id = 'mapGcId'+mapId;
-        inputElement.type = 'checkbox';
-        inputElement.checked = 'checked';
-        inputElement.addEventListener('click',updateMap(newwindow2.document,mapId), false);
-
-        divElement.appendChild(inputElement);
-        divElement.appendChild(document.createTextNode('GC-Code'));
-
-        // map size buttons
-        divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-        divElement.appendChild(document.createTextNode('Size:'));
-
-        divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.border = '1px solid lightgray';
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-
-        var factor = 1;
-        inputElement = document.createElement('input');divElement.appendChild(inputElement);
-        inputElement.name = 'mapSize'+mapId;
-        inputElement.type = 'radio';
-        if(GM_getValue('defaultMapSize', 'large') == "large"){
-          inputElement.checked = 'checked';
-          factor = 1;
-        }
-        inputElement.addEventListener('click',updateMapSize(newwindow2.document,mapId,1), false);
-        divElement.appendChild(document.createTextNode("large"));
-
-        inputElement = document.createElement('input');divElement.appendChild(inputElement);
-        inputElement.name = 'mapSize'+mapId;
-        inputElement.type = 'radio';
-        if(GM_getValue('defaultMapSize', 'large') == "medium"){
-          inputElement.checked = 'checked';
-          factor = 0.75;
-        }
-        inputElement.addEventListener('click',updateMapSize(newwindow2.document,mapId,0.75), false);
-        divElement.appendChild(document.createTextNode("medium"));
-
-        inputElement = document.createElement('input');divElement.appendChild(inputElement);
-        inputElement.name = 'mapSize'+mapId;
-        inputElement.type = 'radio';
-        if(GM_getValue('defaultMapSize', 'large') == "small"){
-          inputElement.checked = 'checked';
-          factor = 0.5;
-        }
-        inputElement.addEventListener('click',updateMapSize(newwindow2.document,mapId,0.5), false);
-        divElement.appendChild(document.createTextNode("small"));
-
-
-        inputElement = document.createElement('input');divElement.appendChild(inputElement);
-        inputElement.name = 'mapSize'+mapId;
-        if(GM_getValue('defaultMapSize', 'large') ==  'very small'){
-          inputElement.checked = 'checked';
-          factor = 0.3;
-        }
-        inputElement.type = 'radio';
-        inputElement.addEventListener('click',updateMapSize(newwindow2.document,mapId,0.3), false);
-        divElement.appendChild(document.createTextNode("very small"));
-
-        // delete map button
-        divElement = document.createElement('div');cacheMapControl.appendChild(divElement);
-        divElement.style.border = '1px solid lightgray';
-        divElement.style.marginRight = '10px';
-        divElement.style.display = "inline";
-        divElement.style.cursor = "pointer";
-        divElement.addEventListener('click', function(){newwindow2.document.getElementById(mapId).style.display = "none"; }, true);
-
-        addOpacityEffects(divElement);
-
-        var deleteImage = document.createElement('img');
-        deleteImage.style.cursor = 'pointer';
-        deleteImage.src = deleteImageString;
-
-        divElement.appendChild(deleteImage);
-        divElement.appendChild(document.createTextNode($.gctour.lang('printviewRemoveMap')));
-
-        var cacheMap = document.createElement('iframe');
-        cacheMap.className = 'cacheMap';
-        //~ cacheMap.id = text;
-
-        cacheMap.style.width = (factor * 20) + "cm";
-        cacheMap.style.height = (factor * 500) + 'px';
-        cacheMap.style.border = '1px solid lightgray';
-        //~ cacheMap.src = "http://localhost/martin/map/show2.php?crc="+text+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
-        cacheMap.src = "http://gctour.madd.in/map/show2.php?crc="+text+"&maptype="+GM_getValue('printOutlineMapType',"Karte");
-
-        var map = document.createElement('div');
-        //~ map.id = 'mapDiv';
-        map.id = mapId ;
-        map.style.textAlign = 'center';
-        map.style.marginLeft = 'auto';
-        map.style.marginRight = 'auto';
-
-        map.appendChild(cacheMapControl);
-        map.appendChild(cacheMap);
-
-        dojo.query("div[id='"+theElement+"']",newwindow2.document)[0].appendChild(map);
-      });
-}
-

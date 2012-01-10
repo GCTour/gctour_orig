@@ -93,13 +93,12 @@ function getGPXGeoCache(gcid){
 
   // define the cache type
   // if the GPX type is Groundspeak - parse type through the wptArr from autotour:
- 
+
   for( i = 0; i < wptArray.length; i++){
     if(wptArray[i].wptTypeId == geocache_obj.type){
       geocache.cacheType = wptArray[i].name;
     }
   }
-  
 
   geocache.attributes_array = geocache_obj.attributes_array;
   geocache.difficulty = geocache_obj.difficulty;
@@ -109,12 +108,12 @@ function getGPXGeoCache(gcid){
   var summary     = geocache_obj.short_description,
       description = geocache_obj.long_description;
 
-  if(GM_getValue('gpxhtml',true)){
-    geocache.longDescription  = (description) ? description.innerHTML   : "";
-    geocache.shortDescription = (summary)     ? summary.innerHTML       : "";
+  if (GM_getValue('gpxhtml',true)) {
+    geocache.longDescription  = (description.length === 1) ? description.html() : "";
+    geocache.shortDescription = (summary.length === 1)     ? summary.html()     : "";
   } else {
-    geocache.longDescription  = (description) ? description.textContent : "";
-    geocache.shortDescription = (summary)     ? summary.textContent     : "";
+    geocache.longDescription  = (description.length === 1) ? description.text() : "";
+    geocache.shortDescription = (summary.length === 1)     ? summary.text()     : "";
   }
 
   geocache.hint    = geocache_obj.hint;
@@ -256,20 +255,20 @@ function getGPX(){
         debug("GS GPX: geocache.dateHidden:'"+geocache.dateHidden+"' -> xsd:'"+xsdDateTime(geocache.dateHidden)+"'");
         var logs =  geocache.logs;
         var logsStringArray = [];
-       
-        // create log with attributes!   
+
+        // create log with attributes!
         var attributeLogtext = $.map(geocache.attributes_array, function(row, i){
                                  return row[2] + ": "+ ((row[3] === 1)?"yes":"no");
-                               }).join("\n")   
-          
+                               }).join("\n");
+
         var attributeLog = geocacheLogTemplate;
-            attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);   
-            attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));   
-            attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");   
-            attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");   
-            attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);   
-        logsStringArray.push(attributeLog);       
-        
+            attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);
+            attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));
+            attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");
+            attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");
+            attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);
+        logsStringArray.push(attributeLog);
+
         // just 10 logs in the gpx
         for ( ii = 0; (ii < logs.length && ii < 10); ii++){
           var geocacheLogMapping = [
@@ -340,7 +339,7 @@ function getGPX(){
         if(GM_getValue('gpxwpts',true)){
           for( iii = 0;iii<geocache.additionalWaypoints.length;iii++){
             // vielleicht sollte man die ??? Wegpunkte in die Nähe des Geocaches legen => Man hätte sie auf dem Gerät!
-            if(geocache.additionalWaypoints[iii].coordinates != "???"){ 
+            if(geocache.additionalWaypoints[iii].coordinates != "???"){
               wptStrArray.push(getWaypointsGPXFromGeocache(geocache.additionalWaypoints[iii],geocache));
             }
           }

@@ -265,34 +265,6 @@ function appendScript(href, domNode) {
   return script;
 }
 
-/* Test code for all date pattern
-  http://jsfiddle.net/rmpyL/
-*/
-// GC dateformat to jQuery ui datepicker dateformat
-function dateFormatConversion(format, force){
-  force = force || false;
-  var conversions = {
-      "yyyy-MM-dd" : "yy-mm-dd",
-      "yyyy/MM/dd" : "yy/mm/dd",
-      "MM/dd/yyyy" : "mm/dd/yy",
-      "dd/MM/yyyy" : "dd/mm/yy",
-      "dd/MMM/yyyy": "dd/M/yy",
-      "MMM/dd/yyyy": "M/dd/yy",
-      "dd MMM yy"  : "dd M y"
-  },
-  jqui_format = conversions[format];
-
-  if (!jqui_format) {
-    if (force) {
-      return dateFormatConversion(getDateFormat(true));
-    } else {
-      throw "fn dateFormatConversion: no dateformat found: '" + format + "'";
-    }
-  }
-
-  return jqui_format;
-}
-
 // inspiration: dojo.date.difference
 // http://jsfiddle.net/fr4Na/
 function DateDiff(date1, date2, einheit) {
@@ -322,6 +294,7 @@ function DateDiff(date1, date2, einheit) {
 
   return diff;
 }
+
 
 function getDateFormat(force){
   var date_format_update = new Date(GM_getValue('date_format_update')),
@@ -356,6 +329,34 @@ function getDateFormat(force){
 
   // allways set! otherwise something went wrong...
   return GM_getValue('date_format');
+}
+
+/* Test code for all date pattern
+  http://jsfiddle.net/rmpyL/
+*/
+// GC dateformat to jQuery ui datepicker dateformat
+function dateFormatConversion(format, force){
+  force = force || false;
+  var conversions = {
+      "yyyy-MM-dd" : "yy-mm-dd",
+      "yyyy/MM/dd" : "yy/mm/dd",
+      "MM/dd/yyyy" : "mm/dd/yy",
+      "dd/MM/yyyy" : "dd/mm/yy",
+      "dd/MMM/yyyy": "dd/M/yy",
+      "MMM/dd/yyyy": "M/dd/yy",
+      "dd MMM yy"  : "dd M y"
+  },
+  jqui_format = conversions[format];
+
+  if (!jqui_format) {
+    if (force) {
+      return dateFormatConversion(getDateFormat(true));
+    } else {
+      throw "fn dateFormatConversion: no dateformat found: '" + format + "'";
+    }
+  }
+
+  return jqui_format;
 }
 
 function parseDate(date_string){

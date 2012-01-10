@@ -180,13 +180,8 @@ function getMapControl(mapQuery,map_frame,newDocument){
   divElement.appendChild(deleteImage);
   divElement.appendChild(document.createTextNode($.gctour.lang('printviewRemoveMap')));
 
-   /* var refresh_link =
+  // var refresh_link = document.getElementById(FrameID).contentDocument.location.reload(true);
 
-  document.getElementById(FrameID).contentDocument.location.reload(true);
-
-
-
-* /
   control_container.appendChild(createElement('br'));
 
   var map_link = createElement('a',{style:"font-size:80%"});

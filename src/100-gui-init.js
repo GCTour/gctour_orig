@@ -138,7 +138,7 @@ function initComponents(){
     "html":
       $('<ul>',{
         id: "cacheList",
-        'class': 'cachelist',
+        'class': 'cachelist'
       })
       .sortable({
         axis: 'y',

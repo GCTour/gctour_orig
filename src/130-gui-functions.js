@@ -259,9 +259,8 @@ function getMapGeocache(gcid){
 }
 
 function getMapMarker(markerId){
-  var marker, position;
-  position = getPositionsOfId(markerId)
-  var marker = currentTour.geocaches[position];
+  var position = getPositionsOfId(markerId),
+      marker = currentTour.geocaches[position];
   marker.index = position;
   return marker;
 }
@@ -297,7 +296,7 @@ function makeMapFunction(){
       try{
         result = JSON.parse(response);
 
-        if(result.missing_wptIds.length == 0 && result.missing_gcIds.length == 0){ // map is completly available in appengine
+        if(result.missing_wptIds.length === 0 && result.missing_gcIds.length === 0){ // map is completly available in appengine
           GM_openInTab(getMapUrl(allIds.join(","))+"#gui");
           closeOverlay();
         } else {
@@ -315,13 +314,12 @@ function makeMapFunction(){
               }
             }
 
-
             if(result.missing_wptIds.length > 0){
               for (cache_i = 0; cache_i < result.missing_wptIds.length; cache_i++){
                 costumMarkers.push(getMapMarker(result.missing_wptIds[cache_i]));
-
-                setProgress(cache_i+result.missing_gcIds.length
-                  ,result.missing_gcIds.length+result.missing_wptIds.length-1,document);
+                setProgress(cache_i + result.missing_gcIds.length, 
+                            result.missing_gcIds.length + result.missing_wptIds.length - 1, 
+                            document);
               }
             }
 

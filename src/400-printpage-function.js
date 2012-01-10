@@ -55,12 +55,9 @@ function printPageFunction(currentTour){
         '</div>';
 
       var costumMarker = (typeof(currentTour.geocaches[0].latitude) != "undefined");
-      var newwindow2;
-      if(!costumMarker){
-        newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid='+currentTour.geocaches[0].guid,'printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
-      } else {
-        newwindow2=window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=39eedff9-69ea-4a18-97b0-bde6bfbccfb7','printview','fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
-      }
+
+      var url_guid = (!costumMarker) ? currentTour.geocaches[0].guid : "39eedff9-69ea-4a18-97b0-bde6bfbccfb7";
+      var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
 
       // trick to wait until the page from gc-com is loaded, to prevent tour detection
       newwindow2.window.addEventListener ("DOMContentLoaded", function() {
@@ -469,22 +466,32 @@ function printPageFunction(currentTour){
 
                 var cacheDetailTemp = fillTemplate(geocacheMapping,cacheDetailTemplate);
 
-                dojo.query("*[class='removable']",cacheDetailTemp)
-                  .onclick(function(e){e.stopPropagation();dojo.destroy(this); })
-                  .onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";})
-                  .onmouseout(function(e){ this.style.opacity="1";});
+                // class "removable" elements and removable images in description
+                $(".removable, div[class*='long'] img", cacheDetailTemp)
+                  .click(function(e){
+                    e.stopPropagation();
+                    $(this).remove();
+                  })
+                  .hover(
+                    function(){
+                      $(this).css({
+                        "opacity": "0.5",
+                        "cursor": "url('" + deleteImageString + "'),pointer"
+                      });
+                    },
+                    function(){
+                      $(this).css({
+                        "opacity": 1
+                      });
+                    }
+                  );
 
-                // remove images in description
+                // remove href attribute from links in "*=long" class
+                $("div[class*='long'] a", cacheDetailTemp).removeAttr("href");
 
-                dojo.query("img",dojo.query("div[class*='long']",cacheDetailTemp)[0]).onclick(function(e){e.stopPropagation();dojo.destroy(this); }).onmouseover(function(e){ this.style.opacity="0.5";this.style.cursor = "url('"+deleteImageString+"'),pointer";}).onmouseout(function(e){ this.style.opacity="1";});
-                dojo.query("a",dojo.query("div[class*='long']",cacheDetailTemp)[0]).forEach(function(node, index, nodeList){
-                  node.removeAttribute("href");
-                });
-
-                if(GM_getValue('printEditMode',false)){
-                  dojo.query("div[class*='long']",cacheDetailTemp)[0].contentEditable = "true";
-                  dojo.query("div[class*='short']",cacheDetailTemp)[0].contentEditable = "true";
-
+                // add editable mode
+                if (GM_getValue('printEditMode', false)) {
+                  $("div[class*='long'], div[class*='short']",cacheDetailTemp).attr('contenteditable','true');
                 }
 
                 if(GM_getValue('printPageBreak',false)){
@@ -557,25 +564,33 @@ function printPageFunction(currentTour){
                     overviewMapQuery += ",";
                   }
                 }
-                // overview map
-                var mapCount = (GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false))?1:0;
-                mapCount += (GM_getValue('printOutlineMapSingle',true))?geocacheCodes.length:0;
 
-                if(GM_getValue('printOutlineMap',true) && GM_getValue('printFrontpage',true) && !GM_getValue('printMinimal',false)){
-                  dojo.query("div[id='overview_map']",newwindow2.document)[0].appendChild(getMapElement(overviewMapQuery,newwindow2.document));
-                  setProgress(1,mapCount,newwindow2.document);
+                var boo_OutlineMap = (
+                   GM_getValue('printOutlineMap', true) &&
+                   GM_getValue('printFrontpage', true) &&
+                  !GM_getValue('printMinimal', false)
+                );
+
+                // overview map
+                var mapCount = (boo_OutlineMap) ? 1 : 0;
+
+                mapCount += (GM_getValue('printOutlineMapSingle', true)) ? geocacheCodes.length : 0;
+
+                if (boo_OutlineMap) {
+                  $("div#overview_map", newwindow2.document).first().append( getMapElement(overviewMapQuery, newwindow2.document));
+                  setProgress(1, mapCount, newwindow2.document);
                 }
 
                 // map for each geocache
                 if(GM_getValue('printOutlineMapSingle',true)){
                   for (var i = 0; i < geocacheCodes.length; ++i){
                     var geocacheCode = geocacheCodes[i];
-                    var mapElement = dojo.query("div[id='MAP_"+geocacheCode+"']",newwindow2.document)[0];
+                    var mapElement = $("div#MAP_" + geocacheCode, newwindow2.document).first();
 
                     if(mapElement){
-                      mapElement.appendChild(getMapElement(geocacheCode,newwindow2.document));
+                      mapElement.append(getMapElement(geocacheCode, newwindow2.document));
                     }
-                    setProgress(i+2,mapCount,newwindow2.document);
+                    setProgress(i+1, mapCount, newwindow2.document);
                   }
                 }
                 closeOverlayRemote(newwindow2.document)();
@@ -629,3 +644,4 @@ function getLast4Logs(logs, canvas_element){
   }
 
 }
+

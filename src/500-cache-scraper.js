@@ -42,18 +42,18 @@ function getGeocacheFromElement(element){
     throw $.gctour.lang('notLogedIn');
   }
 
-  if (dojo.query('input[id="ctl00_ContentBody_uxPremiumSubmitBottom"]',element)[0]) {
+  if ( $("input#ctl00_ContentBody_uxPremiumSubmitBottom", element).length > 0) {
     return "pm only";
   }
 
   minimal_geocache = getMinimalGeocacheDetails(element);
 
-  geocache.gcid = minimal_geocache.gccode;
+  geocache.gcid    = minimal_geocache.gccode;
   geocache.cacheid = minimal_geocache.cacheid;
-  geocache.guid = minimal_geocache.guid;
-  geocache.name = minimal_geocache.name;
-  geocache.type =  minimal_geocache.type.split(".")[0];
-  geocache.image = "http://www.geocaching.com/images/WptTypes/"+geocache.type+".gif";
+  geocache.guid    = minimal_geocache.guid;
+  geocache.name    = minimal_geocache.name;
+  geocache.type    = minimal_geocache.type.split(".")[0];
+  geocache.image   = "http://www.geocaching.com/images/WptTypes/"+geocache.type+".gif";
 
   geocache.sym = "Geocache";
 	if ( $('a#ctl00_ContentBody_hlFoundItLog', element).length >= 1 ) {
@@ -69,26 +69,22 @@ function getGeocacheFromElement(element){
     }
   }
 
-  var usernote = dojo.query('[id="cache_note"]',element)[0];
-  if(usernote){
-    geocache.cache_note = usernote.innerHTML;
+  var usernote = $("#cache_note", element).first();
+  if (usernote.length > 0){
+    geocache.cache_note = usernote.html();
   }
 
   // check availability
-  var warning_element = dojo.query('ul[class="OldWarning"]',element)[0]; // contains text like
+  var warning_element = $("ul.OldWarning", element).first(); // contains text like
   //This cache is temporarily unavailable. Read the logs below to read the status for this cache.
   //This cache has been archived, but is available for viewing for archival purposes.
 
-  if(warning_element){
-    if(warning_element.textContent.indexOf("archived") != -1){
-      geocache.archived = true;
-    } else {
-      geocache.archived = false;
-    }
+  if(warning_element.length > 0){
+    geocache.archived  = (warning_element.text().indexOf("archived") != -1);
     geocache.available = false;
   } else {
+    geocache.archived  = false;
     geocache.available = true;
-    geocache.archived = false;
   }
 
   $divCacheDetails = $('div#cacheDetails', element).first();
@@ -113,12 +109,11 @@ function getGeocacheFromElement(element){
   geocache.lon = $lnkConversions.split("lon=")[1].split("&")[0];
 
   // if the user changed the coordinates of this geocache
-  if(GM_getValue('coords_'+geocache.gcid,"null") != "null"){ // use it
-    coordinates = GM_getValue('coords_'+geocache.gcid,"null");
-    geocache.lat = coordinates.split("#")[0];
-    geocache.lon = coordinates.split("#")[1];
+  if (GM_getValue('coords_' + geocache.gcid, "null") != "null") { // use it
+    coordinates = GM_getValue('coords_' + geocache.gcid, "null").split("#");
+    geocache.lat = coordinates[0];
+    geocache.lon = coordinates[1];
     geocache.coordinates = new LatLon(geocache.lat , geocache.lon ).toString();
-
   }
 
   geocache.location = $("span#ctl00_ContentBody_Location", element).first().text();
@@ -126,28 +121,32 @@ function getGeocacheFromElement(element){
   // get the country and (if exists) the state!
   if(geocache.location.indexOf(",") < 0){ // if the index of "," < 0 then the state is not given!
     geocache.state = "";
-    geocache.country = trim(geocache.location.split("In ")[1]);
+    geocache.country = $.trim(geocache.location.split("In ")[1]);
   } else {
-    geocache.state = trim(geocache.location.split("In ")[1].split(',')[0]);
-    geocache.country = trim(geocache.location.split("In ")[1].split(',')[1]);
+    geocache.state = $.trim(geocache.location.split("In ")[1].split(',')[0]);
+    geocache.country = $.trim(geocache.location.split("In ")[1].split(',')[1]);
   }
 
   try{
-    geocache.bearing =  dojo.query('span[id="ctl00_ContentBody_lblDistFromHome"] > img',element)[0].alt;
-    geocache.distance =  dojo.query('span[id="ctl00_ContentBody_lblDistFromHome"]',element)[0].textContent.replace(" from your home location","");
-  } catch(e) {geocache.bearing = "";geocache.distance = "";} // if homecoordinates are not set
 
-  geocache.inventory = dojo.query('ul > li > a > img', dojo.query('div[class="WidgetBody"]',element)[2]);
+    // ToDo check distance
+    geocache.bearing  = $('span#lblDistFromHome > img', element).first().attr("alt");
+    geocache.distance = $('span#lblDistFromHome', element).first().text().replace(" from your home location","");
+  } catch(e) {
+    // if homecoordinates are not set
+    geocache.bearing = "";
+    geocache.distance = "";
+  }
 
-  geocache.attributes = dojo.query('div[class="CacheDetailNavigationWidget BottomSpacing"] >div > img',element);
+  geocache.inventory = $('ul > li > a > img', $('div.WidgetBody', element).eq(2) );
+
+  geocache.attributes = $('div.CacheDetailNavigationWidget > div.WidgetBody > img', element);
   geocache.attributes_array = [];
 
-  for (var attributes_i = 0; attributes_i < geocache.attributes.length; attributes_i++){
-    // get current attribute image
-    var attribute = geocache.attributes[attributes_i];
 
+  geocache.attributes.each(function(index, Element) {
     //  remove garbage from source address und split it at the "-"
-    var attribute_array = attribute.src.replace("http://www.geocaching.com/images/attributes/","").replace(".gif", "").split("-");
+    var attribute_array = this.src.replace("http://www.geocaching.com/images/attributes/","").replace(".gif", "").split("-");
 
     // iterate over every attributes defined in the global attributes array
     for (var attributesDef_i = 0; attributesDef_i < attributes_array.length; attributesDef_i++){
@@ -157,15 +156,15 @@ function getGeocacheFromElement(element){
         geocache.attributes_array.push([attributes_array[attributesDef_i][0],attributes_array[attributesDef_i][1],attributes_array[attributesDef_i][2], ((attribute_array[1]=="yes")?1:0)]);
       }
     }
-  }
+  });
 
-  geocache.short_description = dojo.query('span[id="ctl00_ContentBody_ShortDescription"]',element)[0];
-  geocache.long_description = dojo.query('span[id="ctl00_ContentBody_LongDescription"]',element)[0];
-  geocache.images = dojo.query('a[rel="lightbox"]',element);
+  geocache.short_description = $('span#ctl00_ContentBody_ShortDescription', element).first();
+  geocache.long_description = $('span#ctl00_ContentBody_LongDescription', element).first();
+  geocache.images = $('a[rel="lightbox"]', element);
 
   geocache.additional_waypoints = [];
 
-  var additional_waypoints = dojo.query('table[class="Table"] > tbody > tr',element);
+  var additional_waypoints = $('table.Table > tbody > tr', element);
 
   for(var i = 0;i < additional_waypoints.length;i = i+2){
 
@@ -226,14 +225,10 @@ function getGeocacheFromElement(element){
     geocache.additional_waypoints.push(waypoint);
   }
 
-  var hints_element = dojo.query('div[id="div_hint"]',element)[0];
-  if(hints_element){
-    geocache.hint = convertROTStringWithBrackets(trim(hints_element.textContent));
-  } else {
-    geocache.hint = "";
-  }
+  var hints_element = $('div#div_hint', element).first();
+  geocache.hint = (hints_element.length > 0) ? convertROTStringWithBrackets( $.trim(hints_element.text()) ) : "";
 
-  geocache.find_counts = dojo.query('span[id="ctl00_ContentBody_lblFindCounts"] > p ',element)[0];
+  geocache.find_counts = $('span#ctl00_ContentBody_lblFindCounts > p', element).first();
 
   // hole den UserToken und benutze ihn um die Logs einzusammeln
   var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
@@ -260,4 +255,3 @@ function getGeocache(gcid){
 
   return getGeocacheFromElement(response_div);
 }
-

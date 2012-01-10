@@ -337,7 +337,6 @@ function printPageFunction(currentTour){
                         content += "<tr>";
                       }
                     }
-
                     content += "<td class='removable'>";
                     content += "<img style='max-width:8cm;' src='"+geocache.images[images_i].href+"'><br/>";
                     content += "<b>"+geocache.images[images_i].textContent+"</b>";
@@ -445,8 +444,8 @@ function printPageFunction(currentTour){
                   ['DIFFICULTY',geocache.difficulty.replace(/\./,"_")],
                   ['TERRAIN',geocache.terrain.replace(/\./,"_")],
                   ['SIZE',geocache.size.toLowerCase().replace(/ /,"_")],
-                  ['SHORT_DESCRIPTION',(geocache.short_description)?geocache.short_description.innerHTML:""],
-                  ['LONG_DESCRIPTION',(geocache.long_description)?geocache.long_description.innerHTML:""],
+                  ['SHORT_DESCRIPTION',(geocache.short_description.length === 1) ? geocache.short_description.html() : ""],
+                  ['LONG_DESCRIPTION',(geocache.long_description.length === 1) ? geocache.long_description.html() : ""],
                   ['GCCOMMENT',gcComment],
                   ['CACHENOTE',cache_note],
                   ['HINT',(GM_getValue('decryptPrintHints',true))?geocache.hint:convertROTStringWithBrackets(geocache.hint)],
@@ -454,7 +453,7 @@ function printPageFunction(currentTour){
                   ['IMAGES',dummy_images.innerHTML],
                   ['MAP', map_element_dummy.innerHTML],
                   ['MAPID', "MAP_"+geocache.gcid],
-                  ['LOGCOUNTER',(GM_getValue('printLoggedVisits',false))?geocache.find_counts.innerHTML:""],
+                  ['LOGCOUNTER',(GM_getValue('printLoggedVisits',false))? geocache.find_counts.html() : ""],
                   ['LOGS',logs_div.innerHTML]
                 ];
 

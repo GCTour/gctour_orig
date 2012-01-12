@@ -2,10 +2,11 @@
 * greasemonkey settings and function
 */
 /* ----- DEBUG OUTPUT FUNCTIONS ------*/
-function toLog(typ,msg) {
-  var console = unsafeWindow.console; //firebug console - http://getfirebug.com/wiki/index.php/Console_API
+function toLog(typ, msg) {
+  //var console = unsafeWindow.console; //firebug console - http://getfirebug.com/wiki/index.php/Console_API
   if (DEBUG_MODE) {
-    if(console && console.firebug){ //use the firebug console is available
+    //if(console && console.firebug){ //use the firebug console is available
+    if (console && console[typ.toLowerCase()]) {
       console[typ.toLowerCase()](msg);
     } else {
       GM_log(typ + ": " + msg.toString());   
@@ -36,7 +37,6 @@ function info(msg) {
 function log_exception(ex) {
   toLog("Exception",ex);
 }
-
 
 /* wrapper functions for persistence */
 function saveValue(name, value){

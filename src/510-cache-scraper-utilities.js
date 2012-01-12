@@ -9,23 +9,28 @@ function getMinimalGeocacheDetails(detailsPage){
    * <span id="ctl00_ContentBody_CoordInfoLinkControl1_uxCoordInfoCode" class="CoordInfoCode">GC2HFRB</span> <--- holen über 'class'!
    * Fallback#1: <input type="submit" name="ctl00$ContentBody$btnSendToPhone" value="Send to My Phone" onclick="s2phone(&#39;GC2HFRB&#39;);return false;" id="ctl00_ContentBody_btnSendToPhone" />
    * Fallback#2: steht im HEAD: <meta property="og:url" content="http://coord.info/GC2HFRB" name="og:url">*/
-  try{
-    geocache_details.gccode = dojo.query('.CoordInfoCode',detailsPage)[0].textContent;
-  }catch(e){// Fallback #1
-    try{
-      geocache_details.gccode = dojo.query('input[id="ctl00_ContentBody_btnSendToPhone"]',detailsPage)[0].getAttribute('onclick').split("'")[1];
-    } catch(e){ // Fallback #2
-      try{
-        geocache_details.gccode = dojo.query('meta[name="og:url"]',detailsPage)[0].getAttribute('content').split('/')[3];
-      } catch(e){
-        throw "Fatal: Error getting GCCode!";
-      }
-    }
+  var $arr =[
+    $('.CoordInfoCode').first(),
+    $('input#ctl00_ContentBody_btnSendToPhone').first(), // Fallback #1
+    $('meta[name="og:url"]').first()                     // Fallback #2
+  ];
+
+  geocache_details.gccode =
+    ($arr[0].length && $.trim($arr[0].text())) ||
+    ($arr[1].length && $.trim($arr[1].attr('onclick').split("'")[1])) ||
+    ($arr[2].length && $.trim($arr[2].attr('content').split('/')[3])) ||
+    null;
+
+  if (!geocache_details.gccode)  {
+    throw "Fatal: Error getting GCCode! (getMinimalGeocacheDetails)";
+  } else {
+    debug(
+      "getMinimalGeocacheDetails - GCCode: " + geocache_details.gccode + "\n" +
+      "\t1: " + ( ($arr[0].length) ? $arr[0].text() : "null" ) + "\n" +
+      "\t2: " + ( ($arr[1].length) ? $arr[1].attr('onclick').split("'")[1] : "null" ) + "\n" +
+      "\t3: " + ( ($arr[2].length) ? $arr[2].attr('content').split('/')[3] : "null" )
+    );
   }
-
-  debug("getMinimalGeocacheDetails - GCCode:"+geocache_details.gccode);
-
-
 
 
   /* suche die CacheId aus einer diesen Quellen:
@@ -89,7 +94,6 @@ function getMinimalGeocacheDetails(detailsPage){
     }
    }
    debug("getMinimalGeocacheDetails - Type:"+geocache_details.type);
-
 
 
   return geocache_details;
@@ -161,3 +165,4 @@ function getLogs(userToken, maxLogsCount){
 
   return logs;
 }
+

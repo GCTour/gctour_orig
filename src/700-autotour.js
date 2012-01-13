@@ -3,18 +3,18 @@
 function updateAutoTourMap(lat,lon){
 
   //make the container visible
-  dojo.byId('autoTourContainer').style.display = 'block';
+  $('#autoTourContainer').show();
 
-  var radiusOrg = dojo.query("input[id='markerRadius']")[0].value;
-  if(isNaN(radiusOrg) || radiusOrg == "") {// please break if radius is no number
+  var radiusOrg = $.trim($("input#markerRadius").val());
+  if (isNaN(radiusOrg) || radiusOrg == "") {// please break if radius is no number
     return;
   }
 
-  var meterMiles = dojo.query("select[id='markerRadiusUnit']")[0].selectedIndex;
-  // meter: meterMiles == 0    miles: meterMiles == 1
-  var radiusMiles = (meterMiles==1)?parseFloat(radiusOrg):parseFloat(radiusOrg)*0.621371;
+  var meterMiles = $("select#markerRadiusUnit").prop("selectedIndex");
+  // 0: meter, 1: miles
+  var radiusMiles = parseFloat(radiusOrg) * ((meterMiles == 1) ? 1 : 0.621371);
 
-  if(radiusMiles == "") {
+  if (radiusMiles == "") {
     return;
   }
 
@@ -24,9 +24,9 @@ function updateAutoTourMap(lat,lon){
   // create new static map with changed coordinates
   var SM = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
 
-  dojo.query('b[id="markerCoordsPreview"]')[0].innerHTML = new LatLon(lat,lon).toString();
+  $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
 
-  dojo.query('b[id="markerRadiusPreview"]')[0].innerHTML = radiusOrg+""+((meterMiles==1)?"mi":"km");
+  $('b#markerRadiusPreview').html(radiusOrg + " " + ((meterMiles == 1) ? "mi" : "km"));
 
   dojo.animateProperty({
     node: "markerCoordsPreview",duration: 1000,
@@ -59,7 +59,7 @@ function updateAutoTourMap(lat,lon){
       var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
 
       if(pagesSpan){
-        dojo.query("b[id='markerCountPreview']")[0].innerHTML = pagesSpan.getElementsByTagName('b')[0].innerHTML;
+        $("b#markerCountPreview").html(pagesSpan.getElementsByTagName('b')[0].innerHTML);
 
         dojo.animateProperty({
           node: "markerCountPreview",duration: 1000,
@@ -72,34 +72,29 @@ function updateAutoTourMap(lat,lon){
         var secondsMod = seconds % 60;
         var minutes = (seconds - secondsMod) /60;
 
-        dojo.query("b[id='markerDurationMin']")[0].innerHTML = minutes;
-        dojo.query("b[id='markerDurationSec']")[0].innerHTML = secondsMod;
+        $("b#markerDurationMin").html(minutes);
+        $("b#markerDurationSec").html(secondsMod);
       } else {
-        dojo.query("b[id='markerCountPreview']")[0].innerHTML = 0;
+        $("b#markerCountPreview").html("0");
 
         dojo.animateProperty({
           node: "markerCountPreview",duration: 2000,
           properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
         }).play();
 
-        dojo.query("b[id='markerDurationMin']")[0].innerHTML = 0;
-        dojo.query("b[id='markerDurationSec']")[0].innerHTML = 0;
+        $("b#markerDurationMin, b#markerDurationSec").html("0");
       }
     }
   });
 
   // last, save the values
-  dojo.query('input[id="coordsDivLat"]')[0].value = lat;
-  dojo.query('input[id="coordsDivLon"]')[0].value = lon;
-  dojo.query('input[id="coordsDivRadius"]')[0].value = radiusMiles;
-  dojo.query('b[id="markerCountPreview"]')[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
-  dojo.query("b[id='markerDurationMin']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
-  dojo.query("b[id='markerDurationSec']")[0].innerHTML = "<img src='http://madd.in/ajax-loader3.gif'>";
+  $('input#coordsDivLat').val(lat);
+  $('input#coordsDivLon').val(lon);
+  $('input#coordsDivRadius').val(radiusMiles);
+  $('b#markerCountPreview, b#markerDurationMin, b#markerDurationSec').html("<img src='http://madd.in/ajax-loader3.gif'>");
 
   // enable the startQuery button
-  var startQuery = dojo.query('button[id="startQuery"]')[0];
-  startQuery.removeAttribute('disabled');
-  startQuery.style.opacity = "1";
+  $('button#startQuery').removeAttr('disabled').css("opacity", 1);
 }
 
 function startAutoTour(){
@@ -396,7 +391,7 @@ function getMapPreviewTab(){
   var cacheCountLabel = createElement('div');append(cacheCountLabel, coordsDiv);
   cacheCountLabel.innerHTML = $.gctour.lang('autoTourCacheCounts')+" <b id='markerCountPreview'>???</b>";
   var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
-  tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration')+" <b id='markerDurationMin'>???</b> min<b id='markerDurationSec'>???</b> sec";
+  tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration') + " <b id='markerDurationMin'>???</b> min <b id='markerDurationSec'>???</b> sec";
 
   return coordsDiv;
 }

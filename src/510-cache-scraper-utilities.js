@@ -109,30 +109,17 @@ function getMinimalGeocacheDetails(detailsPage){
   }
 
   /* Hole type
-   *
+   *   GC Javascript Variable "mapLatLng.type"
+   *  <a href="/about/cache_types.aspx" target="_blank" title="About Cache Types"><img src="/images/WptTypes/2.gif" alt="Traditional Cache" title="Traditional Cache" /></a>
   */
-   try{
-     geocache_details.type = dojo.query('meta[name="og:imageXX"]',detailsPage)[0].getAttribute("content").split("/")[6].split('.')[0]+".gif";
-   } catch(e){
-    try{
-       geocache_details.type = dojo.query('a[title="About Cache Types"] > img',detailsPage)[0].src.split("/")[5];
-    } catch(e){
-      throw "Error getting 'type' from "+geocache_details.gccode;
-    }
-   }
-   debug("getMinimalGeocacheDetails - Type:"+geocache_details.type);
-
-
-  /* Todo vorhergehendes zu nachfolgendes ändern und debuggen
-
   $obj.type = [
-    $('meta[name="og:imageXX"]', detailsPage).first(),
+    ((unsafeWindow.mapLatLng && unsafeWindow.mapLatLng.type) ? unsafeWindow.mapLatLng.type : null),
     $('a[title="About Cache Types"] > img', detailsPage).first()
   ];
 
   geocache_details.type =
-    ($obj.type[0].length && $.trim($obj.type[0].attr("content").split("/")[6].split('.')[0] + ".gif"))||
-    ($obj.type[1].length && $.trim($obj.type[1].attr("src").split("/")[5])) ||
+    (($obj.type[0]) ? ($obj.type[0] + ".gif") : null ) ||
+    ($obj.type[1].length && $.trim($obj.type[1].attr("src").split("/")[3])) ||
     null;
 
   if (!geocache_details.type) {
@@ -140,11 +127,10 @@ function getMinimalGeocacheDetails(detailsPage){
   } else {
     debug(
       "getMinimalGeocacheDetails - Type: " + geocache_details.type + "\n" +
-      "\t1: " + ( ($obj.type[0].length) ? $obj.type[0].attr("content").split("/")[6].split('.')[0] + ".gif" : "null" ) + "\n" +
-      "\t2: " + ( ($obj.type[1].length) ? $obj.type[1].attr("src").split("/")[5] : "null" )
+      "\t1: " + ( ($obj.type[0]) ? ($obj.type[0] + ".gif") : "null" ) + "\n" +
+      "\t2: " + ( ($obj.type[1].length) ? $obj.type[1].attr("src").split("/")[3] : "null" )
     );
   }
-  */
 
   return geocache_details;
 
@@ -215,4 +201,5 @@ function getLogs(userToken, maxLogsCount){
 
   return logs;
 }
+
 

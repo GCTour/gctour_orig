@@ -266,27 +266,28 @@ Settings.prototype.getSelectbox = function(value_array, gmValue, dValue, click_f
   return select;
 };
 
+Settings.prototype.activelink = "";
+
 Settings.prototype.update = function(e) {
-  var linkElement = e.target;
+  var $linkElement = $(e.target);
+  var $details = $('#dialogDetails');
 
   // remove last active menu entry
-  if(Settings.prototype.activelink){try{dojo.removeClass(Settings.prototype.activelink.parentNode, "activeTour");}catch(e){} }
+  $(Settings.prototype.activelink).removeClass("activeTour");
 
   // set the current entry to active
-  dojo.addClass(linkElement.parentNode, "activeTour");
+  $linkElement.parent().addClass("activeTour");
 
-  Settings.prototype.activelink = linkElement;
+  Settings.prototype.activelink = $linkElement.parent();
 
-  var details = document.getElementById('dialogDetails');
-
-  details.innerHTML = "";
+  $details.html("");
 
   // search for the right group
-  for(var i = 0; i<setting_groups.length;i++){
-    if(setting_groups[i][0]  == linkElement.getAttribute('header')){
-      details.appendChild(setting_groups[i][1]); // and call the function for it
-      details.scrollTop=0;
+  $.each( setting_groups, function(i,v) {
+    if (v[0] == $linkElement.attr('header')) {
+      // call the function for it
+      $details.append(v[1]).scrollTop(0);
+      return false;
     }
-  }
+  });
 };
-

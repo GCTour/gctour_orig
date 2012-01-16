@@ -1,4 +1,4 @@
-if (DEBUG_MODE && console && console["time"]) {
+if (DEBUG_MODE && console && console.time) {
   console.time('gcTour load time');
 }
 

@@ -2,7 +2,7 @@
 
 function StaticMap(container,options){
   this._options = options;
-  this._container = container;
+  this._container = container; // jQuery object
   this._zoom = 13;
   this._minZoom = 0;
   this._maxZoom = 19;
@@ -123,8 +123,7 @@ StaticMap.prototype.build = function(){
     staticGMapControl.appendChild(zoomMinusButton);
   }
 
-  this._container.appendChild(staticGMap);
-
+  this._container.append(staticGMap);
 };
 
 function changeCoordinates(coordinates){

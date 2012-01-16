@@ -216,7 +216,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
     //~ <input type="radio" name="mapSize'+mapId+'">medium</input>\
     //~ <input type="radio" name="mapSize'+mapId+'">small</input>';
     //~
-  //~ var size_control_inputs = dojo.query('input',size_control_div);
+  //~ var size_control_inputs = $('input',size_control_div);
   //~ alert(size_control_inputs.length);
   //~ var factor = 1;
   //~ /* large */

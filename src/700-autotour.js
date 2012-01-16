@@ -25,65 +25,50 @@ function updateAutoTourMap(lat,lon){
   var SM = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
 
   $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
-
   $('b#markerRadiusPreview').html(radiusOrg + " " + ((meterMiles == 1) ? "mi" : "km"));
 
-  dojo.animateProperty({
-    node: "markerCoordsPreview",duration: 1000,
-    properties: {
-      //~ color:         { start: "black", end: "white" },
-      backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
-    }
-  }).play();
-
-  dojo.animateProperty({
-    node: "markerRadiusPreview",duration: 1000,
-    properties: {
-      //~ color:         { start: "black", end: "white" },
-      backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }
-    }
-  }).play();
+  $("b#markerCoordsPreview, b#markerRadiusPreview")
+    .css("background-color", "#FFE000")
+    .animate({"background-color": "transparent"}, 2000);
 
   // get how many caches are in this area
 
   loadingTime1 = new Date();
 
-  log("url: http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles);
-    GM_xmlhttpRequest({
+  var url = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lng=" + lon + "&dist=" + radiusMiles;
+  log("url: " + url);
+  GM_xmlhttpRequest({
     method: 'GET',
-    url: "http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lng="+lon+"&dist="+radiusMiles,
+    url: url,
     onload: function(responseDetails) {
-      var dummyDiv = createElement('div');
-      dummyDiv.innerHTML = responseDetails.responseText;
+      var dummyDiv = $(responseDetails.responseText),
+          color,
+          pagesSpan = $("td.PageBuilderWidget", dummyDiv).first();
 
-      var pagesSpan = dojo.query("td[class='PageBuilderWidget']",dummyDiv)[0];
+      if (pagesSpan.length > 0) {
+        var cacheCount = $("b", pagesSpan).first().text(),
+            pageCount  = $("b", pagesSpan).last().text();
 
-      if(pagesSpan){
-        $("b#markerCountPreview").html(pagesSpan.getElementsByTagName('b')[0].innerHTML);
-
-        dojo.animateProperty({
-          node: "markerCountPreview",duration: 1000,
-          properties: {backgroundColor:   { start: "#FFE000", end: "#FFFFFF" }}
-        }).play();
+        color = "#FFE000";
 
         var miliseconds = new Date() - loadingTime1;
-        var seconds = Math.floor((miliseconds * parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) )/1000);
-        seconds = seconds + parseFloat(pagesSpan.getElementsByTagName('b')[2].innerHTML) * 2;
-        var secondsMod = seconds % 60;
-        var minutes = (seconds - secondsMod) /60;
+        var seconds = Math.floor((miliseconds * parseFloat(pageCount) ) / 1000);
+        seconds = seconds + parseFloat(pageCount) * 2;
 
+        var secondsMod = seconds % 60;
+        var minutes = (seconds - secondsMod) / 60;
+
+        $("b#markerCountPreview").html(cacheCount);
         $("b#markerDurationMin").html(minutes);
         $("b#markerDurationSec").html(secondsMod);
       } else {
-        $("b#markerCountPreview").html("0");
-
-        dojo.animateProperty({
-          node: "markerCountPreview",duration: 2000,
-          properties: {backgroundColor:{ start: "#FF0005", end: "#FFFFFF" }}
-        }).play();
-
-        $("b#markerDurationMin, b#markerDurationSec").html("0");
+        $("b#markerCountPreview, b#markerDurationMin, b#markerDurationSec").html("0");
+        color = "#FF0000";
       }
+
+      $("b#markerCountPreview")
+        .css("background-color", color)
+        .animate({"background-color": "transparent"}, 2000);
     }
   });
 
@@ -97,66 +82,63 @@ function updateAutoTourMap(lat,lon){
   $('button#startQuery').removeAttr('disabled').css("opacity", 1);
 }
 
-function startAutoTour(){
-  var typeInputs = dojo.query("input[name='type']");
-  var sizeInputs = dojo.query("input[name='size']");
-  var difficultyInputs = dojo.query("input[name='Difficulty']");
-  var terrainInputs = dojo.query("input[name='Terrain']");
-  var specialInputs = dojo.query("input[name='special']");
-  var i;
+function startAutoTour() {
+  var i,
+    typeFilter = {},
+    sizeFilter = {},
+    difficultyFilter = {},
+    terrainFilter = {},
+    specialFilter = {},
+    ele = $("#autoTourContainer"),
+    lat, lon, radius, url;
 
-  var typeFilter = {};
-  for(i = 0; i<typeInputs.length;i++){
-    typeFilter[typeInputs[i].value] = typeInputs[i].checked;
-  }
+  ele.find("input[name='type']").each(function(index) {
+    typeFilter[$(this).val()] = $(this).is(':checked');
+  });
 
-  var sizeFilter = {};
-  for(i = 0; i<sizeInputs.length;i++){
-    sizeFilter[sizeInputs[i].value] = sizeInputs[i].checked;
-  }
+  ele.find("input[name='size']").each(function(index) {
+    sizeFilter[$(this).val()] = $(this).is(':checked');
+  });
 
-  var difficultyFilter = {};
-  for(i = 0; i<difficultyInputs.length;i++){
-    difficultyFilter[difficultyInputs[i].value] = difficultyInputs[i].checked;
-  }
+  ele.find("input[name='Difficulty']").each(function(index) {
+    difficultyFilter[$(this).val()] = $(this).is(':checked');
+  });
 
-  var terrainFilter = {};
-  for(i = 0; i<terrainInputs.length;i++){
-    terrainFilter[terrainInputs[i].value+""] = terrainInputs[i].checked;
-  }
-  var specialFilter = {};
-  for(i = 0; i<specialInputs.length;i++){
-    //~ GM_log(">"+specialInputs[i].value+"<");
-    specialFilter[specialInputs[i].value+""] = specialInputs[i].checked;
-  }
+  ele.find("input[name='Terrain']").each(function(index) {
+    terrainFilter[$(this).val()] = $(this).is(':checked');
+  });
 
-  var lat = dojo.query("input[id='coordsDivLat']")[0].value;
-  var lon = dojo.query("input[id='coordsDivLon']")[0].value;
-  var radius = dojo.query("input[id='coordsDivRadius']")[0].value;
-  var url = "http://www.geocaching.com/seek/nearest.aspx?lat="+lat+"&lon="+lon+"&dist="+radius;
+  ele.find("input[name='special']").each(function(index) {
+    specialFilter[$(this).val()] = $(this).is(':checked');
+  });
 
-  if(specialFilter["I haven't found "]){
+  lat    = ele.find("input#coordsDivLat").val();
+  lon    = ele.find("input#coordsDivLon").val();
+  radius = ele.find("input#coordsDivRadius").val();
+  url    = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lon=" + lon + "&dist=" + radius;
+
+  if (specialFilter["I haven't found "]) {
     url += "&f=1";
   }
 
-  GM_setValue('tq_url', url);
-  GM_setValue('tq_typeFilter', JSON.stringify(typeFilter));
-  GM_setValue('tq_sizeFilter', JSON.stringify(sizeFilter));
-  GM_setValue('tq_dFilter', JSON.stringify(difficultyFilter));
-  GM_setValue('tq_tFilter', JSON.stringify(terrainFilter));
+  GM_setValue('tq_url',           url);
+  GM_setValue('tq_typeFilter',    JSON.stringify(typeFilter));
+  GM_setValue('tq_sizeFilter',    JSON.stringify(sizeFilter));
+  GM_setValue('tq_dFilter',       JSON.stringify(difficultyFilter));
+  GM_setValue('tq_tFilter',       JSON.stringify(terrainFilter));
   GM_setValue('tq_specialFilter', JSON.stringify(specialFilter));
-  GM_setValue('tq_StartUrl', document.location.href);
+  GM_setValue('tq_StartUrl',      document.location.href);
 
   document.location.href = url;
 }
 
-function getMarkerCoord(){
-  var markerCoords = dojo.query("input[id='markerCoords']")[0].value;
-  var coords = parseCoordinates(markerCoords,true);
-  if(coords){
+function getMarkerCoord() {
+  var markerCoords = $("input#markerCoords").val();
+  var coords = parseCoordinates(markerCoords, true);
+  if (coords) {
     updateAutoTourMap(coords._lat, coords._lon);
   } else { // Sehr seltener Fall wenn auch die google geolocate API versagt.
-    alert("'"+markerCoords+"' is not an address!");
+    alert("'" + markerCoords + "' is not an address!");
   }
 }
 

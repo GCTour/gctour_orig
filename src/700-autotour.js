@@ -18,11 +18,16 @@ function updateAutoTourMap(lat,lon){
     return;
   }
 
-  var staticGMap = dojo.query('div[id="staticGMap"]')[0];
-  staticGMap.innerHTML = "";
+  var staticGMap = $('div#staticGMap');
+  staticGMap.html("");
 
   // create new static map with changed coordinates
-  var SM = new StaticMap(staticGMap,{'lat':lat,'lon':lon,radius:radiusMiles,width:470});
+  var SM = new StaticMap(staticGMap, {
+    'lat': lat,
+    'lon': lon,
+    radius: radiusMiles,
+    width: 470
+  });
 
   $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
   $('b#markerRadiusPreview').html(radiusOrg + " " + ((meterMiles == 1) ? "mi" : "km"));
@@ -272,48 +277,54 @@ function getTypeFilter(){
   return typeDiv;
 }
 
-function getLocateMeButton(){
-  var button = createElement('button',{style:"margin-left:10px;font-size:12px"});
-  button.innerHTML = "<img id='locateImage' src='"+locateMeImage+"'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>"+$.gctour.lang('findMe')+"</span>";
+function getLocateMeButton() {
+  var button = $("<button>", {
+    css: {
+      "margin-left": 10,
+      "font-size": 12
+    },
+    html: "<img id='locateImage' src='" + locateMeImage + "'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>" + $.gctour.lang('findMe') + "</span>"
+  })
+  
+  .click(function() {
+    if (navigator.geolocation) {
+      $('locateImage').attr("src","http://madd.in/ajax-loader3.gif");
+      navigator.geolocation.getCurrentPosition(
+        function(position){
+          $('locateImage').attr("src", locateMeImage);
+          var latitude  = position.coords.latitude;
+          var longitude = position.coords.longitude;
 
-  button.addEventListener('click',
-    function(){
+          $("input#markerCoords").val(latitude + ' ' + longitude);
+          $("input#markerRadius").val(2);
+          getMarkerCoord();
+        },
 
-      if(navigator.geolocation){
-        dojo.byId('locateImage').src = "http://madd.in/ajax-loader3.gif";
-        navigator.geolocation.getCurrentPosition(
-          function(position){
-            dojo.byId('locateImage').src = locateMeImage;
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            dojo.query("input[id='markerCoords']")[0].value = latitude +' '+longitude;
-            dojo.query("input[id='markerRadius']")[0].value = 1;
-            getMarkerCoord();
-          },
-
-          function(error){
-            dojo.byId('locateImage').src = locateMeImage;
-            log('Unable to get current location: ' + error);
-          }, {timeout:10000}
-        );
-      } else {
-        alert("Firefox 3.5? Please update to use this!");
-      }
-
-    },false);
+        function(error){
+          $('locateImage').attr("src", locateMeImage);
+          log('Unable to get current location: ' + error);
+        }, { timeout:10000 }
+      );
+    } else {
+      alert("Firefox 3.5? Please update to use this!");
+    }    
+  });
 
   return button;
 }
 
-function getCoordinatesTab(){
-  var coordsDiv = createElement('div',{style:"clear:both"});
-  coordsDiv.id = 'coordsDiv';
-  coordsDiv.align = "left";
+function getCoordinatesTab() {
+  var coordsDiv = $("<div>", {
+    id: "coordsDiv",
+    css: {
+      "clear": "both",
+      "align": "left"
+    }
+  });
 
   var findMeButton = getLocateMeButton();
-  findMeButton.style.cssFloat = 'right';
-  append(findMeButton,coordsDiv);
+  findMeButton.css("cssFloat", "right");
+  coordsDiv.append(findMeButton);
 
   var divEbene = createElement('div', {className: 'ebene'});
 
@@ -321,11 +332,11 @@ function getCoordinatesTab(){
     '<input type="text" id="markerCoords"><br/>'+
     '<small>'+$.gctour.lang('autoTourHelp')+'</small>';
 
-  append(divEbene, coordsDiv);
+  coordsDiv.append(divEbene);
 
   divEbene = createElement('div', {className: 'ebene'});
   divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('kilometer')+'</option><option value="sm">'+$.gctour.lang('mile')+'</option></select>';
-  append(divEbene, coordsDiv);
+  coordsDiv.append(divEbene);
 
   divEbene = createElement('div');
   divEbene.setAttribute('class','dialogFooter');
@@ -333,7 +344,7 @@ function getCoordinatesTab(){
   var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
   useButton.addEventListener('click',getMarkerCoord ,false);
 
-  append(divEbene, coordsDiv);
+  coordsDiv.append(divEbene);
 
   return coordsDiv;
 }
@@ -432,35 +443,51 @@ function CalcPrjWP(lat,lon, dist, angle){
   return [Math.round(B2 * 100000) / 100000,Math.round(L2 * 100000) / 100000];
 }
 
-function showAutoTourDialog(center,radius){
+function showAutoTourDialog(center, radius) {
   var overLay, queryFilterDiv;
 
-  if(!isLogedIn()) { return; }
+  if (!isLogedIn()) { return; }
 
-  overLay = getOverlay({caption:$.gctour.lang('autoTour'),minimized:true});
-  overLay.appendChild(getCoordinatesTab());
+  overLay = getOverlay({
+    caption: $.gctour.lang('autoTour'), 
+    minimized: true
+  });
 
-  var autoTourContainer = createElement('div',{id:'autoTourContainer',style:'clear:both;border-top:2px dashed #B2D4F3;margin-top:12px;'});
-  autoTourContainer.style.display = 'none';
-
-  autoTourContainer.appendChild(getMapPreviewTab());
-  queryFilterDiv = document.createElement('div');append(queryFilterDiv,autoTourContainer);
-  queryFilterDiv.appendChild(getTypeFilter());
-  queryFilterDiv.appendChild(getSizeFilter());
-  queryFilterDiv.appendChild(getDtFiler('Difficulty'));
-  queryFilterDiv.appendChild(getDtFiler('Terrain'));
-  queryFilterDiv.appendChild(getSpecialFilter());
-  autoTourContainer.appendChild(getAutoTourSubmit());
-
-  overLay.appendChild(autoTourContainer);
+  var autoTourContainer = $("<div>", {
+    id: "autoTourContainer",
+    css: {
+      "display": "none",
+      "clear": "both",
+      "border-top": "2px dashed #B2D4F3",
+      "margin-top": 12
+    }
+  });
+  
+  autoTourContainer.append(getMapPreviewTab());
+  queryFilterDiv = $('<div>'); 
+  
+  queryFilterDiv.append(getTypeFilter());
+  queryFilterDiv.append(getSizeFilter());
+  queryFilterDiv.append(getDtFiler('Difficulty'));
+  queryFilterDiv.append(getDtFiler('Terrain'));
+  queryFilterDiv.append(getSpecialFilter());
+  autoTourContainer.append(queryFilterDiv);
+  autoTourContainer.append(getAutoTourSubmit());
+  
+  $(overLay).append(
+    getCoordinatesTab(), 
+    autoTourContainer
+  );
 
   if(center && radius){
-    dojo.query("input[id='markerCoords']")[0].value = center.lat() +' '+center.lng();
-    dojo.query("input[id='markerRadius']")[0].value = radius;
+    $("input#markerCoords").val(center.lat() + ' ' + center.lng());
+    $("input#markerRadius").val(radius);
     getMarkerCoord();
   } else {
-    dojo.query("input[id='markerRadius']")[0].value = 2;
-    dojo.query("input[id='markerCoords']")[0].focus();
+    $("input#markerRadius").val(2);
+    document.getElementById('markerCoords').focus();
+      // greasemonkey component is not available with jquery
+      //$("input#markerCoords:first").focus();
   }
 }
 

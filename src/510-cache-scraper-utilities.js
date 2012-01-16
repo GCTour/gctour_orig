@@ -83,11 +83,13 @@ function getMinimalGeocacheDetails(detailsPage){
    *  lat=51.167083; lng=10.533383; guid='712fed16-77ab-48f4-a269-18cc27bb2a14';
   */
   $obj.guid = [
-    $("form[name='aspnetForm']", detailsPage).first().attr("action"),
-    $("a#ctl00_ContentBody_lnkPrintFriendly5Logs", detailsPage).first().attr("href"),
-    $("a#ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory", detailsPage).first().attr("href"),
-    $("a#ctl00_ContentBody_uxLogbookLink", detailsPage).first().attr("href")
+    $("form[name='aspnetForm'][action*='guid=']", detailsPage).first().attr("action"),
+    $("a#ctl00_ContentBody_lnkPrintFriendly5Logs[href*='guid=']", detailsPage).first().attr("href"),
+    $("a#ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory[href*='wid=']", detailsPage).first().attr("href"),
+    $("a#ctl00_ContentBody_uxLogbookLink[href*='guid=']", detailsPage).first().attr("href")
   ];
+  
+  //alert($("form[name='aspnetForm']", detailsPage).first().attr("action"));
 
   geocache_details.guid =
     ($obj.guid[0] && $.trim($obj.guid[0].split("guid=")[1].split("&")[0])) ||

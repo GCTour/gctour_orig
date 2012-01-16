@@ -276,8 +276,8 @@ function getMapControl(mapQuery,map_frame,newDocument){
             e.preventDefault();
             dragged = true;
 
-        		slider_width = parseInt(self.css("width"));
-        		slider_offset = parseInt(self.offset().left);
+        		slider_width = parseInt(self.css("width"), 10);
+        		slider_offset = parseInt(self.offset().left, 10);
 
         		scroller_element.addClass( "ui-state-active" );
         		methods["trigger"].apply( self, ["start", methods["calculate"].apply( self, [percentage])]);

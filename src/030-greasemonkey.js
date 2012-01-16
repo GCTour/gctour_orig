@@ -1,3 +1,7 @@
+if (DEBUG_MODE && console && console["time"]) {
+  console.time('gcTour load time');
+}
+
 /*
 * greasemonkey settings and function
 */

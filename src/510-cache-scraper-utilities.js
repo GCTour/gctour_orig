@@ -11,15 +11,15 @@ function getMinimalGeocacheDetails(detailsPage){
    * Fallback#2: steht im HEAD: <meta property="og:url" content="http://coord.info/GC2HFRB" name="og:url">
   */
   $obj.gcc = [
-    $('.CoordInfoCode', detailsPage).first(),
-    $('input#ctl00_ContentBody_btnSendToPhone', detailsPage).first(), // Fallback #1
-    $('meta[name="og:url"]', detailsPage).first()                     // Fallback #2
+    $('.CoordInfoCode', detailsPage).first().text(),
+    $('input#ctl00_ContentBody_btnSendToPhone', detailsPage).first().attr('onclick'), // Fallback #1
+    $('meta[name="og:url"]', detailsPage).first().attr('content')                     // Fallback #2
   ];
 
   geocache_details.gccode =
-    ($obj.gcc[0].length && $.trim($obj.gcc[0].text())) ||
-    ($obj.gcc[1].length && $.trim($obj.gcc[1].attr('onclick').split("'")[1])) ||
-    ($obj.gcc[2].length && $.trim($obj.gcc[2].attr('content').split('/')[3])) ||
+    ($obj.gcc[0] && $.trim($obj.gcc[0])) ||
+    ($obj.gcc[1] && $.trim($obj.gcc[1].split("'")[1])) ||
+    ($obj.gcc[2] && $.trim($obj.gcc[2].split('/')[3])) ||
     null;
 
   if (!geocache_details.gccode)  {
@@ -27,9 +27,9 @@ function getMinimalGeocacheDetails(detailsPage){
   } else {
     debug(
       "getMinimalGeocacheDetails - GCCode: " + geocache_details.gccode + "\n" +
-      "\t1: " + ( ($obj.gcc[0].length) ? $obj.gcc[0].text() : "null" ) + "\n" +
-      "\t2: " + ( ($obj.gcc[1].length) ? $obj.gcc[1].attr('onclick').split("'")[1] : "null" ) + "\n" +
-      "\t3: " + ( ($obj.gcc[2].length) ? $obj.gcc[2].attr('content').split('/')[3] : "null" )
+      "\t1: " + ( ($obj.gcc[0]) ? $obj.gcc[0] : "null" ) + "\n" +
+      "\t2: " + ( ($obj.gcc[1]) ? $obj.gcc[1].split("'")[1] : "null" ) + "\n" +
+      "\t3: " + ( ($obj.gcc[2]) ? $obj.gcc[2].split('/')[3] : "null" )
     );
   }
 
@@ -55,13 +55,13 @@ function getMinimalGeocacheDetails(detailsPage){
    *  <meta name="og:title" content="3, 2, 1 ... Lift-Off" property="og:title" />
   */
   $obj.name = [
-    $('span#ctl00_ContentBody_CacheName', detailsPage).first(),
-    $('meta[name="og:title"]', detailsPage).first() // Fallback #1
+    $('span#ctl00_ContentBody_CacheName', detailsPage).first().text(),
+    $('meta[name="og:title"]', detailsPage).first().attr('content')   // Fallback #1
   ];
 
   geocache_details.name =
-    ($obj.name[0].length && $.trim($obj.name[0].text())) ||
-    ($obj.name[1].length && $.trim($obj.name[1].attr('content'))) ||
+    ($obj.name[0] && $.trim($obj.name[0])) ||
+    ($obj.name[1] && $.trim($obj.name[1])) ||
     null;
 
   if (!geocache_details.name) {
@@ -69,8 +69,8 @@ function getMinimalGeocacheDetails(detailsPage){
   } else {
     debug(
       "getMinimalGeocacheDetails - Name: " + geocache_details.name + "\n" +
-      "\t1: " + ( ($obj.name[0].length) ? $obj.name[0].text() : "null" ) + "\n" +
-      "\t2: " + ( ($obj.name[1].length) ? $obj.name[1].attr('content') : "null" )
+      "\t1: " + ( ($obj.name[0]) ? $obj.name[0] : "null" ) + "\n" +
+      "\t2: " + ( ($obj.name[1]) ? $obj.name[1] : "null" )
     );
   }
 
@@ -83,17 +83,17 @@ function getMinimalGeocacheDetails(detailsPage){
    *  lat=51.167083; lng=10.533383; guid='712fed16-77ab-48f4-a269-18cc27bb2a14';
   */
   $obj.guid = [
-    $("form[name='aspnetForm']", detailsPage).first(),
-    $("a#ctl00_ContentBody_lnkPrintFriendly5Logs", detailsPage).first(),
-    $("a#ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory", detailsPage).first(),
-    $("a#ctl00_ContentBody_uxLogbookLink", detailsPage).first()
+    $("form[name='aspnetForm']", detailsPage).first().attr("action"),
+    $("a#ctl00_ContentBody_lnkPrintFriendly5Logs", detailsPage).first().attr("href"),
+    $("a#ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory", detailsPage).first().attr("href"),
+    $("a#ctl00_ContentBody_uxLogbookLink", detailsPage).first().attr("href")
   ];
 
   geocache_details.guid =
-    ($obj.guid[0].length && $.trim($obj.guid[0].attr("action").split("guid=")[1].split("&")[0])) ||
-    ($obj.guid[1].length && $.trim($obj.guid[1].attr("href").split("guid=")[1].split("&")[0])) ||
-    ($obj.guid[2].length && $.trim($obj.guid[2].attr("href").split("wid=")[1].split("&")[0])) ||
-    ($obj.guid[3].length && $.trim($obj.guid[3].attr("href").split("guid=")[1].split("&")[0])) ||
+    ($obj.guid[0] && $.trim($obj.guid[0].split("guid=")[1].split("&")[0])) ||
+    ($obj.guid[1] && $.trim($obj.guid[1].split("guid=")[1].split("&")[0])) ||
+    ($obj.guid[2] && $.trim($obj.guid[2].split("wid=")[1].split("&")[0])) ||
+    ($obj.guid[3] && $.trim($obj.guid[3].split("guid=")[1].split("&")[0])) ||
     null;
 
   if (!geocache_details.guid) {
@@ -101,10 +101,10 @@ function getMinimalGeocacheDetails(detailsPage){
   } else {
     debug(
       "getMinimalGeocacheDetails - Guid: " + geocache_details.guid + "\n" +
-      "\t1: " + ( ($obj.guid[0].length) ? $obj.guid[0].attr("action").split("guid=")[1].split("&")[0] : "null" ) + "\n" +
-      "\t2: " + ( ($obj.guid[1].length) ? $obj.guid[1].attr("href").split("guid=")[1].split("&")[0] : "null" ) + "\n" +
-      "\t3: " + ( ($obj.guid[2].length) ? $obj.guid[2].attr("href").split("wid=")[1].split("&")[0] : "null" ) + "\n" +
-      "\t4: " + ( ($obj.guid[3].length) ? $obj.guid[3].attr("href").split("guid=")[1].split("&")[0] : "null" )
+      "\t1: " + ( ($obj.guid[0]) ? $obj.guid[0].split("guid=")[1].split("&")[0] : "null" ) + "\n" +
+      "\t2: " + ( ($obj.guid[1]) ? $obj.guid[1].split("guid=")[1].split("&")[0] : "null" ) + "\n" +
+      "\t3: " + ( ($obj.guid[2]) ? $obj.guid[2].split("wid=")[1].split("&")[0] : "null" ) + "\n" +
+      "\t4: " + ( ($obj.guid[3]) ? $obj.guid[3].split("guid=")[1].split("&")[0] : "null" )
     );
   }
 
@@ -114,12 +114,12 @@ function getMinimalGeocacheDetails(detailsPage){
   */
   $obj.type = [
     ((unsafeWindow.mapLatLng && unsafeWindow.mapLatLng.type) ? unsafeWindow.mapLatLng.type : null),
-    $('a[title="About Cache Types"] > img', detailsPage).first()
+    $('a[title="About Cache Types"] > img', detailsPage).first().attr("src")
   ];
 
   geocache_details.type =
     (($obj.type[0]) ? ($obj.type[0] + ".gif") : null ) ||
-    ($obj.type[1].length && $.trim($obj.type[1].attr("src").split("/")[3])) ||
+    ($obj.type[1] && $.trim($obj.type[1].split("/")[3])) ||
     null;
 
   if (!geocache_details.type) {
@@ -128,7 +128,7 @@ function getMinimalGeocacheDetails(detailsPage){
     debug(
       "getMinimalGeocacheDetails - Type: " + geocache_details.type + "\n" +
       "\t1: " + ( ($obj.type[0]) ? ($obj.type[0] + ".gif") : "null" ) + "\n" +
-      "\t2: " + ( ($obj.type[1].length) ? $obj.type[1].attr("src").split("/")[3] : "null" )
+      "\t2: " + ( ($obj.type[1]) ? $obj.type[1].split("/")[3] : "null" )
     );
   }
 

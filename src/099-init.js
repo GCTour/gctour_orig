@@ -51,8 +51,9 @@ function init(){
   initStyle();
 
   // add global styles
-  var head =document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
+  var head  = document.getElementsByTagName('head')[0],
+      style = document.createElement('style');
+  
   style.type = 'text/css';
 
   head.appendChild(style);
@@ -567,53 +568,3 @@ function init(){
   }
 }
 /* END init() */
-
-function initDojo(){
-  // just dont start the script on the gc.com print page!
-  if(document.URL.search("cdpf\.aspx")<=0) {
-
-    var requiredModules, script;
-
-    // required modules - add dojo stuff here
-    requiredModules = [];
-    requiredModules.push("dojo.fx");
-    requiredModules.push("dojo.parser");
-    requiredModules.push("dojo.dnd.Source");
-    requiredModules.push("dojo.date.locale");
-    requiredModules.push("dojo.number");
-    requiredModules.push("dojo.window");
-
-    unsafeWindow.djConfig = {afterOnLoad: true, require: requiredModules,locale: 'en'};
-    script = appendScript(dojoPath + "/dojo/dojo.xd.js");
-
-
-    // check after 20sec if dojo is loaded - otherwhise asume user is blocking Javascript (possible false positve)
-    window.setTimeout(function(){
-      if(!dojo){
-         alert($.gctour.lang('SCRIPT_ERROR'));
-      }
-    }, 20000);
-
-    // only way to check if the dojo script is loaded - addOnLoad fails because of unsafeWindow scope
-    script.addEventListener('load', function(event){
-      dojo = unsafeWindow.dojo;
-
-      // if dojo is ready to go ( include all required modules ), init GCTour
-      dojo.addOnLoad(function(){
-              if(isOpera)
-         {
-          //Wait until the document is loaded, and then call init()
-           window.addEventListener('DOMContentLoaded',function(){
-             init();
-           },true);
-         }
-         else
-         {
-           setTimeout(function() { // hack to prevent "access violation" from Greasemonkey http://wiki.greasespot.net/0.7.20080121.0_compatibility
-             init();
-           },0);
-         }
-      },0);
-    }, 'false');
-  }
-}

@@ -4,6 +4,7 @@
  * version @version@.@build@
  *   - FIXED: printview -> Bug with GCComment version
  *   - FIXED: searchpage in-use with Userscript GCVote
+ *   - REMOVED: dojo completely removed
  *
  * version 2.2.12003
  *   - FIXED: GPX -> ALL caches were either not found or found

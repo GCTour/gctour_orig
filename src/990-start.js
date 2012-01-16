@@ -51,17 +51,16 @@ String.prototype.trimAll = function() {
     //else { alert("okay: " + $.browser.version); }
   }
 
-  // init the whole script - started with dojo
-  initDojo();
-
   if (isOpera) {
-    //wait until document is loaded and init the core components (first tour, current tour)
-    window.addEventListener('DOMContentLoaded',function(){
+    // wait until document is loaded and init the core components (first tour, current tour)
+    window.addEventListener('DOMContentLoaded', function(){
       initCore();
-    },true);
+      init();
+    }, true);
   } else {
     // init the core components (first tour, current tour)
     initCore();
+    init();
   }
 
   //Opera has an autoupdate function

@@ -108,73 +108,73 @@ function addErrorDialog(options){
   //log the exception:
   log_exception(options._exception);
 
-
   var overlay = getOverlay(options);
 
-    
+  // expects a post with this fields:
+  //    - version: 2.1.11293
+  //    - exception: TypeError: span#ctl00_ContentBody_LatLon is undefined
+  //    - gccode: GC2W6GG
+  //    - errorSource: Upload tour error
+  //    - username: MOKA28
+  //    - userAgent: Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
+  //    - lastTour:  {"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im Strütbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"Strütbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - Nähe Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
 
-    // expects a post with this fields:
-    //    - version: 2.1.11293
-    //    - exception: TypeError: dojo.query("span[id=\"ctl00_ContentBody_LatLon\"]", element)[0] is undefined
-    //    - gccode: GC2W6GG
-    //    - errorSource: Upload tour error
-    //    - username: MOKA28
-    //    - userAgent: Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) Gecko/20100101 Firefox/7.0.1
-    //    - lastTour:  {"id":43,"name":"Limes","geocaches":[{"id":"GC2W6GG","name":"Limesturm","guid":"61e421f5-c68b-43be-9257-648648c0deac","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC1TN89","name":"Brunnencache - im Strütbachtal","guid":"badf0b94-9986-406e-a809-531d8289421a","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC15YWV","name":"Porta Caracalla","guid":"606441b0-1988-4ca4-8c50-cc202fed92bb","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"},{"id":"GC2QF45","name":"Strütbachreiter I","guid":"ff785a18-7ea3-4dc8-8608-ccb5f143bedd","image":"http://www.geocaching.com/images/WptTypes/sm/3.gif"},{"id":"GC2EPR0","name":"Rainau-Buch - Nähe Grill/Spielplatz","guid":"8c84156d-3969-4663-a878-2b5da0163bd9","image":"http://www.geocaching.com/images/WptTypes/sm/2.gif"}]}
+  $(overlay).append(
 
-    $(overlay).append(
-      $('<div/>')
-        .css('border','1px dashed red')
-        .css('clear','both')
-        .css('margin','3px').css('padding','5px')
-        .html(GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b>'),
-      $('<div/>')
-        .html($.gctour.lang('ERROR_DIALOG')),
-       $('<div/>')
-        .addClass('dialogFooter')
-        .append(
-          $('<input/>')
-            .attr('onclick','return false;')
-            .attr('type','button')
-            .attr('value', $.gctour.lang('close'))
-            .css('background-image','url('+closebuttonImage+')')
-            .bind('click',function(){
-             
-              if(localDocument == document){
-                closeOverlayRemote(localDocument)();
-              } else { // if we are on the printview - close the whole window
-                localDocument.defaultView.close();
-              }
-          }),
-          $('<input/>')
-            .attr('onclick','return false;')
-            .attr('type','button')
-            .attr('value', $.gctour.lang('ERROR_DIALOG_SEND')) 
-            .css('background-image','url('+sendMessageImage+')')
-            .bind('click',function(){
-              post_data = [
-                "version="              + VERSION+'.'+BUILD,
-                "exception="            + options._exception,
-                "username="             + userName,
-                "gccode="               + GM_getValue("debug_lastgcid",""),
-                "errorSource="          + options.caption,
-                "userAgent="            + unsafeWindow.navigator.userAgent,
-                "lastTour="             + JSON.stringify(currentTour),
-                "userNote="             + $('#gctour_error_note').val()
-              ].join("&");
-              
-              post(GCTOUR_HOST+"/errors/send",post_data,function(response){alert(response);});
-             
-             
-              if(localDocument == document){
-                closeOverlayRemote(localDocument)();
-              } else { // if we are on the printview - close the whole window
-                localDocument.defaultView.close();
-              }       
-            })
-          )      
-    ).find("#gctour_update_error_dialog").bind('click', function() {update(true);});
+    $('<div/>')
+      .css('border','1px dashed red')
+      .css('clear','both')
+      .css('margin','3px').css('padding','5px')
+      .html(GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b>'),
 
+    $('<div/>')
+      .html($.gctour.lang('ERROR_DIALOG')),
+
+    $('<div/>')
+      .addClass('dialogFooter')
+      .append(
+
+        $('<input/>')
+          .attr('onclick','return false;')
+          .attr('type','button')
+          .attr('value', $.gctour.lang('close'))
+          .css('background-image','url('+closebuttonImage+')')
+          .bind('click',function(){
+
+            if(localDocument == document){
+              closeOverlayRemote(localDocument)();
+            } else { // if we are on the printview - close the whole window
+              localDocument.defaultView.close();
+            }
+        }),
+
+        $('<input/>')
+          .attr('onclick','return false;')
+          .attr('type','button')
+          .attr('value', $.gctour.lang('ERROR_DIALOG_SEND'))
+          .css('background-image','url('+sendMessageImage+')')
+          .bind('click',function(){
+            post_data = [
+              "version="              + VERSION+'.'+BUILD,
+              "exception="            + options._exception,
+              "username="             + userName,
+              "gccode="               + GM_getValue("debug_lastgcid",""),
+              "errorSource="          + options.caption,
+              "userAgent="            + unsafeWindow.navigator.userAgent,
+              "lastTour="             + JSON.stringify(currentTour),
+              "userNote="             + $('#gctour_error_note').val()
+            ].join("&");
+
+            post(GCTOUR_HOST+"/errors/send",post_data,function(response){alert(response);});
+
+            if (localDocument == document) {
+              closeOverlayRemote(localDocument)();
+            } else { // if we are on the printview - close the whole window
+              localDocument.defaultView.close();
+            }
+          })
+      )
+  ).find("#gctour_update_error_dialog").bind('click', function() {update(true);});
 
 }
 

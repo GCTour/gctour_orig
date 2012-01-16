@@ -525,7 +525,7 @@ function init(){
       debug("Username not found");
     }
 
-    if (DEBUG_MODE && console && console["timeEnd"]) {
+    if (DEBUG_MODE && console && console.timeEnd) {
       console.timeEnd('gcTour load time');
     }
   }

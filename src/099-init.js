@@ -356,6 +356,7 @@ function init(){
     };
 
     // unsafeWindow.google steht nicht gleich zur Verfügung !
+    // ToDo: "unsafeWindow.google".ready function realisieren
     window.setTimeout(function(){
       unsafeWindow.google.maps.event.addListener(unsafeWindow.map, "rightclick", function(event) {
         var lat = event.latLng.lat(),
@@ -364,7 +365,7 @@ function init(){
         // populate yor box/field with lat, lng
         // alert("Lat=" + lat + "; Lng=" + lng);
       });
-    }, 2000);
+    }, 3000);
 
   }
 

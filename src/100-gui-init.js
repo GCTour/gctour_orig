@@ -10,13 +10,13 @@ function initButton(){
 
     var gcTourFieldset = createElement('fieldset',{style:"background-color: #EFF4F9;border-color: #C0CEE3 !important;margin-top:0;padding: 0.5em;"});
     append(gcTourFieldset,div_element);
-    
+
     gcTourFieldset.setAttribute('class','dialogFooter');
     gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
 
     var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+addToTourImageString+")"});
     append(newButton,gcTourFieldset);
-    
+
     newButton.setAttribute('onclick','return false;');
 
     //~ var newButton = document.createElement("button");
@@ -327,7 +327,7 @@ function initComponents(){
       click: function(){
         downloadTourDialog();
         //~ var webcode = window.prompt($.gctour.lang('webcodePrompt'));
-        //~ if(webcode && trim(webcode) != ""){
+        //~ if(webcode && $.trim(webcode) != ""){
           //~ downloadTourFunction(webcode);
         //~ }
       }
@@ -448,3 +448,4 @@ function initComponents(){
   handleResize();
 
 }
+

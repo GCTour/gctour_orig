@@ -88,7 +88,7 @@ function getGeocacheFromElement(element){
   }
 
   $divCacheDetails = $('div#cacheDetails', element).first();
-  geocache.hidden = parseDate(trim($('span', $divCacheDetails).eq(2).text().split(':').pop()));
+  geocache.hidden = parseDate($.trim($('span', $divCacheDetails).eq(2).text().split(':').pop()));
   /* (01.2012)
     event caches =>
           LogedIn => okay, Example: 01/08/2012
@@ -177,13 +177,13 @@ function getGeocacheFromElement(element){
     coordinates = parseCoordinates(row1_tds[6].textContent);
     var waypoint = {};
     waypoint.symbol = row1_tds[2].childNodes[1].src;
-    waypoint.prefix = trim(row1_tds[3].textContent);
-    waypoint.lookup = trim(row1_tds[4].textContent);
+    waypoint.prefix = $.trim(row1_tds[3].textContent);
+    waypoint.lookup = $.trim(row1_tds[4].textContent);
     waypoint.name = row1_tds[5].childNodes[1].textContent;
-    waypoint.coordinates = trim(row1_tds[6].textContent);
+    waypoint.coordinates = $.trim(row1_tds[6].textContent);
     waypoint.latitude = coordinates._lat;
     waypoint.longitude = coordinates._lon;
-    waypoint.note = trim(row2_tds[2].textContent);
+    waypoint.note = $.trim(row2_tds[2].textContent);
 
     // Final Location        http://www.geocaching.com/images/wpttypes/sm/flag.jpg
     // Parking Area          http://www.geocaching.com/images/wpttypes/sm/pkg.jpg
@@ -255,3 +255,4 @@ function getGeocache(gcid){
 
   return getGeocacheFromElement(response_div);
 }
+

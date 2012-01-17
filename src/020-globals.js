@@ -22,7 +22,6 @@ var
   tours,
   currentTour,
   userName,
-  head = document.getElementsByTagName('head')[0],
   rot13array,
   timeout,
   sticky = GM_getValue('sticky', false),

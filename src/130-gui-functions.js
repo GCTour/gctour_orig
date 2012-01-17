@@ -132,8 +132,8 @@ function downloadGPXFunction(){
 
       // add progressbar while loading
       addProgressbar();
-      
-      
+
+
 
       gpxForm = document.createElement('form');
       gpxForm.setAttribute('style','display:;');
@@ -158,13 +158,13 @@ function downloadGPXFunction(){
 
       try {
         dummyString = getGPX();
- 
+
         //iff the cancel button is pressed the dummyString just contain canceled
         if(dummyString == "canceled"){
           closeOverlay();
           return;
         }
-        
+
         contentArea.innerHTML = encodeURIComponent(dummyString);
 
         document.body.appendChild(gpxForm);
@@ -317,8 +317,8 @@ function makeMapFunction(){
             if(result.missing_wptIds.length > 0){
               for (cache_i = 0; cache_i < result.missing_wptIds.length; cache_i++){
                 costumMarkers.push(getMapMarker(result.missing_wptIds[cache_i]));
-                setProgress(cache_i + result.missing_gcIds.length, 
-                            result.missing_gcIds.length + result.missing_wptIds.length - 1, 
+                setProgress(cache_i + result.missing_gcIds.length,
+                            result.missing_gcIds.length + result.missing_wptIds.length - 1,
                             document);
               }
             }
@@ -727,8 +727,8 @@ function downloadTourFunction(webcode){
   addProgressbar();
 
   details.method = 'GET';
-  //~ details.url = 'http://gctour.madd.in/query.php?crc='+trim(webcode);
-  details.url = GCTOUR_HOST + '/tour/' + trim(webcode) + '/json';
+  //~ details.url = 'http://gctour.madd.in/query.php?crc='+ $.trim(webcode);
+  details.url = GCTOUR_HOST + '/tour/' + $.trim(webcode) + '/json';
 
   details.onload = function(response) {
 
@@ -828,4 +828,5 @@ function showInformationDiv(tour){
     }
   };
 }
+
 

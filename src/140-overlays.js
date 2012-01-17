@@ -22,14 +22,13 @@ function closeOverlayRemote(theDocument){
 }
 
 function getOverlay(options){
-  var bodyNew, head, verLay, overlayMarker, title, closeDiv, closeButton, caption,theDocument,background_color;
+  var bodyNew, verLay, overlayMarker, title, closeDiv, closeButton, caption,theDocument,background_color;
 
   caption = options.caption;
   localDocument = options._document || document;
   background_color = options.color || "#B2D4F3";
 
   bodyNew = localDocument.getElementsByTagName('body')[0];
-  head = localDocument.getElementsByTagName('head')[0];
 
   // first - close all old overlays
   closeOverlayRemote(localDocument)();

@@ -53,7 +53,7 @@ function init(){
   // add global styles
   var head  = document.getElementsByTagName('head')[0],
       style = document.createElement('style');
-  
+
   style.type = 'text/css';
 
   head.appendChild(style);
@@ -212,7 +212,7 @@ function init(){
             debug("##### 2: "+addBool);
             if(tq_specialFilter['is not a PM cache']){
               pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length >= 0);
-              addBool = addBool && pm_only;
+              addBool = addBool && !pm_only;
             }
               debug("##### 3: "+addBool);
             // autoTour parameter "haven't found" is not checked here because of URL parameter
@@ -354,12 +354,12 @@ function init(){
         addElementFunction(gccode, guid, name, cacheTypeImage)();
       }, 0);
     };
-    
+
     unsafeWindow.google.maps.event.addListener(unsafeWindow.map, "rightclick", function(event) {
       var lat = event.latLng.lat(),
           lng = event.latLng.lng();
-          
-      
+
+
       // populate yor box/field with lat, lng
       // alert("Lat=" + lat + "; Lng=" + lng);
     });
@@ -568,3 +568,4 @@ function init(){
   }
 }
 /* END init() */
+

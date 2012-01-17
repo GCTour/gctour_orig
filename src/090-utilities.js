@@ -51,12 +51,6 @@ function fillTemplate(mapping, template){
   return dummy.firstChild;
 }
 
-function trim (zeichenkette) {
-  // Erst führende, dann Abschließende Whitespaces entfernen
-  // und das Ergebnis dieser Operationen zurückliefern
-  return zeichenkette.replace (/^\s+/, '').replace (/\s+$/, '');
-}
-
 // rot13.js from gc.com
 function createROT13array() {
   var A = 0,
@@ -384,3 +378,4 @@ function formatDate(date){
 
   return date_string;
 }
+

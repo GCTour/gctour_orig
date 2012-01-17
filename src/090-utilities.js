@@ -27,14 +27,6 @@ function append(thisElement, toThis) {
   return toThis.appendChild(thisElement);
 }
 
-function createElementIn(type, attributes, toThis){
-  var node = createElement(type, attributes);
-  if (toThis){
-    append(node, toThis);
-  }
-  return node;
-}
-
 function parseXml(str, typ) {
   // typ z.B. 'text/xml'
   return (new DOMParser()).parseFromString(str, typ);
@@ -125,31 +117,6 @@ function convertROTStringWithBrackets(C) {
   return D;
 }
 
-/* TODO: remove this function */
-function getElementsByAttribute(the_attribute, the_value, the_node) {
-  var node_tags, results, i, j;
-
-  the_node  = ( the_node == null ) ? document : the_node;
-  node_tags = the_node.getElementsByTagName('*');
-  results   = [];
-
-  for (i=0, j=0; i<node_tags.length;i++) {
-    if (node_tags[i].hasAttribute(the_attribute)) {
-      if (node_tags[i].getAttribute(the_attribute) == the_value) {
-        results[j] = node_tags[i];
-        j++;
-      }
-    }
-  }
-
-  return results;
-}
-
-/* TODO: remove this function */
-function insertAfter( referenceNode, newNode ) {
-  referenceNode.parentNode.insertBefore( newNode, referenceNode.nextSibling );
-}
-
 /* Replace all  &,< and > with there HTML tag */
 function encodeHtml(htmlString) {
   return (!htmlString) ? "" : htmlString.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -189,7 +156,6 @@ function get(url, cb) {
   });
 }
 
-
 function postSync(url, data){
     log([
     "---POST SYNCHRON---",
@@ -207,7 +173,6 @@ function postSync(url, data){
   }).responseText;
 
   return result;
-
 }
 
 function post(url, data, cb) {
@@ -288,7 +253,6 @@ function DateDiff(date1, date2, einheit) {
 
   return diff;
 }
-
 
 function getDateFormat(force){
   var date_format_update = new Date(GM_getValue('date_format_update')),

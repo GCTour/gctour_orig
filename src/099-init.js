@@ -416,13 +416,13 @@ function init(){
     // helper function
     var addEntryFromBookmark = function(e) {
       var ck = e.data.checkedOnly || false;
-      for(var k = 0; k < e.data.bLs.length; k++){
-        var bookmarkLine = $("td", e.data.bLs[k]);
+      $.each(e.data.bLs, function(i, v) {
+        var bookmarkLine = $("td", v);
         var entry = getEntryFromBookmarkTd(bookmarkLine);
         if ( (entry) && (!ck || (ck && entry.checked)) ){
           addElementFunction(entry.id, entry.guid, entry.name, entry.image)();
         }
-      }
+      });
     };
 
     // button to add all caches in list to current tour

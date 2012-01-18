@@ -113,7 +113,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
       $('<li/>').text($.gctour.lang('settingsMapSize')).append(
         $("<div/>").gct_slider({
           min:100,
-          max:700,
+          max:1000,
           value:map_size_px,
           document: newDocument,
           slide:function(values){map_frame.style.height=values.value+"px";}

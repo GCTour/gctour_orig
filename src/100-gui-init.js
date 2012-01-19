@@ -398,7 +398,10 @@ function initComponents(){
   var $footer = $('<div>',{
     id: "gctour_footer",
     "css":{
+      position: "absolute",
+      bottom: 0,
       "font-size": "75%",
+      width: "100%",
       height: 14
     },
     "html":

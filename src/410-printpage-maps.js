@@ -88,8 +88,6 @@ function getMap(mapQuery){
 
 function getMapControl(mapQuery,map_frame,newDocument){
 
-
-
   var mapId = mapQuery.replace(/,/g,""),
       control_container = createElement('div',{style:"float:right;"}),
       map_size_px;
@@ -118,7 +116,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
           value:map_size_px,
           document: newDocument,
           slide:function(values){map_frame.style.height=values.value+"px";}
-          })
+        })
       ),
       $('<li/>').append(
         $("<div/>").gct_slider({
@@ -127,14 +125,14 @@ function getMapControl(mapQuery,map_frame,newDocument){
           value:100,
           document: newDocument,
           slide:function(values){map_frame.style.width=values.value+"%";}
-          })
+        })
       ),
       $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')
         .css('background','url("'+deleteImageString+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.parentNode.style.display = "none";}),
       $('<li>Karte neu laden!</li>')
-        .css('background','url("'+deleteImageString+'") top left no-repeat')
+        .css('background','url("'+refreshImageString+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.src = map_frame.src;})
     )

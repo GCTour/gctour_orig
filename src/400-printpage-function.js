@@ -57,7 +57,7 @@ function printPageFunction(currentTour){
       var costumMarker = (typeof(currentTour.geocaches[0].latitude) != "undefined");
 
       var url_guid = (!costumMarker) ? currentTour.geocaches[0].guid : "39eedff9-69ea-4a18-97b0-bde6bfbccfb7";
-      var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen,scrollbars=yes,toolbar=yes,menubar=yes');
+      var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen=yes,scrollbars=yes,toolbar=yes,menubar=yes');
 
       // trick to wait until the page from gc-com is loaded, to prevent tour detection
       newwindow2.window.addEventListener ("DOMContentLoaded", function() {

@@ -128,8 +128,8 @@ function initComponents(){
   )
   .appendTo("body");
 
-  var geocacheList = $('<div>',{
-
+  var $geocacheList = $('<div>',{
+    id: "gctour_geocacheList",
     "css": {
       overflow: 'auto',
       height: '80%',
@@ -181,7 +181,8 @@ function initComponents(){
       .disableSelection()
   });
 
-  var tourHeaderDiv = $("<div>",{
+  var $tourHeader = $("<div>",{
+    id: "gctour_tourHeader",
     "css": {
       height: ((currentTour.webcode) ? 55 : 35)
     },
@@ -190,7 +191,7 @@ function initComponents(){
               '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>Webcode: <b>' + currentTour.webcode + '</b>&nbsp;</span><br/>'
   });
 
-  $(tourHeaderDiv).append(
+  $tourHeader.append(
 
     // rename
     $('<img>', {
@@ -288,14 +289,15 @@ function initComponents(){
 
   ).find("img.tourImage").addShadowEffect().addOpacityEffect();
 
-  var buttonsDiv = $("<div>", {
+  var $toolbar = $("<div>", {
+    id: "gctour_toolbar",
     "css": {
       height: 20,
       '-moz-user-select': "none"
     }
   });
 
-  $(buttonsDiv).append(
+  $toolbar.append(
     // newTourButton
     $('<img>', {
       'class': 'tourImage',
@@ -369,7 +371,8 @@ function initComponents(){
 
   );
 
-  var header = $("<div>",{
+  var $header = $("<div>",{
+    id: "gctour_header",
     "class": "header gctour-grand-default" + ((sticky) ? " gctour-grand-hover" : ""),
     "css": {
       height: 40,
@@ -393,45 +396,47 @@ function initComponents(){
     }
   );
 
-  var footerDiv = $('<div>',{
+  var $footer = $('<div>',{
+    id: "gctour_footer",
     "css":{
       "font-size": "75%",
       height: 14
     },
-    "html": $("<div>",{
-                "css": {
-                  'width': '100%'
-                }
-              }).append(
-                $("<a>",{
-                  "css": {
-                    'padding-left': 5
-                  },
-                  href: 'http://gctour.madd.in',
-                  title: 'http://gctour.madd.in',
-                  text: 'http://gctour.madd.in'
-                })
-                .click(function(){
-                  window.open(this.href);
-                  return false;
-                })
-              ).append(
-                $("<div>", {
-                  "css": {
-                    'float': 'right',
-                    'margin-right': 5
-                  },
-                  "html": "v "+ VERSION + "." + BUILD
-                })
-              )
+    "html":
+      $("<div>",{
+        "css": {
+          'width': '100%'
+        }
+      }).append(
+        $("<a>",{
+          "css": {
+            'padding-left': 5
+          },
+          href: 'http://gctour.madd.in',
+          title: 'http://gctour.madd.in',
+          text: 'http://gctour.madd.in'
+        })
+        .click(function(){
+          window.open(this.href);
+          return false;
+        })
+      ).append(
+        $("<div>", {
+          "css": {
+            'float': 'right',
+            'margin-right': 5
+          },
+          "html": "v "+ VERSION + "." + BUILD
+        })
+      )
   });
 
   $("#gctourContainer").append(
-    header,
-    buttonsDiv,
-    tourHeaderDiv,
-    geocacheList,
-    footerDiv
+    $header,
+    $toolbar,
+    $tourHeader,
+    $geocacheList,
+    $footer
   );
 
   // popultate the current list on load

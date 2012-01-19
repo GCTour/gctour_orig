@@ -19,27 +19,30 @@ function isNotEmptyList(){
 }
 
 function handleResize(e) {
-  var container_height = $(window).height() - 55;
-  var tourheader_height;
-  var list_height;
+  // Change the height of the container and Cache List
+  var container = $(window).height() - 55,
+    header      = $("#gctourContainer #gctour_header").height(),  // 40
+    toolbar     = $("#gctourContainer #gctour_toolbar").height(), // 20;
+    tourheader  = $("#gctourContainer #gctour_tourHeader").height(),
+    footer      = $("#gctourContainer #gctour_footer").height(),  // 14;
+    minus       = header + toolbar + tourheader + footer,
+    cachelist   = container - minus;
 
-  // const
-  var header_height  = 40;
-  var toolbar_height = 20;
-  var footer_height  = 14;
-  var minus_height   = header_height + toolbar_height + footer_height;
+  // set the container height
+  $('#gctourContainer').css("height", container );
 
-  // set the max height of the container
-  $('#gctourContainer').css("height", container_height );
+  // set the cachelist height
+  $('#cacheList').parent().css("height", cachelist );
 
-  // change the height of the tour header
-  tourheader_height = (currentTour.webcode) ? 55 : 35;
-
-  list_height = container_height - minus_height - tourheader_height;
-
-  //now handle the max height of the list and the header
-  $('#webcode').parent().css("height", tourheader_height );
-  $('#cacheList').parent().css("height", list_height );
+  log(
+    "handleResize change height:\n" +
+    "\tcontainer:  " + container + "\n" +
+    "\theader:     " + header + "\n" +
+    "\ttoolbar:    " + toolbar + "\n" +
+    "\ttourheader: " + tourheader + "\n" +
+    "\tfooter:     " + footer + "\n" +
+    "\t => cachelist:   " + cachelist
+  )
 }
 
 function updateGUI(){
@@ -828,5 +831,6 @@ function showInformationDiv(tour){
     }
   };
 }
+
 
 

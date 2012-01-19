@@ -184,7 +184,6 @@ function initComponents(){
   var $tourHeader = $("<div>",{
     id: "gctour_tourHeader",
     "css": {
-      height: ((currentTour.webcode) ? 55 : 35)
     },
     "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/>' +
               '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +

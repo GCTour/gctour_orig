@@ -78,8 +78,8 @@ function getMap(mapQuery){
 
   map_frame.className = 'cacheMap';
   map_frame.id = mapId;
-  map_frame.style.width = "20cm";
-  //map_frame.style.width = "100%";
+  //map_frame.style.width = "20cm";
+  map_frame.style.width = "100%";
   map_frame.style.height = map_size_px + 'px';
   map_frame.style.border = '1px solid lightgray';
   map_frame.src = getMapUrl(mapQuery);

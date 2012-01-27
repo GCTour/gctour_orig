@@ -4,7 +4,7 @@
  * version @version@.@build@
  *   - FIXED: printview -> Bug with GCComment version
  *   - FIXED: searchpage in-use with Userscript GCVote
- *   - FIXED: Issue 22 and 33
+ *   - FIXED: Issue 22, 32 and 33
  *   - REMOVED: dojo completely removed
  *
  * version 2.2.12003

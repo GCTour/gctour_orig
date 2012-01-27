@@ -38,6 +38,7 @@ function getGPXGeoCache(gcid){
 
   /*
   geocache.gcid
+    .guid
     .cacheid
     .name
     .type
@@ -69,6 +70,8 @@ function getGPXGeoCache(gcid){
   if (GM_getValue('gpxstripgc', false)) {
     geocache.gcid = geocache.gcid.replace(/GC/,'');
   }
+
+  geocache.guid = geocache_obj.guid;
 
   geocache.cacheid   = geocache_obj.cacheid;
   geocache.archived  = (geocache_obj.archived)  ? "True" : "False";
@@ -201,9 +204,8 @@ function getGPX(){
     '<wpt lat="##LAT##" lon="##LON##">\n' +
     '  <time>##TIME##</time>\n' +
     '  <name>##GCID##</name>\n' +
-    '  <desc>##CACHENAME##</desc>\n' +
-    '  <src>www.geocaching.com</src>\n' +
-    '  <url>http://www.geocaching.com/seek/cache_details.aspx?wp=##GCID##</url>\n' +
+    '  <desc>##CACHENAME## by ##OWNER##, ##TYPE## (##DIFFICULTY##/##TERRAIN##)</desc>\n' + //'  <url>http://www.geocaching.com/seek/cache_details.aspx?wp=##GCID##</url>\n' +
+    '  <url>http://www.geocaching.com/seek/cache_details.aspx?guid=##GUID##</url>\n' +
     '  <urlname>##CACHENAME##</urlname>\n' +
     '  <sym>##CACHESYM##</sym>\n' +
     '  <type>Geocache|##TYPE##</type>\n' +
@@ -230,7 +232,7 @@ function getGPX(){
     '        <groundspeak:date>##TIME##</groundspeak:date>\n' +
     '        <groundspeak:type>##LOGTYPE##</groundspeak:type>\n' +
     '        <groundspeak:finder>##CACHERNAME##</groundspeak:finder>\n' +
-    '        <groundspeak:text>##LOGTEXT##</groundspeak:text>\n' +
+    '        <groundspeak:text encoded="False">##LOGTEXT##</groundspeak:text>\n' +
     '      </groundspeak:log>\n';
 
   var gcStrArray  = [],
@@ -299,6 +301,7 @@ function getGPX(){
           ['TIME',        xsdDateTime(geocache.dateHidden)],
           ['GCID',        geocache.gcid],
           ['CACHEID',     geocache.cacheid],
+          ['GUID',        geocache.guid],
           ['AVAILABLE',   geocache.available],
           ['ARCHIVED',    geocache.archived],
           ['CACHENAME',   encodeHtml(geocache.cacheName)],
@@ -330,6 +333,7 @@ function getGPX(){
         minLat = (minLat > geocache.latitude)  ? geocache.latitude  : minLat;
 
         var cacheWaypoint = geocacheTemplate;
+
         for( ii = 0 ; ii < geocacheMapping.length ; ii++){
           cacheWaypoint = cacheWaypoint.replace(new RegExp("##"+geocacheMapping[ii][0]+"##","g"),geocacheMapping[ii][1]);
         }

@@ -159,6 +159,10 @@ function getGPXGeoCache(gcid){
   log([
     "--------------[START " + geocache.gcid + "]-------------",
     "gcid: \t\t"        + geocache.gcid,
+    "guid: \t\t"        + geocache.guid,
+    "cacheid: \t"       + geocache.cacheid,
+    "archived: \t"      + geocache.archived,
+    "available: \t"     + geocache.available,
     "cacheName:\t"      + geocache.cacheName,
     "cacheSym (GPX):\t" + geocache.cacheSym,
     "cacheOwner:\t"     + geocache.cacheOwner,
@@ -174,6 +178,7 @@ function getGPXGeoCache(gcid){
     "country:\t"        + geocache.country,
     "shortDescription:\n\n" + geocache.shortDescription,
     "longDescription:\n\n"  + geocache.longDescription,
+    "hint:\t\t"        + geocache.hint,
     "--------------[END " + geocache.gcid + "]--------------"
   ].join("\n"));
 

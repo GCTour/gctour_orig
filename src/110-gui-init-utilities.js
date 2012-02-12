@@ -52,7 +52,7 @@ function getEntriesFromSearchpage(){
 
     lnk = entryTds.eq(5).find("a.lnk:first");
     entry.name = $.trim(lnk.text());
-
+//~ alert(entry.guid = entryTds.html());
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
 

@@ -90,7 +90,7 @@ function showNewMarkerDialog(marker){
 
   staticGMap = document.createElement('div');
 
-  var staticMap = new StaticMap(staticGMap,{});
+  var staticMap = new StaticMap($(staticGMap),{});
 
   var checkMarkerCoord = function(input){
     return function(){

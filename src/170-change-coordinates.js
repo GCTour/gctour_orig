@@ -153,7 +153,7 @@ function changeCoordinates(coordinates){
 
       var srcArr = $("img:first", "a[href='/about/cache_types.aspx']").attr("src").split("/");
       var gc_type = srcArr[srcArr.length-1].split(".")[0];
-      var staticMap = new StaticMap(overlay, {
+      var staticMap = new StaticMap($(overlay), {
         lat: origCoordinates._lat,
         lon: origCoordinates._lon,
         newLat: newCoordinates._lat,
@@ -204,7 +204,8 @@ function openChangeCoordinates(){
   var gc_type = minimal_geocache.type;
 
   var coords = parseCoordinates(coordinates);
-  var staticMap = new StaticMap(mapTd,{lat:coords._lat,lon:coords._lon,geocache_type:gc_type.split(".")[0]});
+
+  var staticMap = new StaticMap($(mapTd),{lat:coords._lat,lon:coords._lon,geocache_type:gc_type.split(".")[0]});
 
   var cacheId = minimal_geocache.gccode;
 

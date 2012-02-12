@@ -211,7 +211,7 @@ function init(){
 
             debug("##### 2: "+addBool);
             if(tq_specialFilter['is not a PM cache']){
-              pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length >= 0);
+              pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length > 0);
               addBool = addBool && !pm_only;
             }
               debug("##### 3: "+addBool);

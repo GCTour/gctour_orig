@@ -7,7 +7,7 @@
 // @run-at       document-end
 // @include      http*://www.geocaching.com/*
 // @include      http://gctour-spot.appspot.com*#gui
-// @exclude      /^https?://www\.geocaching\.com/(login|about|articles|map/beta/comingsoon.aspx)/
+// @exclude      /^https?://www\.geocaching\.com/(login|about|articles)/
 // @copyright    2008, 2009, 2010, 2011 Martin Georgi
 // @author       madd.in
 // @co-developer jens

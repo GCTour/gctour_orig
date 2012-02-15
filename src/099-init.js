@@ -299,21 +299,21 @@ function init(){
     }
   }
 
-
-  // beta maps - map/beta/default.aspx = map/beta/
-  if(document.URL.search("\/map\/beta\/")>=0) {
+  // maps - map/default.aspx
+  if(document.URL.search("\/map\/")>=0) {
 
      $("<div>",{
       "class": "header",
       "css": {
         'width': 100,
         'height': 30,
-        'margin': "0 auto",
+        'margin-top': 10,
         'overflow': "hidden",
         'border-radius': 5,
         'background-color': "#FFF",
         'border': "4px solid #999",
-        'cursor': 'pointer'
+        'cursor': 'pointer',
+        'float': 'right'
       },
       "html": $("<h1>", {
         "css": {'padding': 0},
@@ -329,14 +329,17 @@ function init(){
         function(){ $(this).css({'backgroundColor': 'orange'}); },
         function(){ $(this).css({'backgroundColor': '#B2D4F3'}); }
       )
-    }).appendTo("#maps-hd");
+    }).prependTo($(".ui-block-a", "header:first"));
 
+    // ToDo: Template erweitern bzw. anpassen
     $('#cacheDetailsTemplate').text(
       function(index, text) {
+        alert("index: " + index);
         var tmpAddToTour = '<br/><a class="lnk" href="javascript:add2tour();">'+
           '<img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
           '</a></div>{{else}}';
         return text.replace(/<\/div>\s*\{\{else\}\}/g, tmpAddToTour);
+        //return text + tmpAddToTour);
       }
     );
 
@@ -370,6 +373,7 @@ function init(){
   }
 
   // old maps
+  /*
   if($("#cacheListBody").length){
 
     unsafeWindow.origUpdateSideBarList = unsafeWindow.updateSideBarList;
@@ -385,6 +389,7 @@ function init(){
     //~ unsafeWindow.origCreateMarker = unsafeWindow.createMarker;
     //~ unsafeWindow.createMarker = gctourCreateMarker;
   }
+  */
 
   // add buttons to Bookmark site
   if(document.URL.search("\/bookmarks\/view\.aspx")>=0) {

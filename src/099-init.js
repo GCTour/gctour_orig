@@ -331,29 +331,29 @@ function init(){
       )
     }).prependTo($(".ui-block-a", "header:first"));
 
-    // ToDo: Template erweitern bzw. anpassen
+    // ToDo: Template erweitern bzw. anpassen mit Add2Tour Button
     $('#cacheDetailsTemplate').text(
       function(index, text) {
-        alert("index: " + index);
-        var tmpAddToTour = '<br/><a class="lnk" href="javascript:add2tour();">'+
+        var tmpAddToTour = '{{#if $ctx.userIsLoggedIn() }}'+
+        '<a class="lnk" href="javascript:add2tour();">'+
           '<img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
-          '</a></div>{{else}}';
-        return text.replace(/<\/div>\s*\{\{else\}\}/g, tmpAddToTour);
-        //return text + tmpAddToTour);
+        '</a>';
+        return text.replace(/\{\{\#if \$ctx.userIsLoggedIn\(\) \}\}/g, tmpAddToTour);
       }
     );
 
     unsafeWindow.add2tour = function(){
       setTimeout(function() {
-        var gccode   = $('#gmCacheInfo div[class="code"]').first().text().trim();
-        var links    = $("#gmCacheInfo a");
-        var imageUrl = $("#gmCacheInfo img").first().attr('src');
+        var gccode         = $('#gmCacheInfo div[class="code"]:visible:first').text().trim();
+        var name           = $("#gmCacheInfo a[href*='cache_details.aspx']:visible:first").text().trim();
+        var guid           = getUrlVars($("#gmCacheInfo a[href*='/seek/log.aspx?guid']:visible:first").attr("href"))["guid"];
 
-        var name = links.first().text().trim();
-        var cacheTypeImage = imageUrl.split('/')[4]; // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]
-        var guid = getUrlVars(links[links.length-2].href)["guid"];
+        var imageUrl       = $("#gmCacheInfo img[src*='http://www.geocaching.com/images/WptTypes/sm/']:visible:first").attr("src");
+        var imageUrlArr    = imageUrl.split('/');
+        var cacheTypeImage = imageUrlArr[imageUrlArr.length-1];
+        // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]
 
-        debug("beta maps add2tour: gccode:'" + gccode + "' name:'" + name + "' image:'" + cacheTypeImage + "' guid:'" + guid + "'");
+        debug("map add2tour: gccode:'" + gccode + "' name:'" + name + "' image:'" + cacheTypeImage + "' guid:'" + guid + "'");
         addElementFunction(gccode, guid, name, cacheTypeImage)();
       }, 0);
     };

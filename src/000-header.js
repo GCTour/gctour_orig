@@ -8,7 +8,7 @@
 // @include      http*://www.geocaching.com/*
 // @include      http://gctour-spot.appspot.com*#gui
 // @exclude      /^https?://www\.geocaching\.com/(login|about|articles)/
-// @copyright    2008, 2009, 2010, 2011 Martin Georgi
+// @copyright    2008, 2009, 2010, 2011, 2012 Martin Georgi
 // @author       madd.in
 // @co-developer jens
 // @icon         http://www.madd.in/geocaching/gm/gctourextension/icon.png

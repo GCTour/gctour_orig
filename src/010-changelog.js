@@ -2,6 +2,14 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: new geocaching.com maps are now supported again
+ * 
+ * version 2.2.12043
+ *   - FIXED: autoTour - but still issues with GCVote, please disable this to use autoTour!
+ *   - FIXED: OwnWaypoints and moveCoordinates
+ *   - REMOVED: annoying alert on search page
+ * 
+ * version 2.2.12042
  *   - FIXED: printview -> Bug with GCComment version
  *   - FIXED: searchpage in-use with Userscript GCVote
  *   - FIXED: Issue 22, 32 and 33

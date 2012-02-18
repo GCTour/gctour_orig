@@ -334,11 +334,13 @@ function init(){
     // ToDo: Template erweitern bzw. anpassen
     $('#cacheDetailsTemplate').text(
       function(index, text) {
-        alert("index: " + index);
-        var tmpAddToTour = '<br/><a class="lnk" href="javascript:add2tour();">'+
+        alert("text: " + text);
+        var tmpAddToTour = '<a class="lnk" href="javascript:add2tour();">'+
           '<img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
-          '</a></div>{{else}}';
-        return text.replace(/<\/div>\s*\{\{else\}\}/g, tmpAddToTour);
+          '</a>';
+          
+                 
+        return text.replace(/<\/div>\s*<\/div>/g, tmpAddToTour+"</div></div>");
         //return text + tmpAddToTour);
       }
     );
@@ -350,10 +352,10 @@ function init(){
         var imageUrl = $("#gmCacheInfo img").first().attr('src');
 
         var name = links.first().text().trim();
-        var cacheTypeImage = imageUrl.split('/')[4]; // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]
+        var cacheTypeImage = imageUrl.split('/')[6]; // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]
         var guid = getUrlVars(links[links.length-2].href)["guid"];
 
-        debug("beta maps add2tour: gccode:'" + gccode + "' name:'" + name + "' image:'" + cacheTypeImage + "' guid:'" + guid + "'");
+        alert("maps add2tour: gccode:'" + gccode + "' name:'" + name + "' image:'" + cacheTypeImage + "' guid:'" + guid + "'");
         addElementFunction(gccode, guid, name, cacheTypeImage)();
       }, 0);
     };

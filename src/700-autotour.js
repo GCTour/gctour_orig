@@ -480,7 +480,7 @@ function showAutoTourDialog(center, radius) {
   );
 
   if(center && radius){
-    $("input#markerCoords").val(center.lat + ' ' + center.lng);
+    $("input#markerCoords").val(center.lat.toFixed(5) + ' ' + center.lng.toFixed(5));
     $("input#markerRadius").val(radius);
     getMarkerCoord();
   } else {

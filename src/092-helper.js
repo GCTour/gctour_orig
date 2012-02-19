@@ -1,6 +1,6 @@
 // helpers
 
-// for map old and map beta
+// for map page
 // googleMap center and radius: return object center and radius
 var getMapCenterAndRadius = function(){
 

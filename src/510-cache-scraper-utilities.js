@@ -88,7 +88,7 @@ function getMinimalGeocacheDetails(detailsPage){
     $("a#ctl00_ContentBody_uxTravelBugList_uxTrackableItemsHistory[href*='wid=']", detailsPage).first().attr("href"),
     $("a#ctl00_ContentBody_uxLogbookLink[href*='guid=']", detailsPage).first().attr("href")
   ];
-  
+
   //alert($("form[name='aspnetForm']", detailsPage).first().attr("action"));
 
   geocache_details.guid =
@@ -111,17 +111,14 @@ function getMinimalGeocacheDetails(detailsPage){
   }
 
   /* Hole type
-   *   GC Javascript Variable "mapLatLng.type"
    *  <a href="/about/cache_types.aspx" target="_blank" title="About Cache Types"><img src="/images/WptTypes/2.gif" alt="Traditional Cache" title="Traditional Cache" /></a>
   */
   $obj.type = [
-    ((unsafeWindow.mapLatLng && unsafeWindow.mapLatLng.type) ? unsafeWindow.mapLatLng.type : null),
     $('a[title="About Cache Types"] > img', detailsPage).first().attr("src")
   ];
 
   geocache_details.type =
-    (($obj.type[0]) ? ($obj.type[0] + ".gif") : null ) ||
-    ($obj.type[1] && $.trim($obj.type[1].split("/")[3])) ||
+    ($obj.type[0] && $.trim($obj.type[0].split("/")[3])) ||
     null;
 
   if (!geocache_details.type) {
@@ -129,8 +126,7 @@ function getMinimalGeocacheDetails(detailsPage){
   } else {
     debug(
       "getMinimalGeocacheDetails - Type: " + geocache_details.type + "\n" +
-      "\t1: " + ( ($obj.type[0]) ? ($obj.type[0] + ".gif") : "null" ) + "\n" +
-      "\t2: " + ( ($obj.type[1]) ? $obj.type[1].split("/")[3] : "null" )
+      "\t1: " + ( ($obj.type[0]) ? $obj.type[0].split("/")[3] : "null" )
     );
   }
 

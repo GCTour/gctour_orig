@@ -126,6 +126,11 @@ function initialize() {
 		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
 	  }
 	});
+  
+  
+  
+  // website wide info window!
+  infowindow = new google.maps.InfoWindow();
 
 
 	setGeocaches(map, tsp, geocaches);
@@ -540,9 +545,11 @@ function setGeocaches(map, tsp, geocaches){
 				icon:geocache.type,
 				gcid:geocache.gcid,
 				name:geocache.name,
+        terrain:geocache.terrain,
+        difficulty:geocache.difficulty,
 				index:geocache.i+1
 			}, map);
-		setWaypoints(map, tsp, geocache.additional_waypoints);
+		setWaypoints(map, tsp, geocache.additional_waypoints,geocache);
 		
 		
 		
@@ -556,7 +563,7 @@ function setGeocaches(map, tsp, geocaches){
 }
 
 
-function setWaypoints(map, tsp, waypoints){
+function setWaypoints(map, tsp, waypoints, referenceGeocache){
 	for (var i = 0; i < waypoints.length; i++) {
 		var waypoint = waypoints[i];
 		if(waypoint.latitude!= 0){ // hide waypoints WITHOUT coordinates
@@ -565,6 +572,7 @@ function setWaypoints(map, tsp, waypoints){
 					longitude:waypoint.longitude,
 					icon:waypoint.symbol,
 					name:waypoint.name,
+          geocache:referenceGeocache
 					//~ prefix:waypoint.prefix
 				}, map);
 			

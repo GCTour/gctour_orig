@@ -234,6 +234,18 @@
 		return this.showGCID_;
 	}	
 	
+  Geocache2Label.prototype.toggleGCIndex = function(){
+    if(this.showGCIndex_ == true) {
+      this.showGCIndex_ = false;
+    } else {
+      this.showGCIndex_ = true;
+    }
+    
+    this.content_.innerHTML = this.getCaption();
+    this.draw();
+
+    return this.showGCIndex_;
+  }
 	
 	Geocache2Label.prototype.getCaption = function() {
 		var caption = "";

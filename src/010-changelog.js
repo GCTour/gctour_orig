@@ -2,7 +2,10 @@
  * Changelog:
  *
  * version @version@.@build@
+ * 
+ * version 2.2.12059
  *   - FIXED: autoTour menu button
+ *   - NEW: maps show now details if you click on a marker
  * 
  * version 2.2.12058
  *   - FIXED: new geocaching.com maps are now supported again

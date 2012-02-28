@@ -5,76 +5,91 @@
 	
 	function CostumLabel(options, map){
 		if(!options)return;
-			this._options = options;
-			
-			var latLng = this.getLatLng();
-			this.point_ = latLng;
+    
+    this._options = options;
+    
+    var latLng = this.getLatLng();
+    this.point_ = latLng;
 
-			var marker = new google.maps.Marker({
-				position: latLng,
-				map: map,
-				icon: this._options.icon ,
-				title: this._options.name,
-				zIndex: 10
-			});		
- 
-			this.marker_ = marker;
-			
-			
-			
-			// start streetview-on-click
-			google.maps.event.addListener(marker, 'click', function() {
-				var nearestLatLng = null;
-				var nearestPano = null;
-		
-				
-				var client = new google.maps.StreetViewService();
-				client.getPanoramaByLocation(latLng, 100, function(data, status) {
-				  if (status == google.maps.StreetViewStatus.OK) {
-				
-					  
-					panorama = map.getStreetView();
-					// set new center
-					panorama.setPosition(data.location.latLng);
-					  
-					
-					
-						// calculate the right bearing for the point of view
-			          var markerPos = marker.getPosition();
-			          var panoPos = data.location.latLng;
-			          if (markerPos && panoPos) {
-			            var markerPosLat = markerPos.lat() / 180 * Math.PI;
-			            var markerPosLng = markerPos.lng() / 180 * Math.PI;
-			            var panoPosLat = panoPos.lat() / 180 * Math.PI;
-			            var panoPosLng = panoPos.lng() / 180 * Math.PI;
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      icon: this._options.icon ,
+      title: this._options.name,
+      zIndex: 10
+    });
 
-			            var y = Math.sin(markerPosLng - panoPosLng) *Math.cos(markerPosLat);
-			            var x = Math.cos(panoPosLat)*Math.sin(markerPosLat) -
+    this.marker_ = marker;    
+    this.setMap(map);
+    
+    google.maps.event.addListener(marker, 'click', function() {        
+      var contentString = '<div id="content">'+
+                        '<img src="'+options.icon+'"</img><span style="bottom: 7px;left: 5px;position: relative;"><b>'+options.name+'</b></span><br/>';
+  
+      if(options.gcid){
+        contentString += "<i>Difficulty:</i>&nbsp;<img src='http://www.geocaching.com/images/stars/stars"+options.difficulty.replace(/\./,"_")+".gif'/><br/>";
+        contentString += "<i>Terrain:</i>&nbsp;<img src='http://www.geocaching.com/images/stars/stars"+options.terrain.replace(/\./,"_")+".gif'/><br/>";
+        
+        contentString += "Show on geocaching.com:&nbsp;<a href='http://coord.info/"+options.gcid+"' target='_blank'>"+options.gcid+"</a>";
+      } else if(options.geocache){ // additional waypoint
+        contentString += "<i>Belongs to:</i>&nbsp;"+options.geocache.name+"&nbsp;<a href = 'http://coord.info/"+options.geocache.gcid+"' target='_blank'>"+options.geocache.gcid+"</a>";
+      } else { // own waypoint
+      }
+      
+      contentString += '<hr>Streetview:&nbsp;<span id="sv_link"><img src="http://madd.in/ajax-loader3.gif"/></span>';
+      
+      contentString += '</div>';
+      console.log(options);
+     
 
-			            Math.sin(panoPosLat)*Math.cos(markerPosLat)*Math.cos(markerPosLng - panoPosLng);
-			            var brng = Math.atan2(y, x) / Math.PI * 180;
-			            
-			            
-						// set the right pov
-			            var pov = panorama.getPov();
-			            pov.heading = brng;
-			            pov.pitch = 0;
-			            panorama.setPov(pov);
-			          }					  				
-					panorama.setVisible(true);
-				  } else {
-					  $("#svError").fadeIn('fast').delay(3000).fadeOut("slow");
-				  }
+      infowindow.setContent(contentString);
+      infowindow.open(map,marker);
+    
+    
+    
+      window.setTimeout(function(){
+        // check if streetview is available here:
+        var nearestLatLng = null;
+        var nearestPano = null;
 
-				}); 
-			});
-			
-			// end streetview-on-click
+        var client = new google.maps.StreetViewService();
+        client.getPanoramaByLocation(latLng, 100, function(data, status) {
+          if (status == google.maps.StreetViewStatus.OK) {
+            //~ panorama.setVisible(true);
+             $("#sv_link").html("<u style='color:#0000EE;text-decoration:underline;cursor:pointer;'>available</u>").click(function(){
+                panorama = map.getStreetView();
+                // set new center
+                panorama.setPosition(data.location.latLng);
 
-			
-				
-			this.setMap(map);
+                // calculate the right bearing for the point of view
+                var markerPos = marker.getPosition();
+                var panoPos = data.location.latLng;
+                if (markerPos && panoPos) {
+                  var markerPosLat = markerPos.lat() / 180 * Math.PI;
+                  var markerPosLng = markerPos.lng() / 180 * Math.PI;
+                  var panoPosLat = panoPos.lat() / 180 * Math.PI;
+                  var panoPosLng = panoPos.lng() / 180 * Math.PI;
 
+                  var y = Math.sin(markerPosLng - panoPosLng) *Math.cos(markerPosLat);
+                  var x = Math.cos(panoPosLat)*Math.sin(markerPosLat) -
+
+                  Math.sin(panoPosLat)*Math.cos(markerPosLat)*Math.cos(markerPosLng - panoPosLng);
+                  var brng = Math.atan2(y, x) / Math.PI * 180;
+
+
+                  // set the right pov
+                  var pov = panorama.getPov();
+                  pov.heading = brng;
+                  pov.pitch = 0;
+                  panorama.setPov(pov);
+                }
+                panorama.setVisible(true);});
+          } else {
+            $("#sv_link").html("<i>not available</i>");
+          }
+        });
+      },1000);
+    });
 	}
 	
 	CostumLabel.prototype = new google.maps.OverlayView();

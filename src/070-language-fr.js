@@ -12,6 +12,7 @@ $.gctour.i18n.fr = {
   'addShownBookmarks' : "au tour <b>actuel</b>",
   'addShownBookmarksToNewTour' : 'à un <b>nouveau</b> Tour',
   'showCaches' : 'Ajouter les caches affichées:',
+  'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n',
   'newVersionTitle' : 'Nouvelle version disponible',
   'removeTourDialog' : "Etes-vous sûrs de vouloir supprimer ce Tour?",

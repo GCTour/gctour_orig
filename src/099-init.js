@@ -435,7 +435,7 @@ function init(){
     $divAbuseReport.html($.gctour.lang('showCaches'));
     $("<button>", {
       "css": { "margin": 10 },
-      "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarks')
+      "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
     })
     .bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
       e.preventDefault();
@@ -446,7 +446,7 @@ function init(){
     // button to add all caches in list to a new tour
     $("<button>", {
       "css": { "margin": 10 },
-      "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarksToNewTour')
+      "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
     })
     .bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
       e.preventDefault();
@@ -522,7 +522,7 @@ function init(){
       // button to add show caches in list to current tour
       $("<button>", {
         "css": { "margin": '10px 0 10px 10px' },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarks')
+        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:false, newTour:false}, function(e){
         e.preventDefault();
@@ -533,7 +533,7 @@ function init(){
       // button to add show caches in list to new tour
       $("<button>", {
         "css": { "margin": '10px 0 10px 10px' },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarksToNewTour')
+        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:false, newTour:true}, function(e){
         e.preventDefault();
@@ -550,7 +550,7 @@ function init(){
       // button to add all checked caches in list to current tour
       $("<button>", {
         "css": { 'margin': '10px 0 10px 10px' },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarks')
+        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:true, newTour:false}, function(e){
         e.preventDefault();
@@ -561,7 +561,7 @@ function init(){
       // button to add all checked caches in list to new tour
       $("<button>", {
         "css": { 'margin': '10px 0 10px 10px' },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addShownBookmarksToNewTour')
+        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:true, newTour:true}, function(e){
         e.preventDefault();

@@ -479,6 +479,20 @@ function init(){
     var entry_i, entry;
     var entries = getEntriesFromSearchpage();
 
+    // helper function
+    var addEntryFromSearchpage = function(e) {
+      var i, entry, entries;
+      var ck = e.data.checkedOnly || false;
+      var nt = e.data.newTour || false;
+      entries = getEntriesFromSearchpage();
+      for(i = 0; i < entries.length; i++){
+        entry = entries[i];
+        if ( (entry) && (!ck || (ck && entry.checked)) ){
+          addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+        }
+      }
+    };
+
     for(entry_i = 0; entry_i < entries.length; entry_i++){
       entry = entries[entry_i];
 
@@ -503,16 +517,9 @@ function init(){
       "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addMarkedToTour'),
       "css": { 'margin': '10px 0 10px 0' }
     })
-    .bind('click', function(e){
-        var i, entry, entries;
-        e.preventDefault();
-        entries = getEntriesFromSearchpage();
-        for(entry_i = 0; entry_i < entries.length; entry_i++){
-          entry = entries[entry_i];
-          if(entry.checked){
-            addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
-          }
-        }
+    .bind('click', {checkedOnly: true, newTour:false}, function(e){
+      e.preventDefault();
+      addEntryFromSearchpage(e);
     }).insertAfter('table.SearchResultsTable:first');
 
   }

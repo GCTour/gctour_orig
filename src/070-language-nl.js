@@ -12,6 +12,7 @@ $.gctour.i18n.nl = {
   'addShownBookmarks' : "aan <b>huidige</b> toer",
   'addShownBookmarksToNewTour' : 'aan <b>nieuwe</b> toer',
   'showCaches' : 'Getoonde geocaches toevoegen:',
+  'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n',
   'newVersionTitle' : 'Nieuwe versie beschikbaar',
   'removeTourDialog' : "Weet je zeker dat je deze toer wil verwijderen?",

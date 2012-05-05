@@ -12,6 +12,7 @@ $.gctour.i18n.pt = {
   'addShownBookmarks' : "para a rota <b>seleccionada</b>",
   'addShownBookmarksToNewTour' : 'para uma <b>nova</b> rota',
   'showCaches' : 'Adicionar Geocaches vis&#237;veis:',
+  'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n',
   'newVersionTitle' : 'Nova versão dispon&#xED;vel',
   'removeTourDialog' : "Deseja mesmo remover esta rota?",

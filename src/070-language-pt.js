@@ -2,6 +2,8 @@ $.gctour.i18n.pt = {
   'name' : 'Português',
   'language' : 'Idioma',
   'addToTour' : 'Adicionar &#224; rota',
+  'addToCurrentTour' : "para a rota <b>seleccionada</b>",
+  'addToNewTour' : 'para uma <b>nova</b> rota',
   'directPrint' : 'Imprimir esta Geocache',
   'moveGeocache' : 'Mover as coordenadas', 
   'movedGeocache' : 'As coordenadas desta geocache foram mudadas.',
@@ -9,8 +11,6 @@ $.gctour.i18n.pt = {
   'originalCoordinates' : 'Coordenadas Originais',
   'newCoordinates':"Novas Coordenadas",
   'addMarkedToTour' : 'Adicionar seleccionadas para a Rota',
-  'addShownBookmarks' : "para a rota <b>seleccionada</b>",
-  'addShownBookmarksToNewTour' : 'para uma <b>nova</b> rota',
   'showCaches' : 'Adicionar Geocaches vis&#237;veis:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n',

@@ -2,6 +2,8 @@ $.gctour.i18n.nl = {
   'name' : 'Nederlands',
   'language' : 'Taal',
   'addToTour' : 'Aan toer toevoegen',
+  'addToCurrentTour' : "aan <b>huidige</b> toer",
+  'addToNewTour' : 'aan <b>nieuwe</b> toer',
   'directPrint' : 'Deze geocache afdrukken',
   'moveGeocache' : 'Verplaats de coördinaten', 
   'movedGeocache' : 'De coördinaten voor deze geocache zijn verplaatst.',
@@ -9,8 +11,6 @@ $.gctour.i18n.nl = {
   'originalCoordinates' : 'Originele coördinaten',
   'newCoordinates':"Nieuwe coördinaten",
   'addMarkedToTour' : 'Selectie toevoegen aan toer',
-  'addShownBookmarks' : "aan <b>huidige</b> toer",
-  'addShownBookmarksToNewTour' : 'aan <b>nieuwe</b> toer',
   'showCaches' : 'Getoonde geocaches toevoegen:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n',

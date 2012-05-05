@@ -2,6 +2,8 @@ $.gctour.i18n.fr = {
   'name' : 'Français',
   'language' : 'Langue',
   'addToTour' : 'Ajouter au Tour',
+  'addToCurrentTour' : "au tour <b>actuel</b>",
+  'addToNewTour' : 'à un <b>nouveau</b> Tour',
   'directPrint' : 'Imprimer cette cache',
   'moveGeocache' : 'Ajuster les coordonnées', 
   'movedGeocache' : 'Les coordonnées de cette cache ont été ajustées.',
@@ -9,8 +11,6 @@ $.gctour.i18n.fr = {
   'originalCoordinates' : 'Coordonnées initiales',
   'newCoordinates':"Nouvelles coordonnées",
   'addMarkedToTour' : 'Ajouter la selection au Tour',
-  'addShownBookmarks' : "au tour <b>actuel</b>",
-  'addShownBookmarksToNewTour' : 'à un <b>nouveau</b> Tour',
   'showCaches' : 'Ajouter les caches affichées:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n',

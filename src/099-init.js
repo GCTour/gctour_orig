@@ -498,21 +498,21 @@ function init(){
 
     }
 
-    // add all checked to tour
-    $("<input>", {
-      type: 'button',
-      "css": { 'margin': 10 },
-      value: $.gctour.lang('addMarkedToTour'),
-      click: function(){
-        var entry_i, entry;
-        var entries = getEntriesFromSearchpage();
+    // button to add all checked caches in list to current tour
+    $("<button>", {
+      "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addMarkedToTour'),
+      "css": { 'margin': '10px 0 10px 0' }
+    })
+    .bind('click', function(e){
+        var i, entry, entries;
+        e.preventDefault();
+        entries = getEntriesFromSearchpage();
         for(entry_i = 0; entry_i < entries.length; entry_i++){
           entry = entries[entry_i];
           if(entry.checked){
             addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
           }
         }
-      }
     }).insertAfter('table.SearchResultsTable:first');
 
   }

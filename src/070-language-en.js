@@ -10,7 +10,6 @@ $.gctour.i18n.en = {
   'moveGeocacheHelp' : 'You have the chance to change the original coordinates of this geocache. These will than used in the printview and also in the GPX file. This is quiet handy if you solve a mystery.',
   'originalCoordinates' : 'Original coordinates',
   'newCoordinates':"New coordinates",
-  'addMarkedToTour' : 'Add checked to tour',
   'showCaches' : 'Add <b>shown</b> geocaches:',
   'markedCaches' : 'Add <b>marked</b> geocaches:',
   'newVersionDialog' : 'There is a new version of GCTour.\nDo you want to update? \n\n',

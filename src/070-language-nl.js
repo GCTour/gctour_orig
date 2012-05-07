@@ -10,7 +10,6 @@ $.gctour.i18n.nl = {
   'moveGeocacheHelp' : 'Je kan de originele coördinaten van deze geocache verplaatsen. Deze worden dan gebruikt in de afdrukweergave en in het GPX bestand. Dit kan handig zijn bij een opgeloste mystery.',
   'originalCoordinates' : 'Originele coördinaten',
   'newCoordinates':"Nieuwe coördinaten",
-  'addMarkedToTour' : 'Selectie toevoegen aan toer',
   'showCaches' : 'Getoonde geocaches toevoegen:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n',

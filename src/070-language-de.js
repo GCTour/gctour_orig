@@ -10,7 +10,6 @@ $.gctour.i18n.de = {
   'moveGeocacheHelp' : 'Hier hast du die Möglichkeit die original Koordinaten dieses Geocaches durch Neue zu ersetzen. Diese werden dann in der Druckansicht wie auch in der GPX verwendet. Praktisch bei der Lösung eines Mystery.',
   'originalCoordinates' : 'Original Koordinaten',
   'newCoordinates':"Neue Koordinaten",
-  'addMarkedToTour' : 'markierte zur Tour hinzufügen',
   'showCaches' : '<b>Angezeigte</b> Caches:',
   'markedCaches' : '<b>Markierte</b> Caches:',
   'newVersionDialog' : 'Es gibt eine neue Version von GCTour.\nZum update gehen? \n\n',

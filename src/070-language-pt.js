@@ -10,7 +10,6 @@ $.gctour.i18n.pt = {
   'moveGeocacheHelp' : 'Tens a oportunidade de mudar as coordenadas originais desta geocache. Ser&#227;o usadas no modo de impress&#227;o e tamb&#233;m no ficheiro GPX. &#201; util se resolver o enigma.',
   'originalCoordinates' : 'Coordenadas Originais',
   'newCoordinates':"Novas Coordenadas",
-  'addMarkedToTour' : 'Adicionar seleccionadas para a Rota',
   'showCaches' : 'Adicionar Geocaches vis&#237;veis:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n',

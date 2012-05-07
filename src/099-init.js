@@ -421,52 +421,77 @@ function init(){
     // helper function
     var addEntryFromBookmark = function(e) {
       var ck = e.data.checkedOnly || false;
-      $.each(e.data.bLs, function(i, v) {
-        var bookmarkLine = $("td", v);
-        var entry = getEntryFromBookmarkTd(bookmarkLine);
-        if ( (entry) && (!ck || (ck && entry.checked)) ){
-          addElementFunction(entry.id, entry.guid, entry.name, entry.image)();
-        }
-      });
+      var nt = e.data.newTour || false;
+      var listName = nt ? $("span#ctl00_ContentBody_lbHeading").text() : "";
+
+      if (!nt || (nt && newTourFunction(listName)())){ // ggf. neue Tour
+        $.each(e.data.bLs, function(i, v) {
+          var bookmarkLine = $("td", v);
+          var entry = getEntryFromBookmarkTd(bookmarkLine);
+          if ( (entry) && (!ck || (ck && entry.checked)) ){
+            addElementFunction(entry.id, entry.guid, entry.name, entry.image)();
+          }
+        });
+      }
     };
 
-    // button to add all caches in list to current tour
-    var $divAbuseReport = $('div#ctl00_ContentBody_ListInfo_uxAbuseReport');
-    $divAbuseReport.html($.gctour.lang('showCaches'));
-    $("<button>", {
-      "css": { "margin": 10 },
-      "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+    // buttons to add all caches in list to current and new tour
+    $("<div>",{
+      "css": { "margin": '10px 0 10px 0' },
+      html: $.gctour.lang('showCaches')
     })
-    .bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
-      e.preventDefault();
-      addEntryFromBookmark(e);
-    })
-    .appendTo($divAbuseReport);
-
-    // button to add all caches in list to a new tour
-    $("<button>", {
-      "css": { "margin": 10 },
-      "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
-    })
-    .bind('click', {bLs: bookmarkLines, checkedOnly: false}, function(e){
-      e.preventDefault();
-      var listName = $("span#ctl00_ContentBody_lbHeading").text();
-      if (newTourFunction(listName)() ){
+    .append(
+      // button to add all caches in list to current tour
+      $("<button>", {
+        "css": { "margin": 10 },
+        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+      })
+      .bind('click', {bLs: bookmarkLines, checkedOnly: false, newTour: false}, function(e){
+        e.preventDefault();
         addEntryFromBookmark(e);
-      }
-    })
-    .appendTo($divAbuseReport);
+      })
+    )
+    .append(
+      // button to add all caches in list to a new tour
+      $("<button>", {
+        "css": { "margin": 10 },
+        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+      })
+      .bind('click', {bLs: bookmarkLines, checkedOnly: false, newTour: true}, function(e){
+        e.preventDefault();
+        addEntryFromBookmark(e);
+      })
+    )
+    .appendTo('div#ctl00_ContentBody_ListInfo_uxAbuseReport');
 
-    // button to add all checked caches in list to current tour
-    $("<button>", {
-      "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addMarkedToTour'),
-      "css": { "float": "right" }
+    // buttons to add all checked caches in list to current and new tour
+    $("<div>",{
+      "css": { 'margin': '2px 0 20px 0' },
+      html: $.gctour.lang('markedCaches')
     })
-    .bind('click', {bLs: bookmarkLines, checkedOnly: true}, function(e){
-      e.preventDefault();
-      addEntryFromBookmark(e);
-    })
-    .insertAfter($("input#ctl00_ContentBody_ListInfo_btnDownload"));
+    .append(
+      // button to add all checked caches in list to current tour
+      $("<button>", {
+        "css": { 'margin-left': 10 },
+        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+      })
+      .bind('click', {bLs: bookmarkLines, checkedOnly: true, newTour: false}, function(e){
+        e.preventDefault();
+        addEntryFromBookmark(e);
+      })
+    )
+    .append(
+      // button to add all checked caches in list to new tour
+      $("<button>", {
+        "css": { 'margin-left': 10 },
+        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+      })
+      .bind('click', {bLs: bookmarkLines, checkedOnly: true, newTour: true}, function(e){
+        e.preventDefault();
+        addEntryFromBookmark(e);
+      })
+    )
+    .insertBefore("input#ctl00_ContentBody_ListInfo_btnDownload");
 
   }
 
@@ -482,7 +507,7 @@ function init(){
     var addEntryFromSearchpage = function(e) {
       var i, entry, entries;
       var ck = e.data.checkedOnly || false;
-      var nt = e.data.newTour || false; 
+      var nt = e.data.newTour || false;
       entries = getEntriesFromSearchpage();
 
       if (!nt || (nt && newTourFunction()())){ // ggf. neue Tour
@@ -491,7 +516,7 @@ function init(){
           if ( (entry) && (!ck || (ck && entry.checked)) ){ // alle oder nur ausgewählte
             addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
           }
-        }      
+        }
       }
     };
 
@@ -513,7 +538,7 @@ function init(){
       .appendTo(entry.position);
 
     }
-    
+
     // buttons to add all caches in list to current and new tour
     $("<div>",{
       "css": { "margin": '10px 0 10px 0' },
@@ -548,7 +573,7 @@ function init(){
       "css": { 'margin': '2px 0 20px 0' },
       html: $.gctour.lang('markedCaches')
     })
-    .append(    
+    .append(
       // button to add all checked caches in list to current tour
       $("<button>", {
         "css": { 'margin-left': 10 },
@@ -559,7 +584,7 @@ function init(){
         addEntryFromSearchpage(e);
       })
     )
-    .append(    
+    .append(
       // button to add all checked caches in list to new tour
       $("<button>", {
         "css": { 'margin-left': 10 },

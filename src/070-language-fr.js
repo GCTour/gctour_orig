@@ -10,7 +10,6 @@ $.gctour.i18n.fr = {
   'moveGeocacheHelp' : 'Vous avez la possibilité d\'ajuster les coordonnées de cette cache. Ces coordonnées seront utilisées dans la version imprimable et dans le fichier GPX . Très utile pour la saisie des solutions des caches Mystery.',
   'originalCoordinates' : 'Coordonnées initiales',
   'newCoordinates':"Nouvelles coordonnées",
-  'addMarkedToTour' : 'Ajouter la selection au Tour',
   'showCaches' : 'Ajouter les caches affichées:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
   'newVersionDialog' : 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n',

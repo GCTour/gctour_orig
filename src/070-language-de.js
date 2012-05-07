@@ -71,7 +71,7 @@ $.gctour.i18n.de = {
   'settingsOutlineMapDesc' : 'Auf der Titelseite wird eine Karte mit allen Geocaches in der Tour angezeigt.',
   'settingsOutlineMapSingeDesc' : 'Unter jedem Geocache erscheint eine Karte mit seinen "Additional Waypoints"',
   'settingsGPXHtmlDesc' : 'Manche Geräte/Programme haben Probleme beim Anzeigen eines Geocaches mit HTML-Formatierung. Wenn du nur noch kryptische Beschreibungen siehst, dann Bitte diese Option deaktivieren.',
-  'settingsGPXWptsDesc' : 'Additional-Waypoints Werden als extra Wegpunkt mit in die GPX exportiert. Damit hat man jeden Parkplatz direkt auf dem Gerät.',
+  'settingsGPXWptsDesc' : 'Additional-Waypoints werden als extra Wegpunkt mit in die GPX exportiert. Damit hat man jeden Parkplatz direkt auf dem Gerät.',
   'settingsGPXStripGCDesc' : 'Alte Geräte haben Probleme mit Wegpunkten deren Name länger als 8 Zeichen sind. Wenn du so ein altes Garmin hast, dann bitte diese Option anwählen!',  
   'settings_map' : 'Karten',
   'settings_map_geocacheid' : 'Geocache Code anzeigen',

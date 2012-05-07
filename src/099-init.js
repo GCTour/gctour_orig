@@ -516,12 +516,13 @@ function init(){
     
     // buttons to add all caches in list to current and new tour
     $("<div>",{
+      "css": { "margin": '10px 0 10px 0' },
       html: $.gctour.lang('showCaches')
     })
     .append(
       // button to add show caches in list to current tour
       $("<button>", {
-        "css": { "margin": '10px 0 10px 10px' },
+        "css": { "margin-left": 10 },
         "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:false, newTour:false}, function(e){
@@ -532,7 +533,7 @@ function init(){
     .append(
       // button to add show caches in list to new tour
       $("<button>", {
-        "css": { "margin": '10px 0 10px 10px' },
+        "css": { "margin-left": 10 },
         "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:false, newTour:true}, function(e){
@@ -544,12 +545,13 @@ function init(){
 
     // buttons to add all checked caches in list to current and new tour
     $("<div>",{
+      "css": { 'margin': '2px 0 20px 0' },
       html: $.gctour.lang('markedCaches')
     })
     .append(    
       // button to add all checked caches in list to current tour
       $("<button>", {
-        "css": { 'margin': '10px 0 10px 10px' },
+        "css": { 'margin-left': 10 },
         "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:true, newTour:false}, function(e){
@@ -560,7 +562,7 @@ function init(){
     .append(    
       // button to add all checked caches in list to new tour
       $("<button>", {
-        "css": { 'margin': '10px 0 10px 10px' },
+        "css": { 'margin-left': 10 },
         "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:true, newTour:true}, function(e){
@@ -568,7 +570,7 @@ function init(){
         addEntryFromSearchpage(e);
       })
     )
-    .insertAfter('table.SearchResultsTable:first');
+    .insertAfter($('table.SearchResultsTable:first').next('table'));
 
   }
 

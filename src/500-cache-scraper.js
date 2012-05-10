@@ -13,6 +13,7 @@ function getGeocacheFromElement(element){
     .owner
     .hidden
     .coordinates
+    .coordinatesisedit // custom edit boolean
     .lat
     .lon
     .location
@@ -102,7 +103,13 @@ function getGeocacheFromElement(element){
 
   geocache.size       = $.trim( $('img[src*="/images/icons/container/"]',       element).first().attr("alt").split(": ")[1]);
 
-  geocache.coordinates = $('span#uxLatLon', element).first().html();
+  geocache.coordinates = $('span#uxLatLon', element).first().text();
+
+  // hole die userDefinedCoords aus GC Javascript
+  // ExampleString: var userDefinedCoords = {"status":"success","data":{"isUserDefined":false,"oldLatLngDisplay":"N 52° 31.268' E 013° 21.255'"}};
+  var userDefinedCoordsString = element.innerHTML.split("var userDefinedCoords = {")[1].split("};")[0];
+  var userDefinedCoords = jQuery.parseJSON('{' + userDefinedCoordsString + '}');
+  geocache.coordinatesisedit = (userDefinedCoords && userDefinedCoords.status == "success" && userDefinedCoords.data.isUserDefined == true); // false = original
 
   $lnkConversions = $('a#ctl00_ContentBody_lnkConversions', element).first().attr("href");
   geocache.lat = $lnkConversions.split("lat=")[1].split("&")[0];
@@ -114,6 +121,7 @@ function getGeocacheFromElement(element){
     geocache.lat = coordinates[0];
     geocache.lon = coordinates[1];
     geocache.coordinates = new LatLon(geocache.lat , geocache.lon ).toString();
+    geocache.coordinatesisedit = true;
   }
 
   geocache.location = $("span#ctl00_ContentBody_Location", element).first().text();

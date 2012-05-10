@@ -15,7 +15,7 @@ function printPageFunction(currentTour){
         '    <span style="margin-right: 3px;"> (###OWNER### - ###HIDDEN###)</span>'+
         '  </div>'+
         '  <div class="details">'+
-        '    <span>###COORDINATES###</span>'+
+        '    <span><img src="http://www.geocaching.com/images/icons/coord_update.gif" heigth="12px" class="###COORDINATESISEDIT###"/> ###COORDINATES###</span>'+
         '    <span><img src="http://www.geocaching.com/images/icons/compass/###BEARING###.gif"/>###DISTANCE###&nbsp;</span>'+
         '    <span>D:<img src="http://www.geocaching.com/images/stars/stars###DIFFICULTY###.gif"/></span>'+
         '    <span>T:<img src="http://www.geocaching.com/images/stars/stars###TERRAIN###.gif"/></span>'+
@@ -414,7 +414,10 @@ function printPageFunction(currentTour){
 
                   $(newwindow2.document)
                     // setting real coordinates on titlepage
-                    .find("span#coords_" + geocache.gcid).html(geocache.coordinates).end()
+                    .find("span#coords_" + geocache.gcid)
+                      .html(geocache.coordinates)
+                      .css({'border-bottom': (geocache.coordinatesisedit === true ? '2px solid gray' : 'none') })
+                      .end()
                     // setting D, T and size on titlepage
                     .find("span#d_"+geocache.gcid).html(geocache.difficulty).end()
                     .find("span#t_"+geocache.gcid).html(geocache.terrain).end()
@@ -438,6 +441,7 @@ function printPageFunction(currentTour){
                   ['BEARING',geocache.bearing],
                   ['DISTANCE',geocache.distance],
                   ['INVENTORY',inventory.innerHTML],
+                  ['COORDINATESISEDIT',(geocache.coordinatesisedit===true)?'':'hidden'],
                   ['COORDINATES',geocache.coordinates],
                   ['DIFFICULTY',geocache.difficulty.replace(/\./,"_")],
                   ['TERRAIN',geocache.terrain.replace(/\./,"_")],

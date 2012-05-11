@@ -271,11 +271,11 @@ function getGPX(){
                              }).join("\n");
 
           attributeLog = geocacheLogTemplate;
-          attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);
-          attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));
-          attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");
-          attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");
-          attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);
+          attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid)
+                                     .replace(/##TIME##/g,xsdDateTime(new Date()))
+                                     .replace(/##CACHERNAME##/g,"GCTour")
+                                     .replace(/##LOGTYPE##/g,"Write note")
+                                     .replace(/##LOGTEXT##/g,attributeLogtext);
           logsStringArray.push(attributeLog);
         }
 
@@ -372,12 +372,12 @@ function getGPX(){
 
   var str = gpxHeader;
 
-  str = str.replace(new RegExp("##GEOCACHES##","g"), gcStrArray.join("\n"));
-  str = str.replace(new RegExp("##WAYPOINTS##","g"), wptStrArray.join("\n"));
-  str = str.replace(new RegExp("##MINLAT##","g"),    minLat);
-  str = str.replace(new RegExp("##MINLON##","g"),    minLon);
-  str = str.replace(new RegExp("##MAXLAT##","g"),    maxLat);
-  str = str.replace(new RegExp("##MAXLON##","g"),    maxLon);
+  str = str.replace(new RegExp("##GEOCACHES##","g"), gcStrArray.join("\n"))
+           .replace(new RegExp("##WAYPOINTS##","g"), wptStrArray.join("\n"))
+           .replace(new RegExp("##MINLAT##","g"),    minLat)
+           .replace(new RegExp("##MINLON##","g"),    minLon)
+           .replace(new RegExp("##MAXLAT##","g"),    maxLat)
+           .replace(new RegExp("##MAXLON##","g"),    maxLon);
   //~ getKäse();
   return str;
 }

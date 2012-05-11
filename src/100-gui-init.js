@@ -181,13 +181,15 @@ function initComponents(){
       .disableSelection()
   });
 
+  var webcodelink = GCTOUR_HOST+'/tour/'+$.trim(currentTour.webcode);
   var $tourHeader = $("<div>",{
     id: "gctour_tourHeader",
     "css": {
     },
     "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/>' +
               '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +
-              '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>Webcode: <b>' + currentTour.webcode + '</b>&nbsp;</span><br/>'
+              '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>'+
+              'Webcode: <b><a href="'+webcodelink+'" title="'+$.gctour.lang('makeMap')+'" target="_blank">'+currentTour.webcode+'</a></b>&nbsp;</span><br/>'
   });
 
   $tourHeader.append(

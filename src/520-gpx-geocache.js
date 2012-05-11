@@ -192,7 +192,7 @@ function getGPX(){
   var gpxHeader =
     '<?xml version="1.0" encoding="utf-8"?>\n' +
     '<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" creator="GCTour" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.groundspeak.com/cache/1/0/1 http://www.groundspeak.com/cache/1/0/1/cache.xsd" xmlns="http://www.topografix.com/GPX/1/0">\n' +
-    '  <name>' +currentTour.name+'</name>\n' +
+    '  <name>' +encodeHtml(currentTour.name)+'</name>\n' +
     '  <desc>This is an individual cache generated from Geocaching.com</desc>\n' +
     '  <author>GCTour v' +VERSION+'.' +BUILD+'</author>\n' +
     '  <email>gctour@madd.in</email>\n' +

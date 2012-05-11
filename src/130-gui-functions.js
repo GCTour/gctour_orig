@@ -58,7 +58,10 @@ function updateGUI(){
 
   if(currentTour.webcode){
     webcode
-      .html("<br/>Webcode:<b>" + currentTour.webcode + "</b></span>")
+      .find("a:first")
+        .attr('href', GCTOUR_HOST+'/tour/'+$.trim(currentTour.webcode))
+        .text(currentTour.webcode)
+        .end()
       .show();
   } else {
     webcode.hide();
@@ -606,7 +609,7 @@ function showCacheList(tour){
 
     cacheList.innerHTML = "<u><b>"+tour.name+"</b>";
     if(tour.webcode){
-      cacheList.innerHTML += "&nbsp;&nbsp;&nbsp;<i>Webcode:"+tour.webcode+"</i>";
+      cacheList.innerHTML += "&nbsp;&nbsp;&nbsp;<i>Webcode: <a href='"+GCTOUR_HOST+"/tour/"+$.trim(tour.webcode)+"' title='"+$.gctour.lang('makeMap')+"' target='_blank'>"+tour.webcode+"</a></i>";
     }
     cacheList.innerHTML += "</u><br/>";
 

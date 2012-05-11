@@ -262,19 +262,22 @@ function getGPX(){
         debug("GS GPX: geocache.dateHidden:'"+geocache.dateHidden+"' -> xsd:'"+xsdDateTime(geocache.dateHidden)+"'");
         var logs =  geocache.logs;
         var logsStringArray = [];
+        var attributeLog, attributeLogtext;
 
         // create log with attributes!
-        var attributeLogtext = $.map(geocache.attributes_array, function(row, i){
-                                 return row[2] + ": "+ ((row[3] === 1)?"yes":"no");
-                               }).join("\n");
+        if (GM_getValue('gpxattributestolog', false)) {
+          attributeLogtext = $.map(geocache.attributes_array, function(row, i){
+                               return row[2] + ": "+ ((row[3] === 1)?"yes":"no");
+                             }).join("\n");
 
-        var attributeLog = geocacheLogTemplate;
-            attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);
-            attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));
-            attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");
-            attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");
-            attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);
-        logsStringArray.push(attributeLog);
+          attributeLog = geocacheLogTemplate;
+          attributeLog = attributeLog.replace(/##LOGID##/g,geocache.cacheid);
+          attributeLog = attributeLog.replace(/##TIME##/g,xsdDateTime(new Date()));
+          attributeLog = attributeLog.replace(/##CACHERNAME##/g,"GCTour");
+          attributeLog = attributeLog.replace(/##LOGTYPE##/g,"Write note");
+          attributeLog = attributeLog.replace(/##LOGTEXT##/g,attributeLogtext);
+          logsStringArray.push(attributeLog);
+        }
 
         // just 10 logs in the gpx
         for ( ii = 0; (ii < logs.length && ii < 10); ii++){

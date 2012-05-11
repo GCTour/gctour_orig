@@ -44,6 +44,7 @@ Settings.prototype.getGPX = function(){
 
   append(this.getCheckbox('settingsGPXHtml', 'gpxhtml',true),div);
   append(this.getCheckbox('settingsGPXWpts', 'gpxwpts',true),div);
+  append(this.getCheckbox('settingsGPXAttributestoLog', 'gpxattributestolog',false),div);
   append(this.getCheckbox('settingsGPXStripGC', 'gpxstripgc',false),div);
 
   return div;

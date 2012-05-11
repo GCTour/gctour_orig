@@ -4,6 +4,7 @@
  * version @version@.@build@
  *   - UPDATED: buttons of searchpage and bookmarkpage adjusted
  *   - UPDATED: jquery to 1.7.2 and jquery-ui to 1.8.18
+ *   - UPDATED: GPX -> cache-attributes to log settings, default = false
  *   - NEW: printview -> icon to add and underline if user has changed the coordinates
  *
  * version 2.2.12059

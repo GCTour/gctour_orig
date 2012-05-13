@@ -26,10 +26,10 @@
   position:fixed;
   text-align:left;
   top:0;
-  width:500px;
+  width:600px;
   z-index:9000010;
   max-height:85%;
-  min-height:370px;
+  min-height:440px;
   overflow:auto;
 }
 
@@ -73,7 +73,7 @@
   padding-bottom: 1em;
   max-height: 200px;
   overflow-y:auto;
-  width:448px;
+  width:518px;
   padding-left:1em;
 }
 

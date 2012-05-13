@@ -704,7 +704,7 @@ function openTourDialog(){
   populateTours();
 
   // load,close buttons
-  var buttonsDiv = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
+  var buttonsDiv = createElement('div',{style:"width:580px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
     buttonsDiv.setAttribute('class','dialogFooter');
 
   var closeButton = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(closeButton,buttonsDiv);
@@ -792,7 +792,7 @@ function downloadTourDialog(){
 
   var divEbene = createElement('div');append(divEbene,overlay);
 
-  divEbene.innerHTML = '<b>Webcode:</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="webcodeInput"><br/>'+$.gctour.lang('webcodeDownloadHelp');
+  divEbene.innerHTML = '<b>Webcode:</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="webcodeInput" style="width:300px;"><br/>'+$.gctour.lang('webcodeDownloadHelp');
 
   divEbene = createElement('div');append(divEbene,overlay);
   divEbene.setAttribute('class','dialogFooter');

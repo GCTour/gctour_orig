@@ -85,7 +85,7 @@ function getListOverlay(options){
   var details = createElement('div',{id:"dialogDetails"});
   append(details,overlay);
 
-  var dialogFooter = createElement('div',{style:"width:480px;position: absolute; bottom: 10px;"});
+  var dialogFooter = createElement('div',{style:"width:580px;position: absolute; bottom: 10px;"});
   append(dialogFooter,overlay);
   dialogFooter.setAttribute('class','dialogFooter');
 

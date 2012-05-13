@@ -26,7 +26,7 @@ function updateAutoTourMap(lat,lon){
     'lat': lat,
     'lon': lon,
     radius: radiusMiles,
-    width: 470
+    width: 570
   });
 
   $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
@@ -329,7 +329,7 @@ function getCoordinatesTab() {
   var divEbene = createElement('div', {className: 'ebene'});
 
   divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourCenter')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;'+
-    '<input type="text" id="markerCoords"><br/>'+
+    '<input type="text" id="markerCoords" style="width:350px;"><br/>'+
     '<small>'+$.gctour.lang('autoTourHelp')+'</small>';
 
   coordsDiv.append(divEbene);

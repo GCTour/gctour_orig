@@ -522,14 +522,14 @@ function openSettingsDialog(){
 
 function sendMessageDialog(){
   if(isLogedIn()){
-    var overLay = getOverlay({caption:$.gctour.lang('sendMessageTitle'),minimized:true});
+    var overLay = getOverlay({caption:$.gctour.lang('dlg.sendMessage.caption'),minimized:true});
 
     overLay.innerHTML = '<form style="clear:both" method="POST" action="'+GCTOUR_HOST+'/mail/gccom">'+
-      $.gctour.lang('sendMessage')+'<br/>'+
+      $.gctour.lang('dlg.sendMessage.content')+'<br/>'+
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+
       '<textarea rows="10" style="width:99%" name="message"></textarea>'+
-      '<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+$.gctour.lang('sendMessageSubmit')+'"></input></div>'+
+      '<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+$.gctour.lang('dlg.sendMessage.submit')+'"></input></div>'+
       '</form>';
   }
 }

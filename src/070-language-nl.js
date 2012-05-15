@@ -12,8 +12,6 @@ $.gctour.i18n.nl = {
   'newCoordinates':"Nieuwe coördinaten",
   'showCaches' : 'Getoonde geocaches toevoegen:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
-  'newVersionDialog' : 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n',
-  'newVersionTitle' : 'Nieuwe versie beschikbaar',
   'removeTourDialog' : "Weet je zeker dat je deze toer wil verwijderen?",
   'logYourVisit' : "Log je bezoek",
   'removeFromList' : "Van lijst verwijderen",
@@ -171,6 +169,11 @@ $.gctour.i18n.nl = {
       'content': 'Heb je een bug gevonden? Suggesties betreffende GCTour? Ik had graag je mening gehoord.<br/>Stuur me gerust een <b>bericht</b>:',
       'submit': 'Bericht versturen!'
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    },
+    'newVersion':{
+      'caption': 'Nieuwe versie beschikbaar',
+      'content': 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n'
+      // old: 'newVersionDialog', 'newVersionTitle'
     }
   }
 

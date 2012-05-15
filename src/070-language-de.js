@@ -12,8 +12,6 @@ $.gctour.i18n.de = {
   'newCoordinates':"Neue Koordinaten",
   'showCaches' : '<b>Angezeigte</b> Caches:',
   'markedCaches' : '<b>Markierte</b> Caches:',
-  'newVersionDialog' : 'Es gibt eine neue Version von GCTour.\nZum update gehen? \n\n',
-  'newVersionTitle' : 'Neue Version verfügbar',
   'removeTourDialog' : "Soll die Tour wirklich gelöscht werden?",
   'logYourVisit' : "Logge deinen Besuch",
   'removeFromList' : "aus Liste entfernen",
@@ -171,6 +169,11 @@ $.gctour.i18n.de = {
       'content': 'Du hast einen Fehler gefunden? Du möchtest eine Verbesserung vorschlagen oder deine Meinung zu GCTour loswerden? Dann schreibe mir eine <b>Nachricht:</b>',
       'submit': 'Schicke diese Nachricht ab!'
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    },
+    'newVersion':{
+      'caption': 'Neue Version verfügbar',
+      'content': 'Es gibt eine neue Version von GCTour.\nZum update gehen? \n\n' //ohne Anwendung
+      // old: 'newVersionDialog', 'newVersionTitle'
     }
   }
 

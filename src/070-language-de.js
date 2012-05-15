@@ -132,8 +132,6 @@ $.gctour.i18n.de = {
   "autoTourRefresh" : "Berechne eine autoTour mit diesen Werten!",
   "autoTourCacheCounts" : "Geschätze <i>gesamt</i> Anzahl Caches in dieser Region:",
   "autoTourDuration" : "Geschätze Dauer der Erzeugung dieser autoTour:",
-  "kilometer" : "Kilometer",
-  "mile" : "Meilen",
   "save" : "Speichern",
   "cancel" : "Abbrechen",
   "close" : "Schließen",
@@ -178,5 +176,11 @@ $.gctour.i18n.de = {
       'send': 'Fehlerbericht abschicken'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+  },
+  'units':{
+    'km': 'Kilometer',
+    'mi': 'Meilen'
+    // old: 'kilometer', 'mile'
   }
+
 };

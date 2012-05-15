@@ -132,8 +132,6 @@ $.gctour.i18n.en = {
   "autoTourRefresh" : "Calculate a car tour with these values!",
   "autoTourCacheCounts" : "Estimated <i>total number</i> of caches in this region:",
   "autoTourDuration" : "Estimated duration to produce this autoTour:",
-  "kilometer" : "Kilometer",
-  "mile" : "Miles",
   "save" : "Save",
   "cancel" : "Cancel",
   "close" : "Close",
@@ -178,5 +176,11 @@ $.gctour.i18n.en = {
       'send': 'Send report'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+  },
+  'units':{
+    'km': 'Kilometer',
+    'mi': 'Miles'
+    // old: 'kilometer', 'mile'
   }
+
 };

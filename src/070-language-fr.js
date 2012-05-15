@@ -132,8 +132,6 @@ $.gctour.i18n.fr = {
   "autoTourRefresh" : "Continuer pour cette zone !",
   "autoTourCacheCounts" : "Estimation du<i>nombre total</i> de cache dans cette zone:",
   "autoTourDuration" : "Durée estimée de création de cet autoTour:",
-  "kilometer" : "Kilomètre",
-  "mile" : "Miles",
   "save" : "Enregistrer",
   "cancel" : "Abandonner",
   "close" : "Fermer",
@@ -178,5 +176,11 @@ $.gctour.i18n.fr = {
       'send': 'envoi du rapport'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+  },
+  'units':{
+    'km': 'Kilomètre',
+    'mi': 'Miles'
+    // old: 'kilometer', 'mile'
   }
+
 };

@@ -132,8 +132,6 @@ $.gctour.i18n.pt = {
   "autoTourRefresh" : "Oblicz autoRota com estes valores!",
   "autoTourCacheCounts" : "<i>N&#250;mero</i> estimado de caches na regi&#227;o:",
   "autoTourDuration" : "Previs&#227;o do tempo de cria&#231;&#227;o desta autoRota:",
-  "kilometer" : "Quilometros",
-  "mile" : "Milhas",
   "save" : "Guardar",
   "cancel" : "Cancelar",
   "close" : "Fechar",
@@ -178,6 +176,11 @@ $.gctour.i18n.pt = {
       'send': 'enviar relatório'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+  },
+  'units':{
+    'km': 'Quilometros',
+    'mi': 'Milhas'
+    // old: 'kilometer', 'mile'
   }
 
 };

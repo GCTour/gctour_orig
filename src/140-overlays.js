@@ -127,7 +127,7 @@ function addErrorDialog(options){
       .html(GM_getValue("debug_lastgcid","")+':<b>'+options._exception+'</b>'),
 
     $('<div/>')
-      .html($.gctour.lang('ERROR_DIALOG')),
+      .html($.gctour.lang('dlg.error.content')),
 
     $('<div/>')
       .addClass('dialogFooter')
@@ -150,7 +150,7 @@ function addErrorDialog(options){
         $('<input/>')
           .attr('onclick','return false;')
           .attr('type','button')
-          .attr('value', $.gctour.lang('ERROR_DIALOG_SEND'))
+          .attr('value', $.gctour.lang('dlg.error.send'))
           .css('background-image','url('+sendMessageImage+')')
           .bind('click',function(){
             post_data = [

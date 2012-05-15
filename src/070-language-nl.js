@@ -142,12 +142,6 @@ $.gctour.i18n.nl = {
   "example" : "bv. ",
   "exampleCoords" : "<i>N50°53.692 E004° 20.478</i> or <i>50.894867 4.341300</i>",
   "dontPrintHint" : "<b>Ter info :</b><br/>Gegevens in dit kader worden <u>niet</u> afgedrukt!",
-  "ERROR_DIALOG_SEND" : "foutenrapport versturen",
-   'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;ESpijtig genoeg is er een fout gebeurd.<br/>' +
-              'Probeer het opnieuw proberen, of kijk voor <a href="#" id="gctour_update_error_dialog">update</a>!<br/><br/>' +
-              'Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br/>' +
-              '<u>Noot</u><br/>' +
-              '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "Blijkbaar blokkeer je javascript functionaliteiten (bv. NoScript). Gelieve 'geocaching.com' niet te filteren om gebruik te kunnen maken van GCTour!" ,
   'mapTypes' :
     [{"caption":"Google Map","value":"roadmap"},
@@ -174,6 +168,15 @@ $.gctour.i18n.nl = {
       'caption': 'Nieuwe versie beschikbaar',
       'content': 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n'
       // old: 'newVersionDialog', 'newVersionTitle'
+    },
+    'error':{
+      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;ESpijtig genoeg is er een fout gebeurd.<br/>' +
+          'Probeer het opnieuw proberen, of kijk voor <a href="#" id="gctour_update_error_dialog">update</a>!<br/><br/>' +
+          'Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br/>' +
+          '<u>Noot</u><br/>' +
+          '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
+      'send': 'foutenrapport versturen'
+      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   }
 

@@ -142,12 +142,6 @@ $.gctour.i18n.en = {
   "example" : "eg. ",
   "exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i>",
   "dontPrintHint" : "<b>Information :</b><br/>Elements in such a box will <u>not</u> be printed!",
-  'ERROR_DIALOG_SEND' : 'Send report',
-  'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;I\'m sorry but an error occurs.<br/>' +
-              'Please just try again, or look for an <a href="#" id="gctour_update_error_dialog">update</a>!<br/>' +
-              'If this error comes every time, please send this error report.<br/>' +
-              '<u>Notes</u><br/>' +
-              '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'geocaching.com' permanently to use GCTour!" ,
   'mapTypes' :
     [{"caption":"Google Map","value":"roadmap"},
@@ -174,7 +168,15 @@ $.gctour.i18n.en = {
       'caption': 'new version available',
       'content': 'There is a new version of GCTour.\nDo you want to update? \n\n'
       // old: 'newVersionDialog', 'newVersionTitle'
+    },
+    'error':{
+      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;I\'m sorry but an error occurs.<br/>' +
+          'Please just try again, or look for an <a href="#" id="gctour_update_error_dialog">update</a>!<br/>' +
+          'If this error comes every time, please send this error report.<br/>' +
+          '<u>Notes</u><br/>' +
+          '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
+      'send': 'Send report'
+      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   }
-
 };

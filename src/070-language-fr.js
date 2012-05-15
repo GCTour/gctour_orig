@@ -142,12 +142,6 @@ $.gctour.i18n.fr = {
   "example" : "Ex. ",
   "exampleCoords" : "<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i>",
   "dontPrintHint" : "<b>Information :</b><br/>Les éléménts ayant cette apparence ne seront <u>pas</u> imprimés!",
-  'ERROR_DIALOG_SEND' : 'envoi du rapport',
-  'ERROR_DIALOG' : '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>' +
-              'Réessayez SVP, ou vérifier les <a href="#" id="gctour_update_error_dialog">mises à jour</a> du script !<br/><br/>' +
-              'Si cette erreur se reproduit, merci d\'envoyer le rapport d\'erreur.<br/>' +
-              '<u>Notes</u><br/>' +
-              '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
   "SCRIPT_ERROR" : "Il semble que des javascripts ne puissent pas s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'geocaching.com' à utiliser GCTour de manière permanente!" ,
   'mapTypes' :
     [{"caption":"Google Plan","value":"roadmap"},
@@ -174,7 +168,15 @@ $.gctour.i18n.fr = {
       'caption': 'Nouvelle version disponible',
       'content': 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n'
       // old: 'newVersionDialog', 'newVersionTitle'
+    },
+    'error':{
+      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>' +
+          'Réessayez SVP, ou vérifier les <a href="#" id="gctour_update_error_dialog">mises à jour</a> du script !<br/><br/>' +
+          'Si cette erreur se reproduit, merci d\'envoyer le rapport d\'erreur.<br/>' +
+          '<u>Notes</u><br/>' +
+          '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
+      'send': 'envoi du rapport'
+      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   }
-
 };

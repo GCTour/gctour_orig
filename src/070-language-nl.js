@@ -132,8 +132,6 @@ $.gctour.i18n.nl = {
   "autoTourRefresh" : "Bereken een autoTour aan met deze waarden!",
   "autoTourCacheCounts" : "Geschat <i>aantal</i> geocaches in deze regio:",
   "autoTourDuration" : "Geschatte tijd om deze autoTour aan te maken:",
-  "kilometer" : "Kilometer",
-  "mile" : "Miles",
   "save" : "Bewaren",
   "cancel" : "Annuleren",
   "close" : "Sluiten",
@@ -178,6 +176,11 @@ $.gctour.i18n.nl = {
       'send': 'foutenrapport versturen'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+  },
+  'units':{
+    'km': 'Kilometer',
+    'mi': 'Miles'
+    // old: 'kilometer', 'mile'
   }
 
 };

@@ -335,7 +335,7 @@ function getCoordinatesTab() {
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div', {className: 'ebene'});
-  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('kilometer')+'</option><option value="sm">'+$.gctour.lang('mile')+'</option></select>';
+  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('units.km')+'</option><option value="sm">'+$.gctour.lang('units.mi')+'</option></select>';
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div');

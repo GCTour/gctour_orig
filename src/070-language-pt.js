@@ -12,8 +12,6 @@ $.gctour.i18n.pt = {
   'newCoordinates':"Novas Coordenadas",
   'showCaches' : 'Adicionar Geocaches vis&#237;veis:',
   'markedCaches' : 'Add <b>marked</b> geocaches:', // ToDo
-  'newVersionDialog' : 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n',
-  'newVersionTitle' : 'Nova versão dispon&#xED;vel',
   'removeTourDialog' : "Deseja mesmo remover esta rota?",
   'logYourVisit' : "Registe a sua visita",
   'removeFromList' : "Remover da lista",
@@ -171,6 +169,11 @@ $.gctour.i18n.pt = {
       'content': 'Encontrou um erro? Deseja sugerir algo para o GCTour? Desejamos ouvir a sua opini&#227;o.<br />Envie uma <b>mensagem</b>:',
       'submit': 'Submeter a mensagem!'
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    },
+    'newVersion':{
+      'caption': 'Nova versão dispon&#xED;vel',
+      'content': 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n'
+      // old: 'newVersionDialog', 'newVersionTitle'
     }
   }
 

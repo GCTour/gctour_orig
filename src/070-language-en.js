@@ -12,8 +12,6 @@ $.gctour.i18n.en = {
   'newCoordinates':"New coordinates",
   'showCaches' : 'Add <b>shown</b> geocaches:',
   'markedCaches' : 'Add <b>marked</b> geocaches:',
-  'newVersionDialog' : 'There is a new version of GCTour.\nDo you want to update? \n\n',
-  'newVersionTitle' : 'new version available',
   'removeTourDialog' : "Are you sure to remove this tour?",
   'logYourVisit' : "Log your visit",
   'removeFromList' : "Remove from list",
@@ -171,6 +169,11 @@ $.gctour.i18n.en = {
       'content': 'You have found a bug? Do you have suggestion on GCTour? I would like to hear your opinion.<br/>Feel free to send me a <b>message</b>:',
       'submit': 'Submit this message!'
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    },
+    'newVersion':{
+      'caption': 'new version available',
+      'content': 'There is a new version of GCTour.\nDo you want to update? \n\n'
+      // old: 'newVersionDialog', 'newVersionTitle'
     }
   }
 

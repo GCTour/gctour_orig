@@ -30,7 +30,7 @@ function update(force) {
           return;
         }
 
-        var overlayBody = getOverlay({caption:$.gctour.lang('newVersionTitle'),minimized:true});
+        var overlayBody = getOverlay({caption:$.gctour.lang('dlg.newVersion.caption'),minimized:true});
 
         var versions_string = "";
         for(ver_i = 0 ; ver_i<update_obj.changes.length; ver_i++){

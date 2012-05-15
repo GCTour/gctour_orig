@@ -363,8 +363,8 @@ function initComponents(){
     $('<img>', {
       'class': 'tourImage',
       src:    sendMessageImage,
-      title:  $.gctour.lang('sendMessageTitle'),
-      alt :   $.gctour.lang('sendMessageTitle'),
+      title:  $.gctour.lang('dlg.sendMessage.caption'),
+      alt :   $.gctour.lang('dlg.sendMessage.caption'),
       click: function(){
         sendMessageDialog();
       }

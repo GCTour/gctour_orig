@@ -28,9 +28,6 @@ $.gctour.i18n.pt = {
   'makeMapWait' : 'A testar disponibilidade deste mapa',
   'printview' : 'Modo de impress&#227;o',
   'downloadGpx' : 'Transferir GPX',
-  'sendMessage' : "Encontrou um erro? Deseja sugerir algo para o GCTour? Desejamos ouvir a sua opini&#227;o.<br />Envie uma <b>mensagem</b>:",
-  'sendMessageTitle' : "Enviar uma mensagem para o autor.",
-  'sendMessageSubmit' : "Submeter a mensagem!",
   'showSettings' : 'Mostrar Configura&#231;&#245;es',
   'settings_caption' : 'Configura&#231;&#245;es',
   'settingsPrintMinimal' : 'Modo de Impress&#227;o m&#237;nimo',
@@ -153,7 +150,7 @@ $.gctour.i18n.pt = {
               'Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br/>' +
               '<u>Nota</u><br/>' +
               '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
-  "SCRIPT_ERROR" : "Aparenta que est&#225; a bloquear algumas fontes de javascript (ex. NoScript). Por favor permita 'aolcdn.com' e 'geocaching.com' permanentemente para usar GCTour!" ,
+  "SCRIPT_ERROR" : "Aparenta que est&#225; a bloquear algumas fontes de javascript (ex. NoScript). Por favor permita 'geocaching.com' permanentemente para usar GCTour!" ,
   'mapTypes' :
     [{"caption":"Google Map","value":"roadmap"},
      {"caption":"Google Satellite","value":"satellite"},
@@ -165,5 +162,16 @@ $.gctour.i18n.pt = {
      {"caption":"OSM Cycle","value":"osmaC"},
      {"caption":"OSM Public Transport","value":"osmaP"}],
   'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>Existe uma nova vers&#227;o de &nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;dispon&#237;vel para instalar.</p><p>Tem a vers&#227;o <b>###VERSION_OLD###</b> instalada. A &#250;ltima versão &#233; <b>###VERSION_NEW###</b></p><p><b>Hist&#243;rico</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
-  'updateCurrently' : 'GCTour versão '+VERSION+'.'+BUILD+' está atualmente!'
+  'updateCurrently' : 'GCTour versão '+VERSION+'.'+BUILD+' está atualmente!',
+
+  // redesign begin 05.2012
+  'dlg':{
+    'sendMessage':{
+      'caption': 'Enviar uma mensagem para o autor.',
+      'content': 'Encontrou um erro? Deseja sugerir algo para o GCTour? Desejamos ouvir a sua opini&#227;o.<br />Envie uma <b>mensagem</b>:',
+      'submit': 'Submeter a mensagem!'
+      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    }
+  }
+
 };

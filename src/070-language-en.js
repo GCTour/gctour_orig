@@ -28,9 +28,6 @@ $.gctour.i18n.en = {
   'makeMapWait' : 'Testing availablity of this map',
   'printview' : 'Printview',
   'downloadGpx' : 'Download GPX',
-  'sendMessage' : "You have found a bug? Do you have suggestion on GCTour? I would like to hear your opinion.<br/>Feel free to send me a <b>message</b>:",
-  'sendMessageTitle' : "Send a message to the author.",
-  'sendMessageSubmit' : "Submit this message!",
   'showSettings' : 'Show settings',
   'settings_caption' : 'Settings',
   'settingsPrintMinimal' : 'Minimal printview',
@@ -153,7 +150,7 @@ $.gctour.i18n.en = {
               'If this error comes every time, please send this error report.<br/>' +
               '<u>Notes</u><br/>' +
               '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
-  "SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'aolcdn.com' and 'geocaching.com' permanently to use GCTour!" ,
+  "SCRIPT_ERROR" : "It appears, that you are blocking some javascript sources (e.g. NoScript). Please allow 'geocaching.com' permanently to use GCTour!" ,
   'mapTypes' :
     [{"caption":"Google Map","value":"roadmap"},
      {"caption":"Google Satellite","value":"satellite"},
@@ -165,5 +162,16 @@ $.gctour.i18n.en = {
      {"caption":"OSM Cycle","value":"osmaC"},
      {"caption":"OSM Public Transport","value":"osmaP"}],
   'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>There is a new version of&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;available for installation.</p><p>You currently have version <b>###VERSION_OLD###</b> installed. The latest version is <b>###VERSION_NEW###</b></p><p><b>Version History:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
-  'updateCurrently' : 'GCTour version '+VERSION+'.'+BUILD+' is up to date!'
+  'updateCurrently' : 'GCTour version '+VERSION+'.'+BUILD+' is up to date!',
+
+  // redesign begin 05.2012
+  'dlg':{
+    'sendMessage':{
+      'caption': 'Send a message to the author.',
+      'content': 'You have found a bug? Do you have suggestion on GCTour? I would like to hear your opinion.<br/>Feel free to send me a <b>message</b>:',
+      'submit': 'Submit this message!'
+      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    }
+  }
+
 };

@@ -28,9 +28,6 @@ $.gctour.i18n.fr = {
   'makeMapWait' : 'Vérification de la disponibilité et création de la carte... ',
   'printview' : 'Générer la version imprimable',
   'downloadGpx' : 'Télécharger le GPX',
-  'sendMessage' : "Vous avez trouvé un bug ? Vous avez une suggestion à propos de GCTour? Votre opinion m'intéresse.<br/>Envoyez-moi un<b>message</b>:",
-  'sendMessageTitle' : "Contacter l'auteur",
-  'sendMessageSubmit' : "Envoyer le message",
   'showSettings' : 'Configurer',
   'settings_caption' : 'Configuration',
   'settingsPrintMinimal' : 'Version imprimable minimaliste',
@@ -153,7 +150,7 @@ $.gctour.i18n.fr = {
               'Si cette erreur se reproduit, merci d\'envoyer le rapport d\'erreur.<br/>' +
               '<u>Notes</u><br/>' +
               '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
-  "SCRIPT_ERROR" : "Il semble que des javascripts ne puissent pas s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'aolcdn.com' et 'geocaching.com' à utiliser GCTour de manière permanente!" ,
+  "SCRIPT_ERROR" : "Il semble que des javascripts ne puissent pas s'exécuter sur votre ordinateur (e.g. NoScript). Merci d'autoriser 'geocaching.com' à utiliser GCTour de manière permanente!" ,
   'mapTypes' :
     [{"caption":"Google Plan","value":"roadmap"},
      {"caption":"Google Satellite","value":"satellite"},
@@ -165,5 +162,16 @@ $.gctour.i18n.fr = {
      {"caption":"OSM Cycle","value":"osmaC"},
      {"caption":"OSM Public Transport","value":"osmaP"}],
   'updateDialog' : "<div><img src='http://gctour-spot.appspot.com/i/signal_antenna.gif' style='float:right'><p>Une nouvelle version de&nbsp;&nbsp;&nbsp;<a target='_blank' href='http://gctour.madd.in'><b>GCTour</b></a>&nbsp;&nbsp;&nbsp;est disponible.</p><p>Version installée : <b>###VERSION_OLD###</b>. Version la plus récente disponible: <b>###VERSION_NEW###</b></p><p><b>Historique des versions:</b></p><div class='dialogHistory'>###VERSION_HISTORY###</div><div class='dialogFooter'></div>",
-  'updateCurrently' : 'Version installée de GCTour '+VERSION+'.'+BUILD+' ! '
+  'updateCurrently' : 'Version installée de GCTour '+VERSION+'.'+BUILD+' ! ',
+
+  // redesign begin 05.2012
+  'dlg':{
+    'sendMessage':{
+      'caption': 'Contacter l\'auteur',
+      'content': 'Vous avez trouvé un bug ? Vous avez une suggestion à propos de GCTour? Votre opinion m\'intéresse.<br/>Envoyez-moi un<b>message</b>:',
+      'submit': 'Envoyer le message'
+      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+    }
+  }
+
 };

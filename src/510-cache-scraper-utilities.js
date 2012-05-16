@@ -5,21 +5,22 @@ function getMinimalGeocacheDetails(detailsPage){
   var geocache_details = {};
   var $obj = {}; // temp jquery container
 
-  /* GCCode Stand 07.10.2011
+  /* GCCode Stand 07.10.2011, update 16.05.2012
    * <span id="ctl00_ContentBody_CoordInfoLinkControl1_uxCoordInfoCode" class="CoordInfoCode">GC2HFRB</span> <--- holen über 'class'!
-   * Fallback#1: nur wenn eingeloggt: <input type="submit" name="ctl00$ContentBody$btnSendToPhone" value="Send to My Phone" onclick="s2phone(&#39;GC2HFRB&#39;);return false;" id="ctl00_ContentBody_btnSendToPhone" />
-   * Fallback#2: steht im HEAD: <meta property="og:url" content="http://coord.info/GC2HFRB" name="og:url">
+   * Fallback#1: steht im TITLE: <title>GC3JQEQ Pikaflow ...</title>
+   * Fallback#2: nur wenn eingeloggt: <input type="submit" name="ctl00$ContentBody$btnSendToPhone" value="Send to My Phone" onclick="s2phone(&#39;GC2HFRB&#39;);return false;" id="ctl00_ContentBody_btnSendToPhone" />
   */
   $obj.gcc = [
     $('.CoordInfoCode', detailsPage).first().text(),
-    $('input#ctl00_ContentBody_btnSendToPhone', detailsPage).first().attr('onclick'), // Fallback #1
-    $('meta[name="og:url"]', detailsPage).first().attr('content')                     // Fallback #2
+    $('title', detailsPage).first().text(),                                           // Fallback #1
+    $('input#ctl00_ContentBody_btnSendToPhone', detailsPage).first().attr('onclick') // Fallback #2
   ];
 
+  // Todo: Validierung auf GC*
   geocache_details.gccode =
     ($obj.gcc[0] && $.trim($obj.gcc[0])) ||
-    ($obj.gcc[1] && $.trim($obj.gcc[1].split("'")[1])) ||
-    ($obj.gcc[2] && $.trim($obj.gcc[2].split('/')[3])) ||
+    ($obj.gcc[1] && $.trim($obj.gcc[1].split(' ')[0])) ||
+    ($obj.gcc[2] && $.trim($obj.gcc[2].split("'")[1])) ||
     null;
 
   if (!geocache_details.gccode)  {
@@ -28,8 +29,8 @@ function getMinimalGeocacheDetails(detailsPage){
     debug(
       "getMinimalGeocacheDetails - GCCode: " + geocache_details.gccode + "\n" +
       "\t1: " + ( ($obj.gcc[0]) ? $obj.gcc[0] : "null" ) + "\n" +
-      "\t2: " + ( ($obj.gcc[1]) ? $obj.gcc[1].split("'")[1] : "null" ) + "\n" +
-      "\t3: " + ( ($obj.gcc[2]) ? $obj.gcc[2].split('/')[3] : "null" )
+      "\t2: " + ( ($obj.gcc[1]) ? $.trim($obj.gcc[1].split(' ')[0]) : "null" ) + "\n" +
+      "\t3: " + ( ($obj.gcc[2]) ? $obj.gcc[2].split("'")[1] : "null (with login?)" )
     );
   }
 

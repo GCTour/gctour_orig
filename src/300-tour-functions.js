@@ -163,7 +163,7 @@ function addNewTableCell(theEntry,effects){
     editMarkerButton.alt = $.gctour.lang('edit');
     editMarkerButton.title = $.gctour.lang('edit');
     editMarkerButton.style.cursor = 'pointer';
-    editMarkerButton.src = editImageString;
+    editMarkerButton.src = $.gctour.img.edit;
     editMarkerButton.addEventListener('click', function(){showNewMarkerDialog(theEntry);}, false);
     addOpacityEffects(editMarkerButton);
     functionButtonsDiv.appendChild(editMarkerButton);
@@ -173,7 +173,7 @@ function addNewTableCell(theEntry,effects){
     deleteImage.alt = $.gctour.lang('removeFromList');
     deleteImage.title = $.gctour.lang('removeFromList');
     deleteImage.style.cursor = 'pointer';
-    deleteImage.src = deleteImageString;
+    deleteImage.src = $.gctour.img.del;
   deleteImage.addEventListener('click', deleteElementFunction(theId), true);
   addOpacityEffects(deleteImage);
   functionButtonsDiv.appendChild(deleteImage);
@@ -187,7 +187,7 @@ function addNewTableCell(theEntry,effects){
     topButton.alt = "top";
     topButton.title = "top";
     topButton.style.cursor = 'pointer';
-    topButton.src = topArrowImageString;
+    topButton.src = $.gctour.img.topArrow;
     topButton.addEventListener('click', moveTop(theId), true);
     addOpacityEffects(topButton);
 
@@ -196,7 +196,7 @@ function addNewTableCell(theEntry,effects){
     upButton.title = "up";
     upButton.style.marginRight = '5px';
     upButton.style.cursor = 'pointer';
-    upButton.src = upArrowImageString;
+    upButton.src = $.gctour.img.upArrow;
     upButton.addEventListener('click', moveUp(theId), true);
     addOpacityEffects(upButton);
 
@@ -205,7 +205,7 @@ function addNewTableCell(theEntry,effects){
     downButton.title = "down";
     downButton.style.cursor = 'pointer';
   downButton.style.marginRight = '5px';
-    downButton.src = downArrowImageString;
+    downButton.src = $.gctour.img.downArrow;
     downButton.addEventListener('click', moveDown(theId), true);
     addOpacityEffects(downButton);
 
@@ -213,7 +213,7 @@ function addNewTableCell(theEntry,effects){
     bottomButton.alt = "bottom";
     bottomButton.title = "bottom";
     bottomButton.style.cursor = 'pointer';
-    bottomButton.src = bottomArrowImageString;
+    bottomButton.src = $.gctour.img.bottomArrow;
     bottomButton.addEventListener('click', moveBottom(theId), true);
     addOpacityEffects(bottomButton);
 

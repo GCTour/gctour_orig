@@ -271,10 +271,10 @@ function openChangeCoordinates(){
   var buttonsDiv = createElement('div');append(buttonsDiv,overlayMarker);
   buttonsDiv.setAttribute('class','dialogFooter');
 
-  cancel = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(cancel,buttonsDiv);
+  cancel = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+$.gctour.img.closebutton+")"});append(cancel,buttonsDiv);
   cancel.addEventListener('click', closeOverlay, false);
 
-  var delete_btn = createElement('input',{type:"button",value:$.gctour.lang('deleteCoordinates'),style:"background-image:url("+closebuttonImage+")"});append(delete_btn,buttonsDiv);
+  var delete_btn = createElement('input',{type:"button",value:$.gctour.lang('deleteCoordinates'),style:"background-image:url("+$.gctour.img.closebutton+")"});append(delete_btn,buttonsDiv);
   delete_btn.addEventListener('click', function(){
       GM_deleteValue('coords_'+cacheId);
 
@@ -284,7 +284,7 @@ function openChangeCoordinates(){
 
   }, false);
 
-  submit = createElement('input',{type:"button",value:$.gctour.lang('save'),style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
+  submit = createElement('input',{type:"button",value:$.gctour.lang('save'),style:"background-image:url("+$.gctour.img.save+")"});append(submit,buttonsDiv);
   submit.addEventListener('click', function(){
       GM_setValue('coords_'+cacheId, cordsInputLat.value+'#'+cordsInputLon.value);
 

@@ -36,7 +36,7 @@ function showNewMarkerDialog(marker){
   dangerDanger = document.createElement('div');dangerDanger.id = "dangerdanger";
   dangerDanger.style.visibility = "hidden";
   dangerDanger.style.cssFloat = "right";
-  dangerDanger.innerHTML = "<img src='"+dangerImageString+"'>";
+  dangerDanger.innerHTML = "<img src='"+$.gctour.img.danger+"'>";
   overlayMarker.appendChild(dangerDanger);
 
   anTable = document.createElement('table');overlayMarker.appendChild(anTable);
@@ -200,10 +200,10 @@ function showNewMarkerDialog(marker){
   var buttonsDiv = createElement('div');append(buttonsDiv,overlayMarker);
   buttonsDiv.setAttribute('class','dialogFooter');
 
-  cancel = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(cancel,buttonsDiv);
+  cancel = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+$.gctour.img.closebutton+")"});append(cancel,buttonsDiv);
   cancel.addEventListener('click', closeOverlay, false);
 
-  submit = createElement('input',{type:"button",value:$.gctour.lang('save'),style:"background-image:url("+saveImage+")"});append(submit,buttonsDiv);
+  submit = createElement('input',{type:"button",value:$.gctour.lang('save'),style:"background-image:url("+$.gctour.img.save+")"});append(submit,buttonsDiv);
 
   submit.addEventListener('click', function(){
     errors = 0;

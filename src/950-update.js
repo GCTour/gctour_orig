@@ -62,7 +62,7 @@ function update(force) {
         var install_button = document.createElement('input');
         install_button.type = "button";
         install_button.value = $.gctour.lang('install');
-        install_button.style.backgroundImage = "url("+userscript_image+")";
+        install_button.style.backgroundImage = "url("+$.gctour.img.userscript+")";
         install_button.addEventListener('click', function() {
           setTimeout(closeOverlay, 500);
           document.location = update_obj.update;
@@ -71,7 +71,7 @@ function update(force) {
         var close_button = document.createElement('input');
         close_button.type = "button";
         close_button.value = $.gctour.lang('cancel');
-        close_button.style.backgroundImage = "url("+closebuttonImage+")";
+        close_button.style.backgroundImage = "url("+$.gctour.img.closebutton+")";
         close_button.addEventListener('click', closeOverlay, false);
 
         footer.appendChild(close_button);

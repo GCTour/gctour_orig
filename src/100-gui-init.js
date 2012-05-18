@@ -12,9 +12,9 @@ function initButton(){
     append(gcTourFieldset,div_element);
 
     gcTourFieldset.setAttribute('class','dialogFooter');
-    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
+    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
 
-    var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+addToTourImageString+")"});
+    var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+$.gctour.img.addToTour+")"});
     append(newButton,gcTourFieldset);
 
     newButton.setAttribute('onclick','return false;');
@@ -22,7 +22,7 @@ function initButton(){
     //~ var newButton = document.createElement("button");
     //~ newButton.name = 'btnGPXDL';
     //~ newButton.type = 'submit';
-    //~ newButton.innerHTML = "<img src='"+addToTourImageString+"'/>&nbsp;"+$.gctour.lang('addToTour');
+    //~ newButton.innerHTML = "<img src='"+$.gctour.img.addToTour+"'/>&nbsp;"+$.gctour.lang('addToTour');
     //~ newButton.id = 'btnGPXDL';
 
     // locate the values and save it
@@ -40,7 +40,7 @@ function initButton(){
     //~ append(newButton,gcTourFieldset)
 
     // make direct print button
-    newButton = createElement('input',{type:"button",value:$.gctour.lang('directPrint'),style:"float:left;background-image:url("+printerImageString+")"});append(newButton,gcTourFieldset);
+    newButton = createElement('input',{type:"button",value:$.gctour.lang('directPrint'),style:"float:left;background-image:url("+$.gctour.img.printer+")"});append(newButton,gcTourFieldset);
     newButton.setAttribute('onclick','return false;');
 
     // on click add an element
@@ -91,7 +91,7 @@ function initComponents(){
     "class": "header gctour-grand-default",
     "html":
       $("<img>", {
-        "src": gctourLogoSmall
+        "src": $.gctour.img.gctourLogoSmall
       })
   })
   .hover(
@@ -186,7 +186,7 @@ function initComponents(){
     id: "gctour_tourHeader",
     "css": {
     },
-    "html": '<img id="inconsistentTour" src="'+dangerImageString+'" style="float:right;padding:3px;display:none"/>' +
+    "html": '<img id="inconsistentTour" src="'+$.gctour.img.danger+'" style="float:right;padding:3px;display:none"/>' +
               '<u id="tourName">'+currentTour.name +'</u>&nbsp;<span style="font-size:66%" id="cachecount">('+currentTour.geocaches.length+')</span>' +
               '<span id="webcode" style="display:'+ ((!currentTour.webcode) ? "none" : "inline") + ';"><br/>'+
               'Webcode: <b><a href="'+webcodelink+'" title="'+$.gctour.lang('makeMap')+'" target="_blank">'+currentTour.webcode+'</a></b>&nbsp;</span><br/>'
@@ -197,7 +197,7 @@ function initComponents(){
     // rename
     $('<img>', {
       'class': 'tourImage',
-      src:    editImageString,
+      src:    $.gctour.img.edit,
       title:  $.gctour.lang('rename'),
       alt :   $.gctour.lang('rename'),
       click: function(){
@@ -212,7 +212,7 @@ function initComponents(){
     // print
     $('<img>', {
       'class': 'tourImage',
-      src:    printerImageString,
+      src:    $.gctour.img.printer,
       title:  $.gctour.lang('printview'),
       alt :   $.gctour.lang('printview'),
       click: function(){
@@ -223,7 +223,7 @@ function initComponents(){
     // sendGPS
     $('<img>', {
       'class': 'tourImage',
-      src:    sensGPSImageString,
+      src:    $.gctour.img.sensGPS,
       title:  $.gctour.lang('sendToGps'),
       alt :   $.gctour.lang('sendToGps'),
       click: function(){
@@ -234,7 +234,7 @@ function initComponents(){
     // downloadGPX
     $('<img>', {
       'class': 'tourImage',
-      src:    downloadGPXImageString,
+      src:    $.gctour.img.downloadGPX,
       title:  $.gctour.lang('downloadGpx'),
       alt :   $.gctour.lang('downloadGpx'),
       click: function(){
@@ -245,7 +245,7 @@ function initComponents(){
     // makeMap
     $('<img>', {
       'class': 'tourImage',
-      src:    mapImageString,
+      src:    $.gctour.img.map,
       title:  $.gctour.lang('makeMap'),
       alt :   $.gctour.lang('makeMap'),
       click: function(){
@@ -256,7 +256,7 @@ function initComponents(){
     // uploadTour
     $('<img>', {
       'class': 'tourImage',
-      src:    uploadImageString,
+      src:    $.gctour.img.upload,
       title:  $.gctour.lang('upload'),
       alt :   $.gctour.lang('upload'),
       click: function(){
@@ -267,7 +267,7 @@ function initComponents(){
     // addWaypoint
     $('<img>', {
       'class': 'tourImage',
-      src:    plusImageString,
+      src:    $.gctour.img.plus,
       title:  $.gctour.lang('addOwnWaypoint'),
       alt :   $.gctour.lang('addOwnWaypoint'),
       click: function(){
@@ -279,7 +279,7 @@ function initComponents(){
     $('<img>', {
       id:      'gctourDeleteButton',
       'class': 'tourImage',
-      src:     deleteImageString,
+      src:     $.gctour.img.del,
       title:   $.gctour.lang('removeTour'),
       alt :    $.gctour.lang('removeTour'),
       css: {'display' : (tours.length  <= 1) ? 'none' : 'inline'},
@@ -302,7 +302,7 @@ function initComponents(){
     // newTourButton
     $('<img>', {
       'class': 'tourImage',
-      src:    newImageString,
+      src:    $.gctour.img.newTour,
       title:  $.gctour.lang('newList'),
       alt :   $.gctour.lang('newList'),
       click: function(){
@@ -313,7 +313,7 @@ function initComponents(){
     // toggleTourListButton
     $('<img>', {
       'class': 'tourImage',
-      src:    openTourImageString,
+      src:    $.gctour.img.openTour,
       title:  $.gctour.lang('openTour'),
       alt :   $.gctour.lang('openTour'),
       click: function(){
@@ -324,7 +324,7 @@ function initComponents(){
     // downloadButton
     $('<img>', {
       'class': 'tourImage',
-      src:    downloadImageString,
+      src:    $.gctour.img.download,
       title:  $.gctour.lang('onlineTour'),
       alt :   $.gctour.lang('onlineTour'),
       click: function(){
@@ -339,7 +339,7 @@ function initComponents(){
     // autoTourButton
     $('<img>', {
       'class': 'tourImage',
-      src:    autoTourImage,
+      src:    $.gctour.img.autoTour,
       title:  $.gctour.lang('autoTour'),
       alt :   $.gctour.lang('autoTour'),
       click: function(){
@@ -351,7 +351,7 @@ function initComponents(){
     // toggleSettingsButton
     $('<img>', {
       'class': 'tourImage',
-      src:    settingsImageString,
+      src:    $.gctour.img.settings,
       title:  $.gctour.lang('showSettings'),
       alt :   $.gctour.lang('showSettings'),
       click: function(){
@@ -362,7 +362,7 @@ function initComponents(){
     // sendMessageButton
     $('<img>', {
       'class': 'tourImage',
-      src:    sendMessageImage,
+      src:    $.gctour.img.sendMessage,
       title:  $.gctour.lang('dlg.sendMessage.caption'),
       alt :   $.gctour.lang('dlg.sendMessage.caption'),
       click: function(){
@@ -380,12 +380,12 @@ function initComponents(){
       'cursor': "pointer",
       '-moz-user-select': "none"
     },
-    "html": "<img src='"+gctourLogoImage+"' style='margin: 6px 0 0 6px;'/>" +
-            "<img id='gcTourPin' style='float:right;margin: 6px 2px 0 0;' src='" + ((sticky) ? pinned_image : pin_image) + "'>",
+    "html": "<img src='"+$.gctour.img.gctourLogo+"' style='margin: 6px 0 0 6px;'/>" +
+            "<img id='gcTourPin' style='float:right;margin: 6px 2px 0 0;' src='" + ((sticky) ? $.gctour.img.pinned : $.gctour.img.pin) + "'>",
     click: function(e) {
       sticky = !sticky;
       GM_setValue('sticky', sticky);
-      $("img#gcTourPin").attr("src", ((sticky) ? pinned_image : pin_image) );
+      $("img#gcTourPin").attr("src", ((sticky) ? $.gctour.img.pinned : $.gctour.img.pin) );
     }
   })
   .hover(

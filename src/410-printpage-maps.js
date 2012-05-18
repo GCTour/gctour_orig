@@ -128,11 +128,11 @@ function getMapControl(mapQuery,map_frame,newDocument){
         })
       ),
       $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')
-        .css('background','url("'+deleteImageString+'") top left no-repeat')
+        .css('background','url("'+$.gctour.img.del+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.parentNode.style.display = "none";}),
       $('<li>Karte neu laden!</li>')
-        .css('background','url("'+refreshImageString+'") top left no-repeat')
+        .css('background','url("'+$.gctour.img.refresh+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.src = map_frame.src;})
     )
@@ -183,7 +183,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
 
   var deleteImage = document.createElement('img');
   deleteImage.style.cursor = 'pointer';
-  deleteImage.src = deleteImageString;
+  deleteImage.src = $.gctour.img.del;
 
   divElement.appendChild(deleteImage);
   divElement.appendChild(document.createTextNode($.gctour.lang('printviewRemoveMap')));

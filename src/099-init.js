@@ -322,7 +322,7 @@ function init(){
           showAutoTourDialog(gooMap.center, gooMap.radius);
         },
         "html": $("<img>", {
-          "src": mapToAutoTour
+          "src": $.gctour.img.mapToAutoTour
         })
       })
       .hover(
@@ -336,7 +336,7 @@ function init(){
       function(index, text) {
         var tmpAddToTour = '{{#if $ctx.userIsLoggedIn() }}'+
         '<a class="lnk" href="javascript:add2tour();">'+
-          '<img src="'+addToTourImageString+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
+          '<img src="'+$.gctour.img.addToTour+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
         '</a>';
         return text.replace(/\{\{\#if \$ctx.userIsLoggedIn\(\) \}\}/g, tmpAddToTour);
       }
@@ -405,7 +405,7 @@ function init(){
       $("<img>", {
         "alt": $.gctour.lang('addToTour'),
         "title": $.gctour.lang('addToTour'),
-        "src": addToTourImageString,
+        "src": $.gctour.img.addToTour,
         "css": {
           "cursor": "pointer",
           "margin": "0 15px 0 0"
@@ -444,7 +444,7 @@ function init(){
       // button to add all caches in list to current tour
       $("<button>", {
         "css": { "margin": 10 },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+        "html": "<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {bLs: bookmarkLines, checkedOnly: false, newTour: false}, function(e){
         e.preventDefault();
@@ -455,7 +455,7 @@ function init(){
       // button to add all caches in list to a new tour
       $("<button>", {
         "css": { "margin": 10 },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+        "html": "<img src='" + $.gctour.img.newTour + "'/>&nbsp;+&nbsp;<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {bLs: bookmarkLines, checkedOnly: false, newTour: true}, function(e){
         e.preventDefault();
@@ -473,7 +473,7 @@ function init(){
       // button to add all checked caches in list to current tour
       $("<button>", {
         "css": { 'margin-left': 10 },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+        "html": "<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {bLs: bookmarkLines, checkedOnly: true, newTour: false}, function(e){
         e.preventDefault();
@@ -484,7 +484,7 @@ function init(){
       // button to add all checked caches in list to new tour
       $("<button>", {
         "css": { 'margin-left': 10 },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+        "html": "<img src='" + $.gctour.img.newTour + "'/>&nbsp;+&nbsp;<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {bLs: bookmarkLines, checkedOnly: true, newTour: true}, function(e){
         e.preventDefault();
@@ -526,7 +526,7 @@ function init(){
       $("<img>", {
         "alt": $.gctour.lang('addToTour'),
         "title": $.gctour.lang('addToTour'),
-        "src": addToTourImageString,
+        "src": $.gctour.img.addToTour,
         "css": {
           "cursor": "pointer",
           "margin": "0 5px 0 0"
@@ -548,7 +548,7 @@ function init(){
       // button to add show caches in list to current tour
       $("<button>", {
         "css": { "margin-left": 10 },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+        "html": "<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:false, newTour:false}, function(e){
         e.preventDefault();
@@ -559,7 +559,7 @@ function init(){
       // button to add show caches in list to new tour
       $("<button>", {
         "css": { "margin-left": 10 },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+        "html": "<img src='" + $.gctour.img.newTour + "'/>&nbsp;+&nbsp;<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:false, newTour:true}, function(e){
         e.preventDefault();
@@ -577,7 +577,7 @@ function init(){
       // button to add all checked caches in list to current tour
       $("<button>", {
         "css": { 'margin-left': 10 },
-        "html": "<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
+        "html": "<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToCurrentTour')
       })
       .bind('click', {checkedOnly:true, newTour:false}, function(e){
         e.preventDefault();
@@ -588,7 +588,7 @@ function init(){
       // button to add all checked caches in list to new tour
       $("<button>", {
         "css": { 'margin-left': 10 },
-        "html": "<img src='" + newImageString + "'/>&nbsp;+&nbsp;<img src='" + addToTourImageString + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
+        "html": "<img src='" + $.gctour.img.newTour + "'/>&nbsp;+&nbsp;<img src='" + $.gctour.img.addToTour + "'/>&nbsp;" + $.gctour.lang('addToNewTour')
       })
       .bind('click', {checkedOnly:true, newTour:true}, function(e){
         e.preventDefault();
@@ -645,7 +645,7 @@ function init(){
           showAutoTourDialog(gooMap.center, gooMap.radius);
         },
         "html": $("<img>", {
-          "src": mapToAutoTour
+          "src": $.gctour.img.mapToAutoTour
         })
       })
       .hover(

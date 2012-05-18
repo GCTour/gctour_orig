@@ -7,8 +7,8 @@ function initStyle(){
   GM_addStyle((""+
     "##includeallcssfiles##"+
     "")
-    .replace("##dialogMaskImage##", dialogMaskImage)
-    .replace("##tabBgImage##", tabBgImage)
+    .replace("##dialogMaskImage##", $.gctour.img.dialogMask)
+    .replace("##tabBgImage##", $.gctour.img.tabBg)
   );
 
 }

@@ -529,7 +529,7 @@ function sendMessageDialog(){
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+
       '<textarea rows="10" style="width:99%" name="message"></textarea>'+
-      '<div class="dialogFooter"><input style="background-image:url('+sendMessageImage+')" type="submit" name="send" value="'+$.gctour.lang('dlg.sendMessage.submit')+'"></input></div>'+
+      '<div class="dialogFooter"><input style="background-image:url('+$.gctour.img.sendMessage+')" type="submit" name="send" value="'+$.gctour.lang('dlg.sendMessage.submit')+'"></input></div>'+
       '</form>';
   }
 }
@@ -572,7 +572,7 @@ function populateTours(){
     } else {
       var deleteButton = $('<img>',{
         title: $.gctour.lang('removeTour'),
-        src: deleteImageString,
+        src: $.gctour.img.del,
         "css": {
           "cursor": 'pointer',
           "margin-right": 3,
@@ -588,7 +588,7 @@ function populateTours(){
 
     if (tour.webcode) {
       var webImage = $('<img>',{
-        src: globeImage,
+        src: $.gctour.img.globeImage,
         "css": {
           "float": "left",
           "margin-right": 3
@@ -615,7 +615,7 @@ function showCacheList(tour){
 
     var copyButton = document.createElement('img');
     copyButton.title = $.gctour.lang('copyTour');
-    copyButton.src = copyImage;
+    copyButton.src = $.gctour.img.copy;
     copyButton.style.cursor = 'pointer';
     copyButton.style.marginRight = '5px';
     copyButton.style.cssFloat = 'right';
@@ -638,14 +638,14 @@ function showCacheList(tour){
 
     var deleteButton = document.createElement('img');
     deleteButton.title = $.gctour.lang('removeTour');
-    deleteButton.src = deleteImageString;
+    deleteButton.src = $.gctour.img.del;
     deleteButton.style.cursor = 'pointer';
     deleteButton.style.marginRight = '5px';
     deleteButton.style.cssFloat = 'right';
     deleteButton.addEventListener('click',deleteTourFunction(tour.id), false);
 
     var renameButton = document.createElement('img');
-    renameButton.src = editImageString;
+    renameButton.src = $.gctour.img.edit;
     renameButton.title = $.gctour.lang('rename');
     renameButton.alt = $.gctour.lang('rename');
     renameButton.style.cursor = 'pointer';
@@ -707,10 +707,10 @@ function openTourDialog(){
   var buttonsDiv = createElement('div',{style:"width:580px;position: absolute; bottom: 10px;"});append(buttonsDiv,overLay);
     buttonsDiv.setAttribute('class','dialogFooter');
 
-  var closeButton = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+closebuttonImage+")"});append(closeButton,buttonsDiv);
+  var closeButton = createElement('input',{type:"button",value:$.gctour.lang('cancel'),style:"background-image:url("+$.gctour.img.closebutton+")"});append(closeButton,buttonsDiv);
     closeButton.addEventListener('click', closeOverlay, false);
 
-  var loadButton = createElement('input',{type:"button",value:$.gctour.lang('load'),disabled:"",id:"loadButton",style:"background-image:url("+openTourImageString+")"});append(loadButton,buttonsDiv);
+  var loadButton = createElement('input',{type:"button",value:$.gctour.lang('load'),disabled:"",id:"loadButton",style:"background-image:url("+$.gctour.img.openTour+")"});append(loadButton,buttonsDiv);
     loadButton.addEventListener('click', function(){
       var id = $("#dialogDetails").attr("tourid"); // ToDo: to $().data
       loadTour(id)();
@@ -797,7 +797,7 @@ function downloadTourDialog(){
   divEbene = createElement('div');append(divEbene,overlay);
   divEbene.setAttribute('class','dialogFooter');
 
-  var downloadButton = createElement('input',{type:"button",value:$.gctour.lang('webcodeDownloadButton'),style:"background-image:url("+downloadImageString+")"});append(downloadButton,divEbene);
+  var downloadButton = createElement('input',{type:"button",value:$.gctour.lang('webcodeDownloadButton'),style:"background-image:url("+$.gctour.img.download+")"});append(downloadButton,divEbene);
   downloadButton.addEventListener('click',function(){
     var webcode = $.trim($('#webcodeInput').val());
     if (webcode == "") { return; }

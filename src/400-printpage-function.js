@@ -88,7 +88,7 @@ function printPageFunction(currentTour){
           style.innerHTML += '.removable{margin:2px;} .map{clear:both} .logs{clear:both} .logs div{margin:2px} .hidden{display:none} .highlight{background-color:pink}';
           style.innerHTML += '.geocache_count{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_count span{padding: 5px; font-weight: bold; font-size: 18px; -moz-border-radius: 5px; border-radius: 5px; border:2px dotted black;}';
           style.innerHTML += 'sup {vertical-align:baseline;font-size:77%;position:relative;top:-5px;}';
-          style.innerHTML += '.dialogMask {background-image:url('+dialogMaskImage+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000000;}'+
+          style.innerHTML += '.dialogMask {background-image:url('+$.gctour.img.dialogMask+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000000;}'+
                     '.dialogBody{-moz-border-radius:5px; border-radius:5px; background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
                     '.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
                     '.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+tabBgImage+'")}'+
@@ -477,7 +477,7 @@ function printPageFunction(currentTour){
                     function(){
                       $(this).css({
                         "opacity": "0.5",
-                        "cursor": "url('" + deleteImageString + "'),pointer"
+                        "cursor": "url('" + $.gctour.img.del + "'),pointer"
                       });
                     },
                     function(){

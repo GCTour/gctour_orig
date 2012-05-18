@@ -283,7 +283,7 @@ function getLocateMeButton() {
       "margin-left": 10,
       "font-size": 12
     },
-    html: "<img id='locateImage' src='" + locateMeImage + "'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>" + $.gctour.lang('findMe') + "</span>"
+    html: "<img id='locateImage' src='" + $.gctour.img.locateMe + "'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>" + $.gctour.lang('findMe') + "</span>"
   })
   
   .click(function() {
@@ -291,7 +291,7 @@ function getLocateMeButton() {
       $('locateImage').attr("src","http://madd.in/ajax-loader3.gif");
       navigator.geolocation.getCurrentPosition(
         function(position){
-          $('locateImage').attr("src", locateMeImage);
+          $('locateImage').attr("src", $.gctour.img.locateMe);
           var latitude  = position.coords.latitude;
           var longitude = position.coords.longitude;
 
@@ -301,7 +301,7 @@ function getLocateMeButton() {
         },
 
         function(error){
-          $('locateImage').attr("src", locateMeImage);
+          $('locateImage').attr("src", $.gctour.img.locateMe);
           log('Unable to get current location: ' + error);
         }, { timeout:10000 }
       );
@@ -341,7 +341,7 @@ function getCoordinatesTab() {
   divEbene = createElement('div');
   divEbene.setAttribute('class','dialogFooter');
 
-  var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+autoTourImage+");margin-top:-24px;"});append(useButton,divEbene);
+  var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+$.gctour.img.autoTour+");margin-top:-24px;"});append(useButton,divEbene);
   useButton.addEventListener('click',getMarkerCoord ,false);
 
   coordsDiv.append(divEbene);
@@ -371,7 +371,7 @@ function getMapPreviewTab(){
   staticGMap.id = 'staticGMap';
 
   //~ staticGMap.style.border = '2px solid gray';
-  //~ staticGMap.style.backgroundImage = "url("+previewImage+")";
+  //~ staticGMap.style.backgroundImage = "url("+$.gctour.img.preview+")";
   //~ staticGMap.style.backgroundPosition = "center";
   //~ staticGMap.style.backgroundRepeat = "no-repeat";
 //~
@@ -393,7 +393,7 @@ function getAutoTourSubmit(){
   var queryFilterDiv = document.createElement('div');
   var getCachesButton = createElement('button');append(getCachesButton, queryFilterDiv);
   getCachesButton.id="startQuery";
-  getCachesButton.innerHTML = "<img src ='"+startAutoTourImage+"'>";
+  getCachesButton.innerHTML = "<img src ='"+$.gctour.img.startAutoTour+"'>";
   getCachesButton.style.marginTop = "15px";
   getCachesButton.style.opacity = "0.4";
   getCachesButton.disabled = "disabled";

@@ -47,13 +47,13 @@ function getOverlay(options){
   append(dialogHead,dialogBody);
   dialogHead.style.backgroundColor = background_color;
 
-  var icon = "<img style='float:left;position:relative;top:-3px;' src='"+gctourLogoImage+"'>";
+  var icon = "<img style='float:left;position:relative;top:-3px;' src='"+$.gctour.img.gctourLogo+"'>";
   dialogHead.innerHTML = icon+caption;
 
   closeButton = createElement('img', {style:"cursor:pointer;"});
   append(closeButton, dialogHead);
   closeButton.style.cssFloat = "right";
-  closeButton.src = closebuttonImage;
+  closeButton.src = $.gctour.img.closebutton;
 
   var closeFunction = options.closeCallback || closeOverlayRemote;
   closeButton.addEventListener('click',closeFunction(localDocument), false);
@@ -89,7 +89,7 @@ function getListOverlay(options){
   append(dialogFooter,overlay);
   dialogFooter.setAttribute('class','dialogFooter');
 
-  var close = createElement('input',{type:"button",value:$.gctour.lang('close'),style:"background-image:url("+saveImage+")"});
+  var close = createElement('input',{type:"button",value:$.gctour.lang('close'),style:"background-image:url("+$.gctour.img.save+")"});
   append(close,dialogFooter);
   close.addEventListener('click', closeOverlay, false);
 
@@ -137,7 +137,7 @@ function addErrorDialog(options){
           .attr('onclick','return false;')
           .attr('type','button')
           .attr('value', $.gctour.lang('close'))
-          .css('background-image','url('+closebuttonImage+')')
+          .css('background-image','url('+$.gctour.img.closebutton+')')
           .bind('click',function(){
 
             if(localDocument == document){
@@ -151,7 +151,7 @@ function addErrorDialog(options){
           .attr('onclick','return false;')
           .attr('type','button')
           .attr('value', $.gctour.lang('dlg.error.send'))
-          .css('background-image','url('+sendMessageImage+')')
+          .css('background-image','url('+$.gctour.img.sendMessage+')')
           .bind('click',function(){
             post_data = [
               "version="              + VERSION+'.'+BUILD,

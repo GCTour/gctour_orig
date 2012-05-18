@@ -5,7 +5,7 @@ function extendCacheTableRow(info){ // old Map only
   var lastTd = tds.eq(3);
 
   var addToTourButton = $('<img>', {
-    "src": addToTourImageString,
+    "src": $.gctour.img.addToTour,
     "title": $.gctour.lang('addToTour'),
     "css": {
       "cursor": "hand", //pointer
@@ -119,7 +119,7 @@ function gctourBuildCDPage(id) {
 
     var addToTourLink = $('<a>', {
       id: "oldMap_AddToTourLink_" + jsonData.cs.cg, // mit guid
-      "src": addToTourImageString,
+      "src": $.gctour.img.addToTour,
       "title": $.gctour.lang('addToTour'),
       "css": {
         "cursor": "pointer",
@@ -129,7 +129,7 @@ function gctourBuildCDPage(id) {
     });
 
     var addToTourButton = $('<img>', {
-      "src": addToTourImageString,
+      "src": $.gctour.img.addToTour,
       "title": $.gctour.lang('addToTour'),
       "css": {
         "cursor": "hand", //pointer

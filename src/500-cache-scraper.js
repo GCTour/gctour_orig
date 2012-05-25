@@ -88,8 +88,15 @@ function getGeocacheFromElement(element){
     geocache.available = true;
   }
 
-  $divCacheDetails = $('div#cacheDetails', element).first();
-  geocache.hidden = parseDate($.trim($('span', $divCacheDetails).eq(2).text().split(':').pop()));
+  //$divCacheDetails = $('div#cacheDetails', element).first();
+  //geocache.hidden = parseDate($.trim($('span', $divCacheDetails).eq(2).text().split(':').pop()));
+  /* (05.2012)
+    gc.com change DOM
+    ToDo: testing
+  */
+  $divCacheDetails = $('#ctl00_ContentBody_mcd2', element).first();
+  geocache.hidden = parseDate($.trim($divCacheDetails.text().split(':').pop()));
+  
   /* (01.2012)
     event caches =>
           LogedIn => okay, Example: 01/08/2012
@@ -106,7 +113,7 @@ function getGeocacheFromElement(element){
   geocache.coordinates = $('span#uxLatLon', element).first().text();
 
   // hole die userDefinedCoords aus GC Javascript
-  // ExampleString: var userDefinedCoords = {"status":"success","data":{"isUserDefined":false,"oldLatLngDisplay":"N 52° 31.268' E 013° 21.255'"}};
+  // ExampleString: var userDefinedCoords = {"status":"success","data":{"isUserDefined":false,"oldLatLngDisplay":"N 52Â° 31.268' E 013Â° 21.255'"}};
   var userDefinedCoordsString = element.innerHTML.split("var userDefinedCoords = {")[1].split("};")[0];
   var userDefinedCoords = jQuery.parseJSON('{' + userDefinedCoordsString + '}');
   geocache.coordinatesisedit = (userDefinedCoords && userDefinedCoords.status == "success" && userDefinedCoords.data.isUserDefined == true); // false = original

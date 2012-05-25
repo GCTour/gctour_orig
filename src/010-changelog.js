@@ -2,7 +2,7 @@
  * Changelog:
  *
  * version @version@.@build@
- *   - FIXED: Issue 37
+ *   - FIXED: Issue 37 and 39
  *   - UPDATED: buttons of searchpage and bookmarkpage adjusted
  *   - UPDATED: jquery to 1.7.2 and jquery-ui to 1.8.18
  *   - UPDATED: GPX -> cache-attributes to log settings, default = false

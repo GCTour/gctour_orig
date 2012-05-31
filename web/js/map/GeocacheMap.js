@@ -45,7 +45,7 @@ function initialize() {
 	});
 
 	var oda = new google.maps.ImageMapType({
-		getTileUrl: function( ll, z ) { return "http://t3.outdooractive.com/portal/map/" + z + "/" +ll.x + "/" + ll.y + ".png";},
+		getTileUrl: function( ll, z ) { return "http://s3.outdooractive.com/portal/map/" + z + "/" +ll.x + "/" + ll.y + ".png";},
 		tileSize: new google.maps.Size(256, 256),
 		isPng: true,
 		maxZoom: 16,

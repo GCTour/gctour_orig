@@ -608,13 +608,15 @@ function init(){
       initButton();
     }
 
-    var userLink = $('a.SignedInProfileLink, a.CommonUsername, .LoginUsername'); // default, Challenges + Account + Membership ,Login
-    if (userLink) {
-      userName = userLink.eq(0).text().trim();
-      debug("Username: " + userName);
-    } else {
-      debug("Username not found");
-    }
+    window.setTimeout(function(){ // wichtig da die MAP Seite verzögert gestartet wird
+      var userLink = $('p.CommonProfileWidget, p.SignedInText, header').find('a[href*="/my/"]:visible:first'); // default, Challenges + Account + Membership
+      if (userLink) {
+        userName = userLink.text().trim();
+        debug("Username: " + userName);
+      } else {
+        debug("Username not found");
+      }
+    }, 0);
 
     if (DEBUG_MODE && console && console.timeEnd) {
       console.timeEnd('gcTour load time');

@@ -18,6 +18,34 @@ function isNotEmptyList(){
   }
 }
 
+
+function showGeocachePopup(geocache,event){
+  // not yet implented
+  return;
+/*  
+    var popup = $("<div>", {
+      "class": "gct_popup gctourContainer"
+    }).appendTo("body");
+  
+ 
+    popup.html("<div class='gctour-grand-default gct_popup_header'>"+geocache.name+"</div>");
+
+    
+     //getting height and width of the message box
+    var height = popup.height();
+    var width = popup.width();
+    //calculating offset for displaying popup message
+    leftVal=event.pageX-(width/2)+"px";
+    topVal=event.pageY-(height/2)+"px";
+    //show the popup message and hide with fading effect
+  //  popup.css({left:leftVal,top:topVal}).show().fadeOut(1500);
+    popup.css({left:leftVal,top:topVal});
+    
+    setTimeout(function() {popup.fadeOut("slow");}, 1000 );
+   
+*/
+}
+
 function handleResize(e) {
   // Change the height of the container and Cache List
   var container = $(window).height() - 55,

@@ -2,6 +2,11 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: wrong geocaches size in languages other than english
+ *   - FIXED: Bug on map that you need to log in
+ *   - FIXED: Some minor CSS glitches
+ * 
+ * version 2.3.12147
  *   - FIXED: Issue 37 and 39
  *   - UPDATED: buttons of searchpage and bookmarkpage adjusted
  *   - UPDATED: jquery to 1.7.2 and jquery-ui to 1.8.18

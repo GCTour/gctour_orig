@@ -40,7 +40,7 @@ echo $action;*/
           $username = $_POST['user'];
           $message = $_POST['message'];
           
-          mail("gctour.martin@googlemail.com", "[GEO] ".$username, $message, "From: ".$checkedEmail);
+          $is_send = mail("gctour.martin@googlemail.com", "[GEO] ".$username, $message, "From: ".$username."@geocaching.com");
             
           $location = $redir;        
              

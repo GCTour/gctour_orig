@@ -90,7 +90,7 @@ function showNewMarkerDialog(marker){
 
   staticGMap = document.createElement('div');
 
-  var staticMap = new StaticMap($(staticGMap),{});
+  var staticMap = new StaticMap($(staticGMap),{width: 450, height: 300,});
 
   var checkMarkerCoord = function(input){
     return function(){
@@ -265,44 +265,5 @@ function showNewMarkerDialog(marker){
 
   // set the focus to the maker name input
   nameInput.focus();
-}
-
-function updateMarkerOverviewMap(lat,lon,zoom){
-  var minZoom = 0,
-      maxZoom = 19,
-      apiKey = "ABQIAAAAKUykc2Tomn0DYkEZVrVaaRSNBTQkd3ybMgPO53QyT8hP9fzjBxSrEmDQGeGO-AZdQ4ogAvc8mRcV-g",
-      staticGMap;
-  // zoom out of range? please stop doing it ;-)
-  if(zoom < minZoom || zoom > maxZoom)  { return; }
-
-  debug("Updating map in marker window: " +lat + " " + lon + " Zoom:"+zoom);
-
-  staticGMap = document.getElementById('staticGMap');
-  staticGMap.style.display = 'block';
-  staticGMap.style.backgroundImage = 'url(http://maps.google.com/staticmap?sensor=false&size=450x200&zoom='+zoom+'&markers='+lat+','+lon+',midred&key='+apiKey+')';
-}
-
-function zoomInMarkerOverviewMap(){
-  return function(){
-    var staticGMap, zoom, lat, lon;
-
-    staticGMap = document.getElementById('staticGMap');
-      zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
-    lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
-    lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
-    updateMarkerOverviewMap(lat,lon,zoom-(-1));
-  };
-}
-
-function zoomOutMarkerOverviewMap(){
-  return function(){
-    var staticGMap, zoom, lat, lon;
-
-    staticGMap = document.getElementById('staticGMap');
-      zoom = staticGMap.style.backgroundImage.split('&zoom=')[1].split('&')[0];
-    lat = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[0];
-    lon = staticGMap.style.backgroundImage.split('&markers=')[1].split(',')[1];
-    updateMarkerOverviewMap(lat,lon,zoom-1);
-  };
 }
 

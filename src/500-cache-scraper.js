@@ -108,7 +108,7 @@ function getGeocacheFromElement(element){
   geocache.difficulty = $.trim( $("span#ctl00_ContentBody_uxLegendScale > img", element).first().attr("alt").split(" out of ")[0] );
   geocache.terrain    = $.trim( $("span#ctl00_ContentBody_Localize12 > img",    element).first().attr("alt").split(" out of ")[0] );
 
-  geocache.size       = $.trim( $('img[src*="/images/icons/container/"]',       element).first().attr("alt").split(": ")[1]);
+  geocache.size       = $.trim( $('img[src*="/images/icons/container/"]',       element).first().attr("src").split("/")[4].split(".")[0]);
 
   geocache.coordinates = $('span#uxLatLon', element).first().text();
 
@@ -146,7 +146,11 @@ function getGeocacheFromElement(element){
 
     // ToDo check distance
     geocache.bearing  = $('span#lblDistFromHome > img', element).first().attr("alt");
-    geocache.distance = $('span#lblDistFromHome', element).first().text().replace(" from your home location","");
+    
+    var distanceTemp = $('span#lblDistFromHome', element).first().text().split(" ");
+    
+    geocache.distance = distanceTemp[0] + " " + distanceTemp[1];
+    
   } catch(e) {
     // if homecoordinates are not set
     geocache.bearing = "";

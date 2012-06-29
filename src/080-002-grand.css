@@ -70,3 +70,24 @@
     top: 0;
     width: 20px;  
 }
+
+
+/*
+ * GCTour Pop-Up
+ */
+
+.gct_popup{
+  position:absolute;
+  z-index:10;   
+  width:172px;
+  height:102px;
+  text-align:center;
+  color:#FF0000;
+  font: 14px Verdana, Arial, Helvetica, sans-serif;
+  background-color:lime;
+  border-radius: 5px;
+}
+
+.gct_popup_header{
+  border-radius: 5px 5px 0px 0px;
+}

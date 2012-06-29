@@ -400,7 +400,9 @@ function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,wptcode)
 }
 
 function addElementFunction(theId, theGuId, theName, theTypeImage){
-  return function () {
+  return function (event) {
+    
+    showGeocachePopup({id:theId,name:theName,image:theTypeImage},event);
 
     if(!isNotEmptyList){
       var table = document.getElementById('cacheList');

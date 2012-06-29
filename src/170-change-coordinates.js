@@ -158,7 +158,7 @@ function changeCoordinates(coordinates){
         lon: origCoordinates._lon,
         newLat: newCoordinates._lat,
         newLon: newCoordinates._lon,
-        width: 475,
+        width: 577,
         height: 300,
         geocache_type: gc_type
       });

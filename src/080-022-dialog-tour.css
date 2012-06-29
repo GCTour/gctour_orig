@@ -31,9 +31,9 @@
   padding:1px;
 }
 #dialogListContainer {
-  height:300px;
+  height:374px;
   overflow:auto;
-  width:150px;
+  width:146px;
   position: absolute;
   left: 10px;
 }

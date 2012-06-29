@@ -84,7 +84,6 @@ function initButton(){
 
 // the tour list under main navigation
 function initComponents(){
-
   // gcTour Button +++++++++++++++++++++++++++++++++++
   $("<div>",{
     id: "gctourButtonWrapper",

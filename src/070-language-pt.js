@@ -122,7 +122,7 @@ $.gctour.i18n.pt = {
   "markerCoordinate" : "Coordenadas",
   "markerContent" : "Conte&#250;do",
   "markerType" : "Tipo",
-  "mnarkerContentHint" : "estar&#225; visivel no modo de impress&#227;o",
+  "markerContentHint" : "estar&#225; visivel no modo de impress&#227;o",
   "markerCaption" : "captura",
   "autoTour" : "autoRota",
   "autoTourWait" : "Por favor aguarde - criando a autoRota!",

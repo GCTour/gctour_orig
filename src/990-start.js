@@ -5,6 +5,7 @@
 */
 
 // setting hashcode to all strings
+/*
 String.prototype.hashCode = function(){
   var hash = 0;
   if (this.length === 0) { return code; }
@@ -14,6 +15,14 @@ String.prototype.hashCode = function(){
     hash = hash & hash; // Convert to 32bit integer
   }
   return hash;
+};
+*/
+// ToDo: ohne Verwendung ???
+String.prototype.hashCode = function() {
+  for(var ret = 0, i = 0, len = this.length; i < len; i++) {
+    ret = (31 * ret + this.charCodeAt(i)) << 0;
+  }
+  return ret;
 };
 
 String.prototype.endsWith = function(str){

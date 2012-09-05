@@ -392,7 +392,7 @@ function init(){
   */
 
   // add buttons to Bookmark site
-  if(document.URL.search("\/bookmarks\/view\.aspx")>=0) {
+  if(document.URL.search("\/bookmarks\/view.aspx")>=0) {
     var k, bookmarkLine, entry;
     var bookmarkLines = $('tr[id$="Row"]'); // id muss mit Row enden
 
@@ -499,7 +499,7 @@ function init(){
   // add the buttons to the search table
   //~ var searchResultTable = document.getElementById('ctl00_ContentBody_dlResults');
   //~ if(searchResultTable){
-  if(document.URL.search("\/seek\/nearest\.aspx")>=0) {
+  if(document.URL.search("\/seek\/nearest.aspx")>=0) {
     var entry_i, entry;
     var entries = getEntriesFromSearchpage();
 
@@ -600,11 +600,11 @@ function init(){
   }
 
   // dont display the list on the sendtogpx page
-  if(document.URL.search("sendtogps\.aspx")<=0) {
+  if(document.URL.search("sendtogps.aspx")<=0) {
     initComponents();
 
     // add the button to the details page
-    if(document.URL.search("cache_details\.aspx")>=0) {
+    if(document.URL.search("cache_details.aspx")>=0) {
       initButton();
     }
 

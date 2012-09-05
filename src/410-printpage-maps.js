@@ -345,11 +345,10 @@ function getMapControl(mapQuery,map_frame,newDocument){
             callback = $data.settings[type],
             data = data || {};
 
-
          return !($.isFunction( callback ) &&
-                    callback.apply(this, [ data ]) === false)
+                  callback.apply(this, [ data ]) === false);
      }
-   }
+   };
 
    $.fn.gct_slider = function( method ) {
      if ( methods[method] ) {

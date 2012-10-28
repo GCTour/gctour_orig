@@ -18,14 +18,44 @@ function addCacheToTourFromMap(cacheUrl){ // old Map only
 }
 
 function getEntryFromBookmarkTd(bmLine){
-  var entry = {};
-  var nameSpan = $("span", bmLine.eq(2)).eq(0);
+/*
+  http://code.google.com/p/gctour/issues/detail?id=31
+  noPremiumMember - Tabellenstruktur
+    1. checkbox
+    2. Richtung und Entfernung
+    3. GC Code
+    4. Cache Name
+    5. "extra Feld"
+  premiumMember - Tabellenstruktur
+    1. checkbox...
+    2. Richtung und Entfernung
+    3. Found
+    4. GC Code
+    5. Cache Name
+    6. "extra Feld"
+*/
 
-  entry.id = $.trim(bmLine.eq(2).text());
-  entry.name = (nameSpan.length > 0) ? nameSpan.parent().html().replace(/<img.*?>/,"") : $.trim(bmLine.eq(3).text());
-  entry.guid = bmLine.eq(3).find('a:first').attr("href").split('guid=')[1];
-  entry.image = bmLine.eq(3).find('img:first').attr('src').split("/")[6];
+  var entry = {},
+    colID = 2, // default column CacheID = noPremiumMember
+    nameSpan = $("span", bmLine.eq(colID)).eq(0);
+    
+  if ( bmLine.eq(2).text().length == 0 ) {
+    colID++; // premiumMember
+  } 
+
+  entry.id      = $.trim(bmLine.eq(colID).text());
+  entry.name    = (nameSpan.length > 0) ? nameSpan.parent().html().replace(/<img.*?>/,"") : $.trim(bmLine.eq(colID+1).text());
+  entry.guid    = bmLine.eq(colID+1).find('a:first').attr("href").split('guid=')[1];
+  entry.image   = bmLine.eq(colID+1).find('img:first').attr('src').split("/")[6];
   entry.checked = bmLine.eq(0).find("input:checkbox:first").is(':checked');
+
+  debug("Bookmarklist cache row" +
+    "\n id: '"      + entry.id + "'" +
+    "\n Name: '"    + entry.name + "'" +
+    "\n Guid: '"    + entry.guid + "'" +
+    "\n image: '"   + entry.image + "'" +
+    "\n checked: '" + entry.checked + "'"
+  );
 
   return entry;
 }

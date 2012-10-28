@@ -8,6 +8,13 @@
 // @include      http*://www.geocaching.com/*
 // @include      http://gctour*.madd.in/map/show*#gui
 // @exclude      /^https?://www\.geocaching\.com/(login|about|articles)/
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_deleteValue
+// @grant        GM_log
+// @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
+// @grant        GM_openInTab
 // @copyright    2008, 2009, 2010, 2011, 2012 Martin Georgi
 // @author       madd.in
 // @co-developer jens

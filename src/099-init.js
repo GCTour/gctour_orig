@@ -348,7 +348,8 @@ function init(){
         var name           = $("#gmCacheInfo a[href*='cache_details.aspx']:visible:first").text().trim();
         var guid           = getUrlVars($("#gmCacheInfo a[href*='/seek/log.aspx?guid']:visible:first").attr("href"))["guid"];
 
-        var imageUrl       = $("#gmCacheInfo img[src*='http://www.geocaching.com/images/WptTypes/sm/']:visible:first").attr("src");
+        var imageUrl       = $("#gmCacheInfo img[src*='images/WptTypes/sm/']:visible:first").attr("src");
+      
         var imageUrlArr    = imageUrl.split('/');
         var cacheTypeImage = imageUrlArr[imageUrlArr.length-1];
         // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]
@@ -358,17 +359,6 @@ function init(){
       }, 0);
     };
 
-    // unsafeWindow.google steht nicht gleich zur Verfügung !
-    // ToDo: "unsafeWindow.google".ready function realisieren
-    window.setTimeout(function(){
-      unsafeWindow.google.maps.event.addListener(unsafeWindow.map, "rightclick", function(event) {
-        var lat = event.latLng.lat(),
-            lng = event.latLng.lng();
-
-        // populate yor box/field with lat, lng
-        // alert("Lat=" + lat + "; Lng=" + lng);
-      });
-    }, 3000);
 
   }
 

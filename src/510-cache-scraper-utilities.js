@@ -154,33 +154,32 @@ function getLogs(userToken, maxLogsCount){
 
     // füge alle ankommenden logs an das bestehende Array einfach hinten dran!
     logs = logs.concat(log_obj.data);
-
-    // ein Log Obj sieht wir folgt aus:
-    //~ LogID  189964204
-    //~ CacheID  2071649
-    //~ LogGuid  "f04c620c-7ec0-4e3d-840d-e887e8257a76"
-    //~ Latitude  null
-    //~ Longitude  null
-    //~ LatLonString  ""
-    //~ LogType  "Found it"
-    //~ LogTypeImage  "icon_smile.gif"
-    //~ LogText  "Heute Vormittag konnten... ahhr, die Zwergpiraten"
-    //~ Created  "10/02/2011"
-    //~ Visited  "10/02/2011"
-    //~ UserName  "Zwergpiraten"
-    //~ MembershipLevel  1
-    //~ AccountID  2455575
-    //~ AccountGuid  "d0421737-e9ee-4a10-9c7e-be4ed9399d6d"
-    //~ Email  ""
-    //~ AvatarImage  "c77832e3-6051-4c3b-a37d-113ca51acd14.jpg"
-    //~ GeocacheFindCount  572
-    //~ GeocacheHideCount  0
-    //~ ChallengesCompleted  1
-    //~ IsEncoded  false
-    //~ creator  Object { GroupTitle="Member", GroupImageUrl="/images/icons/reg_user.gif"}
-    //~ GroupTitle  "Member"
-    //~ GroupImageUrl  "/images/icons/reg_user.gif"
-    //~ Images  []
+    
+    //~ LogID               273160821
+    //~ CacheID             2436701
+    //~ LogGuid             "8fd33a36-bb44-40ed-9b8b-41737e2d0c6a"
+    //~ Latitude            null
+    //~ Longitude           null
+    //~ LatLonString        ""
+    //~ LogType             "Found it"
+    //~ LogTypeImage        "2.png"
+    //~ LogText             "Schönes Versteck, süße ...>Lisa, Yvonne und Frank"
+    //~ Created             "10/14/2012"
+    //~ Visited             "10/14/2012"
+    //~ UserName            "sweet cats"
+    //~ MembershipLevel     "1"
+    //~ AccountID            6385212
+    //~ AccountGuid          "0260fb1b-7cf1-4ef5-a3b6-6257276e3962"
+    //~ Email                ""
+    //~ AvatarImage          "99ff8cf2-7b7a-49a9-bb90-a38448158223.jpg"
+    //~ GeocacheFindCount    33
+    //~ GeocacheHideCount    0
+    //~ ChallengesCompleted  0
+    //~ IsEncoded            false
+    //~ creator              Object { GroupTitle="Member", GroupImageUrl="/images/icons/reg_user.gif"}
+    //~ GroupTitle           "Member"
+    //~ GroupImageUrl        "/images/icons/reg_user.gif"
+    //~ Images                []
     //~ debug(logs[0].UserName);
 
     i++;

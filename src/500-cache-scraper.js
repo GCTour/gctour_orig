@@ -133,15 +133,25 @@ function getGeocacheFromElement(element){
 
   geocache.location = $("span#ctl00_ContentBody_Location", element).first().text();
 
-  // get the country and (if exists) the state!
-  if(geocache.location.indexOf(",") < 0){ // if the index of "," < 0 then the state is not given!
-    geocache.state = "";
-    geocache.country = $.trim(geocache.location.split("In ")[1]);
-  } else {
-    geocache.state = $.trim(geocache.location.split("In ")[1].split(',')[0]);
-    geocache.country = $.trim(geocache.location.split("In ")[1].split(',')[1]);
-  }
 
+ 
+  
+  try{
+    // get the country and (if exists) the state!
+    if(geocache.location.indexOf(",") < 0){ // if the index of "," < 0 then the state is not given!
+    
+      geocache.state = "";
+      geocache.country = $.trim(geocache.location.split("In ")[1]);
+    } else {
+      geocache.state = $.trim(geocache.location.split("In ")[1].split(',')[0]);
+      geocache.country = $.trim(geocache.location.split("In ")[1].split(',')[1]);
+    }
+  } catch(e){ // somthing went wrong - write the whole location to country
+    geocache.state = "";
+    geocache.country = $.trim(geocache.location);
+  }
+  
+  
   try{
 
     // ToDo check distance

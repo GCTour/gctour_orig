@@ -25,7 +25,7 @@
 // ==/UserScript==
 
 /*****************************************************************************
- * Copyright (C) 2008, 2009, 2010, 2011 Martin Georgi
+ * Copyright (C) 2008, 2009, 2010, 2011, 2012, 2013 Martin Georgi
  *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software

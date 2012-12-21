@@ -5,6 +5,7 @@
  *   - FIXED: Issue 31
  *   - FIXED: wrong geocaches size in languages other than english
  *   - FIXED: Bug on map that you need to log in
+ *   - FIXED: "Add to tour" button on map
  *   - FIXED: Some minor CSS glitches
  * 
  * version 2.3.12147

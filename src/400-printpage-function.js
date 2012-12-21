@@ -287,10 +287,12 @@ function printPageFunction(currentTour){
                   var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
                   log_div.setAttribute("class", "removable");
 
-                  var log_type_img = createElement('img', {src:'http://www.geocaching.com/images/icons/'+logs[log_i].LogTypeImage});
+                  var log_type_img = createElement('img', {src:'http://www.geocaching.com/images/logtypes/'+logs[log_i].LogTypeImage});
                   log_div.appendChild(log_type_img);
                   log_div.innerHTML += " " + logs[log_i].Created +" - "+ logs[log_i].UserName +" ("+logs[log_i].GeocacheFindCount+")<br/>";
                   log_div.innerHTML += logs[log_i].LogText;
+                  
+                  log_div.style.borderBottom = "1px dashed lightgray";
                   append(log_div, logs_div);
                 }
 

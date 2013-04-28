@@ -19,8 +19,27 @@ function isNotEmptyList(){
 }
 
 
-function showGeocachePopup(geocache,event){
-  // not yet implented
+function showGeocacheNotification(geocache,event){
+  
+  if(event.type == "success"){
+    $.gctour.notification.add({
+      title: geocache.id+" wurde hinzugefügt!",
+      text: currentTour.name+" enthält jetzt auch "+ geocache.name+".",
+      icon: geocache.image,
+      style: "green"
+    });
+  } else if(event.type == "contains"){
+    $.gctour.notification.add({
+      title: geocache.id+" wurde nicht hinzugefügt!",
+      text: currentTour.name+" enthält "+ geocache.name+" schon.",
+      icon: geocache.image,
+      style: "yellow"
+    });
+  } else {
+     $.gctour.notification.add({title:"ERROR",text:"Event '"+event+"' is not supported!",style:"red"});
+  }
+   
+
   return;
 /*  
     var popup = $("<div>", {

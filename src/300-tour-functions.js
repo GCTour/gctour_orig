@@ -402,7 +402,7 @@ function addCustomMarker(name, lat, lon, content, typeImage, typeSymbol,wptcode)
 function addElementFunction(theId, theGuId, theName, theTypeImage){
   return function (event) {
     
-    showGeocachePopup({id:theId,name:theName,image:theTypeImage},event);
+    
 
     if(!isNotEmptyList){
       var table = document.getElementById('cacheList');
@@ -434,7 +434,11 @@ function addElementFunction(theId, theGuId, theName, theTypeImage){
 
       // update the cache count
       updateCacheCount(currentTour.geocaches.length);
+      
+      showGeocacheNotification({id:theId,name:theName,image:theTypeImage},{type:"success"});
 
+    } else {
+      showGeocacheNotification({id:theId,name:theName,image:theTypeImage},{type:"contains"});
     }
   };
 }

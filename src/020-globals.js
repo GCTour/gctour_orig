@@ -1,3 +1,8 @@
+//don't run on frames or iframes
+if (window.top != window.self) {
+  return;
+}
+
 // globals
 var 
   VERSION    = "@version@", // will be checked once the day

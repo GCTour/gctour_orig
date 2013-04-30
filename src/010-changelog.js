@@ -2,6 +2,12 @@
  * Changelog:
  *
  * version @version@.@build@
+ *   - FIXED: Issue 45
+ *
+ * version 2.3.13018
+ *   - FIXED: Tour upload is working again
+ *
+ * version 2.3.12356
  *   - FIXED: Issue 31
  *   - FIXED: wrong geocaches size in languages other than english
  *   - FIXED: wrong geocache location in languages other than english/german

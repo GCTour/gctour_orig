@@ -20,8 +20,7 @@ $.gctour.notification.add = function(options){
   var content = (options.title)? "<b>"+options.title+"</b><br/>":"";
       content += (options.icon)? "<img style='float:left;'src='"+options.icon+"'/>":"";
       content += (options.text)? options.text:"";
-  
-  
+
   var $note = $('<li>',{
       "class": "gctour-notification-"+((options.style)?options.style:"green"),
       click: function(){
@@ -36,7 +35,6 @@ $.gctour.notification.add = function(options){
     .disableSelection()
     .append(
       $('<div>',{
-        html: content,
         css: {
             'font-size': '13px',
             'line-height': '16px',
@@ -45,9 +43,19 @@ $.gctour.notification.add = function(options){
             'text-align': 'left',
             'width': 'auto'
           }
-        }
+        }).append(
+          $("<img>", {
+            "src": $.gctour.img.gctourLogo,
+            css: {
+              'float': 'left'
+            }
+          }),
+          $('<div>', {
+            html: content
+          })
+        )
       )
-    )
+    
   //~ .prependTo(  $('#gctour-notification-box') ).show("slide", { direction: "down" }, 150);
   //~ .prependTo(  $('#gctour-notification-box') ).show('fast');
   .prependTo(  $('#gctour-notification-box') );

@@ -80,3 +80,6 @@ String.prototype.trimAll = function() {
 
 })();
 
+
+// ... { = begin of GCTour-Script
+}

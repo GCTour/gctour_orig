@@ -1,10 +1,11 @@
-//don't run on frames or iframes
-if (window.top != window.self) {
-  return;
-}
+if (window.top !== window.self) {
+  // don't run on frames or iframes
+} else {
+  // run on top level document
+  // ... } = end of GCTour-Script
 
 // globals
-var 
+var
   VERSION    = "@version@", // will be checked once the day
   BUILD      = "@build@",      // will be checked once the day
   SCRIPTID   = 'gctour',

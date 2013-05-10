@@ -329,7 +329,7 @@ function init(){
         function(){ $(this).css({'backgroundColor': 'orange'}); },
         function(){ $(this).css({'backgroundColor': '#B2D4F3'}); }
       )
-    }).prependTo($(".ui-block-a", "header:first"));
+    }).prependTo($("div:first", "header:first"));
 
     // ToDo: Template erweitern bzw. anpassen mit Add2Tour Button
     $('#cacheDetailsTemplate').text(

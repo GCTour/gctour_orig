@@ -152,6 +152,7 @@ function init(){
       );
 
       // find all dtsize images and extract the temporary code
+      // ToDo 12.05.2013: fix jquery selector!!!
       var images_array = $.map($('img[id$="uxDTCacheTypeImage"]'), function(e, i) {
         return $(e).attr("src").split("=")[1].split("&")[0];
       });
@@ -159,6 +160,10 @@ function init(){
       var dtImageQuery = images_array.join("-");
 
       debug('http://geocaching-ocr.appspot.com/geocachingocr?il=' + dtImageQuery);
+
+      if (dtImageQuery === "") {
+        error("dtImageQuery is undefined");
+      }
 
       // use the geocaching OCR in the google cloud to find difficulty,terrain and size
       GM_xmlhttpRequest({
@@ -349,7 +354,7 @@ function init(){
         var guid           = getUrlVars($("#gmCacheInfo a[href*='/seek/log.aspx?guid']:visible:first").attr("href"))["guid"];
 
         var imageUrl       = $("#gmCacheInfo img[src*='images/WptTypes/sm/']:visible:first").attr("src");
-      
+
         var imageUrlArr    = imageUrl.split('/');
         var cacheTypeImage = imageUrlArr[imageUrlArr.length-1];
         // alternativ imageUrl.substring(imageUrl.lastIndexOf('/') + 1) oder imageUrl.split('/')[imageUrl.split('/').length-1]

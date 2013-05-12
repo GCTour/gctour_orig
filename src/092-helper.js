@@ -4,7 +4,7 @@
 // googleMap center and radius: return object center and radius
 var getMapCenterAndRadius = function(){
 
-  var googleMap = unsafeWindow.MapSettings.Map,
+  var googleMap = unsafeWindow.MapSettings ? unsafeWindow.MapSettings.Map : undefined,
       ret = {},
       bounds;
 

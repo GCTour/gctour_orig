@@ -118,7 +118,7 @@ $.gctour.i18n.de = {
   'printviewZoomMap' : "Diese Karte in einem neuem Tab öffen.",
   'settingsMapType' : 'Standard Kartentyp',
   'settingsMapSize' : 'Standard Kartengröße',
-  'addOwnWaypoint' : 'eigener Wegpunkt hinzufügen',
+  'addOwnWaypoint' : 'eigenen Wegpunkt hinzufügen',
   "markerCoordinate" : "Koordinaten",
   "markerContent" : "Inhalt",
   "markerType" : "Typ",

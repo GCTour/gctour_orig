@@ -86,10 +86,9 @@ function getEntriesFromSearchpage(){
     entry.name = $.trim(lnk.text());
     entry.available = (lnk.css('text-decoration') !== "line-through");
 
-//~ alert(entry.guid = entryTds.html());
+//~ alert(entryTds.html());
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
-    //entry.imageSmall = entry.image.replace(/wpttypes\//, "WptTypes/sm/");
 
     entry.type = entry.image.split("/")[6].split(".")[0];
 
@@ -105,42 +104,24 @@ function getEntriesFromSearchpage(){
 
     entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
 
-    //entry.pm_only = true : false; // Premium Member only
-    // Ansatz pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length > 0);
-
     debug(
       "getEntriesFromSearchpage cache row: " + "\n" +
-      "\tid: " + entry.id + "\n" +
-      "\tname: " + entry.name + "\n" +
-      "\tguid: " + entry.guid + "\n" +
-      "\tavailable: " + entry.available + "\n" +
-      "\timage: " + entry.image + "\n" +
-      "\tsize: " + entry.size + "\n" +
-      "\ttype: " + entry.type + "\n" +
-      "\tdifficulty: " + entry.difficulty + "\n" +
-      "\tterrain: " + entry.terrain + "\n" +
-      "\tpm_only: " + entry.pm_only + "\n" +
-      "\tchecked: " + entry.checked + "\n"
+      "\tid:\t\t" + entry.id + "\n" +
+      "\tname:\t\t" + entry.name + "\n" +
+      "\tguid:\t\t" + entry.guid + "\n" +
+      "\tavailable:\t" + entry.available + "\n" +
+      "\timage:\t\t" + entry.image + "\n" +
+      "\tsize:\t\t" + entry.size + "\n" +
+      "\ttype:\t\t" + entry.type + "\n" +
+      "\tdifficulty:\t" + entry.difficulty + "\n" +
+      "\tterrain:\t" + entry.terrain + "\n" +
+      "\tpm_only:\t" + entry.pm_only + "\n" +
+      "\tchecked:\t" + entry.checked + "\n"
     );
 
     return entry;
   }).get();
 
   return entries;
-}
-
-function getEntryFromSearchTd(theTd){
-    var entryTds = theTd.getElementsByTagName('td');
-    var entry = {};
-
-    entry.id = 'GC'+entryTds[4].textContent.split('(GC')[1].split(')')[0];
-    entry.name = entryTds[4].getElementsByTagName('a')[1].innerHTML;
-    entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
-    entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
-
-    if(entryTds[0].childNodes[1]){
-      entry.checked = entryTds[0].childNodes[1].checked;
-    }
-    return entry;
 }
 

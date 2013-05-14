@@ -133,6 +133,16 @@ function startAutoTour() {
   GM_setValue('tq_tFilter',       JSON.stringify(terrainFilter));
   GM_setValue('tq_specialFilter', JSON.stringify(specialFilter));
   GM_setValue('tq_StartUrl',      document.location.href);
+  
+  debug("fn startAutoTour GM_setValue: " +
+    "\n\tq_url:" + url +
+    "\n\tq_typeFilter:" + JSON.stringify(typeFilter) +
+    "\n\tq_sizeFilter:" + JSON.stringify(sizeFilter) +
+    "\n\tq_dFilter:" + JSON.stringify(difficultyFilter) +
+    "\n\tq_tFilter:" + JSON.stringify(terrainFilter) +
+    "\n\tq_specialFilter:" + JSON.stringify(specialFilter) +
+    "\n\tq_StartUrl:" + document.location.href
+  );  
 
   document.location.href = url;
 }

@@ -60,6 +60,8 @@ function getEntryFromBookmarkTd(bmLine){
   return entry;
 }
 
+// Searchpage http://www.geocaching.com/seek/nearest.aspx
+// ToDo: erweitern um autoTour wieder lauffähig zu bekommen
 function getEntriesFromSearchpage(){
 
   // Data Rows without header and without GCVote tr
@@ -82,16 +84,35 @@ function getEntriesFromSearchpage(){
 
     lnk = entryTds.eq(5).find("a.lnk:first");
     entry.name = $.trim(lnk.text());
+    entry.available = (lnk.css('text-decoration') !== "line-through");
+
 //~ alert(entry.guid = entryTds.html());
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
+
+    // ToDo:
+    //entry.type
+    //entry.size
+    //entry.difficulty
+    //entry.terrain
+    //entry.pmonly
 
     entry.position = entryTds.eq(10);
 
     entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
 
-    debug("cache row - id:'" + entry.id + "' Name:'" + entry.name + "' Guid:'" + entry.guid +
-          "' image:'" + entry.image + "' checked:'" + entry.checked + "'");
+    //entry.pmonly = true : false; // Premium Member only
+    // Ansatz pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length > 0);
+
+    debug(
+      "getEntriesFromSearchpage cache row: " + "\n" +
+      "\tid: " + entry.id + "\n" +
+      "\tname: " + entry.name + "\n" +
+      "\tavailable: " + entry.available + "\n" +
+      "\tguid: " + entry.guid + "\n" +
+      "\timage: " + entry.image + "\n" +
+      "\tchecked: " + entry.checked + "\n"
+    );
 
     return entry;
   }).get();

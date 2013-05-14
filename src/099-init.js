@@ -530,7 +530,7 @@ function init(){
       .bind('click', {entry: entry}, function(e){
         addElementFunction(e.data.entry.id, e.data.entry.guid, e.data.entry.name, e.data.entry.image)();
       })
-      .appendTo(entry.position);
+      .appendTo(entry.addBtnPosition);
 
     }
 

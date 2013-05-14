@@ -76,7 +76,7 @@ function getEntriesFromSearchpage(){
 
     var entryTds = $(this).find('td');
     var entry = {};
-    var lnk, checkbox;
+    var lnk, checkbox, dt;
 
     // RegEx gc-id
     entryTds.eq(5).find("span").eq(1).text().search(/\|\s*GC(\S{2,9})\s*\|/);
@@ -89,28 +89,37 @@ function getEntriesFromSearchpage(){
 //~ alert(entry.guid = entryTds.html());
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
+    //entry.imageSmall = entry.image.replace(/wpttypes\//, "WptTypes/sm/");
 
-    // ToDo:
-    //entry.type
-    //entry.size
-    //entry.difficulty
-    //entry.terrain
-    //entry.pmonly
+    entry.type = entry.image.split("/")[6].split(".")[0];
 
-    entry.position = entryTds.eq(10);
+    entry.pm_only = (entryTds.eq(6).find("img[src$='premium_only.png']").length > 0);
+
+    dt = $.trim(entryTds.eq(7).find('img[src*="/images/icons/container/"]:first').closest('td').find('span.small').text());
+    entry.difficulty = dt.split("/")[0];
+    entry.terrain = dt.split("/")[1];
+
+    entry.size = $.trim(entryTds.eq(7).find('img[src*="/images/icons/container/"]:first').attr("src").split("/")[4].split(".")[0]);
+
+    entry.addBtnPosition = entryTds.eq(10);
 
     entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
 
-    //entry.pmonly = true : false; // Premium Member only
+    //entry.pm_only = true : false; // Premium Member only
     // Ansatz pm_only = (entryTds.eq(6).find("img[src$='small_profile.gif']").length > 0);
 
     debug(
       "getEntriesFromSearchpage cache row: " + "\n" +
       "\tid: " + entry.id + "\n" +
       "\tname: " + entry.name + "\n" +
-      "\tavailable: " + entry.available + "\n" +
       "\tguid: " + entry.guid + "\n" +
+      "\tavailable: " + entry.available + "\n" +
       "\timage: " + entry.image + "\n" +
+      "\tsize: " + entry.size + "\n" +
+      "\ttype: " + entry.type + "\n" +
+      "\tdifficulty: " + entry.difficulty + "\n" +
+      "\tterrain: " + entry.terrain + "\n" +
+      "\tpm_only: " + entry.pm_only + "\n" +
       "\tchecked: " + entry.checked + "\n"
     );
 

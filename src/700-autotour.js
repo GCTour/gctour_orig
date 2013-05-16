@@ -456,7 +456,7 @@ function CalcPrjWP(lat,lon, dist, angle){
 function showAutoTourDialog(center, radius) {
   var overLay, queryFilterDiv;
 
-  if (!isLogedIn()) { return; }
+  //if (!isLogedIn()) { return; }
 
   overLay = getOverlay({
     caption: $.gctour.lang('autoTour'), 

@@ -38,10 +38,10 @@ function getEntryFromBookmarkTd(bmLine){
   var entry = {},
     colID = 2, // default column CacheID = noPremiumMember
     nameSpan = $("span", bmLine.eq(colID)).eq(0);
-    
+
   if ( bmLine.eq(2).text().length == 0 ) {
     colID++; // premiumMember
-  } 
+  }
 
   entry.id      = $.trim(bmLine.eq(colID).text());
   entry.name    = (nameSpan.length > 0) ? nameSpan.parent().html().replace(/<img.*?>/,"") : $.trim(bmLine.eq(colID+1).text());
@@ -90,7 +90,11 @@ function getEntriesFromSearchpage(){
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
 
-    entry.type = entry.image.split("/")[6].split(".")[0];
+    //entry.type = entry.image.split("/")[6].split(".")[0];
+    entry.type = entry.image.substring(entry.image.lastIndexOf("/")+1, entry.image.lastIndexOf(".")); // von / bis .
+      // type Korrektur
+      entry.type = (entry.type == "earthcache") ? 137 : entry.type;
+      //entry.type = (entry.type == "mega") ? 453 : entry.type;
 
     entry.pm_only = (entryTds.eq(6).find("img[src$='premium_only.png']").length > 0);
 

@@ -200,11 +200,11 @@ function init(){
           tq_caches.push(entry);
         }
 
-        debug(entry.id + " " + entry.name +
-          "\n\tvalue:" + entry.type + " filter:" + tq_typeFilter[entry.type] +
-          "\n\tvalue:" + entry.size + " filter:" + tq_sizeFilter[entry.size] +
-          "\n\tvalue:" + entry.difficulty + " filter:" + tq_dFilter[entry.difficulty + ""] +
-          "\n\tvalue:" + entry.terrain + " filter:" + tq_tFilter[entry.terrain + ""] +
+        debug(entry.id + " " + entry.name + " filter:" +
+          "\n\ttype:" + entry.type + " = " + tq_typeFilter[entry.type] +
+          "\n\tsize:" + entry.size + " = " + tq_sizeFilter[entry.size] +
+          "\n\tdifficulty:" + entry.difficulty + " = " + tq_dFilter[entry.difficulty + ""] +
+          "\n\tterrain:" + entry.terrain + " = " + tq_tFilter[entry.terrain + ""] +
           "\n\tavailable:" + entry.available +
           "\n\tpm only:" + entry.pm_only +
           "\n\t ==> Add to tour: " + addBool);

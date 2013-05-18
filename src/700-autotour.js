@@ -133,7 +133,7 @@ function startAutoTour() {
   GM_setValue('tq_tFilter',       JSON.stringify(terrainFilter));
   GM_setValue('tq_specialFilter', JSON.stringify(specialFilter));
   GM_setValue('tq_StartUrl',      document.location.href);
-  
+
   debug("fn startAutoTour GM_setValue: " +
     "\n\tq_url:" + url +
     "\n\tq_typeFilter:" + JSON.stringify(typeFilter) +
@@ -142,7 +142,7 @@ function startAutoTour() {
     "\n\tq_tFilter:" + JSON.stringify(terrainFilter) +
     "\n\tq_specialFilter:" + JSON.stringify(specialFilter) +
     "\n\tq_StartUrl:" + document.location.href
-  );  
+  );
 
   document.location.href = url;
 }
@@ -170,7 +170,7 @@ function getSpecialFilter(){
     var checkboxSpan = createElement('span');
 
     var checkbox = createElement('input', {type: 'checkbox', name: "special", value: specials[i], checked: 'checked'});
-    checkbox.style.margin = '0px';
+    checkbox.style.margin = '0 2px 0 0';
 
     var caption = createElement('span');
     caption.innerHTML = specials[i];
@@ -199,7 +199,7 @@ function getDtFiler(boxName){
     checkboxDiv.style.verticalAlign = 'middle';
 
     var checkbox = createElement('input', {type: 'checkbox', name: boxName, value: i, id:boxName+""+i, checked: 'checked'});
-    checkbox.style.margin = '0px';
+    checkbox.style.margin = '0 2px 0 0';
 
     var label = createElement('label');
     label.setAttribute("for", boxName+""+i);
@@ -218,7 +218,7 @@ function getDtFiler(boxName){
 }
 
 function getSizeFilter(){
-  var sizes = ['micro','small','regular','large','other'];
+  var sizes = ['micro','small','regular','large','other','not_chosen'];
 
   var sizesCheckboxesDiv = document.createElement('div');
 
@@ -235,6 +235,7 @@ function getSizeFilter(){
 
     var checkbox = createElement('input', {type: 'checkbox', name: "size", value: sizes[i], id:"size"+sizes[i], checked: 'checked'});
     checkbox.style.margin = '0px';
+    checkbox.style.margin = '0 2px 0 0';
     var label = createElement('label');
     label.setAttribute("for", "size"+sizes[i]);
 
@@ -266,7 +267,7 @@ function getTypeFilter(){
 
     var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i].wptTypeId, id: "type"+wptArray[i].wptTypeId, checked: 'checked'});
     append(checkbox,checkboxDiv);
-    checkbox.style.margin = '0px';
+    checkbox.style.margin = '0 2px 0 0';
 
     var label = createElement('label');
     label.setAttribute("for", "type"+wptArray[i].wptTypeId);
@@ -295,7 +296,7 @@ function getLocateMeButton() {
     },
     html: "<img id='locateImage' src='" + $.gctour.img.locateMe + "'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>" + $.gctour.lang('findMe') + "</span>"
   })
-  
+
   .click(function() {
     if (navigator.geolocation) {
       $('locateImage').attr("src","http://madd.in/ajax-loader3.gif");
@@ -317,7 +318,7 @@ function getLocateMeButton() {
       );
     } else {
       alert("Firefox 3.5? Please update to use this!");
-    }    
+    }
   });
 
   return button;
@@ -459,7 +460,7 @@ function showAutoTourDialog(center, radius) {
   //if (!isLogedIn()) { return; }
 
   overLay = getOverlay({
-    caption: $.gctour.lang('autoTour'), 
+    caption: $.gctour.lang('autoTour'),
     minimized: true
   });
 
@@ -472,10 +473,10 @@ function showAutoTourDialog(center, radius) {
       "margin-top": 12
     }
   });
-  
+
   autoTourContainer.append(getMapPreviewTab());
-  queryFilterDiv = $('<div>'); 
-  
+  queryFilterDiv = $('<div>');
+
   queryFilterDiv.append(getTypeFilter());
   queryFilterDiv.append(getSizeFilter());
   queryFilterDiv.append(getDtFiler('Difficulty'));
@@ -483,9 +484,9 @@ function showAutoTourDialog(center, radius) {
   queryFilterDiv.append(getSpecialFilter());
   autoTourContainer.append(queryFilterDiv);
   autoTourContainer.append(getAutoTourSubmit());
-  
+
   $(overLay).append(
-    getCoordinatesTab(), 
+    getCoordinatesTab(),
     autoTourContainer
   );
 

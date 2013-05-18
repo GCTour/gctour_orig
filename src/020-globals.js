@@ -46,6 +46,12 @@ var
     {wptTypeId: "3653", hash: "3ea6533d-bb52-42fe-b2d2-79a3424d4728", name: "Lost and Found Event Cache"},
     {wptTypeId: "453",  hash: "69eb8535-b718-4b35-ae3c-a856a55b0874", name: "Mega-Event Cache"}
   ],
+  // {wptTypeId: "4738",  hash: "", name: ""}
+  // {wptTypeId: "3773",  hash: "", name: "Groundspeak Headquarters Cache"} // HQ_32.gif
+  // {wptTypeId: "mega",  hash: "", name: "Mega-Event Cache"}
+  // {wptTypeId: "earthcache",  hash: "", name: "EarthCache"}
+  // {wptTypeId: "1304",  hash: "", name: "GPS Adventures Maze Exhibit"}
+  // {wptTypeId: "12",    hash: "", name: "Locationless (Reverse) Cache"}
 
   attributes_array = [
     // Attribute array ID, image, name

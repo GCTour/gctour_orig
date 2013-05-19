@@ -53,6 +53,16 @@ var
   // {wptTypeId: "1304",  hash: "", name: "GPS Adventures Maze Exhibit"}
   // {wptTypeId: "12",    hash: "", name: "Locationless (Reverse) Cache"}
 
+  sizesArray = [
+    {sizeTypeId: "micro", name: "Micro"},
+    {sizeTypeId: "small", name: "Small"},
+    {sizeTypeId: "regular", name: "Regular"},
+    {sizeTypeId: "large", name: "Large"},
+    {sizeTypeId: "other", name: "Other"},
+    {sizeTypeId: "not_chosen", name: "Not chosen"},
+    {sizeTypeId: "virtual", name: "Virtual"},
+  ],
+
   attributes_array = [
     // Attribute array ID, image, name
     ['1','dogs','Dogs'],

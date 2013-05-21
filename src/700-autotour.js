@@ -218,37 +218,36 @@ function getDtFiler(boxName){
 }
 
 function getSizeFilter(){
-  var sizes = ['micro','small','regular','large','other','not_chosen'];
-
-  var sizesCheckboxesDiv = document.createElement('div');
+  var sizesCheckboxesDiv = document.createElement('div'),
+  checkboxDiv, checkbox, label, caption;
 
   sizesCheckboxesDiv.style.cssFloat = "left";
   sizesCheckboxesDiv.style.textAlign = "left";
   sizesCheckboxesDiv.style.paddingRight = "10px";
   sizesCheckboxesDiv.innerHTML = "<b>Size</b><br/>";
-  for(var i = 0; i<sizes.length; i++ ){
-    var checkboxDiv = createElement('span');
+  $.each( sizesArray, function( i, obj ) {
+    checkboxDiv = createElement('span');
 
     checkboxDiv.style.border = '1px solid gray';
     checkboxDiv.style.margin = '2px';
     checkboxDiv.style.verticalAlign = 'middle';
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "size", value: sizes[i], id:"size"+sizes[i], checked: 'checked'});
+    checkbox = createElement('input', {type: 'checkbox', name: "size", value: obj.sizeTypeId, id:"size"+obj.sizeTypeId, checked: 'checked'});
     checkbox.style.margin = '0px';
     checkbox.style.margin = '0 2px 0 0';
-    var label = createElement('label');
-    label.setAttribute("for", "size"+sizes[i]);
+    label = createElement('label');
+    label.setAttribute("for", "size"+obj.sizeTypeId);
 
-    var caption = createElement('img');
+    caption = createElement('img');
     append(caption,label);
-    caption.src = "http://www.geocaching.com/images/icons/container/"+sizes[i]+".gif";
-    caption.title = sizes[i];
-    caption.alt = sizes[i];
+    caption.src = "http://www.geocaching.com/images/icons/container/"+obj.sizeTypeId+".gif";
+    caption.title = obj.name;
+    caption.alt = obj.name;
 
     sizesCheckboxesDiv.appendChild(checkbox);
     sizesCheckboxesDiv.appendChild(label);
     sizesCheckboxesDiv.appendChild(createElement('br'));
-  }
+  });
 
   return sizesCheckboxesDiv;
 }

@@ -1,12 +1,11 @@
 
 #gctour-notification-box {
 	position: fixed;
-	right: 10px;
-	/* bottom: 40px; */
-  top: 10px;
+	right: 4px;
+  bottom: 2%;
 	width: 220px;
 	height: auto;
-  max-height: 85%;
+  max-height: 96%;
   overflow: hidden;
   overflow-y: auto;
 	list-style-type: none;

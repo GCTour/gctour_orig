@@ -50,17 +50,41 @@ $.gctour.notification.add = function(options){
         $note.remove();
       }
     );
-  }, 30000);
+  }, 20000);
 
 };
 
 $.gctour.notification.init();
 
-$('#ctl00_HDHomeLink').hover(function(){
+/* TEST AREA BEGIN */
+if (DEBUG_MODE){
 
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!",style:"yellow"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/3.gif",text:"eine test Nachricht! mit längeren Text",style:"red"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/4.gif",text:"eine test Nachricht! mit wirlich sehr langem langem Text, oder ?",style:"blue"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!"});
+  var dummyNote = [
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"1. eine test Nachricht!",style:"yellow"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/3.gif",text:"2. eine test Nachricht! mit längeren Text",style:"red"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/4.gif",text:"3. eine test Nachricht! mit wirlich sehr langem langem Text, oder ?",style:"blue"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"4. eine test Nachricht!"}
+  ],
+  dummyNoteZaehler = 0,
+  dummyNoteLength = dummyNote.length,
+  dummyNoteInterval,
 
-});
+  foo = function() {
+    if ((0 <= dummyNoteZaehler ) && (dummyNoteZaehler <= dummyNote.length)) {
+      $.gctour.notification.add( dummyNote[dummyNoteZaehler] );
+    }
+    dummyNoteZaehler ++;
+    if (dummyNoteZaehler >= dummyNoteLength) {
+      clearInterval(dummyNoteInterval);
+      dummyNoteZaehler = 0;
+    }
+  };
+
+  $('#ctl00_HDHomeLink').hover(function(){
+    clearInterval(dummyNoteInterval);
+    dummyNoteZaehler = 0;
+    dummyNoteInterval = window.setInterval(foo, 500);
+  });
+
+}
+/* TEST AREA END */

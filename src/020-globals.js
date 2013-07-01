@@ -60,7 +60,7 @@ var
     {sizeTypeId: "large", name: "Large"},
     {sizeTypeId: "other", name: "Other"},
     {sizeTypeId: "not_chosen", name: "Not chosen"},
-    {sizeTypeId: "virtual", name: "Virtual"},
+    {sizeTypeId: "virtual", name: "Virtual"}
   ],
 
   attributes_array = [

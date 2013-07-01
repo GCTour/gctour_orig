@@ -2,7 +2,7 @@
  * Changelog:
  *
  * version @version@.@build@
- *   - FIXED: Issue 45
+ *   - FIXED: Issue 45 and 47
  *
  * version 2.3.13018
  *   - FIXED: Tour upload is working again

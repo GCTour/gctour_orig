@@ -158,21 +158,28 @@ function getMarkerCoord() {
 }
 
 function getSpecialFilter(){
-  var specialDiv = document.createElement('div');
+  var specialDiv = document.createElement('div'),
+    checkboxSpan, checkbox, attributs, caption,
+    specials = ['I haven\'t found ','is Active', 'is not a PM cache'],
+    tq_specialFilter = JSON.parse(GM_getValue('tq_specialFilter'));
+
   specialDiv.style.cssFloat = "left";
   specialDiv.style.paddingRight = "10px";
   specialDiv.style.textAlign = "left";
   specialDiv.innerHTML = "<b>That</b><br/>";
 
-  var specials = ['I haven\'t found ','is Active', 'is not a PM cache'];
+  for( var i = 0; i < specials.length; i++ ){
+    checkboxSpan = createElement('span');
+    attributs = {type: 'checkbox', name: "special", value: specials[i]};
 
-  for(var i = 0; i<specials.length; i++ ){
-    var checkboxSpan = createElement('span');
+    if (tq_specialFilter[specials[i]]) {
+      $.extend(attributs, {checked: 'checked'});
+    }
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "special", value: specials[i], checked: 'checked'});
+    checkbox = createElement('input', attributs);
     checkbox.style.margin = '0 2px 0 0';
 
-    var caption = createElement('span');
+    caption = createElement('span');
     caption.innerHTML = specials[i];
 
     append(checkbox, checkboxSpan);
@@ -185,27 +192,33 @@ function getSpecialFilter(){
 }
 
 function getDtFiler(boxName){
-  var checkboxesDiv = document.createElement('div');
+  var checkboxesDiv = document.createElement('div'),
+    checkboxDiv, checkbox, label, caption, value;
+
+// TODO set and get settings
+//          tq_dFilter       = JSON.parse(GM_getValue('tq_dFilter')),
+//          tq_tFilter       = JSON.parse(GM_getValue('tq_tFilter')),
 
   checkboxesDiv.style.cssFloat = "left";
   checkboxesDiv.style.textAlign = "left";
   checkboxesDiv.style.paddingRight = "10px";
   checkboxesDiv.innerHTML = "<b>"+boxName+"</b><br/>";
-  for(var i = 1; i<=5; i = i+0.5){
-    var checkboxDiv = createElement('span');
+
+  for( var i = 1; i <= 5; i = i + 0.5 ){
+    checkboxDiv = createElement('span');
 
     checkboxDiv.style.border = '1px solid gray';
     checkboxDiv.style.margin = '2px';
     checkboxDiv.style.verticalAlign = 'middle';
 
-    var checkbox = createElement('input', {type: 'checkbox', name: boxName, value: i, id:boxName+""+i, checked: 'checked'});
+    checkbox = createElement('input', {type: 'checkbox', name: boxName, value: i, id:boxName+""+i, checked: 'checked'});
     checkbox.style.margin = '0 2px 0 0';
 
-    var label = createElement('label');
-    label.setAttribute("for", boxName+""+i);
-    var caption = createElement('img');
+    label = createElement('label');
+    label.setAttribute("for", boxName + "" + i);
+    caption = createElement('img');
     append(caption,label);
-    var value = ""+i;
+    value = ""+i;
     value = value.replace(/\./g, "_");
     caption.src = "http://www.geocaching.com/images/stars/stars"+value+".gif";
 
@@ -219,12 +232,14 @@ function getDtFiler(boxName){
 
 function getSizeFilter(){
   var sizesCheckboxesDiv = document.createElement('div'),
-  checkboxDiv, checkbox, label, caption;
+    checkboxDiv, checkbox, attributs, label, caption,
+    tq_sizeFilter = JSON.parse(GM_getValue('tq_sizeFilter'));
 
   sizesCheckboxesDiv.style.cssFloat = "left";
   sizesCheckboxesDiv.style.textAlign = "left";
   sizesCheckboxesDiv.style.paddingRight = "10px";
   sizesCheckboxesDiv.innerHTML = "<b>Size</b><br/>";
+
   $.each( sizesArray, function( i, obj ) {
     checkboxDiv = createElement('span');
 
@@ -232,7 +247,13 @@ function getSizeFilter(){
     checkboxDiv.style.margin = '2px';
     checkboxDiv.style.verticalAlign = 'middle';
 
-    checkbox = createElement('input', {type: 'checkbox', name: "size", value: obj.sizeTypeId, id:"size"+obj.sizeTypeId, checked: 'checked'});
+    attributs = {type: 'checkbox', name: "size", value: obj.sizeTypeId, id: "size" + obj.sizeTypeId};
+
+    if (tq_sizeFilter[obj.sizeTypeId]) {
+      $.extend(attributs, {checked: 'checked'});
+    }
+
+    checkbox = createElement('input', attributs);
     checkbox.style.margin = '0px';
     checkbox.style.margin = '0 2px 0 0';
     label = createElement('label');
@@ -253,7 +274,10 @@ function getSizeFilter(){
 }
 
 function getTypeFilter(){
-  var typeDiv = document.createElement('div');
+  var typeDiv = document.createElement('div'),
+  checkboxSpan, checkbox, attributs, label, caption,
+  tq_typeFilter = JSON.parse(GM_getValue('tq_typeFilter'));
+
   typeDiv.style.textAlign = "left";
   typeDiv.style.paddingLeft = "10px";
   typeDiv.style.paddingRight = "10px";
@@ -261,26 +285,32 @@ function getTypeFilter(){
   typeDiv.style.cssFloat = "left";
   typeDiv.innerHTML = "<b>Type</b><br/>";
 
-  for(var i = 0; i< wptArray.length;i++){
-    var checkboxDiv = createElement('span');
+  for( var i = 0; i < wptArray.length; i++ ){
+    checkboxSpan = createElement('span');
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i].wptTypeId, id: "type"+wptArray[i].wptTypeId, checked: 'checked'});
-    append(checkbox,checkboxDiv);
+    attributs = {type: 'checkbox', name: "type", value: wptArray[i].wptTypeId, id: "type"+wptArray[i].wptTypeId};
+
+    if (tq_typeFilter[wptArray[i].wptTypeId]) {
+      $.extend(attributs, {checked: 'checked'});
+    }
+
+    checkbox = createElement('input', attributs);
+    append(checkbox,checkboxSpan);
     checkbox.style.margin = '0 2px 0 0';
 
-    var label = createElement('label');
+    label = createElement('label');
     label.setAttribute("for", "type"+wptArray[i].wptTypeId);
 
-    append(label,checkboxDiv);
-    var caption = createElement('img');
+    append(label,checkboxSpan);
+    caption = createElement('img');
     append(caption,label);
     caption.src = 'http://www.geocaching.com/images/WptTypes/sm/'+wptArray[i].wptTypeId+'.gif';
 
-    append(checkboxDiv,typeDiv);
+    append(checkboxSpan,typeDiv);
 
-    if((i+1) % 2 === 0){
+    if( (i + 1) % 2 === 0){
       typeDiv.appendChild(createElement('br'));
-      checkboxDiv.style.paddingLeft = '10px';
+      checkboxSpan.style.paddingLeft = '10px';
     }
   }
 
@@ -345,7 +375,14 @@ function getCoordinatesTab() {
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div', {className: 'ebene'});
-  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('units.km')+'</option><option value="sm">'+$.gctour.lang('units.mi')+'</option></select>';
+  divEbene.innerHTML = '<b>' +
+    $.gctour.lang('autoTourRadius') +
+    '</b>&nbsp;&nbsp;&nbsp;&nbsp;' +
+    '<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px">' +
+    '<select id="markerRadiusUnit">' +
+      '<option value="km" selected="selected">' + $.gctour.lang('units.km') + '</option>' +
+      '<option value="sm">' + $.gctour.lang('units.mi') + '</option>' +
+    '</select>';
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div');

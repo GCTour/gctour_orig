@@ -180,7 +180,6 @@ $.gctour.i18n.de = {
   'units':{
     'km': 'Kilometer',
     'mi': 'Meilen'
-    // old: 'kilometer', 'mile'
   }
 
 };

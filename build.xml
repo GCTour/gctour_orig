@@ -3,9 +3,9 @@
 
   <!-- property -->
   <property file="build.prop"/>
-  <loadfile property="GcTour.Version" srcfile="version.txt" />	
+  <loadfile property="GcTour.Version" srcfile="version.txt" />
 	<import file="build_general_prop.xml" />
-	
+
   <!-- beginning projects -->
   <target name="init" depends="clean">
     <echo>
@@ -77,7 +77,11 @@
       <arg line="-jar" />
       <arg path="lib/yuicompressor-2.4.6.jar" />
       <srcfile />
+      <arg line="--type js" />
       <arg line="--charset utf-8" />
+      <arg line="--nomunge" />
+      <arg line="--preserve-semi" />
+      <arg line="--disable-optimizations" />
       <arg line="-o" />
       <mapper type="glob" from="${App}.user.js" to="${tmp.dir}/${App}-min.user.js" />
       <targetfile />

@@ -193,11 +193,13 @@ function getSpecialFilter(){
 
 function getDtFiler(boxName){
   var checkboxesDiv = document.createElement('div'),
-    checkboxDiv, checkbox, label, caption, value;
+    checkboxDiv, checkbox, attributs, label, caption, img, tq_dtFilter;
 
-// TODO set and get settings
-//          tq_dFilter       = JSON.parse(GM_getValue('tq_dFilter')),
-//          tq_tFilter       = JSON.parse(GM_getValue('tq_tFilter')),
+  if (boxName == 'Difficulty') {
+    tq_dtFilter = JSON.parse(GM_getValue('tq_dFilter'));
+  } else {  // terrain
+    tq_dtFilter = JSON.parse(GM_getValue('tq_tFilter'));
+  }
 
   checkboxesDiv.style.cssFloat = "left";
   checkboxesDiv.style.textAlign = "left";
@@ -211,16 +213,22 @@ function getDtFiler(boxName){
     checkboxDiv.style.margin = '2px';
     checkboxDiv.style.verticalAlign = 'middle';
 
-    checkbox = createElement('input', {type: 'checkbox', name: boxName, value: i, id:boxName+""+i, checked: 'checked'});
+    attributs = {type: 'checkbox', name: boxName, value: i, id:boxName+""+i};
+
+    if (tq_dtFilter[""+i]) {
+      $.extend(attributs, {checked: 'checked'});
+    }
+
+    checkbox = createElement('input', attributs);
     checkbox.style.margin = '0 2px 0 0';
 
     label = createElement('label');
     label.setAttribute("for", boxName + "" + i);
     caption = createElement('img');
     append(caption,label);
-    value = ""+i;
-    value = value.replace(/\./g, "_");
-    caption.src = "http://www.geocaching.com/images/stars/stars"+value+".gif";
+    img = ""+i;
+    img = img.replace(/\./g, "_");
+    caption.src = "http://www.geocaching.com/images/stars/stars"+img+".gif";
 
     checkboxesDiv.appendChild(checkbox);
     checkboxesDiv.appendChild(label);
@@ -537,4 +545,5 @@ function showAutoTourDialog(center, radius) {
       //$("input#markerCoords:first").focus();
   }
 }
+
 

@@ -12,7 +12,7 @@ function initButton(){
     append(gcTourFieldset,div_element);
 
     gcTourFieldset.setAttribute('class','dialogFooter');
-    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
+    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent;padding-left:20px;'>GCTour</legend>";
 
     var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+$.gctour.img.addToTour+")"});
     append(newButton,gcTourFieldset);

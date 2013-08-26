@@ -852,35 +852,3 @@ function downloadTourDialog(){
   },false);
 
 }
-
-function showInformationDiv(tour){
-  return function(){
-    var infomationDiv, i;
-
-    infomationDiv = document.createElement('div');
-    document.body.appendChild(infomationDiv);
-
-    infomationDiv.id = "infomationDiv";
-    infomationDiv.style.position = "fixed";
-    infomationDiv.style.right = "15%";
-    infomationDiv.style.top = "30px";
-    infomationDiv.style.textAlign = "left";
-    infomationDiv.style.padding = "10px";
-
-    infomationDiv.style.border  = '1px solid #448e35';
-    infomationDiv.style.backgroundColor  = '#c6e3c0';
-
-    infomationDiv.innerHTML = "<b>"+tour.name+" ("+tour.geocaches.length+ " Caches)</b><br/>";
-
-    for(i = 0; i < tour.geocaches.length ; i++){
-      if(i > 20){
-        infomationDiv.innerHTML += "... (" +(tour.geocaches.length - i) +" more) ...";
-        break;
-      }
-      infomationDiv.innerHTML +=  "<div style='border-bottom: 1px dotted  #448e35'> <img src='"+tour.geocaches[i].image+"' style='margin-left=10px'> "+tour.geocaches[i].name + "</div>";
-    }
-  };
-}
-
-
-

@@ -521,6 +521,22 @@ function init(){
     )
     .prependTo("div#ctl00_ContentBody_ResultsPanel");
 
+
+    if(debug){
+      
+       $("<div>", {
+            "css": { "margin-left": 10 },
+            "html": "Test 'getEntriesFromSearchPage'!" 
+          })
+          .bind('click', function(e){
+            getEntriesFromSearchpage();
+          })
+          .prependTo("div#ctl00_ContentBody_ResultsPanel");
+    }
+
+//
+
+
     // buttons to add all checked caches in list to current and new tour
     $("<div>",{
       "css": { 'margin': '2px 0 20px 0' },
@@ -557,7 +573,7 @@ function init(){
     initComponents();
 
     // add the button to the details page
-    if(document.URL.search("cache_details.aspx")>=0) {
+    if(document.URL.search("http://www.geocaching.com/geocache/GC")>=0) {
       initButton();
     }
 

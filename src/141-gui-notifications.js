@@ -50,7 +50,7 @@ $.gctour.notification.add = function(options){
         $note.remove();
       }
     );
-  }, 20000);
+  }, 6000);
 
 };
 

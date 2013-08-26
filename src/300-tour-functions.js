@@ -134,7 +134,9 @@ function addNewTableCell(theEntry,effects){
     var linkElement = document.createElement('a');
     //linkElement.style.fontSize = '9px'; to small!
     linkElement.style.fontFamily = 'arial,sans-serif';
-    linkElement.href = 'http://www.geocaching.com/seek/cache_details.aspx?guid='+theEntry.guid;
+    linkElement.href = 'http://www.geocaching.com/geocache/'+theId;
+    
+    
     linkElement.target = '_self';
     linkElement.textContent = theId;
     nameCite.appendChild(linkElement);

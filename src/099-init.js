@@ -467,7 +467,8 @@ function init(){
         for(i = 0; i < entries.length; i++){
           entry = entries[i];
           if ( (entry) && (!ck || (ck && entry.checked)) ){ // alle oder nur ausgewählte
-            addElementFunction(entry.id,entry.guid,entry.name,entry.image)();
+            addElementFunction(entry.id,entry.guid,entry.name,entry.image.substring(entry.image.lastIndexOf("/")+1, entry.image.length))();
+            ;
           }
         }
       }
@@ -486,7 +487,9 @@ function init(){
         }
       })
       .bind('click', {entry: entry}, function(e){
-        addElementFunction(e.data.entry.id, e.data.entry.guid, e.data.entry.name, e.data.entry.image)();
+        
+            
+        addElementFunction(e.data.entry.id, e.data.entry.guid, e.data.entry.name, e.data.entry.image.substring(e.data.entry.image.lastIndexOf("/")+1, e.data.entry.image.length))();
       })
       .appendTo(entry.addBtnPosition);
 

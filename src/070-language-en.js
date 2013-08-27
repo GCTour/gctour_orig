@@ -176,6 +176,18 @@ $.gctour.i18n.en = {
       'send': 'Send report'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
+   },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} added successfully!',
+        'content':'<b>{0}</b> now also contains <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} was <i>not</i> added!',
+        'content':'<b>{0}</b> contains <b>{1}</b>.',
+      }
+    }
   },
   'units':{
     'km': 'Kilometer',

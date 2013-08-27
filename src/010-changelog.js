@@ -1,8 +1,13 @@
 /*
  * Changelog:
  *
+ * 
+ * 
  * version @version@.@build@
- *   - FIXED: Issue 45 and 47
+ *   - NEW: Notifications with proper localisations
+ * 
+ * version  2.3.13239
+ *   - FIXED: Issue 45, 47 and 49
  *
  * version 2.3.13018
  *   - FIXED: Tour upload is working again

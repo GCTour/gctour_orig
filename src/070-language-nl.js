@@ -177,6 +177,18 @@ $.gctour.i18n.nl = {
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} werd toegevoegd',
+        'content':'<b>{0}</b> bevat nu <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} werd <i>niet</i> toegevoegd',
+        'content':'<b>{0}</b> bevat <b>{1}</b> reeds.',
+      }
+    }
+  },
   'units':{
     'km': 'Kilometer',
     'mi': 'Miles'

@@ -20,19 +20,18 @@ function isNotEmptyList(){
 
 
 function showGeocacheNotification(geocache,event){
-  
   if(event.type == "success"){
     $.gctour.notification.add({
-      title: geocache.id+" wurde hinzugefügt!",
-      text: currentTour.name+" enthält jetzt auch "+ geocache.name+".",
-      icon: geocache.image,
+      title: $.gctour.lang('notifications.addgeocache.success.caption').format(geocache.id),
+      text: $.gctour.lang('notifications.addgeocache.success.content').format(currentTour.name,geocache.name),
+      icon: "http://www.geocaching.com/images/WptTypes/sm/"+geocache.image,
       style: "green"
     });
   } else if(event.type == "contains"){
     $.gctour.notification.add({
-      title: geocache.id+" wurde nicht hinzugefügt!",
-      text: currentTour.name+" enthält "+ geocache.name+" schon.",
-      icon: geocache.image,
+      title: $.gctour.lang('notifications.addgeocache.contains.caption').format(geocache.id),
+      text: $.gctour.lang('notifications.addgeocache.contains.content').format(currentTour.name,geocache.name),
+      icon: "http://www.geocaching.com/images/WptTypes/sm/"+geocache.image,
       style: "yellow"
     });
   } else {

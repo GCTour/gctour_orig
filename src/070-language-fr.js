@@ -177,6 +177,18 @@ $.gctour.i18n.fr = {
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} a été ajouté',
+        'content':'<b>{0}</b> contient désormais aussi <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} n\'a pas été ajouté',
+        'content':'<b>{0}</b> contient <b>{1}</b>.',
+      }
+    }
+  },
   'units':{
     'km': 'Kilomètre',
     'mi': 'Miles'

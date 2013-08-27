@@ -25,9 +25,26 @@ String.prototype.hashCode = function() {
   return ret;
 };
 
-String.prototype.endsWith = function(str){
-  return (this.match(str+"$")==str);
-};
+
+// Funktion, die in einem String die Wildcard {0},{1},{2}... mit den Paramtern von String.format ersetzt!
+String.prototype.format = function() {
+  var s = this;
+  for (var i = 0; i < arguments.length; i++) {       
+    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+    s = s.replace(reg, arguments[i]);
+  }
+
+  return s;
+}
+
+String.prototype.endsWith = function (suffix) {
+  return (this.substr(this.length - suffix.length) === suffix);
+}
+
+String.prototype.startsWith = function(prefix) {
+  return (this.substr(0, prefix.length) === prefix);
+}
+
 
 // Convert HTML breaks to spaces
 String.prototype.br2space = function() {

@@ -13,7 +13,7 @@ $.gctour.notification.add = function(options){
 
   //~ var content = (options.title != null)?:"nix title"s;
   var content = (options.icon)? "<img style='float:left;padding-right:6px;'src='"+options.icon+"'/>":"";
-      content += (options.title)? "<b>"+options.title+"</b><br/>":"";
+      content += (options.title)? "<span style='font-size:18px'><b>"+options.title+"</b></span><br/>":"";
       content += (options.text)? options.text:"";
 
   var $note = $('<li>',{

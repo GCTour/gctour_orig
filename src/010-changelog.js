@@ -2,9 +2,9 @@
  * Changelog:
  *
  * 
- * 
  * version @version@.@build@
- *   - NEW: Notifications with proper localisations
+ *   - NEW: Notifications with proper localisations and look
+ *   - FIXED: Issue 50 (Send to GPS always sends GC14PCD)
  * 
  * version  2.3.13239
  *   - FIXED: Issue 45, 47 and 49

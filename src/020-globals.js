@@ -1,5 +1,6 @@
-if (window.top !== window.self) {
-  // don't run on frames or iframes
+
+if (window.top !== window.self && window.location.href.indexOf("/seek/sendtogps.aspx") <= 0) {
+  // don't run on frames or iframes - but allow the SEND TO GPS Page.
 } else {
   // run on top level document
   // ... } = end of GCTour-Script

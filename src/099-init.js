@@ -325,25 +325,6 @@ function init(){
 
   }
 
-  // old maps
-  /*
-  if($("#cacheListBody").length){
-
-    unsafeWindow.origUpdateSideBarList = unsafeWindow.updateSideBarList;
-    unsafeWindow.updateSideBarList = gctourMapFunction;
-    unsafeWindow.updateSideBarList();
-
-    // also override the "build discription" function
-    unsafeWindow.buildCDPage = gctourBuildCDPage;
-
-    // and the parseCacheJSON function  - not used at the moment!
-    //~ unsafeWindow.origParseCacheJSON = unsafeWindow.parseCacheJSON;
-    //~ unsafeWindow.parseCacheJSON = gctourParseCacheJSON;
-    //~ unsafeWindow.origCreateMarker = unsafeWindow.createMarker;
-    //~ unsafeWindow.createMarker = gctourCreateMarker;
-  }
-  */
-
   // add buttons to Bookmark site
   if(document.URL.search("\/bookmarks\/view.aspx")>=0) {
     var k, bookmarkLine, entry;
@@ -487,8 +468,8 @@ function init(){
         }
       })
       .bind('click', {entry: entry}, function(e){
-        
-            
+
+
         addElementFunction(e.data.entry.id, e.data.entry.guid, e.data.entry.name, e.data.entry.image.substring(e.data.entry.image.lastIndexOf("/")+1, e.data.entry.image.length))();
       })
       .appendTo(entry.addBtnPosition);
@@ -526,10 +507,10 @@ function init(){
 
 
     if(debug){
-      
+
        $("<div>", {
             "css": { "margin-left": 10 },
-            "html": "Test 'getEntriesFromSearchPage'!" 
+            "html": "Test 'getEntriesFromSearchPage'!"
           })
           .bind('click', function(e){
             getEntriesFromSearchpage();
@@ -595,41 +576,5 @@ function init(){
     }
   }
 
-
-  // map to autotour button // old map
-  var cacheListBounding = document.getElementById('cacheListBounding');
-  if (cacheListBounding) {
-
-     $("<div>",{
-      "class": "header",
-      "css": {
-        'width': 100,
-        'height': 30,
-        'margin': "0 auto",
-        'overflow': "hidden",
-        'border-radius': 5,
-        'background-color': "#FFF",
-        'border': "1px solid #999",
-        'cursor': 'pointer'
-      },
-      "html": $("<h1>", {
-        "css": {'padding': 0},
-        click: function(e) {
-          var gooMap = getMapCenterAndRadius();
-          showAutoTourDialog(gooMap.center, gooMap.radius);
-        },
-        "html": $("<img>", {
-          "src": $.gctour.img.mapToAutoTour
-        })
-      })
-      .hover(
-        function(){ $(this).css({'backgroundColor': 'orange'}); },
-        function(){ $(this).css({'backgroundColor': '#B2D4F3'}); }
-      )
-    })
-    .appendTo($('div#uxPremiumFeatures'));
-
-  }
 }
 /* END init() */
-

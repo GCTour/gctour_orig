@@ -222,7 +222,7 @@ function initComponents(){
     // sendGPS
     $('<img>', {
       'class': 'tourImage',
-      src:    $.gctour.img.sensGPS,
+      src:    $.gctour.img.sendGPS,
       title:  $.gctour.lang('sendToGps'),
       alt :   $.gctour.lang('sendToGps'),
       click: function(){

@@ -26,6 +26,7 @@ $.gctour.i18n.nl = {
   'makeMapWait' : 'Beschikbaarheid kaart wordt getest',
   'printview' : 'Afdrukweergave',
   'downloadGpx' : 'GPX downloaden',
+  'send2cgeo' : 'Naar c:geo versturen',
   'showSettings' : 'Instellingen tonen',
   'settings_caption' : 'Instellingen',
   'settingsPrintMinimal' : 'Minimale afdrukweergave',

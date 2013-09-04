@@ -241,6 +241,18 @@ function initComponents(){
       }
     }),
 
+    // send2cgeo
+    $('<img>', {
+      'class': 'tourImage',
+      src:    $.gctour.img.send2cgeo,
+      title:  $.gctour.lang('send2cgeo'),
+      alt :   $.gctour.lang('send2cgeo'),
+      'style' : (DEBUG_MODE) ? '' : 'display:none;', // Testphase
+      click: function(){
+        openGcTour2cgeoDialog();
+      }
+    }),
+
     // makeMap
     $('<img>', {
       'class': 'tourImage',
@@ -343,7 +355,7 @@ function initComponents(){
       alt :   $.gctour.lang('autoTour'),
       click: function(){
         var gooMap = getMapCenterAndRadius();
-        showAutoTourDialog(gooMap.center, gooMap.radius);        
+        showAutoTourDialog(gooMap.center, gooMap.radius);
       }
     }),
 

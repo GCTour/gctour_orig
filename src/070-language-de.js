@@ -26,6 +26,7 @@ $.gctour.i18n.de = {
   'makeMapWait' : 'Verfügbarkeit der Karte wird getestet.',
   'printview' : 'Druckansicht',
   'downloadGpx' : 'GPX downloaden',
+  'send2cgeo' : 'an c:geo senden',
   'showSettings' : 'Einstellungen anzeigen',
   'settings_caption' : 'Einstellungen',
   'settingsPrintMinimal' : 'Minimierte Druckansicht',

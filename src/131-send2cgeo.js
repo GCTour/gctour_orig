@@ -29,7 +29,8 @@
       "");
 
     function getSync(url, data){
-        log([
+      data = data || "";
+      log([
         "---GET SYNCHRON---",
         "\turl: " + url,
         "\tdata: " + data,
@@ -63,69 +64,80 @@
         caches = currentTour.geocaches,
         cachesCount = caches.length,
 
-        group = 1, // wieviel IDs sollen gleichzeitig �bertragen werden
-        start = 0,
-        end = 0,
-        param = "",
+        group = 1, // wieviel IDs sollen gleichzeitig übertragen werden
         url = "http://send2.cgeo.org/add.html",
         //url = "http://send2.cgeo.org/device.html", // TEST exception
-        res = "",
-        boo = true,
 
         $pBar = $( "#gctour_send2cgeo_progressbar" ),
         $btn  = $( "#btnSend2cgeo" ),
 
-        txtReg = "Register first!",
-        txtSuc = "Success!";
+        txtReg = "Register first!", // möglicher response wenn der Browser noch nicht registriert ist
+        txtSuc = "Success!",        // möglicher response wenn das hinzufügen erfolgreich war
+        waitTime = 1500;            // warten zwischen den urls, Millisekunden
 
     // IDs only to array
-    cacheIDs = jQuery.map(caches, function(n, i){
+    cacheIDs = $.map(caches, function(n, i){
       return (n.id);
     });
 
-    log(cacheIDs.join(","));
-    log("START: " + currentTime());
+    $pBar.progressbar( "option", "value", 0 );
+
+    log("START: " + currentTime() + " => " + cacheIDs.join(","));
 
     $btn.addClass("hide");
     $pBar.removeClass("hide");
 
-    while (start < cachesCount && boo) {
+    // sendet die url, wartet dann um die function erneut aufzurufen
+    // vererbte Variablen
+    // group, cachesCount, cacheIDs, url
+    // $pBar, txtReg, txtSuc, waitTime
+    function sendRequests(fromPos) {
 
-      end = start + group;
-      if (end > cachesCount) {
-        end = cachesCount;
-      }
+      var toPos = fromPos + group,
+        param = "",
+        res = "",
+        boo = true;
 
-      param = cacheIDs.slice(start, end).join(",");
+      // toPos darf nicht größer sein als die Liste
+      toPos = (toPos > cachesCount) ? cachesCount : toPos;
+
+      param = cacheIDs.slice(fromPos, toPos).join(",");
       log("1: " + currentTime());
 
-      // eins nach dem anderen
-      res = getSync(url + "?cache=" + param, "");
-      $pBar.progressbar( "option", "value", end );
+      // eins nach dem anderen, response abwarten
+      res = getSync(url + "?cache=" + param);
+      $pBar.progressbar( "option", "value", toPos );
 
-      //get(url + "?cache=" + param, function(){});   // alles wird gleich abgefeuert = nicht erw�nscht
+      //get(url + "?cache=" + param, function(){});   // alles wird ohne pause abgefeuert (in while) = nicht erwünscht
       log("2: " + currentTime());
 
       // responseText to XML ?
       //$body = $( $.parseXML( res ) ).find( "body" );
 
-      if (res.indexOf(txtReg) !== -1) {
+      if (res.indexOf(txtReg) !== -1) {  // Browser nicht registriert
         boo = false;
         alert("Browser not registred, Register first !");
-      } else if (res.indexOf(txtSuc) === -1) {
+        $pBar.addClass("hide");
+        $btn.removeClass("hide");
+      } else if (res.indexOf(txtSuc) === -1) {  // response nicht okay (Cache konnte wahrscheinlich nicht hinzugefügt werden)
         boo = false;
         alert("no success, error when adding");
+        $pBar.addClass("hide");
+        $btn.removeClass("hide");
       }
 
-      log( res );
-      // send2.cgeo.org/add.html?cache=GC4924F
+      log( res ); // send2.cgeo.org/add.html?cache=GC4924F
+      fromPos = toPos;
+      log("next Pos: " + fromPos);
+      if (cachesCount > fromPos && boo) {
+        setTimeout(sendRequests, waitTime, fromPos);
+        //sendRequests(array, nextPos);
+      }
 
-      start = start + group;
-    }
+    };
 
-    if (!boo) {
-      $pBar.addClass("hide");
-      $btn.removeClass("hide");
+    if (cachesCount > 0) {
+      setTimeout(sendRequests, waitTime, 0);
     }
 
   }
@@ -195,10 +207,12 @@
             '</form>'+
           '</li>'+
 
-          '<li><button id="btnSend2cgeo">GCTour send to c:geo... (' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"></div></li>' +
           '<li>Start c:geo.</li>'+
-          '<li>Optional: Stored -> Menu -> List -> New List</li>'+
-          '<li>Finally: Stored -> Menu -> Import -> Import from web</li>'+
+          '<li>Optional: Stored -> Menu -> List -> ...</li>'+
+          '<li>Finally: Stored -> Menu -> Manage -> Import from web</li>'+
+
+          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + '(' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"></div></li>' +
+
         '</ol>'+
       '</div>'+
       '<div style="text-align:right; margin-right: 10px;">'+

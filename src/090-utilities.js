@@ -195,35 +195,6 @@ function post(url, data, cb) {
   });
 }
 
-function dumpProps(obj, parent) {
-  var i, msg;
-  // Go through all the properties of the passed-in object
-  for (i in obj) {
-    // if a parent (2nd parameter) was passed in, then use that to
-    // build the message. Message includes i (the object's property name)
-    // then the object's property value on a new line
-    if (parent) {msg = parent + "." + i + "\n" + obj[i]; } else {msg = i + "\n" + obj[i]; }
-    info(msg);
-    //~ if (!confirm(msg)) { return; }
-    // If this property (i) is an object, then recursively process the object
-    //~ if (typeof obj[i] == "object") {
-      //~ if (parent) { dumpProps(obj[i], parent + "." + i); } else { dumpProps(obj[i], i); }
-    //~ }
-  }
-}
-
-function appendScript(href, domNode) {
-  var script = document.createElement("script");
-  script.setAttribute("type", "text/javascript");
-
-  if (href) {
-    script.setAttribute("src", href);
-  }
-
-  (domNode || head).appendChild(script);
-  return script;
-}
-
 // inspiration: dojo.date.difference
 // http://jsfiddle.net/fr4Na/
 function DateDiff(date1, date2, einheit) {

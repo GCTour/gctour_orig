@@ -125,7 +125,15 @@ function init(){
 
     if ( tq_url == document.location.href ) {
 
-      addProgressbar( { caption: $.gctour.lang('autoTourWait') } );
+      addProgressbar( {
+        caption: $.gctour.lang('autoTourWait'),
+        closeCallback: function(){
+          return function(){
+            GM_setValue("stopTask",true);
+            closeOverlayRemote(document)();
+          };
+        }
+      });      
 
       var tq_caches        = loadValue('tq_caches', []),
           tq_typeFilter    = JSON.parse(GM_getValue('tq_typeFilter')),

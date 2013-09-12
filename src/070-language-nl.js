@@ -186,7 +186,7 @@ $.gctour.i18n.nl = {
       },
       'contains':{
         'caption':'{0} werd <i>niet</i> toegevoegd',
-        'content':'<b>{0}</b> bevat <b>{1}</b> reeds.',
+        'content':'<b>{0}</b> bevat <b>{1}</b> reeds.'
       }
     }
   },

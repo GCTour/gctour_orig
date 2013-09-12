@@ -186,7 +186,7 @@ $.gctour.i18n.en = {
       },
       'contains':{
         'caption':'{0} was <i>not</i> added!',
-        'content':'<b>{0}</b> contains <b>{1}</b>.',
+        'content':'<b>{0}</b> contains <b>{1}</b>.'
       }
     }
   },

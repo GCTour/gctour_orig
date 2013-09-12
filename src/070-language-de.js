@@ -186,7 +186,7 @@ $.gctour.i18n.de = {
       },
       'contains':{
         'caption':'{0} wurde <i>nicht</i> hinzugefügt!',
-        'content':'<b>{0}</b> enthält <b>{1}</b> schon.',
+        'content':'<b>{0}</b> enthält <b>{1}</b> schon.'
       }
     }
   },

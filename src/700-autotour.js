@@ -347,7 +347,7 @@ function getTypeFilter(){
   });
 
   return $div;
-} 
+}
 
 function getLocateMeButton() {
   var button = $("<button>", {
@@ -469,16 +469,20 @@ function getMapPreviewTab(){
 }
 
 function getAutoTourSubmit(){
-  var queryFilterDiv = document.createElement('div');
-  var getCachesButton = createElement('button');append(getCachesButton, queryFilterDiv);
-  getCachesButton.id="startQuery";
-  getCachesButton.innerHTML = "<img src ='"+$.gctour.img.startAutoTour+"'>";
-  getCachesButton.style.marginTop = "15px";
-  getCachesButton.style.opacity = "0.4";
-  getCachesButton.disabled = "disabled";
+  var $submit = $("<div>").append(
+    $("<button>",{
+      id: "startQuery",
+      css: {
+        "margin": "15px 0 0 15px",
+        "opacity": "0.4"
+      },
+      "disabled": "disabled",
+      html: "<img src ='" + $.gctour.img.startAutoTour + "'>"
+    })
+    .on('click', startAutoTour)
+  );
 
-  getCachesButton.addEventListener('click', startAutoTour,false);
-  return queryFilterDiv;
+  return $submit;
 }
 
 // waypoint projecting
@@ -560,8 +564,6 @@ function showAutoTourDialog(center, radius) {
     getMarkerCoord();
   } else {
     $("input#markerRadius").val(2);
-    document.getElementById('markerCoords').focus();
-      // greasemonkey component is not available with jquery
-      //$("input#markerCoords:first").focus();
+    $('input#markerCoords').focus();
   }
-} 
+}

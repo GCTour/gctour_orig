@@ -3,6 +3,11 @@
  *
  * 
  * version @version@.@build@
+ * 
+ * version 2.3.13263
+ *   - FIXED: gc.com update
+ * 
+ * version 2.3.13241
  *   - NEW: Notifications with proper localisations and look
  *   - FIXED: Issue 50 (Send to GPS always sends GC14PCD)
  * 

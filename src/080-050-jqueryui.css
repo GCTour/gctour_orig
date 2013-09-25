@@ -1,0 +1,29 @@
+
+/*
+* jquery ui overwrite
+*/
+
+.ui-front {
+  z-index: 1100 !important;
+}
+
+.ui-button-icon-only .ui-icon {
+  margin-top: -8px !important;
+  margin-left: -8px !important;
+}
+
+.gct .ui-widget-content {
+  background: #FFFFFF;
+  border: 0;
+}
+.ui-button-text-only .ui-button-text {
+  padding: .2em .6em;
+}
+
+input.ui-button {
+  padding: .2em .6em;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  margin-top: 0;
+}

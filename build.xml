@@ -99,6 +99,7 @@
       <replacefilter token="@build@"              value="${GcTour.Build}" />
       <replacefilter token="@url_require_jquery@" value="${url.jquery}" />
       <replacefilter token="@url_require_ui@"     value="${url.jquery-ui}" />
+      <replacefilter token="@url_resource_cssui@" value="${url.jquery-ui-css}" />
     </replace>
 
     <echo>Add Userscript-Header to the script.</echo>

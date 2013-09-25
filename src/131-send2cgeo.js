@@ -26,6 +26,14 @@
       "ol li {"+
       "  padding: 2px;"+
       "}"+
+"ul {"+
+"    list-style-type: disc;"+
+"}"+
+"ul, ol {"+
+"    padding-left: 1.5em;"+
+"    margin-bottom: 0.5em;"+
+"    margin-left: 1.5em;"+
+"}"+
       "");
 
     function getSync(url, data){
@@ -157,30 +165,14 @@
 
   );
 
+
   var openGcTour2cgeoDialog = function(){
 
-    if (DEBUG_MODE) {
+    if (!DEBUG_MODE) { return; }
 
-  /*
-    $( "<div>TEST HALLO</div>" ).dialog({
-      resizable: false,
-      height:140,
-      modal: true,
-      buttons: {
-        "Delete all items": function() {
-          $( this ).dialog( "close" );
-        },
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    });
-  */
-
-    var overLay = getOverlay({caption:"send from GCTour to c:geo"});
-    overLay.innerHTML = '<div id="dlgsendtocgeo">'+
+    var $content = $('<div id="dlgsendtocgeo">'+
       '<div>'+
-        '<br/><strong>send to c:geo</strong>'+
+        '<strong>send to c:geo</strong>'+
         '<ul>'+
           '<li><a target="_blank" href="http://send2.cgeo.org/home.html">Overview</a></li>'+
           '<li><a target="_blank" href="http://send2.cgeo.org/howto.html">How To</a></li>'+
@@ -211,49 +203,47 @@
           '<li>Optional: Stored -> Menu -> List -> ...</li>'+
           '<li>Finally: Stored -> Menu -> Manage -> Import from web</li>'+
 
-          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + '(' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"></div></li>' +
+          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + ' (' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"></div></li>' +
 
         '</ol>'+
       '</div>'+
-      '<div style="text-align:right; margin-right: 10px;">'+
-        '<button id="btnCloseDialog">Close</button>'+
-      '</div>'+
-    '</div>';
+    '</div>');
 
+    var $overLay = $content.dialog(
+      $.gctour.dialog.basis(),
+      {
+        title: "send from GCTour to c:geo",
+        autoOpen: true,
+        height: 530,
+        create: function( event, ui ) {
+          var $thisDlg = $(this).dialog("widget"),
+            $progressbar = $thisDlg.find( "#gctour_send2cgeo_progressbar" );
 
-      var progressbar = $( "#gctour_send2cgeo_progressbar" );
+          $thisDlg.find("input[type=submit], button").button();
 
-      progressbar.progressbar({
-          value: false,
-          max: currentTour.geocaches.length,
-          change: function(e, ui) {
-            var $pBar = $( this ),
-              value = $pBar.progressbar( "value" ),
-              max = $pBar.progressbar( "option", "max" );
+          $progressbar.progressbar({
+              value: false,
+              max: currentTour.geocaches.length,
+              change: function(e, ui) {
+                var $pBar = $( this ),
+                  value = $pBar.progressbar( "value" ),
+                  max = $pBar.progressbar( "option", "max" );
 
-            $( ".ui-progressbar-value" ).text(value + "/" + max);
-          },
-          complete: function() {
-            var $t = $( ".ui-progressbar-value" );
-            $t.text( $t.text() + " Complete!" );
-          }
-      });
+                $pBar.find( ".ui-progressbar-value" ).text(value + " / " + max);
+              },
+              complete: function() {
+                var $t = $( this ).find( ".ui-progressbar-value" );
+                $t.text( $t.text() + " Complete!" );
+              }
+          });
 
-      $( "input[type=submit], button", $("#dlgsendtocgeo"))
-        .button();
-        //.click(function( event ) {
-        //  event.preventDefault();
-        //});
+          $thisDlg.find("#btnSend2cgeo").on('click', {}, function(e){
+            send2cgeo();
+          });
 
-      $("#btnSend2cgeo").bind('click', {}, function(e){
-        send2cgeo();
-      });
-
-      $("#btnCloseDialog").bind('click', {}, function(e){
-        closeOverlay();
-      });
-
-    }
+        }
+      }
+    );
 
   };
 

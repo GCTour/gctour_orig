@@ -7,7 +7,7 @@
   position:fixed;
   top:0;
   width:100%;
-  z-index:9000000;
+  z-index:1100;
 }
 
 .dialogBody {
@@ -27,7 +27,7 @@
   text-align:left;
   top:0;
   width:600px;
-  z-index:9000010;
+  z-index:1101;
   max-height:85%;
   min-height:440px;
   overflow:auto;
@@ -108,4 +108,45 @@
 
 .dialogMin {
   min-height:0 !important
+}
+
+
+/* neuer Dialog-Style mit jQuery-ui + gcTour Header (.gct_dialog) */
+
+.gct_dialog {
+  font-size: 10pt;
+  font-family: Arial;
+}
+.gct_dialog .ui-widget {
+}
+.gct_dialog.ui-dialog {
+  padding: 0;
+}
+.gct_dialog.ui-dialog .ui-widget-header {
+  border: 0;
+}
+.gct_dialog.ui-dialog .ui-dialog-titlebar {
+  padding: 0.2em 0.1em;
+  background: -moz-linear-gradient(center top, #A7CFEF 0%, #C9DDED 3px, #FFFFFF 10px) repeat scroll 0 0 transparent;
+  color: #000;
+}
+.gct_dialog.ui-dialog .ui-dialog-title {
+  padding-top: 4px;
+  text-align: left;
+  padding-left: 120px;
+  width: 75%;
+  background: url(##gctourLogo##) 2px 2px no-repeat;
+}
+.gct_dialog.ui-dialog .ui-dialog-buttonpane {
+  padding: 0 0.4em 0 0.4em;
+}
+.gct_dialog .ui-button-text-only .ui-button-text {
+  padding: 0.2em 0.8em;
+}
+.gct_dialog .ui-progressbar .ui-progressbar-value {
+  margin: 0;
+}
+.gct_dialog .progressbar-label {
+  width: 80%;
+  text-align: center;
 }

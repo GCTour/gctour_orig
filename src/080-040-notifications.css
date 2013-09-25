@@ -11,7 +11,7 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-  z-index: 10000000;
+  z-index: 1100;
 }
 
 #gctour-notification-box li {
@@ -42,13 +42,13 @@
 .gctour-notification-blue {
   background-color: #57B7E2;
   border: 1px solid #0B90C4;
-  color: #FFFFFF;
-  text-shadow: 0 1px 0 #000000;
+  color: #000000;
+  text-shadow: 0 1px 0 #FFFFFF;
 }
 
 .gctour-notification-yellow {
   background-color: #FFFC00;
-  border: #FFC237;
+  border: 1px solid #FFC237;
   color: #000000;
   text-shadow: 0 1px 0 #FFFFFF;
 }

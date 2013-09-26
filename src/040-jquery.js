@@ -110,6 +110,33 @@ $.extend($.gctour.dialog, {
         $(this).dialog("destroy"); // diesen Dialog killen, weil immer ein neuer erstellt wird
       }
     });
+  },
+
+  /*
+  *  Info Optionen für ein Dialog
+  */
+  info: function() {
+    return ({
+      autoOpen: true,
+      resizable: true,
+      closeOnEscape: true,
+      modal: true,
+      closeText: $.gctour.lang('btn.Schliessen') || 'Schliessen',
+      show: 'drop', // blind, drop, scale
+      buttons: {
+        'Schliessen': this.buttons.Schliessen
+      },
+      width: 300, height: 200,
+      minWidth: 300, minHeight: 200,
+      maxWidth: 1000, maxHeight: 700,
+      title: 'GCTour Info',
+      closeText: 'Schliessen',
+      show: 'drop', // blind, drop, scale
+      dialogClass: 'gct gct_dialog',
+      close: function(event, ui) {
+        $(this).dialog("destroy"); // diesen Dialog killen, weil immer ein neuer erstellt wird
+      }
+    });
   }
 
 });

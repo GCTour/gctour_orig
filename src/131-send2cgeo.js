@@ -3,38 +3,39 @@
 */
 
   GM_addStyle(""+
-      "#gctour_send2cgeo_progressbar {"+
-      "  margin: 2px 0;"+
-      "}"+
-      ""+
-  ".hide {"+
-      "  display: none;"+
-      "}"+
-  ".ui-progressbar {"+
-      "  position: relative;"+
-      "}"+
-      ""+
-      ".ui-progressbar-value {"+
-      //"  position: absolute;"+
-      //"  left: 0;"+
-      //"  width: 100%;"+
-      //"  font-weight: bold;"+
-      "  text-align: center;"+
-      //"  text-shadow: 1px 1px 0 #fff;"+
-      //"  background-color: transparent;"+
-      "}"+
-      "ol li {"+
-      "  padding: 2px;"+
-      "}"+
-"ul {"+
-"    list-style-type: disc;"+
-"}"+
-"ul, ol {"+
-"    padding-left: 1.5em;"+
-"    margin-bottom: 0.5em;"+
-"    margin-left: 1.5em;"+
-"}"+
-      "");
+    "#gctour_send2cgeo_progressbar {"+
+    "  margin: 2px 0;"+
+    "}"+
+    ""+
+    ".hide {"+
+    "  display: none;"+
+    "}"+
+    ".ui-progressbar {"+
+    "  position: relative;"+
+    "}"+
+    ""+
+    ".ui-progressbar-value {"+
+    "}"+
+    ".progress-label {"+
+    "  position: absolute;"+
+    "  width: 100%;"+
+    "  text-align: center;"+
+    "  top: 4px;"+
+    "  font-weight: bold;"+
+    "  text-shadow: 1px 1px 0 #fff;"+
+    "}"+
+    "ol li {"+
+    "  padding: 2px;"+
+    "}"+
+    "ul {"+
+    "  list-style-type: disc;"+
+    "}"+
+    "ul, ol {"+
+    "  padding-left: 1.5em;"+
+    "  margin-bottom: 0.5em;"+
+    "  margin-left: 1.5em;"+
+    "}"+
+    "");
 
     function getSync(url, data){
       data = data || "";
@@ -88,12 +89,13 @@
       return (n.id);
     });
 
-    $pBar.progressbar( "option", "value", 0 );
+    $pBar
+      .progressbar( "option", "value", 0 )
+      .removeClass("hide");
+
+    $btn.button( "disable" );
 
     log("START: " + currentTime() + " => " + cacheIDs.join(","));
-
-    $btn.addClass("hide");
-    $pBar.removeClass("hide");
 
     // sendet die url, wartet dann um die function erneut aufzurufen
     // vererbte Variablen
@@ -124,14 +126,14 @@
 
       if (res.indexOf(txtReg) !== -1) {  // Browser nicht registriert
         boo = false;
-        alert("Browser not registred, Register first !");
+        $("<div>Browser not registred, Register first !</div>").dialog( $.gctour.dialog.info() );
         $pBar.addClass("hide");
-        $btn.removeClass("hide");
+        $btn.button( "enable" );
       } else if (res.indexOf(txtSuc) === -1) {  // response nicht okay (Cache konnte wahrscheinlich nicht hinzugefügt werden)
         boo = false;
-        alert("no success, error when adding");
+        $("<div>no success, error when adding</div>").dialog( $.gctour.dialog.info() );
         $pBar.addClass("hide");
-        $btn.removeClass("hide");
+        $btn.button( "enable" );
       }
 
       log( res ); // send2.cgeo.org/add.html?cache=GC4924F
@@ -139,7 +141,6 @@
       log("next Pos: " + fromPos);
       if (cachesCount > fromPos && boo) {
         setTimeout(sendRequests, waitTime, fromPos);
-        //sendRequests(array, nextPos);
       }
 
     };
@@ -203,45 +204,46 @@
           '<li>Optional: Stored -> Menu -> List -> ...</li>'+
           '<li>Finally: Stored -> Menu -> Manage -> Import from web</li>'+
 
-          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + ' (' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"></div></li>' +
+          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + ' (' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"><div class="progress-label">Loading...</div></div></li>' +
 
         '</ol>'+
       '</div>'+
     '</div>');
+
+    // event create zuweisen (unabhängig ob es schon ein create event existiert)
+    $content.on( "dialogcreate", function( event, ui ) {
+      var $thisDlg = $(this).dialog("widget"),
+        $progressbar = $thisDlg.find( "#gctour_send2cgeo_progressbar" ),
+        $pl = $thisDlg.find( ".progress-label" );
+
+      $thisDlg.find("input[type=submit], button").button();
+
+      $progressbar.progressbar({
+          value: false,
+          max: currentTour.geocaches.length,
+          change: function(e, ui) {
+            var $pBar = $( this ),
+              value = $pBar.progressbar( "value" ),
+              max = $pBar.progressbar( "option", "max" );
+
+            $pl.text(value + " / " + max);
+          },
+          complete: function() {
+            $pl.text( $pl.text() + " Complete!" );
+          }
+      });
+
+      $thisDlg.find("#btnSend2cgeo").on('click', {}, function(e){
+        send2cgeo();
+      });
+    });
 
     var $overLay = $content.dialog(
       $.gctour.dialog.basis(),
       {
         title: "send from GCTour to c:geo",
         autoOpen: true,
-        height: 530,
-        create: function( event, ui ) {
-          var $thisDlg = $(this).dialog("widget"),
-            $progressbar = $thisDlg.find( "#gctour_send2cgeo_progressbar" );
-
-          $thisDlg.find("input[type=submit], button").button();
-
-          $progressbar.progressbar({
-              value: false,
-              max: currentTour.geocaches.length,
-              change: function(e, ui) {
-                var $pBar = $( this ),
-                  value = $pBar.progressbar( "value" ),
-                  max = $pBar.progressbar( "option", "max" );
-
-                $pBar.find( ".ui-progressbar-value" ).text(value + " / " + max);
-              },
-              complete: function() {
-                var $t = $( this ).find( ".ui-progressbar-value" );
-                $t.text( $t.text() + " Complete!" );
-              }
-          });
-
-          $thisDlg.find("#btnSend2cgeo").on('click', {}, function(e){
-            send2cgeo();
-          });
-
-        }
+        height: 530
       }
     );
 

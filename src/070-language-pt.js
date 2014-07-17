@@ -26,6 +26,7 @@ $.gctour.i18n.pt = {
   'makeMapWait' : 'A testar disponibilidade deste mapa',
   'printview' : 'Modo de impress&#227;o',
   'downloadGpx' : 'Transferir GPX',
+  'send2cgeo' : 'Enviar para o c:geo',
   'showSettings' : 'Mostrar Configura&#231;&#245;es',
   'settings_caption' : 'Configura&#231;&#245;es',
   'settingsPrintMinimal' : 'Modo de Impress&#227;o m&#237;nimo',
@@ -175,6 +176,18 @@ $.gctour.i18n.pt = {
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'enviar relatório'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
+    }
+  },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} foi adicionada!',
+        'content':'<b>{0}</b> agora inclui <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} não foi adicionada',
+        'content':'<b>{0}</b> contém <b>{1}</b> já.'
+      }
     }
   },
   'units':{

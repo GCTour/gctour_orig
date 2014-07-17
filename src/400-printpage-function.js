@@ -31,7 +31,7 @@ function printPageFunction(currentTour){
         '    <div class="long ###HIDDENSTYLE###">###LONG_DESCRIPTION###</div>'+
         '    <div>###GCCOMMENT###</div>'+
         '    <div>###CACHENOTE###</div>'+
-        '    <div><b>Hint:</b>###HINT###</div>'+
+        '    <div><b>Hint:</b> ###HINT###</div>'+
         '    <div class="waypoints ###HIDDENSTYLE###">###ADDITIONAL_WAYPOINTS###</div>'+
         '    <div class="images">###IMAGES###</div>'+
         '    <div id = "###MAPID###" class="map ###HIDDENSTYLE###">###MAP###</div>'+
@@ -60,12 +60,10 @@ function printPageFunction(currentTour){
       //var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen=yes,scrollbars=yes,toolbar=yes,menubar=yes');
       var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'width=800,height=' + window.screen.height + ',scrollbars=yes,toolbar=no,menubar=yes');
 
-      // trick to wait until the page from gc-com is loaded, to prevent tour detection
-      newwindow2.window.addEventListener ("DOMContentLoaded", function() {
-        try {
-          var body = newwindow2.document.getElementsByTagName('body')[0];
-
-          // set the title of the print view
+	
+	var printFunction = function(){
+		  var body = newwindow2.document.getElementsByTagName('body')[0];
+		 // set the title of the print view
           var now = new Date();
           var Jahresmonat = now.getMonth();
           var Monat = $.gctour.lang('months');
@@ -88,8 +86,8 @@ function printPageFunction(currentTour){
           style.innerHTML += '.removable{margin:2px;} .map{clear:both} .logs{clear:both} .logs div{margin:2px} .hidden{display:none} .highlight{background-color:pink}';
           style.innerHTML += '.geocache_count{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_count span{padding: 5px; font-weight: bold; font-size: 18px; -moz-border-radius: 5px; border-radius: 5px; border:2px dotted black;}';
           style.innerHTML += 'sup {vertical-align:baseline;font-size:77%;position:relative;top:-5px;}';
-          style.innerHTML += '.dialogMask {background-image:url('+$.gctour.img.dialogMask+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:9000000;}'+
-                    '.dialogBody{-moz-border-radius:5px; border-radius:5px; background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:9000010;max-height:85%;min-height:370px;overflow:auto;}'+
+          style.innerHTML += '.dialogMask {background-image:url('+$.gctour.img.dialogMask+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:1100;}'+
+                    '.dialogBody{-moz-border-radius:5px; border-radius:5px; background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:1101;max-height:85%;min-height:370px;overflow:auto;}'+
                     '.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
                     '.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+$.gctour.img.tabBg+'")}'+
                   //  '.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#fff;}'+
@@ -603,12 +601,34 @@ function printPageFunction(currentTour){
 
             }
           );
-        } catch (e) {
-          addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
-        }
-
-      }, false);
-
+	}
+	
+	// dreckiger hack! Irgendwie gibt Firefox den Zugriff auf das neue Fenster doch irgendwann frei. Wir warten mal 3 Sekunden!
+	var printLoop = function(loopCount){
+		if(loopCount < 10){
+			window.setTimeout(function(){
+				GM_log(loopCount);
+				try {
+					if(typeof(newwindow2.document) === 'object') {
+						printFunction();
+					} else {
+						debug("typeoff wrong - "+retries);
+						printLoop(loopCount+1);
+					}
+				}catch (e) {
+					debug("Print loop " + loopCount + " - Error:"+e);
+					printLoop(loopCount+1);
+				}			
+			},500);
+		} else {
+			addErrorDialog({caption:"Printview error", _exception:"Cant't find content from popup after 5 seconds!"});
+			newwindow2.close();
+		}
+		
+		
+		
+	};
+	printLoop(0);
     }
   };
 }

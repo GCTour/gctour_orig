@@ -1,117 +1,89 @@
 
 $.gctour.notification = $.gctour.notification || {};
+
 $.gctour.notification.init = function(){
-  
+
   var $noteBlock = $('<ul>',{
     id: "gctour-notification-box"
   }).appendTo('body');
-  
-  
-  
-}
 
-
-
+};
 
 $.gctour.notification.add = function(options){
-  
-  
+
   //~ var content = (options.title != null)?:"nix title"s;
-  var content = (options.title)? "<b>"+options.title+"</b><br/>":"";
-      content += (options.icon)? "<img style='float:left;'src='"+options.icon+"'/>":"";
+  var content = (options.icon)? "<img style='float:left;padding-right:6px;'src='"+options.icon+"'/>":"";
+      content += (options.title)? "<span style='font-size:18px'><b>"+options.title+"</b></span><br/>":"";
       content += (options.text)? options.text:"";
 
   var $note = $('<li>',{
       "class": "gctour-notification-"+((options.style)?options.style:"green"),
       click: function(){
-           $(this).animate({height: 0}, 300,"linear",function()
-            {
-              $(this).remove();
-            }
-          );
-        }
+        $(this).animate({height: 0}, 300,"linear",function()
+          {
+            $(this).remove();
+          }
+        );
       }
-    )
+    })
     .disableSelection()
     .append(
       $('<div>',{
+        html: content,
         css: {
-            'font-size': '13px',
-            'line-height': '16px',
-            'padding': '8px 10px 9px',
-            'position': 'relative',
-            'text-align': 'left',
-            'width': 'auto'
-          }
-        }).append(
-          $("<img>", {
-            "src": $.gctour.img.gctourLogo,
-            css: {
-              'float': 'left'
-            }
-          }),
-          $('<div>', {
-            html: content
-          })
-        )
-      )
-    
-  //~ .prependTo(  $('#gctour-notification-box') ).show("slide", { direction: "down" }, 150);
-  //~ .prependTo(  $('#gctour-notification-box') ).show('fast');
-  .prependTo(  $('#gctour-notification-box') );
-   
-   setTimeout(function() {
-    $note.animate({height: 0}, 300,"linear",function()
-        {
-          $note.remove();
+          'font-size': '13px',
+          'line-height': '16px',
+          'padding': '8px 10px 9px',
+          'position': 'relative',
+          'text-align': 'left',
+          'width': 'auto'
         }
-      );
-  }, 500000);
+      })
+    )
+   //~ .prependTo(  $('#gctour-notification-box') ).show('fast');
+  .prependTo(  $('#gctour-notification-box') );
+
+   setTimeout(function() {
+    $note.animate({height: 0}, 600, "linear", function()
+      {
+        $note.remove();
+      }
+    );
+  }, 6000);
+
 };
-
-
 
 $.gctour.notification.init();
 
-$('#ctl00_HDHomeLink').hover(function(){
-        
+/* TEST AREA BEGIN */
+if (DEBUG_MODE){
 
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!",style:"yellow"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!",style:"red"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!",style:"blue"});
-  $.gctour.notification.add({title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"eine test Nachricht!"});
-  
+  var dummyNote = [
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"1. eine test Nachricht!",style:"yellow"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/3.gif",text:"2. eine test Nachricht! mit längeren Text",style:"red"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/4.gif",text:"3. eine test Nachricht! mit wirlich sehr langem langem Text, oder ?",style:"blue"},
+    {title:"test",icon:"http://www.geocaching.com/images/WptTypes/sm/2.gif",text:"4. eine test Nachricht!"}
+  ],
+  dummyNoteZaehler = 0,
+  dummyNoteLength = dummyNote.length,
+  dummyNoteInterval,
+
+  foo = function() {
+    if ((0 <= dummyNoteZaehler ) && (dummyNoteZaehler <= dummyNote.length)) {
+      $.gctour.notification.add( dummyNote[dummyNoteZaehler] );
+    }
+    dummyNoteZaehler ++;
+    if (dummyNoteZaehler >= dummyNoteLength) {
+      clearInterval(dummyNoteInterval);
+      dummyNoteZaehler = 0;
+    }
+  };
+
+  $('#ctl00_HDHomeLink').hover(function(){
+    clearInterval(dummyNoteInterval);
+    dummyNoteZaehler = 0;
+    dummyNoteInterval = window.setInterval(foo, 500);
   });
-/*
-for(int k = 0; k < 20; k++){
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/2.gif", "eine test Nachricht!");
-  
+
 }
-
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/2.gif", "eine test Nachricht!");
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/4.gif", "eine zweite test Nachricht!");
-}, 500);
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/9.gif", "eine zwasdasdchricht!");
-}, 1000);
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/8.gif", "eine zwasdasasdasdht!");
-}, 1500);
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/8.gif", "eine zwasdasasdasdht!");
-}, 5500);
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/8.gif", "eine zwasdasasdasdht!");
-}, 6500);
-
-setTimeout(function() {
-  $.gctour.notification.add("GC0815", "http://www.geocaching.com/images/WptTypes/sm/8.gif", "eine zwasdasasdasdht!");
-}, 7500);
-
-*/
+/* TEST AREA END */

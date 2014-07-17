@@ -114,7 +114,15 @@ function getGeocacheFromElement(element){
 
   // hole die userDefinedCoords aus GC Javascript
   // ExampleString: var userDefinedCoords = {"status":"success","data":{"isUserDefined":false,"oldLatLngDisplay":"N 52° 31.268' E 013° 21.255'"}};
-  var userDefinedCoordsString = element.innerHTML.split("var userDefinedCoords = {")[1].split("};")[0];
+  // var userDefinedCoordsString = element.innerHTML.split("var userDefinedCoords = {")[1].split("};")[0];
+  //var userDefinedCoordsString = element.innerHTML.split("var userDefinedCoords = {") || "";
+  //userDefinedCoordsString = userDefinedCoordsString[1] || "";
+  //userDefinedCoordsString = userDefinedCoordsString.split("};") || "";
+  //userDefinedCoordsString = userDefinedCoordsString[0] || "";
+  var patt = /var userDefinedCoords = {*([\s\S]*?)}[;]+/; // suche nach "var userDefinedCoords = {"    bis    "};"
+  var r;
+  var userDefinedCoordsString = ((r = patt.exec( $(element).text() )) != null) ? r[1] : "";  
+
   var userDefinedCoords = jQuery.parseJSON('{' + userDefinedCoordsString + '}');
   geocache.coordinatesisedit = (userDefinedCoords && userDefinedCoords.status == "success" && userDefinedCoords.data.isUserDefined == true); // false = original
 

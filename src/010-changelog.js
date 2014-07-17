@@ -1,7 +1,23 @@
 /*
  * Changelog:
  *
+ * 
  * version @version@.@build@
+ * 
+ * version 2.3.13263
+ *   - FIXED: gc.com update
+ * 
+ * version 2.3.13241
+ *   - NEW: Notifications with proper localisations and look
+ *   - FIXED: Issue 50 (Send to GPS always sends GC14PCD)
+ * 
+ * version  2.3.13239
+ *   - FIXED: Issue 45, 47 and 49
+ *
+ * version 2.3.13018
+ *   - FIXED: Tour upload is working again
+ *
+ * version 2.3.12356
  *   - FIXED: Issue 31
  *   - FIXED: wrong geocaches size in languages other than english
  *   - FIXED: wrong geocache location in languages other than english/german

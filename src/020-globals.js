@@ -1,5 +1,12 @@
+
+if (window.top !== window.self && window.location.href.indexOf("/seek/sendtogps.aspx") <= 0) {
+  // don't run on frames or iframes - but allow the SEND TO GPS Page.
+} else {
+  // run on top level document
+  // ... } = end of GCTour-Script
+
 // globals
-var 
+var
   VERSION    = "@version@", // will be checked once the day
   BUILD      = "@build@",      // will be checked once the day
   SCRIPTID   = 'gctour',
@@ -39,6 +46,22 @@ var
     {wptTypeId: "13",   hash: "57150806-bc1a-42d6-9cf0-538d171a2d22", name: "Cache In Trash Out Event"},
     {wptTypeId: "3653", hash: "3ea6533d-bb52-42fe-b2d2-79a3424d4728", name: "Lost and Found Event Cache"},
     {wptTypeId: "453",  hash: "69eb8535-b718-4b35-ae3c-a856a55b0874", name: "Mega-Event Cache"}
+  ],
+  // {wptTypeId: "4738",  hash: "", name: ""}
+  // {wptTypeId: "3773",  hash: "", name: "Groundspeak Headquarters Cache"} // HQ_32.gif
+  // {wptTypeId: "mega",  hash: "", name: "Mega-Event Cache"}
+  // {wptTypeId: "earthcache",  hash: "", name: "EarthCache"}
+  // {wptTypeId: "1304",  hash: "", name: "GPS Adventures Maze Exhibit"}
+  // {wptTypeId: "12",    hash: "", name: "Locationless (Reverse) Cache"}
+
+  sizesArray = [
+    {sizeTypeId: "micro", name: "Micro"},
+    {sizeTypeId: "small", name: "Small"},
+    {sizeTypeId: "regular", name: "Regular"},
+    {sizeTypeId: "large", name: "Large"},
+    {sizeTypeId: "other", name: "Other"},
+    {sizeTypeId: "not_chosen", name: "Not chosen"},
+    {sizeTypeId: "virtual", name: "Virtual"}
   ],
 
   attributes_array = [

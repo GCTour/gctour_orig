@@ -9,7 +9,7 @@
   top: 30px !important;
   width: 35px !important;
   background-color: #fff;
-  z-index: 100001 !important;
+  z-index: 1001 !important;
   border: 1px solid #333;
   border-width: 1px 1px 1px 0;
   border-radius: 0 5px 5px 0;
@@ -30,11 +30,12 @@
   position: fixed !important;
   top: 30px !important;
   width: 200px;
-  z-index: 100002 !important;
+  z-index: 1002 !important;
   border: 1px solid #333;
   border-left: 0px;
   border-radius: 0 5px 5px 0;
   font-size: 12px;
+  font-family: Arial;
   line-height: 1.5;
 }
 

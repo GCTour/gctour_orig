@@ -7,7 +7,7 @@
 // @run-at       document-end
 // @include      http*://www.geocaching.com/*
 // @include      http://gctour*.madd.in/map/show*#gui
-// @exclude      /^https?://www\.geocaching\.com/(login|about|articles)/
+// @exclude      /^https?://www\.geocaching\.com/(login|about|articles|seek)/
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_deleteValue

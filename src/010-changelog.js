@@ -4,6 +4,9 @@
  * 
  * version @version@.@build@
  * 
+ * 
+ * version 2.3.14198
+ * 	 - FIXED: Printview is now working again
  * version 2.3.13263
  *   - FIXED: gc.com update
  * 

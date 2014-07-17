@@ -10,7 +10,7 @@ var
   VERSION    = "@version@", // will be checked once the day
   BUILD      = "@build@",      // will be checked once the day
   SCRIPTID   = 'gctour',
-  DEBUG_MODE = true,
+  DEBUG_MODE = false,
   GCTOUR_HOST = 'http://gctour.madd.in',
 //  GCTOUR_HOST = 'http://localhost',
 

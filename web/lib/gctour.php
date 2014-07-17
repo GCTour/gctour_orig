@@ -669,7 +669,7 @@ final class Updates {
     } else {          
       $version_array['version'] = $rows[0]['version'];
       $version_array['build'] = $rows[0]['build'];
-      $version_array['update'] = "http://userscripts.org/scripts/source/36273.user.js";
+      $version_array['update'] = "http://gctour.madd.in/gctour.user.js";
       foreach ($rows as $record) {
         $version = array();
         $version['version'] = $record['version'];

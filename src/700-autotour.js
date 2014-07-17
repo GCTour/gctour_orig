@@ -134,6 +134,16 @@ function startAutoTour() {
   GM_setValue('tq_specialFilter', JSON.stringify(specialFilter));
   GM_setValue('tq_StartUrl',      document.location.href);
 
+  debug("fn startAutoTour GM_setValue: " +
+    "\n\tq_url:" + url +
+    "\n\tq_typeFilter:" + JSON.stringify(typeFilter) +
+    "\n\tq_sizeFilter:" + JSON.stringify(sizeFilter) +
+    "\n\tq_dFilter:" + JSON.stringify(difficultyFilter) +
+    "\n\tq_tFilter:" + JSON.stringify(terrainFilter) +
+    "\n\tq_specialFilter:" + JSON.stringify(specialFilter) +
+    "\n\tq_StartUrl:" + document.location.href
+  );
+
   document.location.href = url;
 }
 
@@ -148,133 +158,195 @@ function getMarkerCoord() {
 }
 
 function getSpecialFilter(){
-  var specialDiv = document.createElement('div');
-  specialDiv.style.cssFloat = "left";
-  specialDiv.style.paddingRight = "10px";
-  specialDiv.style.textAlign = "left";
-  specialDiv.innerHTML = "<b>That</b><br/>";
+  var $div, $checkbox, attributs,
+    specials = ['I haven\'t found ','is Active', 'is not a PM cache'],
+    tq_filter = JSON.parse(GM_getValue('tq_specialFilter', '{}'));
 
-  var specials = ['I haven\'t found ','is Active', 'is not a PM cache'];
+  $div = $('<div>')
+    .html("<b>That</b><br/>")
+    .css({
+      "text-align": "left",
+      "padding-left": "10px",
+      "padding-right": "10px",
+      "float": "left",
+      "background-color": "#ffe"
+    });
 
-  for(var i = 0; i<specials.length; i++ ){
-    var checkboxSpan = createElement('span');
+  $.each(specials, function(index, value) {
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "special", value: specials[i], checked: 'checked'});
-    checkbox.style.margin = '0px';
+    attributs = {
+      type: 'checkbox',
+      name: "special",
+      id: "special" + value,
+      value: value,
+      checked: tq_filter[value] ? 'checked' : false
+    };
 
-    var caption = createElement('span');
-    caption.innerHTML = specials[i];
+    $checkbox = $('<span>')
+      .css({
+        "margin": "2px",
+        "vertical-align": "middle"
+      })
+      .append(
+        $('<input/>', attributs).css("margin", '0 2px 0 0'),
+        $('<label>')
+          .attr("for", "special" + value)
+          .text(value)
+      );
 
-    append(checkbox, checkboxSpan);
-    append(caption, checkboxSpan);
-    append(checkboxSpan, specialDiv);
-    append(createElement('br'), specialDiv);
-  }
+    $div.append(
+      $checkbox,
+      $('<br>')
+    );
 
-  return specialDiv;
+  });
+
+  return $div;
 }
 
 function getDtFiler(boxName){
-  var checkboxesDiv = document.createElement('div');
+  var $div, $checkbox, attributs, tq_filter;
 
-  checkboxesDiv.style.cssFloat = "left";
-  checkboxesDiv.style.textAlign = "left";
-  checkboxesDiv.style.paddingRight = "10px";
-  checkboxesDiv.innerHTML = "<b>"+boxName+"</b><br/>";
-  for(var i = 1; i<=5; i = i+0.5){
-    var checkboxDiv = createElement('span');
-
-    checkboxDiv.style.border = '1px solid gray';
-    checkboxDiv.style.margin = '2px';
-    checkboxDiv.style.verticalAlign = 'middle';
-
-    var checkbox = createElement('input', {type: 'checkbox', name: boxName, value: i, id:boxName+""+i, checked: 'checked'});
-    checkbox.style.margin = '0px';
-
-    var label = createElement('label');
-    label.setAttribute("for", boxName+""+i);
-    var caption = createElement('img');
-    append(caption,label);
-    var value = ""+i;
-    value = value.replace(/\./g, "_");
-    caption.src = "http://www.geocaching.com/images/stars/stars"+value+".gif";
-
-    checkboxesDiv.appendChild(checkbox);
-    checkboxesDiv.appendChild(label);
-    checkboxesDiv.appendChild(createElement('br'));
+  if (boxName == 'Difficulty') {
+    tq_filter = JSON.parse(GM_getValue('tq_dFilter', '{}'));
+  } else {  // terrain
+    tq_filter = JSON.parse(GM_getValue('tq_tFilter', '{}'));
   }
 
-  return checkboxesDiv;
+  $div = $('<div>')
+    .html("<b>" + boxName + "</b><br/>")
+    .css({
+      "text-align": "left",
+      "padding-left": "10px",
+      "padding-right": "10px",
+      "float": "left",
+      "background-color": "#ffe"
+    });
+
+  for( var i = 1; i <= 5; i = i + 0.5 ){
+
+    attributs = {
+      type: 'checkbox',
+      name: boxName,
+      id: boxName + "" + i,
+      value: i,
+      checked: tq_filter[""+i] ? 'checked' : false
+    };
+
+    $checkbox = $('<span>')
+      .css({
+        "margin": "2px",
+        "vertical-align": "middle"
+      })
+      .append(
+        $('<input/>', attributs).css("margin", '0 2px 0 0'),
+        $('<label>').attr("for", boxName + "" + i)
+          .append(
+            $('<img>').attr("src", "http://www.geocaching.com/images/stars/stars" + (""+i).replace(/\./g, "_") + ".gif")
+          )
+      );
+
+    $div.append(
+      $checkbox,
+      $('<br>')
+    );
+
+  }
+
+  return $div;
 }
 
 function getSizeFilter(){
-  var sizes = ['micro','small','regular','large','other'];
+  var $div, $checkbox, attributs,
+    tq_filter = JSON.parse(GM_getValue('tq_sizeFilter', '{}'));
 
-  var sizesCheckboxesDiv = document.createElement('div');
+  $div = $('<div>')
+    .html("<b>Size</b><br/>")
+    .css({
+      "text-align": "left",
+      "padding-left": "10px",
+      "padding-right": "10px",
+      "float": "left",
+      "background-color": "#ffe"
+    });
 
-  sizesCheckboxesDiv.style.cssFloat = "left";
-  sizesCheckboxesDiv.style.textAlign = "left";
-  sizesCheckboxesDiv.style.paddingRight = "10px";
-  sizesCheckboxesDiv.innerHTML = "<b>Size</b><br/>";
-  for(var i = 0; i<sizes.length; i++ ){
-    var checkboxDiv = createElement('span');
+  $.each(sizesArray, function(index, size) {
 
-    checkboxDiv.style.border = '1px solid gray';
-    checkboxDiv.style.margin = '2px';
-    checkboxDiv.style.verticalAlign = 'middle';
+    attributs = {
+      type: 'checkbox',
+      name: "size",
+      id: "size" + size.sizeTypeId,
+      value: size.sizeTypeId,
+      checked: tq_filter[size.sizeTypeId] ? 'checked' : false
+    };
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "size", value: sizes[i], id:"size"+sizes[i], checked: 'checked'});
-    checkbox.style.margin = '0px';
-    var label = createElement('label');
-    label.setAttribute("for", "size"+sizes[i]);
+    $checkbox = $('<span>')
+      .css({
+        "margin": "2px",
+        "vertical-align": "middle"
+      })
+      .append(
+        $('<input/>', attributs).css("margin", '0 2px 0 0'),
+        $('<label>').attr("for", "size" + size.sizeTypeId)
+          .append(
+            $('<img>').attr("src", 'http://www.geocaching.com/images/icons/container/' + size.sizeTypeId + '.gif')
+          )
+      );
 
-    var caption = createElement('img');
-    append(caption,label);
-    caption.src = "http://www.geocaching.com/images/icons/container/"+sizes[i]+".gif";
-    caption.title = sizes[i];
-    caption.alt = sizes[i];
+    $div.append(
+      $checkbox,
+      $('<br>')
+    );
 
-    sizesCheckboxesDiv.appendChild(checkbox);
-    sizesCheckboxesDiv.appendChild(label);
-    sizesCheckboxesDiv.appendChild(createElement('br'));
-  }
+  });
 
-  return sizesCheckboxesDiv;
+  return $div;
 }
 
 function getTypeFilter(){
-  var typeDiv = document.createElement('div');
-  typeDiv.style.textAlign = "left";
-  typeDiv.style.paddingLeft = "10px";
-  typeDiv.style.paddingRight = "10px";
-  typeDiv.style.textAlign = "left";
-  typeDiv.style.cssFloat = "left";
-  typeDiv.innerHTML = "<b>Type</b><br/>";
+  var $div, $checkbox, attributs, boo,
+    tq_filter = JSON.parse(GM_getValue('tq_typeFilter', '{}'));
 
-  for(var i = 0; i< wptArray.length;i++){
-    var checkboxDiv = createElement('span');
+  $div = $('<div>')
+    .html("<b>Type</b><br/>")
+    .css({
+      "text-align": "left",
+      "padding-left": "10px",
+      "padding-right": "10px",
+      "float": "left",
+      "background-color": "#ffe"
+    });
 
-    var checkbox = createElement('input', {type: 'checkbox', name: "type", value: wptArray[i].wptTypeId, id: "type"+wptArray[i].wptTypeId, checked: 'checked'});
-    append(checkbox,checkboxDiv);
-    checkbox.style.margin = '0px';
+  $.each(wptArray, function(index, wpt) {
 
-    var label = createElement('label');
-    label.setAttribute("for", "type"+wptArray[i].wptTypeId);
+    attributs = {
+      type: 'checkbox',
+      name: "type",
+      id: "type" + wpt.wptTypeId,
+      value: wpt.wptTypeId,
+      checked: tq_filter[wpt.wptTypeId] ? 'checked' : false
+    };
 
-    append(label,checkboxDiv);
-    var caption = createElement('img');
-    append(caption,label);
-    caption.src = 'http://www.geocaching.com/images/WptTypes/sm/'+wptArray[i].wptTypeId+'.gif';
+    boo = ((index + 1) % 2 === 0); // letzter in seiner Spalte ?
 
-    append(checkboxDiv,typeDiv);
+    $checkbox = $('<span>')
+      .css("padding-left", boo ? "10px" : "0px" )
+      .append(
+        $('<input/>', attributs).css("margin", '0 2px 0 0'),
+        $('<label>').attr("for", "type" + wpt.wptTypeId)
+          .append(
+            $('<img>').attr("src", 'http://www.geocaching.com/images/WptTypes/sm/' + wpt.wptTypeId + '.gif')
+          )
+      );
 
-    if((i+1) % 2 === 0){
-      typeDiv.appendChild(createElement('br'));
-      checkboxDiv.style.paddingLeft = '10px';
-    }
-  }
+    $div.append(
+      $checkbox,
+      (boo ? $('<br>') : "")
+    );
 
-  return typeDiv;
+  });
+
+  return $div;
 }
 
 function getLocateMeButton() {
@@ -285,7 +357,7 @@ function getLocateMeButton() {
     },
     html: "<img id='locateImage' src='" + $.gctour.img.locateMe + "'><span style='vertical-align:top;margin-left:3px;font-weight:bold'>" + $.gctour.lang('findMe') + "</span>"
   })
-  
+
   .click(function() {
     if (navigator.geolocation) {
       $('locateImage').attr("src","http://madd.in/ajax-loader3.gif");
@@ -307,7 +379,7 @@ function getLocateMeButton() {
       );
     } else {
       alert("Firefox 3.5? Please update to use this!");
-    }    
+    }
   });
 
   return button;
@@ -335,7 +407,14 @@ function getCoordinatesTab() {
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div', {className: 'ebene'});
-  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourRadius')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px"><select id="markerRadiusUnit"><option selected="selected" value="km">'+$.gctour.lang('units.km')+'</option><option value="sm">'+$.gctour.lang('units.mi')+'</option></select>';
+  divEbene.innerHTML = '<b>' +
+    $.gctour.lang('autoTourRadius') +
+    '</b>&nbsp;&nbsp;&nbsp;&nbsp;' +
+    '<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px">' +
+    '<select id="markerRadiusUnit">' +
+      '<option value="km" selected="selected">' + $.gctour.lang('units.km') + '</option>' +
+      '<option value="sm">' + $.gctour.lang('units.mi') + '</option>' +
+    '</select>';
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div');
@@ -390,16 +469,20 @@ function getMapPreviewTab(){
 }
 
 function getAutoTourSubmit(){
-  var queryFilterDiv = document.createElement('div');
-  var getCachesButton = createElement('button');append(getCachesButton, queryFilterDiv);
-  getCachesButton.id="startQuery";
-  getCachesButton.innerHTML = "<img src ='"+$.gctour.img.startAutoTour+"'>";
-  getCachesButton.style.marginTop = "15px";
-  getCachesButton.style.opacity = "0.4";
-  getCachesButton.disabled = "disabled";
+  var $submit = $("<div>").append(
+    $("<button>",{
+      id: "startQuery",
+      css: {
+        "margin": "15px 0 0 15px",
+        "opacity": "0.4"
+      },
+      "disabled": "disabled",
+      html: "<img src ='" + $.gctour.img.startAutoTour + "'>"
+    })
+    .on('click', startAutoTour)
+  );
 
-  getCachesButton.addEventListener('click', startAutoTour,false);
-  return queryFilterDiv;
+  return $submit;
 }
 
 // waypoint projecting
@@ -444,50 +527,43 @@ function CalcPrjWP(lat,lon, dist, angle){
 }
 
 function showAutoTourDialog(center, radius) {
-  var overLay, queryFilterDiv;
 
-  if (!isLogedIn()) { return; }
+  //if (!isLogedIn()) { return; }
 
-  overLay = getOverlay({
-    caption: $.gctour.lang('autoTour'), 
-    minimized: true
-  });
+  var overLay = getOverlay({
+        caption: $.gctour.lang('autoTour'),
+        minimized: true
+      });
 
-  var autoTourContainer = $("<div>", {
-    id: "autoTourContainer",
-    css: {
-      "display": "none",
-      "clear": "both",
-      "border-top": "2px dashed #B2D4F3",
-      "margin-top": 12
-    }
-  });
-  
-  autoTourContainer.append(getMapPreviewTab());
-  queryFilterDiv = $('<div>'); 
-  
-  queryFilterDiv.append(getTypeFilter());
-  queryFilterDiv.append(getSizeFilter());
-  queryFilterDiv.append(getDtFiler('Difficulty'));
-  queryFilterDiv.append(getDtFiler('Terrain'));
-  queryFilterDiv.append(getSpecialFilter());
-  autoTourContainer.append(queryFilterDiv);
-  autoTourContainer.append(getAutoTourSubmit());
-  
   $(overLay).append(
-    getCoordinatesTab(), 
-    autoTourContainer
+    getCoordinatesTab(),
+    $("<div>", {
+      id: "autoTourContainer",
+      css: {
+        "display": "none",
+        "clear": "both",
+        "border-top": "2px dashed #B2D4F3",
+        "margin-top": 12
+      }
+    }).append(
+      getMapPreviewTab(),
+      $('<div>').append(
+        getTypeFilter(),
+        getSizeFilter(),
+        getDtFiler('Difficulty'),
+        getDtFiler('Terrain'),
+        getSpecialFilter()
+      ),
+      getAutoTourSubmit()
+    )
   );
 
-  if(center && radius){
+  if (center && radius) {
     $("input#markerCoords").val(center.lat.toFixed(5) + ' ' + center.lng.toFixed(5));
     $("input#markerRadius").val(radius);
     getMarkerCoord();
   } else {
     $("input#markerRadius").val(2);
-    document.getElementById('markerCoords').focus();
-      // greasemonkey component is not available with jquery
-      //$("input#markerCoords:first").focus();
+    $('input#markerCoords').focus();
   }
 }
-

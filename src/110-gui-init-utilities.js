@@ -38,10 +38,10 @@ function getEntryFromBookmarkTd(bmLine){
   var entry = {},
     colID = 2, // default column CacheID = noPremiumMember
     nameSpan = $("span", bmLine.eq(colID)).eq(0);
-    
+
   if ( bmLine.eq(2).text().length == 0 ) {
     colID++; // premiumMember
-  } 
+  }
 
   entry.id      = $.trim(bmLine.eq(colID).text());
   entry.name    = (nameSpan.length > 0) ? nameSpan.parent().html().replace(/<img.*?>/,"") : $.trim(bmLine.eq(colID+1).text());
@@ -60,6 +60,8 @@ function getEntryFromBookmarkTd(bmLine){
   return entry;
 }
 
+// Searchpage http://www.geocaching.com/seek/nearest.aspx
+// ToDo: erweitern um autoTour wieder lauffähig zu bekommen
 function getEntriesFromSearchpage(){
 
   // Data Rows without header and without GCVote tr
@@ -74,7 +76,7 @@ function getEntriesFromSearchpage(){
 
     var entryTds = $(this).find('td');
     var entry = {};
-    var lnk, checkbox;
+    var lnk, checkbox, dt;
 
     // RegEx gc-id
     entryTds.eq(5).find("span").eq(1).text().search(/\|\s*GC(\S{2,9})\s*\|/);
@@ -82,35 +84,48 @@ function getEntriesFromSearchpage(){
 
     lnk = entryTds.eq(5).find("a.lnk:first");
     entry.name = $.trim(lnk.text());
-//~ alert(entry.guid = entryTds.html());
+    entry.available = (lnk.css('text-decoration') !== "line-through");
+
+//~ alert(entryTds.html());
     entry.guid = entryTds.eq(4).find("a:first").attr("href").split('guid=')[1];
     entry.image = entryTds.eq(4).find("img:first").attr("src").replace(/wpttypes\//, "WptTypes/sm/");
 
-    entry.position = entryTds.eq(10);
+    //entry.type = entry.image.split("/")[6].split(".")[0];
+    entry.type = entry.image.substring(entry.image.lastIndexOf("/")+1, entry.image.lastIndexOf(".")); // von / bis .
+      // type Korrektur
+      entry.type = (entry.type == "earthcache") ? 137 : entry.type;
+      //entry.type = (entry.type == "mega") ? 453 : entry.type;
+
+    entry.pm_only = (entryTds.eq(6).find("img[src$='premium_only.png']").length > 0);
+
+    dt = $.trim(entryTds.eq(7).find('img[src*="/images/icons/container/"]:first').closest('td').find('span.small').text());
+    entry.difficulty = dt.split("/")[0];
+    entry.terrain = dt.split("/")[1];
+
+    entry.size = $.trim(entryTds.eq(7).find('img[src*="/images/icons/container/"]:first').attr("src").split("/")[4].split(".")[0]);
+
+    entry.addBtnPosition = entryTds.eq(10);
 
     entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
 
-    debug("cache row - id:'" + entry.id + "' Name:'" + entry.name + "' Guid:'" + entry.guid +
-          "' image:'" + entry.image + "' checked:'" + entry.checked + "'");
+    debug(
+      "getEntriesFromSearchpage cache row: " + "\n" +
+      "\tid:\t\t" + entry.id + "\n" +
+      "\tname:\t\t" + entry.name + "\n" +
+      "\tguid:\t\t" + entry.guid + "\n" +
+      "\tavailable:\t" + entry.available + "\n" +
+      "\timage:\t\t" + entry.image + "\n" +
+      "\tsize:\t\t" + entry.size + "\n" +
+      "\ttype:\t\t" + entry.type + "\n" +
+      "\tdifficulty:\t" + entry.difficulty + "\n" +
+      "\tterrain:\t" + entry.terrain + "\n" +
+      "\tpm_only:\t" + entry.pm_only + "\n" +
+      "\tchecked:\t" + entry.checked + "\n"
+    );
 
     return entry;
   }).get();
 
   return entries;
-}
-
-function getEntryFromSearchTd(theTd){
-    var entryTds = theTd.getElementsByTagName('td');
-    var entry = {};
-
-    entry.id = 'GC'+entryTds[4].textContent.split('(GC')[1].split(')')[0];
-    entry.name = entryTds[4].getElementsByTagName('a')[1].innerHTML;
-    entry.guid = entryTds[4].getElementsByTagName('a')[0].href.split('guid=')[1];
-    entry.image = entryTds[4].getElementsByTagName('img')[0].getAttribute('src').split("/")[6];
-
-    if(entryTds[0].childNodes[1]){
-      entry.checked = entryTds[0].childNodes[1].checked;
-    }
-    return entry;
 }
 

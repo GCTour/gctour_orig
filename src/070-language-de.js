@@ -26,6 +26,7 @@ $.gctour.i18n.de = {
   'makeMapWait' : 'Verfügbarkeit der Karte wird getestet.',
   'printview' : 'Druckansicht',
   'downloadGpx' : 'GPX downloaden',
+  'send2cgeo' : 'an c:geo senden',
   'showSettings' : 'Einstellungen anzeigen',
   'settings_caption' : 'Einstellungen',
   'settingsPrintMinimal' : 'Minimierte Druckansicht',
@@ -118,7 +119,7 @@ $.gctour.i18n.de = {
   'printviewZoomMap' : "Diese Karte in einem neuem Tab öffen.",
   'settingsMapType' : 'Standard Kartentyp',
   'settingsMapSize' : 'Standard Kartengröße',
-  'addOwnWaypoint' : 'eigener Wegpunkt hinzufügen',
+  'addOwnWaypoint' : 'eigenen Wegpunkt hinzufügen',
   "markerCoordinate" : "Koordinaten",
   "markerContent" : "Inhalt",
   "markerType" : "Typ",
@@ -130,8 +131,8 @@ $.gctour.i18n.de = {
   "autoTourCenter" : "Mittelpunkt",
   "autoTourHelp" : "Koordinaten oder Adresse:<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i> oder <i>Berlin Ernst-Reuter-Platz</i>",
   "autoTourRefresh" : "Berechne eine autoTour mit diesen Werten!",
-  "autoTourCacheCounts" : "Geschätze <i>gesamt</i> Anzahl Caches in dieser Region:",
-  "autoTourDuration" : "Geschätze Dauer der Erzeugung dieser autoTour:",
+  "autoTourCacheCounts" : "Geschätzte <i>gesamt</i> Anzahl Caches in dieser Region:",
+  "autoTourDuration" : "Geschätzte Dauer der Erzeugung dieser autoTour:",
   "save" : "Speichern",
   "cancel" : "Abbrechen",
   "close" : "Schließen",
@@ -177,10 +178,21 @@ $.gctour.i18n.de = {
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} wurde hinzugefügt!',
+        'content':'<b>{0}</b> enthält jetzt auch <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} wurde <i>nicht</i> hinzugefügt!',
+        'content':'<b>{0}</b> enthält <b>{1}</b> schon.'
+      }
+    }
+  },
   'units':{
     'km': 'Kilometer',
     'mi': 'Meilen'
-    // old: 'kilometer', 'mile'
   }
 
 };

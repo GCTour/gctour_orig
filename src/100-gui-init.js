@@ -12,7 +12,7 @@ function initButton(){
     append(gcTourFieldset,div_element);
 
     gcTourFieldset.setAttribute('class','dialogFooter');
-    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent'>GCTour</legend>";
+    gcTourFieldset.innerHTML = "<legend class='note' style='background:url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent;padding-left:20px;'>GCTour</legend>";
 
     var newButton = createElement('input',{type:"button",value:$.gctour.lang('addToTour'),style:"float:left;background-image:url("+$.gctour.img.addToTour+")"});
     append(newButton,gcTourFieldset);
@@ -222,7 +222,7 @@ function initComponents(){
     // sendGPS
     $('<img>', {
       'class': 'tourImage',
-      src:    $.gctour.img.sensGPS,
+      src:    $.gctour.img.sendGPS,
       title:  $.gctour.lang('sendToGps'),
       alt :   $.gctour.lang('sendToGps'),
       click: function(){
@@ -238,6 +238,18 @@ function initComponents(){
       alt :   $.gctour.lang('downloadGpx'),
       click: function(){
         downloadGPXFunction()();
+      }
+    }),
+
+    // send2cgeo
+    $('<img>', {
+      'class': 'tourImage',
+      src:    $.gctour.img.send2cgeo,
+      title:  $.gctour.lang('send2cgeo'),
+      alt :   $.gctour.lang('send2cgeo'),
+      'style' : (DEBUG_MODE) ? '' : 'display:none;', // Testphase
+      click: function(){
+        openGcTour2cgeoDialog();
       }
     }),
 
@@ -342,8 +354,8 @@ function initComponents(){
       title:  $.gctour.lang('autoTour'),
       alt :   $.gctour.lang('autoTour'),
       click: function(){
-       // var gooMap = getMapCenterAndRadius();
-        showAutoTourDialog();
+        var gooMap = getMapCenterAndRadius();
+        showAutoTourDialog(gooMap.center, gooMap.radius);
       }
     }),
 

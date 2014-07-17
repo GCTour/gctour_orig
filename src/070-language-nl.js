@@ -26,6 +26,7 @@ $.gctour.i18n.nl = {
   'makeMapWait' : 'Beschikbaarheid kaart wordt getest',
   'printview' : 'Afdrukweergave',
   'downloadGpx' : 'GPX downloaden',
+  'send2cgeo' : 'Naar c:geo versturen',
   'showSettings' : 'Instellingen tonen',
   'settings_caption' : 'Instellingen',
   'settingsPrintMinimal' : 'Minimale afdrukweergave',
@@ -175,6 +176,18 @@ $.gctour.i18n.nl = {
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'foutenrapport versturen'
       // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
+    }
+  },
+  'notifications':{
+    'addgeocache':{
+      'success':{
+        'caption':'{0} werd toegevoegd',
+        'content':'<b>{0}</b> bevat nu <b>{1}</b>.'
+      },
+      'contains':{
+        'caption':'{0} werd <i>niet</i> toegevoegd',
+        'content':'<b>{0}</b> bevat <b>{1}</b> reeds.'
+      }
     }
   },
   'units':{

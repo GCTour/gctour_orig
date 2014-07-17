@@ -60,12 +60,10 @@ function printPageFunction(currentTour){
       //var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen=yes,scrollbars=yes,toolbar=yes,menubar=yes');
       var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'width=800,height=' + window.screen.height + ',scrollbars=yes,toolbar=no,menubar=yes');
 
-      // trick to wait until the page from gc-com is loaded, to prevent tour detection
-      newwindow2.window.addEventListener ("DOMContentLoaded", function() {
-        try {
-          var body = newwindow2.document.getElementsByTagName('body')[0];
-
-          // set the title of the print view
+	
+	var printFunction = function(){
+		  var body = newwindow2.document.getElementsByTagName('body')[0];
+		 // set the title of the print view
           var now = new Date();
           var Jahresmonat = now.getMonth();
           var Monat = $.gctour.lang('months');
@@ -603,12 +601,34 @@ function printPageFunction(currentTour){
 
             }
           );
-        } catch (e) {
-          addErrorDialog({caption:"Print error", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
-        }
-
-      }, false);
-
+	}
+	
+	// dreckiger hack! Irgendwie gibt Firefox den Zugriff auf das neue Fenster doch irgendwann frei. Wir warten mal 3 Sekunden!
+	var printLoop = function(loopCount){
+		if(loopCount < 10){
+			window.setTimeout(function(){
+				GM_log(loopCount);
+				try {
+					if(typeof(newwindow2.document) === 'object') {
+						printFunction();
+					} else {
+						debug("typeoff wrong - "+retries);
+						printLoop(loopCount+1);
+					}
+				}catch (e) {
+					debug("Print loop " + loopCount + " - Error:"+e);
+					printLoop(loopCount+1);
+				}			
+			},500);
+		} else {
+			addErrorDialog({caption:"Printview error", _exception:"Cant't find content from popup after 5 seconds!"});
+			newwindow2.close();
+		}
+		
+		
+		
+	};
+	printLoop(0);
     }
   };
 }

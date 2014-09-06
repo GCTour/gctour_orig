@@ -39,9 +39,14 @@ echo $action;*/
           $redir = $_POST['redir'];
           $username = $_POST['user'];
           $message = $_POST['message'];
+          $responsemail = $_POST['responsemail'];
           
-          $is_send = mail("gctour.martin@googlemail.com", "[GEO] ".$username, $message, "From: ".$username."@geocaching.com");
-            
+          if($responsemail == ""){
+			  mail("gctour.martin@googlemail.com", "[GEO] ".$username, $message, "From: ".$username."@geocaching.com");
+		  } else {
+			  mail("gctour.martin@googlemail.com", "[GEO] ".$username, $message, "From: ".$responsemail);
+		  }
+          
           $location = $redir;        
              
           break;

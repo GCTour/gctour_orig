@@ -174,8 +174,8 @@ function getGeocacheFromElement(element){
     geocache.bearing = "";
     geocache.distance = "";
   }
-
-  geocache.inventory = $('ul > li > a > img', $('div.WidgetBody', element).eq(2) );
+  
+  geocache.inventory = $('ul > li > a > img', $('div.WidgetBody', element).eq(1) );
 
   geocache.attributes = $('div.CacheDetailNavigationWidget > div.WidgetBody > img', element);
   geocache.attributes_array = [];

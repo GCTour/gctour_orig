@@ -160,7 +160,9 @@ $.gctour.i18n.en = {
     'sendMessage':{
       'caption': 'Send a message to the author.',
       'content': 'You have found a bug? Do you have suggestion on GCTour? I would like to hear your opinion.<br/>Feel free to send me a <b>message</b>:',
-      'submit': 'Submit this message!'
+      'submit': 'Submit this message!',
+      'response': 'Your mail address: '
+      
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
     },
     'newVersion':{

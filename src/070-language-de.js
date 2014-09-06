@@ -160,7 +160,8 @@ $.gctour.i18n.de = {
     'sendMessage':{
       'caption': 'Sende eine Nachricht an den Entwickler.',
       'content': 'Du hast einen Fehler gefunden? Du möchtest eine Verbesserung vorschlagen oder deine Meinung zu GCTour loswerden? Dann schreibe mir eine <b>Nachricht:</b>',
-      'submit': 'Schicke diese Nachricht ab!'
+      'submit': 'Schicke diese Nachricht ab!',
+      'response': 'Deine Mail Adresse: '
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
     },
     'newVersion':{

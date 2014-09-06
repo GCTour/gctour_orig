@@ -58,11 +58,12 @@ function printPageFunction(currentTour){
 
       var url_guid = (!costumMarker) ? currentTour.geocaches[0].guid : "39eedff9-69ea-4a18-97b0-bde6bfbccfb7";
       //var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen=yes,scrollbars=yes,toolbar=yes,menubar=yes');
-      var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'width=800,height=' + window.screen.height + ',scrollbars=yes,toolbar=no,menubar=yes');
+      
 
-	
-	var printFunction = function(){
-		  var body = newwindow2.document.getElementsByTagName('body')[0];
+		  var body = document.getElementsByTagName('body')[0];
+		  window.resizeTo(800,window.screen.height);
+		  body.style.background='none';
+		  body.style.backgroundColor="white"; 
 		 // set the title of the print view
           var now = new Date();
           var Jahresmonat = now.getMonth();
@@ -71,12 +72,11 @@ function printPageFunction(currentTour){
           var Min = now.getMinutes();
           var StdAusgabe = ((Std < 10) ? "0" + Std : Std);
           var MinAusgabe = ((Min < 10) ? "0" + Min : Min);
-          newwindow2.document.title = currentTour.name +' - '+ now.getDate()+'.'+(Jahresmonat+1)+'.'+now.getFullYear()+' '+StdAusgabe+':'+MinAusgabe +" - "+$.gctour.lang('printviewTitle');
-
+         
           body.innerHTML = '';
-          addProgressbar({_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
+          addProgressbar({_document:document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 
-          var head = newwindow2.document.getElementsByTagName('head')[0];
+          var head = document.getElementsByTagName('head')[0];
           var style = document.createElement('style');
           style.type = 'text/css';
           //~ style.innerHTML = 'font {font-size:x-small !important}  td {font-size:x-small !important} span {font-size:x-small !important}'+
@@ -251,7 +251,7 @@ function printPageFunction(currentTour){
 
             if(GM_getValue("stopTask",false) && i !== 0){
               GM_setValue("stopTask",false);
-              newwindow2.close();
+              alert("aktualisiere dich!");
             } else if (GM_getValue("stopTask",false) && i === 0 ) {
               GM_setValue("stopTask",false);
             }
@@ -412,7 +412,7 @@ function printPageFunction(currentTour){
 
                 if(GM_getValue('printFrontpage',true) && !minimal){
 
-                  $(newwindow2.document)
+                  $(document)
                     // setting real coordinates on titlepage
                     .find("span#coords_" + geocache.gcid)
                       .html(geocache.coordinates)
@@ -424,8 +424,8 @@ function printPageFunction(currentTour){
                     .find("span#s_"+geocache.gcid).html(geocache.size.substring(0,1)).end();
 
                    // set the last 4 logs icon:
-                   getLast4Logs(geocache.logs, $("canvas#l4l_" + geocache.gcid, newwindow2.document));
-                   //~ $("span#l4l_"+geocache.gcid,newwindow2.document)[0].html(getLast4Logs(geocache.logs));
+                   getLast4Logs(geocache.logs, $("canvas#l4l_" + geocache.gcid, document));
+                   //~ $("span#l4l_"+geocache.gcid,document)[0].html(getLast4Logs(geocache.logs));
                 }
 
                 var geocacheMapping = [
@@ -537,11 +537,11 @@ function printPageFunction(currentTour){
             }
 
             // set the progress
-            setProgress(i,currentTour.geocaches.length,newwindow2.document);
+            setProgress(i,currentTour.geocaches.length,document);
           }
 
-          closeOverlayRemote(newwindow2.document)();// close old ovleray (scraping data)
-          addProgressbar({caption:$.gctour.lang('makeMapWait'),_document:newwindow2.document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}}); // new overlay - getting maps
+          closeOverlayRemote(document)();// close old ovleray (scraping data)
+          addProgressbar({caption:$.gctour.lang('makeMapWait'),_document:document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}}); // new overlay - getting maps
           var cacheObject = {};
           cacheObject.geocaches = geocaches;
           cacheObject.costumMarkers = costumMarkers;
@@ -578,57 +578,30 @@ function printPageFunction(currentTour){
                 mapCount += (GM_getValue('printOutlineMapSingle', true)) ? geocacheCodes.length : 0;
 
                 if (boo_OutlineMap) {
-                  $("div#overview_map", newwindow2.document).first().append( getMapElement(overviewMapQuery, newwindow2.document));
-                  setProgress(1, mapCount, newwindow2.document);
+                  $("div#overview_map", document).first().append( getMapElement(overviewMapQuery, document));
+                  setProgress(1, mapCount, document);
                 }
 
                 // map for each geocache
                 if(GM_getValue('printOutlineMapSingle',true)){
                   for (var i = 0; i < geocacheCodes.length; ++i){
                     var geocacheCode = geocacheCodes[i];
-                    var mapElement = $("div#MAP_" + geocacheCode, newwindow2.document).first();
+                    var mapElement = $("div#MAP_" + geocacheCode, document).first();
 
                     if(mapElement){
-                      mapElement.append(getMapElement(geocacheCode, newwindow2.document));
+                      mapElement.append(getMapElement(geocacheCode, document));
                     }
-                    setProgress(i+1, mapCount, newwindow2.document);
+                    setProgress(i+1, mapCount, document);
                   }
                 }
-                closeOverlayRemote(newwindow2.document)();
+                closeOverlayRemote(document)();
               } catch (e) {
-                addErrorDialog({caption:"Print error maps", _document:newwindow2.document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
+                addErrorDialog({caption:"Print error maps", _document:document, _exception:e,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
               }
 
             }
           );
-	}
 	
-	// dreckiger hack! Irgendwie gibt Firefox den Zugriff auf das neue Fenster doch irgendwann frei. Wir warten mal 3 Sekunden!
-	var printLoop = function(loopCount){
-		if(loopCount < 10){
-			window.setTimeout(function(){
-				GM_log(loopCount);
-				try {
-					if(typeof(newwindow2.document) === 'object') {
-						printFunction();
-					} else {
-						debug("typeoff wrong - "+retries);
-						printLoop(loopCount+1);
-					}
-				}catch (e) {
-					debug("Print loop " + loopCount + " - Error:"+e);
-					printLoop(loopCount+1);
-				}			
-			},500);
-		} else {
-			addErrorDialog({caption:"Printview error", _exception:"Cant't find content from popup after 5 seconds!"});
-			newwindow2.close();
-		}
-		
-		
-		
-	};
-	printLoop(0);
     }
   };
 }

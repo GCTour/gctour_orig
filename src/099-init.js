@@ -306,12 +306,13 @@ function init(){
     $('#cacheDetailsTemplate').text(
       function(index, text) {
         var tmpAddToTour = '{{#if $ctx.userIsLoggedIn() }}'+
-        '<a class="lnk" href="javascript:add2tour();">'+
+        '<a class="lnk" id="attKnopf" href="javascript:add2tour();">'+
           '<img src="'+$.gctour.img.addToTour+'">&nbsp;<span>'+$.gctour.lang('addToTour')+'</span>'+
         '</a>';
         return text.replace(/\{\{\#if \$ctx.userIsLoggedIn\(\) \}\}/g, tmpAddToTour);
       }
     );
+
 
     unsafeWindow.add2tour = function(){
       setTimeout(function() {

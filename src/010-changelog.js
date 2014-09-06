@@ -3,7 +3,9 @@
  *
  * 
  * version @version@.@build@
- * 
+ *   - FIXED: Printview is now working _AGAIN_
+ *   - FIXED: Printview now contains travelbugs again
+ * 	 - NEW: "send message to the author" now contains a response email address
  * 
  * version 2.3.14198
  * 	 - FIXED: Printview is now working again

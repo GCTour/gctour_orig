@@ -575,6 +575,7 @@ function sendMessageDialog(){
       '<input type="hidden" name="redir" value='+window.location+'>'+
       '<input type="hidden" name="user" value='+userName+'>'+
       '<textarea rows="10" style="width:99%" name="message"></textarea>'+
+      '<br/>'+$.gctour.lang('dlg.sendMessage.response')+'<input type="text" name="responsemail"><br/>'+
       '<div class="dialogFooter"><input style="background-image:url('+$.gctour.img.sendMessage+')" type="submit" name="send" value="'+$.gctour.lang('dlg.sendMessage.submit')+'"></input></div>'+
       '</form>';
   }

@@ -29,6 +29,7 @@ require_once 'resources/admin.php';
 require_once 'resources/index.php';
 require_once 'resources/install.php';
 require_once 'resources/contact.php';
+require_once 'resources/downloadGctour.php';
 //~ require_once 'resources/smarty.php';
 
 

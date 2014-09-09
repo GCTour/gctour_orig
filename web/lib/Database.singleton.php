@@ -230,8 +230,6 @@ public function replace($table, $data){
 	}
 
 	$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
-
-
 	if($this->query($q)){
 		return mysql_insert_id($this->link_id);
 	}

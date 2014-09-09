@@ -573,64 +573,29 @@ final class Utilities {
     }
     
   }
-	
+	public static function incrementDownloads(){
+		
+			$db = Database::obtain();
+			$sql="SELECT * FROM `".TABLE_VERSIONS."` ORDER BY build DESC";
+			$row = $db->query_first($sql);
+			
+			
+			$data = array();
+			$data['installs_till'] = "INCREMENT(1)";
+			$db->update(TABLE_VERSIONS, $data, "build='".$row["build"]."'");
+	}
 	
 	public static function getStats(){
 		
 		$db = Database::obtain();
-		$sql="SELECT * FROM `".TABLE_DLSTATS."` ORDER BY stats_date DESC";
-		$row = $db->query_first($sql);
-		
-		
-		$last_date = new DateTime($row['stats_date']);
-		$current_date = new DateTime();
-		$interval = date_diff($current_date, $last_date);
-
-		$installs = $row["installs"];
-		
-		
-		
-		if($interval->format('%a') !== "0"){ //this happens if the last update is more than a day ago
-		//~ if(true){ //this happens if the last update is more than a day ago
-		
-		
-		// fetch metadata to get installs
-			$meta_data_string = file_get_contents('http://userscripts.org/scripts/source/36273.meta.js');
-			$meta_data = array();
-			foreach(preg_split("/(\r?\n)/",	$meta_data_string) as $line){
-				$lines[] = $line;
-				
-				
-				$pattern = "/.*@(.[^\\s]*)\\s*(.*)/";
-				preg_match($pattern, $line, $matches);
-				if(!empty($matches)){
-					$meta_data[$matches[1]] = $matches[2];
-				}
-				
-			}
-			
-			
-			$data = array();
-			$data["installs"] = $meta_data["uso:installs"];
-			$data["stats_date"] = $current_date->format('Y-m-d H:i');
-			
-			$db->insert(TABLE_DLSTATS, $data);
-			
-			$installs = $data["installs"];
-		}
-		
-		
 		
 		$sql="SELECT * FROM `".TABLE_VERSIONS."` ORDER BY build DESC";
-		$row = $db->query_first($sql);
-		
-		
-		
+		$row = $db->query_first($sql);	
 		
 		
 		$stats_data = array();
 		
-		$stats_data["installs"] = $installs-$row["installs_till"];
+		$stats_data["installs"] = $row["installs_till"];
 		$stats_data["release_date"] = new Datetime($row["release_date"]);
 		$stats_data["version"] = $row["version"];
 		$stats_data["build"] = $row["build"];
@@ -669,7 +634,7 @@ final class Updates {
     } else {          
       $version_array['version'] = $rows[0]['version'];
       $version_array['build'] = $rows[0]['build'];
-      $version_array['update'] = "http://gctour.madd.in/gctour.user.js";
+      $version_array['update'] = "http://gctour.madd.in/download/gctour.user.js";
       foreach ($rows as $record) {
         $version = array();
         $version['version'] = $record['version'];

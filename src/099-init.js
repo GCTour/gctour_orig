@@ -133,7 +133,7 @@ function init(){
             closeOverlayRemote(document)();
           };
         }
-      });      
+      });
 
       var tq_caches        = loadValue('tq_caches', []),
           tq_typeFilter    = JSON.parse(GM_getValue('tq_typeFilter')),
@@ -176,19 +176,25 @@ function init(){
         // autoTour magic starts here (filter)
         // check whether the caches match against the given D/T values
         addBool = tq_typeFilter[entry.type] && tq_sizeFilter[entry.size] && tq_dFilter[entry.difficulty] && tq_tFilter[entry.terrain];
-
         debug("##### 1: "+addBool);
+
         if(tq_specialFilter['is Active']){
           log("Check if " + entry.name + " is active:\n" +
               "available: " + entry.available);
           addBool = addBool && (entry.available);// only add if active!
         }
-
         debug("##### 2: "+addBool);
-        if(tq_specialFilter['is not a PM cache']){
-          addBool = addBool && !entry.pm_only;
+
+        //if(tq_specialFilter['is not a PM cache']){
+        if(tq_specialFilter['PM'] == "only"){ // PM only
+          addBool = addBool && entry.pm_only;
+        } else {
+          if(tq_specialFilter['PM'] == "not"){ // not PM
+            addBool = addBool && !entry.pm_only;
+          }
         }
-          debug("##### 3: "+addBool);
+        debug("##### 3: "+addBool);
+
         // autoTour parameter "haven't found" is not checked here because of URL parameter
 
         /*

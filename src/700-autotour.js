@@ -117,6 +117,11 @@ function startAutoTour() {
     specialFilter[$(this).val()] = $(this).is(':checked');
   });
 
+  ele.find("select[id^='special_']").each(function(index) {
+    var p = $(this).attr('id').replace("special_", "");
+    specialFilter[p] = $(this).val();
+  });
+
   lat    = ele.find("input#coordsDivLat").val();
   lon    = ele.find("input#coordsDivLon").val();
   radius = ele.find("input#coordsDivRadius").val();
@@ -158,9 +163,23 @@ function getMarkerCoord() {
 }
 
 function getSpecialFilter(){
-  var $div, $checkbox, attributs,
-    specials = ['I haven\'t found ','is Active', 'is not a PM cache'],
+  var $div, $checkbox, $selectbox, opt, attributs,
+    select_specials = {
+      "PM" : {
+        "not"    : "Is not a PM cache",   // ALT: is not a PM cache = TRUE
+        "ignore" : "PM and not PM cache", // ALT: is not a PM cache = FALSE
+        "only"   : "Only PM cache"        // neu Filtermöglichkeit = nur PM
+      }
+    },
+    checkbox_specials = ['I haven\'t found ','is Active'], // 'is not a PM cache'
     tq_filter = JSON.parse(GM_getValue('tq_specialFilter', '{}'));
+
+// Begin, für Umstellung des Filters
+// => Kann bei übernächster Version wieder entfernt werden
+  if (tq_filter["is not a PM cache"]) {
+    tq_filter["PM"] = "not";
+  }
+// End
 
   $div = $('<div>')
     .html("<b>That</b><br/>")
@@ -172,7 +191,35 @@ function getSpecialFilter(){
       "background-color": "#ffe"
     });
 
-  $.each(specials, function(index, value) {
+//BEGIN ### new Spezialfilter ENTWICKLUNG
+  $.each(select_specials, function(typKey, obj) {
+
+    $selectbox = $('<select/>', {id: "special_" + typKey})
+      .css({
+        "margin": "0 0 6px 0",
+        "width": "150px"
+      });
+
+    $.each(obj, function(key, value) {
+
+      opt = $('<option value="' + key + '">' + value + '</option>');
+
+      if (tq_filter[typKey] == key) {
+        opt.prop('selected', true);
+      }
+
+      $selectbox.append(opt);
+    });
+
+    $div.append(
+      $selectbox,
+      $('<br>')
+    );
+
+  });
+// END ### new Spezialfilter ENTWICKLUNG
+
+  $.each(checkbox_specials, function(index, value) {
 
     attributs = {
       type: 'checkbox',

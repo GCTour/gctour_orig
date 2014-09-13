@@ -29,7 +29,21 @@ function updateAutoTourMap(lat,lon){
     width: 570
   });
 
-  $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
+  var url = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lng=" + lon + "&dist=" + radiusMiles;
+  log("url: " + url);
+
+  $('b#markerCoordsPreview').empty().append(
+    $("<a>",{
+      href: url,
+      title: url,
+      text: new LatLon(lat,lon).toString()
+    })
+    .click(function(){
+      window.open(this.href);
+      return false;
+    })
+   );
+
   $('b#markerRadiusPreview').html(radiusOrg + " " + ((meterMiles == 1) ? "mi" : "km"));
 
   $("b#markerCoordsPreview, b#markerRadiusPreview")
@@ -40,8 +54,6 @@ function updateAutoTourMap(lat,lon){
 
   loadingTime1 = new Date();
 
-  var url = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lng=" + lon + "&dist=" + radiusMiles;
-  log("url: " + url);
   GM_xmlhttpRequest({
     method: 'GET',
     url: url,

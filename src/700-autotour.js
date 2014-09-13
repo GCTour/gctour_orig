@@ -182,7 +182,7 @@ function getSpecialFilter(){
 // End
 
   $div = $('<div>')
-    .html("<b>That</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.special') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -252,16 +252,18 @@ function getSpecialFilter(){
 }
 
 function getDtFiler(boxName){
-  var $div, $checkbox, attributs, tq_filter;
+  var $div, $checkbox, attributs, tq_filter, title;
 
   if (boxName == 'Difficulty') {
     tq_filter = JSON.parse(GM_getValue('tq_dFilter', '{}'));
+    title = $.gctour.lang('autoTourFilter.difficulty');
   } else {  // terrain
     tq_filter = JSON.parse(GM_getValue('tq_tFilter', '{}'));
+    title = $.gctour.lang('autoTourFilter.terrain');
   }
 
   $div = $('<div>')
-    .html("<b>" + boxName + "</b><br/>")
+    .html("<b>" + title + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -308,7 +310,7 @@ function getSizeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_sizeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>Size</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.size') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -355,7 +357,7 @@ function getTypeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_typeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>Type</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.type') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",

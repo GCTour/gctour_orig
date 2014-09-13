@@ -133,6 +133,13 @@ $.gctour.i18n.pt = {
   "autoTourRefresh" : "Oblicz autoRota com estes valores!",
   "autoTourCacheCounts" : "<i>N&#250;mero</i> estimado de caches na regi&#227;o:",
   "autoTourDuration" : "Previs&#227;o do tempo de cria&#231;&#227;o desta autoRota:",
+  "autoTourFilter" : {
+    "type" : "Typ",
+    "size" : "Rozmiar",
+    "difficulty" : "Trudność",
+    "terrain" : "Teren",
+    "special" : "Specjalne"
+  },
   "save" : "Guardar",
   "cancel" : "Cancelar",
   "close" : "Fechar",

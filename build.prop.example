@@ -1,0 +1,19 @@
+# Diese Beispiel-Datei umbenennen in "build.prop"
+#
+# Nur GcTour.dir ist ein Pflichtfeld.
+
+# Pfadangaben damit das Script ins Firefox Plugin "gm_scripts/gc_tour" gelangt
+  # Linux
+  #GcTour.dir=/home/<USER>/.mozilla/firefox/<PROFILE>/gm_scripts/gc_tour
+  # Windows
+  GcTour.dir=C:/Users/<USER>/AppData/Roaming/Mozilla/Firefox/<PROFILE>/gm_scripts/gc_tour
+
+# allgemeine Angaben
+App=gc_tour
+src.dir=src
+build.dir=build
+tmp.dir=tmp
+
+# Account info for GoogleCode upload
+GCODE_user=gctour.support
+GCODE_password=

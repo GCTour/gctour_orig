@@ -20,6 +20,7 @@ define('TABLE_TOURS', TABLE_PREFIX."tours");
 define('TABLE_ERRORS', TABLE_PREFIX."errors");
 define('TABLE_DLSTATS', TABLE_PREFIX."downloadstats");
 define('TABLE_VERSIONS', TABLE_PREFIX."versions");
+define('TABLE_VERSIONSTATS', TABLE_PREFIX."version_stats");
 define('TABLE_GEOCACHESINTOUR', TABLE_PREFIX."geocaches_in_tour");
 define('TABLE_OWNWAYPOINTSINTOUR', TABLE_PREFIX."ownwaypoints_in_tour");
 define('TABLE_MAPTEMP', TABLE_PREFIX."map_temp");

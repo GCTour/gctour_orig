@@ -616,9 +616,56 @@ final class Updates {
     
     return $rows;
   }
+  
+  public static function updateVersionStats($build){
+	$db = Database::obtain();	
+	$timestamp = time();
+	$currentDate = date("Y-m-d",$timestamp);
+	
+	$sql = "SELECT count FROM `".TABLE_VERSIONSTATS."` WHERE `build` = '".$build."' AND `currentDate` = '".$currentDate."'";
+	
+	$rows = $db->fetch_array($sql);
+	if(empty($rows)){
+		$data = array();
+		$data["build"] = $build;		
+		$data["currentDate"] = $currentDate;		
+		$data["count"] = 1;		
+		$db->insert(TABLE_VERSIONSTATS, $data);		
+	} else {
+		$data = array();
+		$data['count'] = "INCREMENT(1)";
+		$db->update(TABLE_VERSIONSTATS, $data, "build='".$build."' AND `currentDate` = '".$currentDate."'");
+	}	  
+  }
+  
+  public static function getVersionStats(){
+	$db = Database::obtain();	
+	$timestamp = time();
+	$currentDate = date("Y-m-d",$timestamp);
+	
+	$sql = "SELECT count FROM `".TABLE_VERSIONSTATS."` WHERE `build` = '".$build."' AND `currentDate` = '".$currentDate."'";
+	
+	$rows = $db->fetch_array($sql);
+	if(empty($rows)){
+		$data = array();
+		$data["build"] = $build;		
+		$data["currentDate"] = $currentDate;		
+		$data["count"] = 1;		
+		$db->insert(TABLE_VERSIONSTATS, $data);		
+	} else {
+		$data = array();
+		$data['count'] = "INCREMENT(1)";
+		$db->update(TABLE_VERSIONSTATS, $data, "build='".$build."' AND `currentDate` = '".$currentDate."'");
+	}	  
+  }
 
   public static function getUpdates($version, $build){
     $db = Database::obtain();
+    
+    
+	// erhöhe die Version Statistik für den Build        
+	Updates::updateVersionStats($build);
+    
     $sql = "SELECT * FROM `".TABLE_VERSIONS."` WHERE `build`>'".$build."' ORDER BY `build` DESC";
 
     $version_array = array();

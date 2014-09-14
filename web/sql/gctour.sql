@@ -62,13 +62,15 @@ CREATE TABLE IF NOT EXISTS `gct_geocaches` (
   `longitude` float NOT NULL,
   PRIMARY KEY (`gcid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE `gct_geocaches` ADD INDEX ( `gcid` );
+
 
 DROP TABLE IF EXISTS `gct_geocaches_in_tour`;
 CREATE TABLE IF NOT EXISTS `gct_geocaches_in_tour` (
   `webcode` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `gcid` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+ALTER TABLE `gct_geocaches_in_tour` ADD INDEX ( `webcode` );
 
 DROP TABLE IF EXISTS `gct_map_temp`;
 CREATE TABLE IF NOT EXISTS `gct_map_temp` (
@@ -91,13 +93,14 @@ CREATE TABLE IF NOT EXISTS `gct_ownwaypoints` (
   `symbol` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`wptcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+ALTER TABLE `gct_ownwaypoints` ADD INDEX ( `wptcode` );
 
 DROP TABLE IF EXISTS `gct_ownwaypoints_in_tour`;
 CREATE TABLE IF NOT EXISTS `gct_ownwaypoints_in_tour` (
   `webcode` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `wptcode` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE `gct_ownwaypoints_in_tour` ADD INDEX ( `webcode` );
 
 
 DROP TABLE IF EXISTS `gct_tours`;
@@ -106,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `gct_tours` (
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`webcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
+ALTER TABLE `gct_tours` ADD INDEX ( `webcode` );
 
 DROP TABLE IF EXISTS `gct_versions`;
 CREATE TABLE IF NOT EXISTS `gct_versions` (
@@ -135,6 +138,16 @@ CREATE TABLE IF NOT EXISTS `gct_waypoints` (
   `longitude` float NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE `gct_waypoints` ADD INDEX ( `gcid` );
+
+DROP TABLE IF EXISTS `gct_version_stats`;
+CREATE TABLE IF NOT EXISTS `gct_version_stats` (
+  `build` int(11) NOT NULL,
+  `currentDate` Date NOT NULL,
+  `count` int(11) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`build`,`currentDate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -133,6 +133,13 @@ $.gctour.i18n.nl = {
   "autoTourRefresh" : "Bereken een autoTour aan met deze waarden!",
   "autoTourCacheCounts" : "Geschat <i>aantal</i> geocaches in deze regio:",
   "autoTourDuration" : "Geschatte tijd om deze autoTour aan te maken:",
+  "autoTourFilter" : {
+    "type" : "Type",
+    "size" : "Grootte",
+    "difficulty" : "Moeilijkheid",
+    "terrain" : "Terrein",
+    "special" : "Speciaal"
+  },
   "save" : "Bewaren",
   "cancel" : "Annuleren",
   "close" : "Sluiten",

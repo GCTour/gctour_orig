@@ -29,7 +29,21 @@ function updateAutoTourMap(lat,lon){
     width: 570
   });
 
-  $('b#markerCoordsPreview').html(new LatLon(lat,lon).toString());
+  var url = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lng=" + lon + "&dist=" + radiusMiles;
+  log("url: " + url);
+
+  $('b#markerCoordsPreview').empty().append(
+    $("<a>",{
+      href: url,
+      title: url,
+      text: new LatLon(lat,lon).toString()
+    })
+    .click(function(){
+      window.open(this.href);
+      return false;
+    })
+   );
+
   $('b#markerRadiusPreview').html(radiusOrg + " " + ((meterMiles == 1) ? "mi" : "km"));
 
   $("b#markerCoordsPreview, b#markerRadiusPreview")
@@ -40,8 +54,6 @@ function updateAutoTourMap(lat,lon){
 
   loadingTime1 = new Date();
 
-  var url = "http://www.geocaching.com/seek/nearest.aspx?lat=" + lat + "&lng=" + lon + "&dist=" + radiusMiles;
-  log("url: " + url);
   GM_xmlhttpRequest({
     method: 'GET',
     url: url,
@@ -117,6 +129,11 @@ function startAutoTour() {
     specialFilter[$(this).val()] = $(this).is(':checked');
   });
 
+  ele.find("select[id^='special_']").each(function(index) {
+    var p = $(this).attr('id').replace("special_", "");
+    specialFilter[p] = $(this).val();
+  });
+
   lat    = ele.find("input#coordsDivLat").val();
   lon    = ele.find("input#coordsDivLon").val();
   radius = ele.find("input#coordsDivRadius").val();
@@ -158,12 +175,26 @@ function getMarkerCoord() {
 }
 
 function getSpecialFilter(){
-  var $div, $checkbox, attributs,
-    specials = ['I haven\'t found ','is Active', 'is not a PM cache'],
+  var $div, $checkbox, $selectbox, opt, attributs,
+    select_specials = {
+      "PM" : {
+        "not"    : "Is not a PM cache",   // ALT: is not a PM cache = TRUE
+        "ignore" : "PM and not PM cache", // ALT: is not a PM cache = FALSE
+        "only"   : "Only PM cache"        // neu Filtermöglichkeit = nur PM
+      }
+    },
+    checkbox_specials = ['I haven\'t found ','is Active'], // 'is not a PM cache'
     tq_filter = JSON.parse(GM_getValue('tq_specialFilter', '{}'));
 
+// Begin, für Umstellung des Filters
+// => Kann bei übernächster Version wieder entfernt werden
+  if (tq_filter["is not a PM cache"]) {
+    tq_filter["PM"] = "not";
+  }
+// End
+
   $div = $('<div>')
-    .html("<b>That</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.special') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -172,7 +203,35 @@ function getSpecialFilter(){
       "background-color": "#ffe"
     });
 
-  $.each(specials, function(index, value) {
+//BEGIN ### new Spezialfilter ENTWICKLUNG
+  $.each(select_specials, function(typKey, obj) {
+
+    $selectbox = $('<select/>', {id: "special_" + typKey})
+      .css({
+        "margin": "0 0 6px 0",
+        "width": "150px"
+      });
+
+    $.each(obj, function(key, value) {
+
+      opt = $('<option value="' + key + '">' + value + '</option>');
+
+      if (tq_filter[typKey] == key) {
+        opt.prop('selected', true);
+      }
+
+      $selectbox.append(opt);
+    });
+
+    $div.append(
+      $selectbox,
+      $('<br>')
+    );
+
+  });
+// END ### new Spezialfilter ENTWICKLUNG
+
+  $.each(checkbox_specials, function(index, value) {
 
     attributs = {
       type: 'checkbox',
@@ -205,16 +264,18 @@ function getSpecialFilter(){
 }
 
 function getDtFiler(boxName){
-  var $div, $checkbox, attributs, tq_filter;
+  var $div, $checkbox, attributs, tq_filter, title;
 
   if (boxName == 'Difficulty') {
     tq_filter = JSON.parse(GM_getValue('tq_dFilter', '{}'));
+    title = $.gctour.lang('autoTourFilter.difficulty');
   } else {  // terrain
     tq_filter = JSON.parse(GM_getValue('tq_tFilter', '{}'));
+    title = $.gctour.lang('autoTourFilter.terrain');
   }
 
   $div = $('<div>')
-    .html("<b>" + boxName + "</b><br/>")
+    .html("<b>" + title + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -261,7 +322,7 @@ function getSizeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_sizeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>Size</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.size') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -308,7 +369,7 @@ function getTypeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_typeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>Type</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTourFilter.type') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -564,6 +625,9 @@ function showAutoTourDialog(center, radius) {
     getMarkerCoord();
   } else {
     $("input#markerRadius").val(2);
-    $('input#markerCoords').focus();
+    $('input#markerCoords')
+      .val($('span#uxLatLon').text()) // /seek/cache_details.aspx oder /geocache/
+      .focus()
+      .select();
   }
 }

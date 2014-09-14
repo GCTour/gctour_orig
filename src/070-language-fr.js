@@ -133,6 +133,13 @@ $.gctour.i18n.fr = {
   "autoTourRefresh" : "Continuer pour cette zone !",
   "autoTourCacheCounts" : "Estimation du<i>nombre total</i> de cache dans cette zone:",
   "autoTourDuration" : "Durée estimée de création de cet autoTour:",
+  "autoTourFilter" : {
+    "type" : "Type",
+    "size" : "Taille",
+    "difficulty" : "Difficulté",
+    "terrain" : "Terrain",
+    "special" : "Spécial"
+  },
   "save" : "Enregistrer",
   "cancel" : "Abandonner",
   "close" : "Fermer",

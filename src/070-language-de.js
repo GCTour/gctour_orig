@@ -133,6 +133,13 @@ $.gctour.i18n.de = {
   "autoTourRefresh" : "Berechne eine autoTour mit diesen Werten!",
   "autoTourCacheCounts" : "Geschätzte <i>gesamt</i> Anzahl Caches in dieser Region:",
   "autoTourDuration" : "Geschätzte Dauer der Erzeugung dieser autoTour:",
+  "autoTourFilter" : {
+    "type" : "Typ",
+    "size" : "Größe",
+    "difficulty" : "Schwierigkeit",
+    "terrain" : "Gelände",
+    "special" : "Spezial"
+  },
   "save" : "Speichern",
   "cancel" : "Abbrechen",
   "close" : "Schließen",

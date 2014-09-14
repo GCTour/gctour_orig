@@ -133,6 +133,13 @@ $.gctour.i18n.en = {
   "autoTourRefresh" : "Calculate a car tour with these values!",
   "autoTourCacheCounts" : "Estimated <i>total number</i> of caches in this region:",
   "autoTourDuration" : "Estimated duration to produce this autoTour:",
+  "autoTourFilter" : {
+    "type" : "Type",
+    "size" : "Size",
+    "difficulty" : "Difficulty",
+    "terrain" : "Terrain",
+    "special" : "Special"
+  },
   "save" : "Save",
   "cancel" : "Cancel",
   "close" : "Close",
@@ -162,7 +169,7 @@ $.gctour.i18n.en = {
       'content': 'You have found a bug? Do you have suggestion on GCTour? I would like to hear your opinion.<br/>Feel free to send me a <b>message</b>:',
       'submit': 'Submit this message!',
       'response': 'Your mail address: '
-      
+
       // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
     },
     'newVersion':{

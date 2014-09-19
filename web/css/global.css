@@ -75,7 +75,7 @@ body, html {
 	width:100%;
 }
 
-#nav a,span {
+#nav a,#nav span {
 	color:#fff;
 	display:block;
 	float:left;

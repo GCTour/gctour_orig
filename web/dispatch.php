@@ -22,6 +22,7 @@ require_once 'resources/errors_send.php';
 require_once 'resources/errors_query.php';
 
 require_once 'resources/update.php';
+require_once 'resources/stats.php';
 
 require_once 'resources/mail.php';
 require_once 'resources/admin.php';

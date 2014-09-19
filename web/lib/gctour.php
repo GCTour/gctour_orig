@@ -573,19 +573,8 @@ final class Utilities {
     }
     
   }
-	public static function incrementDownloads(){
-		
-			$db = Database::obtain();
-			$sql="SELECT * FROM `".TABLE_VERSIONS."` ORDER BY build DESC";
-			$row = $db->query_first($sql);
-			
-			
-			$data = array();
-			$data['installs_till'] = "INCREMENT(1)";
-			$db->update(TABLE_VERSIONS, $data, "build='".$row["build"]."'");
-	}
-	
-	public static function getStats(){
+  	
+  public static function getStats(){
 		
 		$db = Database::obtain();
 		
@@ -603,6 +592,18 @@ final class Utilities {
 		
 
 		return $stats_data;
+	}
+  
+	public static function incrementDownloads(){
+		
+			$db = Database::obtain();
+			$sql="SELECT * FROM `".TABLE_VERSIONS."` ORDER BY build DESC";
+			$row = $db->query_first($sql);
+			
+			
+			$data = array();
+			$data['installs_till'] = "INCREMENT(1)";
+			$db->update(TABLE_VERSIONS, $data, "build='".$row["build"]."'");
 	}
 
 }
@@ -637,27 +638,99 @@ final class Updates {
 		$db->update(TABLE_VERSIONSTATS, $data, "build='".$build."' AND `currentDate` = '".$currentDate."'");
 	}	  
   }
+
+	
+	public static function getVersionStats($ageInDays){
+		
+    $date = new DateTime();
+    $begin    = new DateTime('- '.$ageInDays.' days');
+    $end      = new DateTime('+ 1 days');
+    $interval = DateInterval::createFromDateString('1 day');
+    $days     = new DatePeriod($begin, $interval, $end);
+    
+		$db = Database::obtain();
+		$sql="SELECT s.*,v.version FROM `gct_version_stats` s inner join `gct_versions` v on s.build = v.build where s.currentDate > '".$begin->format("Y-m-d")."' order by build";
   
-  public static function getVersionStats(){
-	$db = Database::obtain();	
-	$timestamp = time();
-	$currentDate = date("Y-m-d",$timestamp);
-	
-	$sql = "SELECT count FROM `".TABLE_VERSIONSTATS."` WHERE `build` = '".$build."' AND `currentDate` = '".$currentDate."'";
-	
-	$rows = $db->fetch_array($sql);
-	if(empty($rows)){
-		$data = array();
-		$data["build"] = $build;		
-		$data["currentDate"] = $currentDate;		
-		$data["count"] = 1;		
-		$db->insert(TABLE_VERSIONSTATS, $data);		
-	} else {
-		$data = array();
-		$data['count'] = "INCREMENT(1)";
-		$db->update(TABLE_VERSIONSTATS, $data, "build='".$build."' AND `currentDate` = '".$currentDate."'");
-	}	  
-  }
+		
+    $buildCountDatabase = array();
+    $buildVersionMapping = array();
+    
+    $rows = $db->fetch_array($sql);
+    
+    foreach ($rows as $record) {
+      $buildCountDatabase[$record['build']][$record['currentDate']] = $record['count'];
+      $buildVersionMapping[$record['build']] = $record['version'];
+    }
+    
+    $buildVersionArray = array_keys($buildVersionMapping);
+     
+    
+    $version_stats = array();
+    foreach ($buildVersionArray as $buildVersion) {
+      $buildLine = array();
+      $buildLine['name'] = $buildVersionMapping[$buildVersion].".".$buildVersion;
+      $buildLine['title'] = "";
+      $buildLine['text'] = "";
+      $buildLine['values'] = array();
+      
+      foreach ( $days as $day ) {
+        $buildLineValue = array();
+        $buildLineValue['date'] = $day->format("Y-m-d");
+        $buildLineValue['count'] = $buildCountDatabase[$buildVersion][$buildLineValue['date']];
+        $buildLine['values'][]=$buildLineValue;
+      }
+      $version_stats[] = (object)$buildLine;
+    }
+    
+    return json_encode($version_stats);
+    
+        
+    
+
+    
+    
+      /*"name": "TestName",
+    "title": "testTitle",
+    "text": "TestText",
+    "values": [
+      {
+        "date": "2014-09-11",
+        "count": 12
+      },
+      {
+        "date": "2014-09-12",
+        "count": 123
+      }
+    ]*/
+    
+    
+    return json_encode($versionsDatabase);
+		
+   /* $version_stats = array();
+    
+  
+      foreach ($rows as $record) {
+        $version = array();
+        $version[] = $record['currentDate'];
+        $version[] = $record['count'];
+        $version['build'] = $record['build'];
+        $version['changes'] = preg_split("/(\r?\n)/", $record['bugfixes']);
+        $version_stats[] = $version;
+      }
+      return (  object) $version_array;
+    
+    
+		$stats_data = array();
+		$stats_data["installs"] = $row["installs_till"];
+		$stats_data["release_date"] = new Datetime($row["release_date"]);
+		$stats_data["version"] = $row["version"];
+		$stats_data["build"] = $row["build"];
+		$stats_data["bugfixes"] = $row["bugfixes"];
+		
+
+		return $stats_data;*/
+	}
+
 
   public static function getUpdates($version, $build){
     $db = Database::obtain();

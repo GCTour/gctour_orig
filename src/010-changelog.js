@@ -3,6 +3,8 @@
  *
  * 
  * version @version@.@build@
+ *   - FIXED: "Add to tour" is now working from the map
+ * 	 - FIXED: Setting the default width of the print view
  * 
  * version 2.3.14249
  *   - FIXED: Printview is now working _AGAIN_

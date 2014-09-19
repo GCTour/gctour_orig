@@ -46,11 +46,11 @@ class AdminResource extends Resource {
     ) {
       $_SESSION['USER'] = $user;
       $_SESSION['PASS'] = $pass;
-      
-    } 
+    }
     
     header('Location: /admin');
      
+//     return $response;
         
    }
 }

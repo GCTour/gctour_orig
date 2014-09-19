@@ -146,11 +146,14 @@ function getLogs(userToken, maxLogsCount){
   do {
     url = urlTemplate.replace("#PAGE#", i).replace("#NUM#", numLogsPages);
 
-    req.open("GET", url, false);
-    // execute the request synchron
-    req.send(null);
-    // after execution parse the result
-    log_obj = JSON.parse(req.responseText);
+	  var response = GM_xmlhttpRequest({
+		  method: "GET",
+		  url: url,
+		  synchronous: true
+		});
+  
+	// after execution parse the result
+    log_obj = JSON.parse(response.responseText);
 
     // füge alle ankommenden logs an das bestehende Array einfach hinten dran!
     logs = logs.concat(log_obj.data);

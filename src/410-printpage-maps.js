@@ -78,10 +78,11 @@ function getMap(mapQuery){
 
   map_frame.className = 'cacheMap';
   map_frame.id = mapId;
-  //map_frame.style.width = "20cm";
   map_frame.style.width = "100%";
   map_frame.style.height = map_size_px + 'px';
-  map_frame.style.border = '1px solid lightgray';
+  $(map_frame).css("border",'1px solid lightgray');
+  $(map_frame).css("box-sizing","border-box");
+
   map_frame.src = getMapUrl(mapQuery);
   return map_frame;
 }
@@ -89,7 +90,7 @@ function getMap(mapQuery){
 function getMapControl(mapQuery,map_frame,newDocument){
 
   var mapId = mapQuery.replace(/,/g,""),
-      control_container = createElement('div',{style:"float:right;"}),
+      control_container = createElement('div'),
       map_size_px;
 
   control_container.className = 'noprint';
@@ -105,11 +106,11 @@ function getMapControl(mapQuery,map_frame,newDocument){
       map_size_px = 500;
       break;
   }
-
+/*
   // todo - default noch selektieren! und alten code löschen
   $(control_container).append(
-    $('<ul/>').append(
-      $('<li/>').text($.gctour.lang('settingsMapSize')).append(
+    $('<div/>').append(
+      $('<div/>').text($.gctour.lang('settingsMapSize')).append(
         $("<div/>").gct_slider({
           min:100,
           max:1000,
@@ -118,7 +119,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
           slide:function(values){map_frame.style.height=values.value+"px";}
         })
       ),
-      $('<li/>').append(
+      $('<div/>').append(
         $("<div/>").gct_slider({
           min:20,
           max:100,
@@ -127,16 +128,51 @@ function getMapControl(mapQuery,map_frame,newDocument){
           slide:function(values){map_frame.style.width=values.value+"%";}
         })
       ),
-      $('<li>'+$.gctour.lang('printviewRemoveMap')+'</li>')
+      $('<div>'+$.gctour.lang('printviewRemoveMap')+'</div>')
         .css('background','url("'+$.gctour.img.del+'") top left no-repeat')
         .css('padding-left','18px')
         .click(function(){map_frame.parentNode.style.display = "none";}),
-      $('<li>Karte neu laden!</li>')
+      $('<siv>Karte neu laden!</li>')
         .css('background','url("'+$.gctour.img.refresh+'") top left no-repeat')
         .css('padding-left','18px')
+        .css('clear','both')
         .click(function(){map_frame.src = map_frame.src;})
     )
-  ).find("li").addShadowEffect().addOpacityEffect();
+  ).find("div").addShadowEffect().addOpacityEffect();*/
+  
+  
+  $(control_container).append(
+    $('<div/>').append(
+        $("<div/>").gct_slider({
+          min:100,
+          max:1000,
+          value:map_size_px,
+          document: newDocument,
+          slide:function(values){map_frame.style.height=values.value+"px";}
+        })
+      ,
+      $('<div/>').append(
+        $("<div/>").gct_slider({
+          min:20,
+          max:100,
+          value:100,
+          document: newDocument,
+          slide:function(values){map_frame.style.width=values.value+"%";}
+        })
+      )
+     ),
+	  $('<div>'+$.gctour.lang('printviewRemoveMap')+'</div>')
+        .css('background','url("'+$.gctour.img.del+'") top left no-repeat')
+        .css('padding-left','18px')
+        .click(function(){map_frame.parentNode.style.display = "none";}),
+      $('<div>Karte neu laden!</div>')
+        .css('background','url("'+$.gctour.img.refresh+'") top left no-repeat')
+        .css('padding-left','18px')
+        .css('clear','both')
+        .click(function(){map_frame.src = map_frame.src;})
+    );
+  
+  
 /*
   var factor = 1;
   var inputElement = document.createElement('input');control_container.appendChild(inputElement);

@@ -113,7 +113,8 @@ class UpdateResource extends Resource {
         $update_obj = json_decode($upd);
         
         $updates = Updates::getUpdates($update_obj->{'version'},$update_obj->{'build'});
-                
+         
+         
         $response->code = Response::OK;
         $response->addHeader('Content-type', 'text/plain');
         $response->body =  json_encode($updates);

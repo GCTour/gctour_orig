@@ -238,13 +238,14 @@ function getDateFormat(force){
     //replace updatedate
     GM_setValue('date_format_update', current_date.toString());
 
-    // load prefences page
-    req.open("GET", myUrl, false);
-    // execute the request synchron
-    req.send(null);
-    // after execution parse the result
-    response_div = createElement('div');
-    response_div.innerHTML = req.responseText;
+	var response = GM_xmlhttpRequest({
+	  method: "GET",
+	  url: myUrl,
+	  synchronous: true
+	});
+  
+
+    response_div.innerHTML = response.responseText;
     // parse date format
     date_format = $('select#ctl00_ContentBody_uxDateTimeFormat option:selected', response_div).val();
     if (date_format !== "undefined") {

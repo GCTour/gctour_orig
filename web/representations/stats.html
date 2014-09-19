@@ -1,0 +1,67 @@
+<script type="text/javascript" src="https://www.google.com/jsapi?"></script>
+
+<script type="text/javascript">
+  
+  google.load("visualization", "1", {$smarty.ldelim}packages: ['annotationchart']{$smarty.rdelim});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    
+    var dbData = JSON.parse('{$output}');
+    
+    
+    var data = new google.visualization.DataTable();
+    data.addColumn('date', 'Date');
+    for (index = 0; index < dbData.length; ++index) {  
+      data.addColumn('number', dbData[index].name);
+      data.addColumn('string', dbData[index].name+' title');
+      data.addColumn('string', dbData[index].name+' text');
+    }
+    
+    
+    
+    var values = new Array();
+    
+    
+    for (index = 0; index < dbData[0].values.length-1; ++index) {  
+		var row = new Array();
+		row.push(new Date(dbData[0].values[index].date));
+		
+		 for (index2 = 0; index2 < dbData.length; ++index2) {  
+			 if(dbData[index2].values[index].count == null){
+				row.push(0); 
+			 } else {
+				row.push( parseInt(dbData[index2].values[index].count)); 
+			 }
+			 row.push(null);
+			 row.push(null);
+		}	
+		values.push(row); 
+    }    
+    
+    
+    data.addRows(values);
+    
+    /*
+    data.addRows([
+      [new Date(2013, 9, 12), 12400, 'tret', null,
+                              10645, null, null,
+                              11645, null, null],
+         [new Date(2013, 9, 13), 10000, 'tret', null,
+                              12645, null, null,
+                              15645, null, null]
+        
+    ]);*/
+
+    var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
+
+    var options = {
+      displayAnnotations: true,
+      min: 0,
+      displayZoomButtons: false
+        
+    };
+
+    chart.draw(data, options);
+  }</script>
+
+       <div id='chart_div' style='width: 100%; height: 500px;background-color:#336799'></div>

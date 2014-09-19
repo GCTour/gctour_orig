@@ -277,18 +277,18 @@ function getGeocacheFromElement(element){
 }
 
 function getGeocache(gcid){
-
-  var req = new XMLHttpRequest();
-  var myUrl = 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid;
-  req.open("GET", myUrl, false);
-  // execute the request synchron
-  req.send(null);
+  var response = GM_xmlhttpRequest({
+	  method: "GET",
+	  url: 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid,
+	  synchronous: true
+	});
+  
   // after execution parse the result
   var response_div = createElement('div');
-  response_div.innerHTML = req.responseText;
+  response_div.innerHTML = response.responseText;
 
   GM_setValue("debug_lastgcid",gcid);
-  GM_setValue("debug_lastcachesite",req.responseText);
+  GM_setValue("debug_lastcachesite",response.responseText);
 
   return getGeocacheFromElement(response_div);
 }

@@ -320,7 +320,7 @@ function init(){
     );
 
 
-    unsafeWindow.add2tour = function(){
+    var add2tour = function(){
       setTimeout(function() {
         var gccode         = $('#gmCacheInfo div[class="code"]:visible:first').text().trim();
         var name           = $("#gmCacheInfo a[href*='cache_details.aspx']:visible:first").text().trim();
@@ -337,7 +337,7 @@ function init(){
       }, 0);
     };
 
-
+	exportFunction(add2tour, unsafeWindow, {defineAs: "add2tour"});
   }
 
   // add buttons to Bookmark site

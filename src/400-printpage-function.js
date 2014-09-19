@@ -60,10 +60,15 @@ function printPageFunction(currentTour){
       //var newwindow2 = window.open('http://www.geocaching.com/seek/cdpf.aspx?guid=' + url_guid, null, 'fullscreen=yes,scrollbars=yes,toolbar=yes,menubar=yes');
       
 
-		  var body = document.getElementsByTagName('body')[0];
-		  window.resizeTo(800,window.screen.height);
-		  body.style.background='none';
-		  body.style.backgroundColor="white"; 
+			$('html').html("");
+
+
+		  //var bodyTag = document.getElementsByTagName('body')[0];
+	var bodyTag =  document.createElement('body');
+		  $('html').append(bodyTag);
+		  
+		  bodyTag.style.background='none';
+		  bodyTag.style.backgroundColor="white"; 
 		 // set the title of the print view
           var now = new Date();
           var Jahresmonat = now.getMonth();
@@ -73,10 +78,23 @@ function printPageFunction(currentTour){
           var StdAusgabe = ((Std < 10) ? "0" + Std : Std);
           var MinAusgabe = ((Min < 10) ? "0" + Min : Min);
          
-          body.innerHTML = '';
+          bodyTag.innerHTML = '';
+          
+          
+          var body = document.createElement('div');
+          $(body).width(648);
+          $( body ).css( "margin", "30px auto" );
+      
+          
+          bodyTag.appendChild(body);
+          
+          
           addProgressbar({_document:document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 
           var head = document.getElementsByTagName('head')[0];
+          var jqCss = $('<link/>').attr("href", "http://www.geocaching.com/css/jqueryui1104/jqUI").attr("rel","stylesheet").appendTo($(head));
+          
+          
           var style = document.createElement('style');
           style.type = 'text/css';
           //~ style.innerHTML = 'font {font-size:x-small !important}  td {font-size:x-small !important} span {font-size:x-small !important}'+

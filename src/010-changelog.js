@@ -1,25 +1,27 @@
 /*
  * Changelog:
  *
- * 
+ *
  * version @version@.@build@
  *   - FIXED: "Add to tour" is now working from the map
- * 	 - FIXED: Setting the default width of the print view
- * 
+ *   - FIXED: Setting the default width of the print view
+ *   - UPDATED: autoTour dialog -> Coordinates are taken from geocache detail page
+ *   - UPDATED: autoTour dialog -> special filter extended with "Only PM cache"
+ *
  * version 2.3.14249
  *   - FIXED: Printview is now working _AGAIN_
  *   - FIXED: Printview now contains travelbugs again
- * 	 - NEW: "send message to the author" now contains a response email address
- * 
+ *   - NEW: "send message to the author" now contains a response email address
+ *
  * version 2.3.14198
- * 	 - FIXED: Printview is now working again
+ *   - FIXED: Printview is now working again
  * version 2.3.13263
  *   - FIXED: gc.com update
- * 
+ *
  * version 2.3.13241
  *   - NEW: Notifications with proper localisations and look
  *   - FIXED: Issue 50 (Send to GPS always sends GC14PCD)
- * 
+ *
  * version  2.3.13239
  *   - FIXED: Issue 45, 47 and 49
  *
@@ -33,7 +35,7 @@
  *   - FIXED: Bug on map that you need to log in
  *   - FIXED: Issue 42 "Add to tour" button on map
  *   - FIXED: Some minor CSS glitches
- * 
+ *
  * version 2.3.12147
  *   - FIXED: Issue 37 and 39
  *   - UPDATED: buttons of searchpage and bookmarkpage adjusted

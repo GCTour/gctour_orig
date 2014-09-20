@@ -18,7 +18,7 @@
 // @grant        GM_getResourceText
 // @grant        GM_getResourceURL
 // @grant        unsafeWindow
-// @copyright    2008, 2009, 2010, 2011, 2012, 2013 Martin Georgi
+// @copyright    2008 - 2014 Martin Georgi
 // @author       madd.in
 // @co-developer jens
 // @icon         http://www.madd.in/geocaching/gm/gctourextension/icon.png

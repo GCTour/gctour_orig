@@ -71,7 +71,8 @@
 
      var cacheIDs = [],
         caches = currentTour.geocaches,
-        cachesCount = caches.length,
+        cachesCount = caches.length, // mit ggf. Waypoints
+        cacheIDsCount = 0, // ohne ggf. Waypoints
 
         group = 1, // wieviel IDs sollen gleichzeitig übertragen werden
         url = "http://send2.cgeo.org/add.html",
@@ -84,13 +85,14 @@
         txtSuc = "Success!",        // möglicher response wenn das hinzufügen erfolgreich war
         waitTime = 1500;            // warten zwischen den urls, Millisekunden
 
-    // IDs only to array
+    // IDs only to array (without Waypoints)
     cacheIDs = $.map(caches, function(n, i){
-      return (n.id);
+      return ((n.id !== undefined) ? n.id : null);
     });
+    cacheIDsCount = cacheIDs.length;
 
     $pBar
-      .progressbar( "option", "value", 0 )
+      .progressbar( "option", {"value": 0, "max": cacheIDsCount})
       .removeClass("hide");
 
     $btn.button( "disable" );
@@ -99,7 +101,7 @@
 
     // sendet die url, wartet dann um die function erneut aufzurufen
     // vererbte Variablen
-    // group, cachesCount, cacheIDs, url
+    // group, cacheIDsCount, cacheIDs, url
     // $pBar, txtReg, txtSuc, waitTime
     function sendRequests(fromPos) {
 
@@ -109,7 +111,7 @@
         boo = true;
 
       // toPos darf nicht größer sein als die Liste
-      toPos = (toPos > cachesCount) ? cachesCount : toPos;
+      toPos = (toPos > cacheIDsCount) ? cacheIDsCount : toPos;
 
       param = cacheIDs.slice(fromPos, toPos).join(",");
       log("1: " + currentTime());
@@ -139,13 +141,13 @@
       log( res ); // send2.cgeo.org/add.html?cache=GC4924F
       fromPos = toPos;
       log("next Pos: " + fromPos);
-      if (cachesCount > fromPos && boo) {
+      if (cacheIDsCount > fromPos && boo) {
         setTimeout(sendRequests, waitTime, fromPos);
       }
 
     };
 
-    if (cachesCount > 0) {
+    if (cacheIDsCount > 0) {
       setTimeout(sendRequests, waitTime, 0);
     }
 
@@ -171,7 +173,13 @@
 
     if (!DEBUG_MODE) { return; }
 
-    var $content = $('<div id="dlgsendtocgeo">'+
+    var cacheIDsCount = $.grep(currentTour.geocaches, function( n, i ) {
+                          return (n.id !== undefined);
+                        }).length,
+      waypointCount = currentTour.geocaches.length - cacheIDsCount,
+      btnText = $.gctour.lang('send2cgeo') + ' (' + cacheIDsCount + ' Caches' + (waypointCount > 0 ? ', without ' + waypointCount + ' Waypoints)' : ')'),
+
+      $content = $('<div id="dlgsendtocgeo">'+
       '<div>'+
         '<strong>send to c:geo</strong>'+
         '<ul>'+
@@ -204,7 +212,7 @@
           '<li>Optional: Stored -> Menu -> List -> ...</li>'+
           '<li>Finally: Stored -> Menu -> Manage -> Import from web</li>'+
 
-          '<li><button id="btnSend2cgeo">' + $.gctour.lang('send2cgeo') + ' (' + currentTour.geocaches.length + ' Caches)</button><div id="gctour_send2cgeo_progressbar" class="hide"><div class="progress-label">Loading...</div></div></li>' +
+          '<li><button id="btnSend2cgeo">' + btnText + '</button><div id="gctour_send2cgeo_progressbar" class="hide"><div class="progress-label">Loading...</div></div></li>' +
 
         '</ol>'+
       '</div>'+

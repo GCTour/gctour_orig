@@ -244,7 +244,7 @@ function getDateFormat(force){
 	  synchronous: true
 	});
   
-
+    response_div = createElement('div');
     response_div.innerHTML = response.responseText;
     // parse date format
     date_format = $('select#ctl00_ContentBody_uxDateTimeFormat option:selected', response_div).val();

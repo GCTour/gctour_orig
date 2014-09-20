@@ -176,7 +176,7 @@ $.gctour.i18n.pt = {
       // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
-      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Lamento mas ocorreu um erro.<br/>' +
+      'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Lamento mas ocorreu um erro.<br/>' +
           'Por favor tente outra vez, ou procure por uma <a href="#" id="gctour_update_error_dialog">atualização</a>!<br/><br/>' +
           'Se este erro voltar a aparecer, por favor envie um relat&#243;rio.<br/>' +
           '<u>Nota</u><br/>' +

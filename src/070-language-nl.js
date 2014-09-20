@@ -176,7 +176,7 @@ $.gctour.i18n.nl = {
       // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
-      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;ESpijtig genoeg is er een fout gebeurd.<br/>' +
+      'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;ESpijtig genoeg is er een fout gebeurd.<br/>' +
           'Probeer het opnieuw proberen, of kijk voor <a href="#" id="gctour_update_error_dialog">update</a>!<br/><br/>' +
           'Als de fout blijft voorkomen, gelieve dan een foutenrapport te versturen.<br/>' +
           '<u>Noot</u><br/>' +

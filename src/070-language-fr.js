@@ -176,7 +176,7 @@ $.gctour.i18n.fr = {
       // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
-      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>' +
+      'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>' +
           'Réessayez SVP, ou vérifier les <a href="#" id="gctour_update_error_dialog">mises à jour</a> du script !<br/><br/>' +
           'Si cette erreur se reproduit, merci d\'envoyer le rapport d\'erreur.<br/>' +
           '<u>Notes</u><br/>' +

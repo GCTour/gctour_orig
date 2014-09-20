@@ -177,7 +177,7 @@ $.gctour.i18n.de = {
       // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
-      'content': '<img src="http://img.groundspeak.com/forums/emoticons/signal/sad.gif">&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten!<br/>' +
+      'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten!<br/>' +
           'Versuch es einfach noch einmal oder suche nach einem <a href="#" id="gctour_update_error_dialog">Update</a>!<br/><br/>' +
           'Wenn dieser Fehler öfter auftritt, dann schicke bitte einen Fehlerbericht.<br/>' +
           '<u>Notizen</u><br/>' +

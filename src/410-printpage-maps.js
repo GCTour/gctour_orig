@@ -141,15 +141,59 @@ function getMapControl(mapQuery,map_frame,newDocument){
   ).find("div").addShadowEffect().addOpacityEffect();*/
   
   
+     // send2cgeo
+
+  
   $(control_container).append(
-    $('<div/>').append(
-        $("<div/>").gct_slider({
-          min:100,
-          max:1000,
-          value:map_size_px,
-          document: newDocument,
-          slide:function(values){map_frame.style.height=values.value+"px";}
-        })
+    $('<span>Höhe</span>')
+      .css('float','left')
+      .css('margin-right','5px'),
+    $("<span/>").gct_slider({
+        min:100,
+        max:1000,
+        value:map_size_px,
+        document: newDocument,
+        slide:function(values){map_frame.style.height=values.value+"px";}
+      })
+      .css('float','left')
+      .css('width','250px'),
+    $('<img>', {
+        'class': 'tourImage',
+        src:    $.gctour.img.send2cgeo,
+        title:  $.gctour.lang('send2cgeo'),
+        alt :   $.gctour.lang('send2cgeo'),
+        click: function(){
+          openGcTour2cgeoDialog();
+        }
+      })
+      .css('float','right'),
+    $('<img>', {
+        'class': 'tourImage',
+        src:    $.gctour.img.map,
+        title:  $.gctour.lang('makeMap'),
+        alt :   $.gctour.lang('makeMap'),
+        click: function(){
+          makeMapFunction();
+        }
+      })
+      .css('float','right'),
+    $('<div/>')
+      .css('clear','both')
+  ).find("img.tourImage").addShadowEffect().addOpacityEffect();
+     /* 
+      float:left;margin-right:5px
+      
+      
+      
+      
+            $('<div>Karte neu laden!</div>')
+        .css('background','url("'+$.gctour.img.refresh+'") top left no-repeat')
+        .css('padding-left','18px')
+        .css('clear','both')
+        .click(function(){map_frame.src = map_frame.src;})
+    
+    .append(
+        
       ,
       $('<div/>').append(
         $("<div/>").gct_slider({

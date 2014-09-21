@@ -100,8 +100,8 @@ function printPageFunction(currentTour){
           //~ style.innerHTML = 'font {font-size:x-small !important}  td {font-size:x-small !important} span {font-size:x-small !important}'+
                     //~ 'div {font-size:x-small !important} p {font-size:x-small !important}';
           //~ style.innerHTML = 'font,td,th,span,div, p {font-size:'+GM_getValue("printFontSize","x-small")+'!important} ';
-          style.innerHTML = '*{ font-size:'+GM_getValue("printFontSize","x-small")+' } .cacheDetail{ border: 1px solid lightgray; width: 100%; text-align: left;} .cacheDetail div{ padding-left:5px; } .wpt_id{ position:relative; padding:5px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_id{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; }  .content{ clear:both; border-top:2px dashed lightgray; margin-top:10px; padding-top:10px; }  img{ vertical-align:middle; }  #details span{ margin-left: 10px } .images{clear:both;height:auto}';
-          style.innerHTML += '.removable{margin:2px;} .map{clear:both} .logs{clear:both} .logs div{margin:2px} .hidden{display:none} .highlight{background-color:pink}';
+          style.innerHTML = '*{ font-size:'+GM_getValue("printFontSize","x-small")+' } .cacheDetail{ border: 1px solid lightgray; width: 100%; text-align: left;padding:5px; -moz-box-sizing: border-box; } .wpt_id{ position:relative; padding:5px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_id{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; }  .content{ clear:both; border-top:2px dashed lightgray; margin-top:10px; padding-top:10px; }  img{ vertical-align:middle; }  #details span{ margin-left: 10px } .images{clear:both;height:auto}';
+          style.innerHTML += '.map{clear:both} .logs{clear:both} .hidden{display:none} .highlight{background-color:pink}';
           style.innerHTML += '.geocache_count{ position:relative; padding:20px !important; float:right;  font-size:medium; font-weight:bold; } .geocache_count span{padding: 5px; font-weight: bold; font-size: 18px; -moz-border-radius: 5px; border-radius: 5px; border:2px dotted black;}';
           style.innerHTML += 'sup {vertical-align:baseline;font-size:77%;position:relative;top:-5px;}';
           style.innerHTML += '.dialogMask {background-image:url('+$.gctour.img.dialogMask+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:1100;}'+
@@ -300,7 +300,7 @@ function printPageFunction(currentTour){
                 }
                 maxPrintLogs = maxPrintLogs;
                 for (var log_i = 0; (log_i < logs.length && (log_i < maxPrintLogs)); log_i++){
-                  var log_div = createElement('div', {style:"width:95%;page-break-inside:avoid;"});
+                  var log_div = createElement('div', {style:"width:100%;page-break-inside:avoid;"});
                   log_div.setAttribute("class", "removable");
 
                   var log_type_img = createElement('img', {src:'http://www.geocaching.com/images/logtypes/'+logs[log_i].LogTypeImage});

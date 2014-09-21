@@ -40,11 +40,41 @@ Settings.prototype.show = function(){
 };
 
 Settings.prototype.getGPX = function(){
-  var div = createElement('div');
+  var div = createElement('div'),
+    maxLogs_span = createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;padding-bottom:3px;"}),
+    maxLogs_caption = createElement('span'),
+    maxLogs = createElement('input',{type:"text",size: 2,value:2,style:"margin: 5px 0 0 10px;"});
+
+  maxLogs_caption.innerHTML = "<b>"+$.gctour.lang('settings.gpx.maxLogCount')+"</b><br/>";
+  append(maxLogs_caption, maxLogs_span);
+
+  maxLogs.addEventListener('click', function(){
+    GM_setValue('maxGPXLogs', maxLogs.value);
+  }, false);
+  maxLogs.addEventListener('keyup',
+    function(){
+
+      var check,
+        anz = maxLogs.value, //get characters
+        integersOnly = new RegExp(/^\d+$/);
+
+      check = integersOnly.test(anz);
+
+      if(!check) { // highlight if something is wrong
+        maxLogs.style.backgroundColor = '#ff7f7f';
+      } else {
+        maxLogs.style.backgroundColor = '#ffffff';
+        GM_setValue('maxGPXLogs',anz);
+      }
+
+    }, false);
+  maxLogs.value = GM_getValue('maxGPXLogs', 10);
+  append(maxLogs, maxLogs_span);
 
   append(this.getCheckbox('settingsGPXHtml', 'gpxhtml',true),div);
   append(this.getCheckbox('settingsGPXWpts', 'gpxwpts',true),div);
   append(this.getCheckbox('settingsGPXAttributestoLog', 'gpxattributestolog',false),div);
+  append(maxLogs_span,div);
   append(this.getCheckbox('settingsGPXStripGC', 'gpxstripgc',false),div);
 
   return div;
@@ -178,7 +208,6 @@ Settings.prototype.getPrint = function(){
   } else {
     exportText.value = GM_getValue('maxPrintLogs', 3);
     exportRadioCount.checked = 'checked';
-
   }
 
   log_button_div.appendChild(exportRadioNone);

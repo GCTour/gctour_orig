@@ -163,6 +163,11 @@ $.gctour.i18n.fr = {
   'updateCurrently' : 'Version installée de GCTour '+VERSION+'.'+BUILD+' ! ',
 
   // redesign begin 05.2012
+  'settings':{
+    'gpx':{
+      'maxLogCount': 'nombre maximum de journaux'
+    }
+  },
   'dlg':{
     'sendMessage':{
       'caption': 'Contacter l\'auteur',

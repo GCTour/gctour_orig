@@ -96,7 +96,7 @@ function getGeocacheFromElement(element){
   */
   $divCacheDetails = $('#ctl00_ContentBody_mcd2', element).first();
   geocache.hidden = parseDate($.trim($divCacheDetails.text().split(':').pop()));
-  
+
   /* (01.2012)
     event caches =>
           LogedIn => okay, Example: 01/08/2012
@@ -121,7 +121,7 @@ function getGeocacheFromElement(element){
   //userDefinedCoordsString = userDefinedCoordsString[0] || "";
   var patt = /var userDefinedCoords = {*([\s\S]*?)}[;]+/; // suche nach "var userDefinedCoords = {"    bis    "};"
   var r;
-  var userDefinedCoordsString = ((r = patt.exec( $(element).text() )) != null) ? r[1] : "";  
+  var userDefinedCoordsString = ((r = patt.exec( $(element).text() )) != null) ? r[1] : "";
 
   var userDefinedCoords = jQuery.parseJSON('{' + userDefinedCoordsString + '}');
   geocache.coordinatesisedit = (userDefinedCoords && userDefinedCoords.status == "success" && userDefinedCoords.data.isUserDefined == true); // false = original
@@ -141,13 +141,10 @@ function getGeocacheFromElement(element){
 
   geocache.location = $("span#ctl00_ContentBody_Location", element).first().text();
 
-
- 
-  
-  try{
+  try {
     // get the country and (if exists) the state!
     if(geocache.location.indexOf(",") < 0){ // if the index of "," < 0 then the state is not given!
-    
+
       geocache.state = "";
       geocache.country = $.trim(geocache.location.split("In ")[1]);
     } else {
@@ -158,23 +155,23 @@ function getGeocacheFromElement(element){
     geocache.state = "";
     geocache.country = $.trim(geocache.location);
   }
-  
-  
+
+
   try{
 
     // ToDo check distance
     geocache.bearing  = $('span#lblDistFromHome > img', element).first().attr("alt");
-    
+
     var distanceTemp = $('span#lblDistFromHome', element).first().text().split(" ");
-    
+
     geocache.distance = distanceTemp[0] + " " + distanceTemp[1];
-    
+
   } catch(e) {
     // if homecoordinates are not set
     geocache.bearing = "";
     geocache.distance = "";
   }
-  
+
   geocache.inventory = $('ul > li > a > img', $('div.WidgetBody', element).eq(1) );
 
   geocache.attributes = $('div.CacheDetailNavigationWidget > div.WidgetBody > img', element);
@@ -269,7 +266,8 @@ function getGeocacheFromElement(element){
 
   // hole den UserToken und benutze ihn um die Logs einzusammeln
   var userToken = element.innerHTML.split("userToken = '")[1].split("'")[0];
-  geocache.logs = getLogs(userToken);
+  var maxGPXLogs = parseInt(GM_getValue('maxGPXLogs', 10), 10);
+  geocache.logs = getLogs(userToken, maxGPXLogs);
 
   log("fn getGeocacheFromElement - geocache.logs.length: " + geocache.logs.length);
 
@@ -282,7 +280,7 @@ function getGeocache(gcid){
 	  url: 'http://www.geocaching.com/seek/cache_details.aspx?log=y&wp='+gcid,
 	  synchronous: true
 	});
-  
+
   // after execution parse the result
   var response_div = createElement('div');
   response_div.innerHTML = response.responseText;

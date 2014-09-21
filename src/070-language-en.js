@@ -163,6 +163,11 @@ $.gctour.i18n.en = {
   'updateCurrently' : 'GCTour version '+VERSION+'.'+BUILD+' is up to date!',
 
   // redesign begin 05.2012
+  'settings':{
+    'gpx':{
+      'maxLogCount': 'max number of logs'
+    }
+  },
   'dlg':{
     'sendMessage':{
       'caption': 'Send a message to the author.',

@@ -279,8 +279,8 @@ function getGPX(){
           logsStringArray.push(attributeLog);
         }
 
-        // just 10 logs in the gpx
-        for ( ii = 0; (ii < logs.length && ii < 10); ii++){
+        // just max 200 logs in the gpx
+        for ( ii = 0; (ii < logs.length && ii < 200); ii++){
           var geocacheLogMapping = [
             ['LOGID',      logs[ii].id], // Issue3
             ['TIME',       xsdDateTime(logs[ii].foundDate)],

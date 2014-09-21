@@ -163,6 +163,11 @@ $.gctour.i18n.pt = {
   'updateCurrently' : 'GCTour versão '+VERSION+'.'+BUILD+' está atualmente!',
 
   // redesign begin 05.2012
+  'settings':{
+    'gpx':{
+      'maxLogCount': 'maksymalna liczba dzienników'
+    }
+  },
   'dlg':{
     'sendMessage':{
       'caption': 'Enviar uma mensagem para o autor.',

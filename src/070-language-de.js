@@ -163,6 +163,11 @@ $.gctour.i18n.de = {
   'updateCurrently' : 'GCTour Version '+VERSION+'.'+BUILD+' ist aktuell!',
 
   // redesign begin 05.2012
+  'settings':{
+    'gpx':{
+      'maxLogCount': 'max. Anzahl der Logs'
+    }
+  },
   'dlg':{
     'sendMessage':{
       'caption': 'Sende eine Nachricht an den Entwickler.',

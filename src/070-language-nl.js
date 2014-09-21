@@ -163,6 +163,11 @@ $.gctour.i18n.nl = {
   'updateCurrently' : 'GCTour versie '+VERSION+'.'+BUILD+' is op dit moment!',
 
   // redesign begin 05.2012
+  'settings':{
+    'gpx':{
+      'maxLogCount': 'max aantal logs'
+    }
+  },
   'dlg':{
     'sendMessage':{
       'caption': 'Bericht naar auteur versturen.',

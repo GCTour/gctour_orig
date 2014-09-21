@@ -129,35 +129,38 @@ function getMinimalGeocacheDetails(detailsPage){
   }
 
   return geocache_details;
-
 }
 
 function getLogs(userToken, maxLogsCount){
-  maxLogsCount = maxLogsCount || 25; // optionaler Parameter default = 25
+  maxLogsCount = $.isNumeric(maxLogsCount) ? maxLogsCount : 25; // optionaler Parameter default = 25, kann auch 0 sein
   var i = 1,
-      numLogsPages = (maxLogsCount < 100) ? 25 : 100,
-      logs = [],
-      urlTemplate = 'http://www.geocaching.com/seek/geocache.logbook?tkn='+userToken+'&idx=#PAGE#&num=#NUM#&decrypt=false',
-      url, n,
-      log_obj = {},
-      req = new XMLHttpRequest(),
-      booA, booB;
+    numLogsPages = (maxLogsCount < 100) ? 25 : 100, // wieviel Logs je Request
+    logs = [],
+    urlTemplate = 'http://www.geocaching.com/seek/geocache.logbook?tkn='+userToken+'&idx=#PAGE#&num=#NUM#&decrypt=false',
+    url, n,
+    log_obj = {},
+    req = new XMLHttpRequest(),
+    booA, booB;
+  
+  if (maxLogsCount <= 0) {
+    return logs;
+  }
 
   do {
     url = urlTemplate.replace("#PAGE#", i).replace("#NUM#", numLogsPages);
 
-	  var response = GM_xmlhttpRequest({
-		  method: "GET",
-		  url: url,
-		  synchronous: true
-		});
-  
-	// after execution parse the result
+    var response = GM_xmlhttpRequest({
+      method: "GET",
+      url: url,
+      synchronous: true
+    });
+
+    // after execution parse the result
     log_obj = JSON.parse(response.responseText);
 
     // füge alle ankommenden logs an das bestehende Array einfach hinten dran!
     logs = logs.concat(log_obj.data);
-    
+
     //~ LogID               273160821
     //~ CacheID             2436701
     //~ LogGuid             "8fd33a36-bb44-40ed-9b8b-41737e2d0c6a"
@@ -193,8 +196,8 @@ function getLogs(userToken, maxLogsCount){
 
   // LogArray ggf. kürzen
   if (logs.length > maxLogsCount) {
-      n = maxLogsCount - logs.length;
-      logs = logs.slice(0, n);
+    n = maxLogsCount - logs.length;
+    logs = logs.slice(0, n);
   }
 
   return logs;

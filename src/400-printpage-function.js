@@ -64,7 +64,7 @@ function printPageFunction(currentTour){
 
 
 		  //var bodyTag = document.getElementsByTagName('body')[0];
-	var bodyTag =  document.createElement('body');
+		 var bodyTag =  document.createElement('body');
 		  $('html').append(bodyTag);
 		  
 		  bodyTag.style.background='none';
@@ -116,7 +116,7 @@ function printPageFunction(currentTour){
                     '.dialogFooter input:hover { background-color:#f9f9f9; }'+
                     '.dialogContent {padding:0px 10px 0px 10px;}'+
                     '.dialogMin {min-height:0px !important}'+
-                    '.noprint {padding:2px;border: 1px solid rgb(235, 239, 194); background-color: rgb(251, 255, 207); text-align: left;}';
+                    '.noprint {padding:2px;border: 1px solid rgb(235, 239, 194); background-color: rgb(251, 255, 207); text-align: left;margin-top:10px} .noprint>div {margin-top:2px}';
 
           head.appendChild(style);
 

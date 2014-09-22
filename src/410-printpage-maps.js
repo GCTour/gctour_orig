@@ -145,10 +145,10 @@ function getMapControl(mapQuery,map_frame,newDocument){
 
   
   $(control_container).append(
-    $('<span>Höhe</span>')
+    $('<div>Höhe</div>')
       .css('float','left')
       .css('margin-right','5px'),
-    $("<span/>").gct_slider({
+    $("<div/>").gct_slider({
         min:100,
         max:1000,
         value:map_size_px,
@@ -159,27 +159,37 @@ function getMapControl(mapQuery,map_frame,newDocument){
       .css('width','250px'),
     $('<img>', {
         'class': 'tourImage',
-        src:    $.gctour.img.send2cgeo,
-        title:  $.gctour.lang('send2cgeo'),
-        alt :   $.gctour.lang('send2cgeo'),
+        src:    $.gctour.img.del,
+        title:  $.gctour.lang('printviewRemoveMap'),
+        alt :   $.gctour.lang('printviewRemoveMap'),
         click: function(){
-          openGcTour2cgeoDialog();
+          map_frame.parentNode.style.display = "none";
+        }
+      })
+      .css('float','right'),
+    $('<img>', {
+        'class': 'tourImage',
+        src:    $.gctour.img.refresh,
+        title:  $.gctour.lang('karteneuladen'),
+        alt :   $.gctour.lang('makeMap'),
+        click: function(){
+          map_frame.src = map_frame.src;
         }
       })
       .css('float','right'),
     $('<img>', {
         'class': 'tourImage',
         src:    $.gctour.img.map,
-        title:  $.gctour.lang('makeMap'),
-        alt :   $.gctour.lang('makeMap'),
+        title:  $.gctour.lang('printviewZoomMap'),
+        alt :   $.gctour.lang('printviewZoomMap'),
         click: function(){
-          makeMapFunction();
+          GM_openInTab(getMapUrl(mapQuery));
         }
       })
       .css('float','right'),
     $('<div/>')
       .css('clear','both')
-  ).find("img.tourImage").addShadowEffect().addOpacityEffect();
+  ).find("img.tourImage").addShadowEffect().addOpacityEffect().css('margin-left','5px');
      /* 
       float:left;margin-right:5px
       
@@ -187,7 +197,7 @@ function getMapControl(mapQuery,map_frame,newDocument){
       
       
             $('<div>Karte neu laden!</div>')
-        .css('background','url("'+$.gctour.img.refresh+'") top left no-repeat')
+        .css('background','url("'+$.'") top left no-repeat')
         .css('padding-left','18px')
         .css('clear','both')
         .click(function(){map_frame.src = map_frame.src;})

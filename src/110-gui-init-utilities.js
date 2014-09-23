@@ -107,6 +107,8 @@ function getEntriesFromSearchpage(){
     entry.addBtnPosition = entryTds.eq(10);
 
     entry.checked = entryTds.eq(0).find("input:checkbox:first").is(':checked');
+    
+    entry.favorites = entryTds.eq(2).find("span[id$='FavoritesValue']").text();
 
     debug(
       "getEntriesFromSearchpage cache row: " + "\n" +
@@ -119,6 +121,7 @@ function getEntriesFromSearchpage(){
       "\ttype:\t\t" + entry.type + "\n" +
       "\tdifficulty:\t" + entry.difficulty + "\n" +
       "\tterrain:\t" + entry.terrain + "\n" +
+      "\tfavorites:\t" + entry.favorites + "\n" +
       "\tpm_only:\t" + entry.pm_only + "\n" +
       "\tchecked:\t" + entry.checked + "\n"
     );

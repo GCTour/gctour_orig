@@ -143,6 +143,8 @@ function startAutoTour() {
     url += "&f=1";
   }
 
+  specialFilter["minFavorites"] = specialFilter["minFavorites"] || 0;
+
   GM_setValue('tq_url',           url);
   GM_setValue('tq_typeFilter',    JSON.stringify(typeFilter));
   GM_setValue('tq_sizeFilter',    JSON.stringify(sizeFilter));

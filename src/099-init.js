@@ -166,7 +166,7 @@ function init(){
       // BEGIN for each cache
       $.each( entries, function( i, entry ) {
 
-        debug("entry[" + i +  "]: " + JSON.stringify(entry));
+        debug("entry[" + i + "]: " + JSON.stringify(entry));
         debug("##### 0 " +
           "type:\t" + tq_typeFilter[entry.type] + "\n" +
           "size:\t" + tq_sizeFilter[entry.size] + "\n" +
@@ -175,7 +175,11 @@ function init(){
 
         // autoTour magic starts here (filter)
         // check whether the caches match against the given D/T values
-        addBool = tq_typeFilter[entry.type] && tq_sizeFilter[entry.size] && tq_dFilter[entry.difficulty] && tq_tFilter[entry.terrain];
+        addBool = tq_typeFilter[entry.type] &&
+                  tq_sizeFilter[entry.size] &&
+                  tq_dFilter[entry.difficulty] &&
+                  tq_tFilter[entry.terrain];
+
         debug("##### 1: "+addBool);
 
         if(tq_specialFilter['is Active']){
@@ -194,8 +198,12 @@ function init(){
           }
         }
         debug("##### 3: "+addBool);
+        
+        // autoTour parameter "haven't found" is not checked here because of URL parameter        
 
-        // autoTour parameter "haven't found" is not checked here because of URL parameter
+        addBool = addBool &&
+          (parseInt(((tq_specialFilter['minFavorites']) ? tq_specialFilter['minFavorites'] : 0), 10) <= parseInt(entry.favorites, 10)); // minimal Favorites
+        debug("##### 4: "+addBool);
 
         /*
         // Alle Geocaches die von madd.in gefunden wurden. Damit wir autoTour auch mit meinem Zweitaccount brauchbar ;-)

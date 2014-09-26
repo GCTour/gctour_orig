@@ -133,7 +133,7 @@ function startAutoTour() {
     var p = $(this).attr('id').replace("special_", "");
     specialFilter[p] = $(this).val();
   });
-  
+
   specialFilter['minFavorites'] = ele.find("input[id='special_favorites']").val();
 
   lat    = ele.find("input#coordsDivLat").val();
@@ -180,13 +180,7 @@ function getMarkerCoord() {
 
 function getSpecialFilter(){
   var $div, $checkbox, $selectbox, $favorites, opt, attributs,
-    select_specials = {
-      "PM" : {
-        "not"    : "Is not a PM cache",   // ALT: is not a PM cache = TRUE
-        "ignore" : "PM and not PM cache", // ALT: is not a PM cache = FALSE
-        "only"   : "Only PM cache"        // neu Filtermöglichkeit = nur PM
-      }
-    },
+    select_specials = $.gctour.lang('autoTour.filter.special.pm'),
     checkbox_specials = ['I haven\'t found ','is Active'], // 'is not a PM cache'
     tq_filter = JSON.parse(GM_getValue('tq_specialFilter', '{}'));
 
@@ -198,7 +192,7 @@ function getSpecialFilter(){
 // End
 
   $div = $('<div>')
-    .html("<b>" + $.gctour.lang('autoTourFilter.special') + "</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTour.filter.special.caption') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -207,23 +201,18 @@ function getSpecialFilter(){
       "background-color": "#ffe"
     });
 
-//BEGIN ### new Spezialfilter ENTWICKLUNG
-  $.each(select_specials, function(typKey, obj) {
-
-    $selectbox = $('<select/>', {id: "special_" + typKey})
+   //begin PM
+    $selectbox = $('<select/>', {id: "special_pm"})
       .css({
         "margin": "0 0 6px 0",
-        "width": "150px"
+        "width": "160px"
       });
 
-    $.each(obj, function(key, value) {
-
+    $.each(select_specials, function(key, value) {
       opt = $('<option value="' + key + '">' + value + '</option>');
-
-      if (tq_filter[typKey] == key) {
+      if (tq_filter[key] == key) {
         opt.prop('selected', true);
       }
-
       $selectbox.append(opt);
     });
 
@@ -231,9 +220,7 @@ function getSpecialFilter(){
       $selectbox,
       $('<br>')
     );
-
-  });
-// END ### new Spezialfilter ENTWICKLUNG
+   //end PM
 
   $.each(checkbox_specials, function(index, value) {
 
@@ -263,24 +250,21 @@ function getSpecialFilter(){
     );
 
   });
-  
+
   $favorites = $('<input>',{
     type: 'text',
     id: 'special_favorites',
     value: tq_filter['minFavorites']
   }).css({
-    'margin-top': '4px',
+    'margin': '4px 0 0 4px',
     'width': '30px'
   });
-  
+
   $div.append(
-    $('<span>').text('min. Favoriten '), // ToDo: $.gctour.lang('autoTourFilter....')
+    $('<span>').text($.gctour.lang('autoTour.filter.special.minFavorites')),
     $favorites,
     $('<br>')
-  );  
-  
-//  createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;padding-bottom:3px;"}),  
-//  maxLogs = createElement('input',{type:"text",size: 2,value:2,style:"margin: 5px 0 0 10px;"});
+  );
 
   return $div;
 }
@@ -290,10 +274,10 @@ function getDtFiler(boxName){
 
   if (boxName == 'Difficulty') {
     tq_filter = JSON.parse(GM_getValue('tq_dFilter', '{}'));
-    title = $.gctour.lang('autoTourFilter.difficulty');
+    title = $.gctour.lang('autoTour.filter.difficulty');
   } else {  // terrain
     tq_filter = JSON.parse(GM_getValue('tq_tFilter', '{}'));
-    title = $.gctour.lang('autoTourFilter.terrain');
+    title = $.gctour.lang('autoTour.filter.terrain');
   }
 
   $div = $('<div>')
@@ -344,7 +328,7 @@ function getSizeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_sizeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>" + $.gctour.lang('autoTourFilter.size') + "</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTour.filter.size') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -391,7 +375,7 @@ function getTypeFilter(){
     tq_filter = JSON.parse(GM_getValue('tq_typeFilter', '{}'));
 
   $div = $('<div>')
-    .html("<b>" + $.gctour.lang('autoTourFilter.type') + "</b><br/>")
+    .html("<b>" + $.gctour.lang('autoTour.filter.type') + "</b><br/>")
     .css({
       "text-align": "left",
       "padding-left": "10px",
@@ -483,15 +467,15 @@ function getCoordinatesTab() {
 
   var divEbene = createElement('div', {className: 'ebene'});
 
-  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTourCenter')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;'+
+  divEbene.innerHTML = '<b>'+$.gctour.lang('autoTour.center')+'</b>&nbsp;&nbsp;&nbsp;&nbsp;'+
     '<input type="text" id="markerCoords" style="width:350px;"><br/>'+
-    '<small>'+$.gctour.lang('autoTourHelp')+'</small>';
+    '<small>'+$.gctour.lang('autoTour.help')+'</small>';
 
   coordsDiv.append(divEbene);
 
   divEbene = createElement('div', {className: 'ebene'});
   divEbene.innerHTML = '<b>' +
-    $.gctour.lang('autoTourRadius') +
+    $.gctour.lang('autoTour.radius') +
     '</b>&nbsp;&nbsp;&nbsp;&nbsp;' +
     '<input type="text" id="markerRadius" maxlength="4" value="2" style="width:40px;margin-right:5px">' +
     '<select id="markerRadiusUnit">' +
@@ -503,7 +487,7 @@ function getCoordinatesTab() {
   divEbene = createElement('div');
   divEbene.setAttribute('class','dialogFooter');
 
-  var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTourRefresh'),style:"background-image:url("+$.gctour.img.autoTour+");margin-top:-24px;"});append(useButton,divEbene);
+  var useButton = createElement('input',{type:"button",value:$.gctour.lang('autoTour.refresh'),style:"background-image:url("+$.gctour.img.autoTour+");margin-top:-24px;"});append(useButton,divEbene);
   useButton.addEventListener('click',getMarkerCoord ,false);
 
   coordsDiv.append(divEbene);
@@ -526,7 +510,7 @@ function getMapPreviewTab(){
   coordsDiv.appendChild(cordsInputRadius);
 
   var coordsLabel = createElement('div');append(coordsLabel, coordsDiv);
-  coordsLabel.innerHTML = $.gctour.lang('markerCoordinate')+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+$.gctour.lang('autoTourRadius')+": <b id='markerRadiusPreview'>???km</b>";
+  coordsLabel.innerHTML = $.gctour.lang('markerCoordinate')+": <b id='markerCoordsPreview'>???</b>&nbsp;&nbsp;&nbsp;"+$.gctour.lang('autoTour.radius')+": <b id='markerRadiusPreview'>???km</b>";
 
   // previewMap
   var staticGMap = createElement('div');
@@ -544,9 +528,9 @@ function getMapPreviewTab(){
   coordsDiv.appendChild(staticGMap);
 
   var cacheCountLabel = createElement('div');append(cacheCountLabel, coordsDiv);
-  cacheCountLabel.innerHTML = $.gctour.lang('autoTourCacheCounts')+" <b id='markerCountPreview'>???</b>";
+  cacheCountLabel.innerHTML = $.gctour.lang('autoTour.cacheCounts')+" <b id='markerCountPreview'>???</b>";
   var tourDurationLabel = createElement('div');append(tourDurationLabel, coordsDiv);
-  tourDurationLabel.innerHTML = $.gctour.lang('autoTourDuration') + " <b id='markerDurationMin'>???</b> min <b id='markerDurationSec'>???</b> sec";
+  tourDurationLabel.innerHTML = $.gctour.lang('autoTour.duration') + " <b id='markerDurationMin'>???</b> min <b id='markerDurationSec'>???</b> sec";
 
   return coordsDiv;
 }
@@ -614,7 +598,7 @@ function showAutoTourDialog(center, radius) {
   //if (!isLogedIn()) { return; }
 
   var overLay = getOverlay({
-        caption: $.gctour.lang('autoTour'),
+        caption: $.gctour.lang('autoTour.title'),
         minimized: true
       });
 

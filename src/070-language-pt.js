@@ -125,21 +125,6 @@ $.gctour.i18n.pt = {
   "markerType" : "Tipo",
   "markerContentHint" : "estar&#225; visivel no modo de impress&#227;o",
   "markerCaption" : "captura",
-  "autoTour" : "autoRota",
-  "autoTourWait" : "Por favor aguarde - criando a autoRota!",
-  "autoTourRadius" : "Raio",
-  "autoTourCenter" : "Centro",
-  "autoTourHelp" : "Coordenadas ou Endere&#231;o:<i>N51&#186; 12.123 E010&#186; 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Eiffel Tower</i>",
-  "autoTourRefresh" : "Oblicz autoRota com estes valores!",
-  "autoTourCacheCounts" : "<i>N&#250;mero</i> estimado de caches na regi&#227;o:",
-  "autoTourDuration" : "Previs&#227;o do tempo de cria&#231;&#227;o desta autoRota:",
-  "autoTourFilter" : {
-    "type" : "Typ",
-    "size" : "Rozmiar",
-    "difficulty" : "Trudność",
-    "terrain" : "Teren",
-    "special" : "Specjalne"
-  },
   "save" : "Guardar",
   "cancel" : "Cancelar",
   "close" : "Fechar",
@@ -166,6 +151,33 @@ $.gctour.i18n.pt = {
   'settings':{
     'gpx':{
       'maxLogCount': 'maksymalna liczba dzienników'
+    }
+  },
+  'autoTour' : {
+    'title': 'autoRota',
+    'wait' : 'Por favor aguarde - criando a autoRota!',
+    'radius' : 'Raio',
+    'center' : 'Centro',
+    'help' : 'Coordenadas ou Endere&#231;o:<i>N51&#186; 12.123 E010&#186; 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Eiffel Tower</i>',
+    'refresh' : 'Oblicz autoRota com estes valores!',
+    'cacheCounts' : '<i>N&#250;mero</i> estimado de caches na regi&#227;o:',
+    'duration' : 'Previs&#227;o do tempo de cria&#231;&#227;o desta autoRota:',
+    'filter' : {
+      'type' : 'Typ',
+      'size' : 'Rozmiar',
+      'difficulty' : 'Trudność',
+      'terrain' : 'Teren',
+      'special' : {
+        'caption': 'Specjalne',
+        'pm' : {
+          'not'    : 'Is not a PM cache',
+          'ignore' : 'Is PM or not PM cache',
+          'only'   : 'Is PM cache'
+        },
+        'notfound' : 'I haven\'t found ',
+        'isActive': 'is Active',
+        'minFavorites': 'min. Favorites'
+      }
     }
   },
   'dlg':{

@@ -351,8 +351,8 @@ function initComponents(){
     $('<img>', {
       'class': 'tourImage',
       src:    $.gctour.img.autoTour,
-      title:  $.gctour.lang('autoTour'),
-      alt :   $.gctour.lang('autoTour'),
+      title:  $.gctour.lang('autoTour.title'),
+      alt :   $.gctour.lang('autoTour.title'),
       click: function(){
         var gooMap = getMapCenterAndRadius();
         showAutoTourDialog(gooMap.center, gooMap.radius);

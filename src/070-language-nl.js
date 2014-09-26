@@ -125,21 +125,6 @@ $.gctour.i18n.nl = {
   "markerType" : "Type",
   "markerContentHint" : "zal getoond worden in afdrukweergave",
   "markerCaption" : "Onderschrift",
-  "autoTour" : "autoTour",
-  "autoTourWait" : "Even geduld – autoTour wordt aangemaakt!",
-  "autoTourRadius" : "Radius",
-  "autoTourCenter" : "Middelpunt",
-  "autoTourHelp" : "coördinaten of adres:<i>N50° 53.692 E004° 20.478</i> of <i>50.894867 4.341300</i> of <i>Atomium</i>",
-  "autoTourRefresh" : "Bereken een autoTour aan met deze waarden!",
-  "autoTourCacheCounts" : "Geschat <i>aantal</i> geocaches in deze regio:",
-  "autoTourDuration" : "Geschatte tijd om deze autoTour aan te maken:",
-  "autoTourFilter" : {
-    "type" : "Type",
-    "size" : "Grootte",
-    "difficulty" : "Moeilijkheid",
-    "terrain" : "Terrein",
-    "special" : "Speciaal"
-  },
   "save" : "Bewaren",
   "cancel" : "Annuleren",
   "close" : "Sluiten",
@@ -166,6 +151,33 @@ $.gctour.i18n.nl = {
   'settings':{
     'gpx':{
       'maxLogCount': 'max aantal logs'
+    }
+  },
+  'autoTour' : {
+    'title': 'autoTour',
+    'wait' : 'Even geduld – autoTour wordt aangemaakt!',
+    'radius' : 'Radius',
+    'center' : 'Middelpunt',
+    'help' : 'coördinaten of adres:<i>N50° 53.692 E004° 20.478</i> of <i>50.894867 4.341300</i> of <i>Atomium</i>',
+    'refresh' : 'Bereken een autoTour aan met deze waarden!',
+    'cacheCounts' : 'Geschat <i>aantal</i> geocaches in deze regio:',
+    'duration' : 'Geschatte tijd om deze autoTour aan te maken:',
+    'filter' : {
+      'type' : 'Type',
+      'size' : 'Grootte',
+      'difficulty' : 'Moeilijkheid',
+      'terrain' : 'Terrein',
+      'special' : {
+        'caption': 'Speciaal',
+        'pm' : {
+          'not'    : 'Is not a PM cache',
+          'ignore' : 'Is PM or not PM cache',
+          'only'   : 'Is PM cache'
+        },
+        'notfound' : 'I haven\'t found ',
+        'isActive': 'is Akctive',
+        'minFavorites': 'min. Favorites'
+      }
     }
   },
   'dlg':{

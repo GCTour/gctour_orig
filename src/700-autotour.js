@@ -133,6 +133,8 @@ function startAutoTour() {
     var p = $(this).attr('id').replace("special_", "");
     specialFilter[p] = $(this).val();
   });
+  
+  specialFilter['minFavorites'] = ele.find("input[id='special_favorites']").val();
 
   lat    = ele.find("input#coordsDivLat").val();
   lon    = ele.find("input#coordsDivLon").val();
@@ -177,7 +179,7 @@ function getMarkerCoord() {
 }
 
 function getSpecialFilter(){
-  var $div, $checkbox, $selectbox, opt, attributs,
+  var $div, $checkbox, $selectbox, $favorites, opt, attributs,
     select_specials = {
       "PM" : {
         "not"    : "Is not a PM cache",   // ALT: is not a PM cache = TRUE
@@ -261,6 +263,24 @@ function getSpecialFilter(){
     );
 
   });
+  
+  $favorites = $('<input>',{
+    type: 'text',
+    id: 'special_favorites',
+    value: tq_filter['minFavorites']
+  }).css({
+    'margin-top': '4px',
+    'width': '30px'
+  });
+  
+  $div.append(
+    $('<span>').text('min. Favoriten '), // ToDo: $.gctour.lang('autoTourFilter....')
+    $favorites,
+    $('<br>')
+  );  
+  
+//  createElement('div',{style:"border-bottom: 1px solid;lightgray;margin-bottom:10px;padding-bottom:3px;"}),  
+//  maxLogs = createElement('input',{type:"text",size: 2,value:2,style:"margin: 5px 0 0 10px;"});
 
   return $div;
 }

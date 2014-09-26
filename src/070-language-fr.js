@@ -125,21 +125,6 @@ $.gctour.i18n.fr = {
   "markerType" : "Type",
   "markerContentHint" : "sera visble dans la version imprimable",
   "markerCaption" : "Légende",
-  "autoTour" : "autoTour",
-  "autoTourWait" : "Veuillez patienter pendant la génération automatique du Tour ...",
-  "autoTourRadius" : "Rayon",
-  "autoTourCenter" : "Centre",
-  "autoTourHelp" : "Coordonnées ou adresse:<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Tour Eiffel</i>",
-  "autoTourRefresh" : "Continuer pour cette zone !",
-  "autoTourCacheCounts" : "Estimation du<i>nombre total</i> de cache dans cette zone:",
-  "autoTourDuration" : "Durée estimée de création de cet autoTour:",
-  "autoTourFilter" : {
-    "type" : "Type",
-    "size" : "Taille",
-    "difficulty" : "Difficulté",
-    "terrain" : "Terrain",
-    "special" : "Spécial"
-  },
   "save" : "Enregistrer",
   "cancel" : "Abandonner",
   "close" : "Fermer",
@@ -166,6 +151,33 @@ $.gctour.i18n.fr = {
   'settings':{
     'gpx':{
       'maxLogCount': 'nombre maximum de journaux'
+    }
+  },
+  'autoTour' : {
+    'title': 'autoTour',
+    'wait' : 'Veuillez patienter pendant la génération automatique du Tour ...',
+    'radius' : 'Rayon',
+    'center' : 'Centre',
+    'help' : 'Coordonnées ou adresse:<i>N51° 12.123 E010° 23.123</i> ou <i>40.597 -75.542</i> ou <i>Paris Tour Eiffel</i>',
+    'refresh' : 'Continuer pour cette zone !',
+    'cacheCounts' : 'Estimation du<i>nombre total</i> de cache dans cette zone:',
+    'duration' : 'Durée estimée de création de cet autoTour:',
+    'filter' : {
+      'type' : 'Type',
+      'size' : 'Taille',
+      'difficulty' : 'Difficulté',
+      'terrain' : 'Terrain',
+      'special' : {
+        'caption': 'Spécial',
+        'pm' : {
+          'not'    : 'Is not a PM cache',
+          'ignore' : 'Is PM or not PM cache',
+          'only'   : 'Is PM cache'
+        },
+        'notfound' : 'I haven\'t found ',
+        'isActive': 'is Akctive',
+        'minFavorites': 'min. Favorites'
+      }
     }
   },
   'dlg':{

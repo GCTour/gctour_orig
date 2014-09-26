@@ -126,7 +126,7 @@ function init(){
     if ( tq_url == document.location.href ) {
 
       addProgressbar( {
-        caption: $.gctour.lang('autoTourWait'),
+        caption: $.gctour.lang('autoTour.wait'),
         closeCallback: function(){
           return function(){
             GM_setValue("stopTask",true);

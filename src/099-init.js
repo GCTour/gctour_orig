@@ -190,10 +190,10 @@ function init(){
         debug("##### 2: "+addBool);
 
         //if(tq_specialFilter['is not a PM cache']){
-        if(tq_specialFilter['PM'] == "only"){ // PM only
+        if(tq_specialFilter['pm'] == "only"){ // PM only
           addBool = addBool && entry.pm_only;
         } else {
-          if(tq_specialFilter['PM'] == "not"){ // not PM
+          if(tq_specialFilter['pm'] == "not"){ // not PM
             addBool = addBool && !entry.pm_only;
           }
         }

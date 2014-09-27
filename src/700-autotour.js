@@ -181,13 +181,16 @@ function getMarkerCoord() {
 function getSpecialFilter(){
   var $div, $checkbox, $selectbox, $favorites, opt, attributs,
     select_specials = $.gctour.lang('autoTour.filter.special.pm'),
-    checkbox_specials = ['I haven\'t found ','is Active'], // 'is not a PM cache'
+    checkbox_specials = {
+      'I haven\'t found ' : $.gctour.lang('autoTour.filter.special.notfound'),
+      'is Active' : $.gctour.lang('autoTour.filter.special.isActive')
+    },
     tq_filter = JSON.parse(GM_getValue('tq_specialFilter', '{}'));
 
 // Begin, für Umstellung des Filters
 // => Kann bei übernächster Version wieder entfernt werden
   if (tq_filter["is not a PM cache"]) {
-    tq_filter["PM"] = "not";
+    tq_filter["pm"] = "not";
   }
 // End
 
@@ -210,7 +213,7 @@ function getSpecialFilter(){
 
     $.each(select_specials, function(key, value) {
       opt = $('<option value="' + key + '">' + value + '</option>');
-      if (tq_filter[key] == key) {
+      if (tq_filter["pm"] == key) {
         opt.prop('selected', true);
       }
       $selectbox.append(opt);
@@ -222,14 +225,14 @@ function getSpecialFilter(){
     );
    //end PM
 
-  $.each(checkbox_specials, function(index, value) {
+  $.each(checkbox_specials, function(key, value) {
 
     attributs = {
       type: 'checkbox',
       name: "special",
-      id: "special" + value,
-      value: value,
-      checked: tq_filter[value] ? 'checked' : false
+      id: "special" + key,
+      value: key,
+      checked: tq_filter[key] ? 'checked' : false
     };
 
     $checkbox = $('<span>')
@@ -238,9 +241,9 @@ function getSpecialFilter(){
         "vertical-align": "middle"
       })
       .append(
-        $('<input/>', attributs).css("margin", '0 2px 0 0'),
+        $('<input/>', attributs).css("margin", '0 4px 0 0'),
         $('<label>')
-          .attr("for", "special" + value)
+          .attr("for", "special" + key)
           .text(value)
       );
 

@@ -1,0 +1,39 @@
+
+#dialogDetails {
+  height:364px;
+  padding:3px;
+  overflow:auto;
+  background-color:#eff4f9;
+  border:1px solid #C0CEE3;
+  -moz-border-radius: 0 5px 5px 0;
+  width:424px;
+  position: absolute;
+  right: 10px;
+}
+
+.dialogList li {
+  font-size:10px;
+  padding:3px;
+  clear:both;
+  list-style-type: none;
+}
+
+.dialogList {
+  margin:0;
+  padding:0
+}
+
+.activeTour {
+  border: 1px solid #C0CEE3;
+  -moz-border-radius: 5px 0 0 5px;
+  border-radius: 5px 0 0 5px;
+  background-color:#eff4f9;
+  padding:1px;
+}
+#dialogListContainer {
+  height:374px;
+  overflow:auto;
+  width:146px;
+  position: absolute;
+  left: 10px;
+}

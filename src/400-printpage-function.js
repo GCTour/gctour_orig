@@ -83,7 +83,7 @@ function printPageFunction(currentTour){
           
           
           var body = document.createElement('div');
-          $(body).width("210mm");
+          $(body).width("648px");
           $( body ).css( "margin", "30px auto" );
       
           
@@ -107,8 +107,7 @@ function printPageFunction(currentTour){
           style.innerHTML += '.dialogMask {background-image:url('+$.gctour.img.dialogMask+');height:100%;left:0;opacity:0.7;position:fixed;top:0;width:100%;z-index:1100;}'+
                     '.dialogBody{-moz-border-radius:5px; border-radius:5px; background:none repeat scroll 0 0 #fff;border:1px solid #333333;color:#333333;cursor:default;font-family:Arial;font-size:12px;left:50%;margin-left:-250px;margin-top:20px;padding:0 0 1em;position:fixed;text-align:left;top:0;width:500px;z-index:1101;max-height:85%;min-height:370px;overflow:auto;}'+
                     '.dialogBody p {font-size:12px;font-weight:normal;margin:1em 0em;}'+
-                    '.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+$.gctour.img.tabBg+'")}'+
-                  //  '.dialogBody h1{background-color:#7A7A7A;border-bottom:1px solid #333333;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#fff;}'+
+                    '.dialogBody h1{background-color:#B2D4F3;font-size:110%;font-family:Helvetica Neue,Arial,Helvetica,sans-serif;margin-bottom:0.2em;padding:0.5em;-moz-border-radius:5px 5px 0px 0px;border-radius:5px 5px 0px 0px;color:#333333;background-image:url("'+$.gctour.img.tabBg+'");margin:0px;}'+
                     '.dialogHistory {border:1px inset #999999;margin:0 1em 1em;height:200px;overflow-y:auto;width:448px;padding-left:1em;}'+
                     '.dialogHistory ul{margin-left:2em;}'+
                     '.dialogHistory li{list-style-type:circle;}'+
@@ -116,7 +115,7 @@ function printPageFunction(currentTour){
                     '.dialogFooter input:hover { background-color:#f9f9f9; }'+
                     '.dialogContent {padding:0px 10px 0px 10px;}'+
                     '.dialogMin {min-height:0px !important}'+
-                    '.noprint {padding:2px;border: 1px solid #c0cee3; background-color: #eff4f9; text-align: left;margin-top:10px} .noprint>div {margin-top:2px} '+
+                    '.noprint {padding:2px;border: 1px solid #c0cee3;z-index: 10000;background-color: #eff4f9; text-align: left;margin-top:10px} .noprint>div {margin-top:2px} '+
                     '.noprint>input {border: 1px outset #666666;cursor: pointer;margin:5px;padding: 3px 5px 5px 25px;background: none no-repeat scroll 4px center #eeeeee;float:left;clear:both;} '+
                     '.noprint>input:hover {background-color:#f9f9f9}';
 

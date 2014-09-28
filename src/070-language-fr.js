@@ -25,6 +25,7 @@ $.gctour.i18n.fr = {
   'makeMap' : 'Voir sur la carte',
   'makeMapWait' : 'Vérification de la disponibilité et création de la carte... ',
   'printview' : 'Générer la version imprimable',
+  'print'	:	'Lancez l\'impression',
   'downloadGpx' : 'Télécharger le GPX',
   'send2cgeo' : 'Transférer vers le c:geo',
   'showSettings' : 'Configurer',

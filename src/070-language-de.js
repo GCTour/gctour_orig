@@ -25,6 +25,7 @@ $.gctour.i18n.de = {
   'makeMap' : 'Auf Karte anzeigen',
   'makeMapWait' : 'Verfügbarkeit der Karte wird getestet.',
   'printview' : 'Druckansicht',
+  'print' : 'Druck starten',
   'downloadGpx' : 'GPX downloaden',
   'send2cgeo' : 'an c:geo senden',
   'showSettings' : 'Einstellungen anzeigen',
@@ -125,6 +126,21 @@ $.gctour.i18n.de = {
   "markerType" : "Typ",
   "markerContentHint" : "wird in Druckansicht angezeigt",
   "markerCaption" : "Beschriftung",
+  "autoTour" : "autoTour",
+  "autoTourWait" : "Bitte warten - autoTour wird erzeugt!",
+  "autoTourRadius" : "Radius",
+  "autoTourCenter" : "Mittelpunkt",
+  "autoTourHelp" : "Koordinaten oder Adresse:<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i> oder <i>Berlin Ernst-Reuter-Platz</i>",
+  "autoTourRefresh" : "Berechne eine autoTour mit diesen Werten!",
+  "autoTourCacheCounts" : "Geschätzte <i>gesamt</i> Anzahl Caches in dieser Region:",
+  "autoTourDuration" : "Geschätzte Dauer der Erzeugung dieser autoTour:",
+  "autoTourFilter" : {
+    "type" : "Typ",
+    "size" : "Größe",
+    "difficulty" : "Schwierigkeit",
+    "terrain" : "Gelände",
+    "special" : "Spezial"
+  },
   "save" : "Speichern",
   "cancel" : "Abbrechen",
   "close" : "Schließen",
@@ -151,33 +167,6 @@ $.gctour.i18n.de = {
   'settings':{
     'gpx':{
       'maxLogCount': 'max. Anzahl der Logs'
-    }
-  },
-  'autoTour' : {
-    'title': 'autoTour',
-    'wait' : 'Bitte warten - autoTour wird erzeugt!',
-    'radius' : 'Radius',
-    'center' : 'Mittelpunkt',
-    'help' : 'Koordinaten oder Adresse:<i>N51° 12.123 E010° 23.123</i> oder <i>40.597 -75.542</i> oder <i>Berlin Ernst-Reuter-Platz</i>',
-    'refresh' : 'Berechne eine autoTour mit diesen Werten!',
-    'cacheCounts' : 'Geschätzte <i>gesamt</i> Anzahl Caches in dieser Region:',
-    'duration' : 'Geschätzte Dauer der Erzeugung dieser autoTour:',
-    'filter' : {
-      'type' : 'Typ',
-      'size' : 'Größe',
-      'difficulty' : 'Schwierigkeit',
-      'terrain' : 'Gelände',
-      'special' : {
-        'caption': 'Spezial',
-        'pm' : {
-          'not'    : 'Ist kein PM Cache',     // ALT: is not a PM cache = TRUE
-          'ignore' : 'Ist PM oder kein PM Cache', // ALT: is not a PM cache = FALSE
-          'only'   : 'Ist PM Cache'          // neu Filtermöglichkeit = nur PM
-        },
-        'notfound' : 'noch nicht gefunden',
-        'isActive': 'ist Aktiv',
-        'minFavorites': 'min. Favoriten'
-      }
     }
   },
   'dlg':{

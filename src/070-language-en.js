@@ -159,7 +159,7 @@ $.gctour.i18n.en = {
     'radius' : 'Radius',
     'center' : 'Center',
     'help' : 'Coordinates or address:<i>N51° 12.123 E010° 23.123</i> or <i>40.597 -75.542</i> or <i>Paris Eiffel Tower</i>',
-    'refresh' : 'Calculate a car tour with these values!',
+    'refresh' : 'Calculate an autoTour with these values!',
     'cacheCounts' : 'Estimated <i>total number</i> of caches in this region:',
     'duration' : 'Geschätzte Dauer der Erzeugung dieser autoTour:',
     'filter' : {

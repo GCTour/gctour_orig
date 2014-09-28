@@ -5,6 +5,7 @@
  * version @version@.@build@
  *   - FIXED: "Add to tour" is now working from the map
  *   - FIXED: Setting the default width of the print view
+ * 	 - FIXED: Printview is now working again if you generate it from the gc.com map
  *   - UPDATED: autoTour dialog -> Coordinates are taken from geocache detail page
  *   - UPDATED: autoTour dialog -> special filter extended with "Only PM cache"
  *

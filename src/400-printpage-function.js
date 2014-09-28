@@ -81,13 +81,13 @@ function printPageFunction(currentTour){
           bodyTag.innerHTML = '';
           
           
+          
           var body = document.createElement('div');
-          $(body).width(648);
+          $(body).width("210mm");
           $( body ).css( "margin", "30px auto" );
       
           
           bodyTag.appendChild(body);
-          
           
           addProgressbar({_document:document,closeCallback:function(_document){return function(){GM_setValue("stopTask",true);_document.defaultView.close();};}});
 
@@ -116,7 +116,9 @@ function printPageFunction(currentTour){
                     '.dialogFooter input:hover { background-color:#f9f9f9; }'+
                     '.dialogContent {padding:0px 10px 0px 10px;}'+
                     '.dialogMin {min-height:0px !important}'+
-                    '.noprint {padding:2px;border: 1px solid rgb(235, 239, 194); background-color: rgb(251, 255, 207); text-align: left;margin-top:10px} .noprint>div {margin-top:2px}';
+                    '.noprint {padding:2px;border: 1px solid #c0cee3; background-color: #eff4f9; text-align: left;margin-top:10px} .noprint>div {margin-top:2px} '+
+                    '.noprint>input {border: 1px outset #666666;cursor: pointer;margin:5px;padding: 3px 5px 5px 25px;background: none no-repeat scroll 4px center #eeeeee;float:left;clear:both;} '+
+                    '.noprint>input:hover {background-color:#f9f9f9}';
 
           head.appendChild(style);
 
@@ -130,13 +132,29 @@ function printPageFunction(currentTour){
 
           var printInfo = document.createElement('div');
           printInfo.className = 'noprint';
-          //~ cacheMapControl.style.width = "20cm";
-          printInfo.style.border = '1px solid #EBEFC2';
-          printInfo.style.backgroundColor = '#FBFFCF';
-          printInfo.style.textAlign = 'left';
           printInfo.innerHTML = $.gctour.lang('dontPrintHint');
 
           body.appendChild(printInfo);
+          
+          
+          
+          $("<fieldset/>",{
+        'class': 'noprint'
+        })
+           .css('right','50px')
+      .css('position','fixed')
+        
+        .append(
+        $("<legend/>").html($.gctour.lang('printview'))
+        .css('background',"url(\""+$.gctour.img.gctourLogoSmall+"\") no-repeat scroll 0 0 transparent")
+        .css('padding-left','20px')
+        ,
+        
+        $("<input/>").attr("type","input").attr("value",$.gctour.lang('print')).css("background-image","url("+$.gctour.img.printer+")").click(function(){self.print()}),
+        $("<input/>").attr("type","input").attr("value",$.gctour.lang('close')).css("background-image","url("+$.gctour.img.closebutton+")").click(function(){location.reload();})
+        
+        
+        ).appendTo($(body));
 
           // front page
           if(GM_getValue('printFrontpage',true) && !minimal){
@@ -189,7 +207,7 @@ function printPageFunction(currentTour){
 
                 td = createElement('td',{style:"border-bottom:1px solid lightgray;white-space:nowrap;"});tr.appendChild(td);
                 //~ td.style.width = "100%";
-                td.innerHTML = "<a style='color:#000000;text-decoration: none' href='http://www.geocaching.com/seek/cache_details.aspx?guid="+currentTour.geocaches[i].guid+"'>"+currentTour.geocaches[i].name + "</a>";
+                td.innerHTML = "<a style='color:#000000;text-decoration: none'  target='_blank' href='http://www.geocaching.com/geocache/"+currentTour.geocaches[i].id+"'>"+currentTour.geocaches[i].name + "</a>";
 
                 td = createElement('td',{style:"border-bottom:1px solid lightgray;border-right:1px dashed lightgray;"});tr.appendChild(td);
                 td.innerHTML = "<span style='margin:0 2px'>"+currentTour.geocaches[i].id+"</span>";

@@ -25,6 +25,7 @@ $.gctour.i18n.en = {
   'makeMap' : 'View on map',
   'makeMapWait' : 'Testing availablity of this map',
   'printview' : 'Printview',
+  'print'	:	'Start printing',
   'downloadGpx' : 'Download GPX',
   'send2cgeo' : 'Send to c:geo',
   'showSettings' : 'Show settings',

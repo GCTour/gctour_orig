@@ -529,7 +529,7 @@ function init(){
     .prependTo("div#ctl00_ContentBody_ResultsPanel");
 
 
-    if(debug){
+     if(DEBUG_MODE){
 
        $("<div>", {
             "css": { "margin-left": 10 },

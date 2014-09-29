@@ -3,9 +3,13 @@
  *
  *
  * version @version@.@build@
+ *   - FIXED: autoTour dialog -> language de
+ *   - UPDATED: autoTour dialog -> Coordinates are taken from geocache list page
+ *
+ * version 2.3.14271
  *   - FIXED: "Add to tour" is now working from the map
  *   - FIXED: Setting the default width of the print view
- * 	 - FIXED: Printview is now working again if you generate it from the gc.com map
+ *   - FIXED: Printview is now working again if you generate it from the gc.com map
  *   - UPDATED: autoTour dialog -> Coordinates are taken from geocache detail page
  *   - UPDATED: autoTour dialog -> special filter extended with "Only PM cache"
  *

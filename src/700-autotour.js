@@ -635,8 +635,12 @@ function showAutoTourDialog(center, radius) {
   } else {
     $("input#markerRadius").val(2);
     $('input#markerCoords')
-      .val($('span#uxLatLon').text()) // /seek/cache_details.aspx oder /geocache/
+      .val(
+        $('span#uxLatLon').text() ||                                   // /seek/cache_details.aspx und auch /geocache/
+        $('span#ctl00_ContentBody_LocationPanel1_OriginLabel').text()  // /seek/nearest.aspx
+      )
       .focus()
       .select();
   }
+
 }

@@ -1,7 +1,6 @@
 /*
  * Changelog:
  *
- *
  * version @version@.@build@
  *   - FIXED: autoTour dialog -> language de
  *   - UPDATED: autoTour dialog -> Coordinates are taken from geocache list page
@@ -20,6 +19,7 @@
  *
  * version 2.3.14198
  *   - FIXED: Printview is now working again
+ *
  * version 2.3.13263
  *   - FIXED: gc.com update
  *

@@ -24,6 +24,7 @@ $.gctour.i18n.nl = {
   'sendToGps' : 'Naar GPS versturen',
   'makeMap' : 'Bekijk op de kaart',
   'makeMapWait' : 'Beschikbaarheid kaart wordt getest',
+  'refreshMap' : 'Kaart refresh',
   'printview' : 'Afdrukweergave',
   'print':'Begin met afdrukken',
   'downloadGpx' : 'GPX downloaden',
@@ -185,13 +186,12 @@ $.gctour.i18n.nl = {
     'sendMessage':{
       'caption': 'Bericht naar auteur versturen.',
       'content': 'Heb je een bug gevonden? Suggesties betreffende GCTour? Ik had graag je mening gehoord.<br/>Stuur me gerust een <b>bericht</b>:',
-      'submit': 'Bericht versturen!'
-      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+      'submit': 'Bericht versturen!',
+      'response': 'Uw e-mail adres: '
     },
     'newVersion':{
       'caption': 'Nieuwe versie beschikbaar',
       'content': 'Er is een nieuwe versie van GCTour beschikbaar.\nWil je upgraden? \n\n'
-      // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
       'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;ESpijtig genoeg is er een fout gebeurd.<br/>' +
@@ -200,7 +200,6 @@ $.gctour.i18n.nl = {
           '<u>Noot</u><br/>' +
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'foutenrapport versturen'
-      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
   'notifications':{
@@ -218,7 +217,6 @@ $.gctour.i18n.nl = {
   'units':{
     'km': 'Kilometer',
     'mi': 'Miles'
-    // old: 'kilometer', 'mile'
   }
 
 };

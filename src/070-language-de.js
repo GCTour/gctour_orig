@@ -24,6 +24,7 @@ $.gctour.i18n.de = {
   'sendToGps' : 'an GPS senden',
   'makeMap' : 'Auf Karte anzeigen',
   'makeMapWait' : 'Verfügbarkeit der Karte wird getestet.',
+  'refreshMap' : 'Karte neu laden',
   'printview' : 'Druckansicht',
   'print' : 'Druck starten',
   'downloadGpx' : 'GPX downloaden',
@@ -117,7 +118,7 @@ $.gctour.i18n.de = {
   'printviewMarker' : "Eigene Wegpunkte",
   'printviewAdditionalWaypoint' : "Zusätzliche Wegpunkte",
   'printviewRemoveMap' : "Karte entfernen",
-  'printviewZoomMap' : "Diese Karte in einem neuem Tab öffen.",
+  'printviewZoomMap' : "Diese Karte in einem neuem Tab öffnen.",
   'settingsMapType' : 'Standard Kartentyp',
   'settingsMapSize' : 'Standard Kartengröße',
   'addOwnWaypoint' : 'eigenen Wegpunkt hinzufügen',
@@ -187,12 +188,10 @@ $.gctour.i18n.de = {
       'content': 'Du hast einen Fehler gefunden? Du möchtest eine Verbesserung vorschlagen oder deine Meinung zu GCTour loswerden? Dann schreibe mir eine <b>Nachricht:</b>',
       'submit': 'Schicke diese Nachricht ab!',
       'response': 'Deine Mail Adresse: '
-      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
     },
     'newVersion':{
       'caption': 'Neue Version verfügbar',
       'content': 'Es gibt eine neue Version von GCTour.\nZum update gehen? \n\n' //ohne Anwendung
-      // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
       'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Es tut mir leid, aber es ist ein Fehler aufgetreten!<br/>' +
@@ -201,7 +200,6 @@ $.gctour.i18n.de = {
           '<u>Notizen</u><br/>' +
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'Fehlerbericht abschicken'
-      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
   'notifications':{

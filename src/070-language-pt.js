@@ -24,6 +24,7 @@ $.gctour.i18n.pt = {
   'sendToGps' : 'Enviar para o GPS',
   'makeMap' : 'Visualizar no mapa',
   'makeMapWait' : 'A testar disponibilidade deste mapa',
+  'refreshMap' : 'Mapa odświeżania',
   'printview' : 'Modo de impress&#227;o',
   'print':'iniciar a impressão',
   'downloadGpx' : 'Transferir GPX',
@@ -185,13 +186,12 @@ $.gctour.i18n.pt = {
     'sendMessage':{
       'caption': 'Enviar uma mensagem para o autor.',
       'content': 'Encontrou um erro? Deseja sugerir algo para o GCTour? Desejamos ouvir a sua opini&#227;o.<br />Envie uma <b>mensagem</b>:',
-      'submit': 'Submeter a mensagem!'
-      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+      'submit': 'Submeter a mensagem!',
+      'response': 'Twój mail: '
     },
     'newVersion':{
       'caption': 'Nova versão dispon&#xED;vel',
       'content': 'Existe uma nova vers&#227;o de GCTour.\nDeseja actualizar? \n\n'
-      // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
       'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Lamento mas ocorreu um erro.<br/>' +
@@ -200,7 +200,6 @@ $.gctour.i18n.pt = {
           '<u>Nota</u><br/>' +
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'enviar relatório'
-      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
   'notifications':{
@@ -218,7 +217,6 @@ $.gctour.i18n.pt = {
   'units':{
     'km': 'Quilometros',
     'mi': 'Milhas'
-    // old: 'kilometer', 'mile'
   }
 
 };

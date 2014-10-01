@@ -170,8 +170,8 @@ function getMapControl(mapQuery,map_frame,newDocument){
     $('<img>', {
         'class': 'tourImage',
         src:    $.gctour.img.refresh,
-        title:  $.gctour.lang('karteneuladen'),
-        alt :   $.gctour.lang('makeMap'),
+        title:  $.gctour.lang('refreshMap'),
+        alt :   $.gctour.lang('refreshMap'),
         click: function(){
           map_frame.src = map_frame.src;
         }

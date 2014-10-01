@@ -24,6 +24,7 @@ $.gctour.i18n.fr = {
   'sendToGps' : 'Transférer vers le GPS',
   'makeMap' : 'Voir sur la carte',
   'makeMapWait' : 'Vérification de la disponibilité et création de la carte... ',
+  'refreshMap' : 'Rafraîchissement des cartes',
   'printview' : 'Générer la version imprimable',
   'print'	:	'Lancez l\'impression',
   'downloadGpx' : 'Télécharger le GPX',
@@ -185,13 +186,12 @@ $.gctour.i18n.fr = {
     'sendMessage':{
       'caption': 'Contacter l\'auteur',
       'content': 'Vous avez trouvé un bug ? Vous avez une suggestion à propos de GCTour? Votre opinion m\'intéresse.<br/>Envoyez-moi un<b>message</b>:',
-      'submit': 'Envoyer le message'
-      // old: 'sendMessageTitle', 'sendMessage', 'sendMessageSubmit'
+      'submit': 'Envoyer le message',
+      'response': 'Votre adresse e-mail: '
     },
     'newVersion':{
       'caption': 'Nouvelle version disponible',
       'content': 'Une nouvelle version de GCTour est disponible.\n Voulez-vous mettre à jour? \n\n'
-      // old: 'newVersionDialog', 'newVersionTitle'
     },
     'error':{
       'content': '<img src="http://forums.groundspeak.com/GC/public/style_emoticons/default/sad.gif">&nbsp;&nbsp;Désolé une erreur est survenue.<br/>' +
@@ -200,7 +200,6 @@ $.gctour.i18n.fr = {
           '<u>Notes</u><br/>' +
           '<textarea id="gctour_error_note" rows="4" style="width:99%"></textarea>',
       'send': 'envoi du rapport'
-      // old: 'ERROR_DIALOG', 'ERROR_DIALOG_SEND'
     }
   },
   'notifications':{
@@ -218,7 +217,6 @@ $.gctour.i18n.fr = {
   'units':{
     'km': 'Kilomètre',
     'mi': 'Miles'
-    // old: 'kilometer', 'mile'
   }
 
 };
